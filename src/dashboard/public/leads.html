@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leads - AutoWebsites Pro</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h1 class="logo">AutoWebsites<span>Pro</span></h1>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/" class="nav-item" data-page="dashboard">
+          <span class="nav-icon">📊</span>
+          Dashboard
+        </a>
+        <a href="/leads.html" class="nav-item active" data-page="leads">
+          <span class="nav-icon">👥</span>
+          Leads
+        </a>
+        <a href="/campaigns.html" class="nav-item" data-page="campaigns">
+          <span class="nav-icon">📧</span>
+          Campaigns
+        </a>
+        <a href="#" class="nav-item" data-page="proposals">
+          <span class="nav-icon">📝</span>
+          Proposals
+        </a>
+        <a href="#" class="nav-item" data-page="analytics">
+          <span class="nav-icon">📈</span>
+          Analytics
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="themeToggle">🌙</button>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <h2 class="page-title">Leads</h2>
+        </div>
+        <div class="header-right">
+          <button class="btn btn-primary" onclick="showAddLeadModal()">+ Add Lead</button>
+        </div>
+      </header>
+
+      <!-- Filters -->
+      <div class="filters-bar">
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Search leads..." onkeyup="debounceSearch()">
+        </div>
+        <select id="stageFilter" onchange="loadLeads()">
+          <option value="">All Stages</option>
+          <option value="new">New</option>
+          <option value="qualified">Qualified</option>
+          <option value="contacted">Contacted</option>
+          <option value="proposal_sent">Proposal Sent</option>
+          <option value="negotiating">Negotiating</option>
+          <option value="won">Won</option>
+          <option value="lost">Lost</option>
+        </select>
+        <select id="industryFilter" onchange="loadLeads()">
+          <option value="">All Industries</option>
+          <option value="plumbers">Plumbers</option>
+          <option value="lawyers">Lawyers</option>
+          <option value="restaurants">Restaurants</option>
+          <option value="dentists">Dentists</option>
+          <option value="contractors">Contractors</option>
+          <option value="hvac">HVAC</option>
+          <option value="salons">Salons</option>
+          <option value="doctors">Doctors</option>
+          <option value="accountants">Accountants</option>
+          <option value="realtors">Realtors</option>
+          <option value="other">Other</option>
+        </select>
+        <select id="sortSelect" onchange="loadLeads()">
+          <option value="created_at-desc">Newest First</option>
+          <option value="created_at-asc">Oldest First</option>
+          <option value="website_score-asc">Score (Low to High)</option>
+          <option value="website_score-desc">Score (High to Low)</option>
+          <option value="business_name-asc">Name (A-Z)</option>
+        </select>
+      </div>
+
+      <!-- Bulk Actions -->
+      <div class="bulk-actions" id="bulkActions" style="display: none;">
+        <span id="selectedCount">0 selected</span>
+        <button class="btn btn-sm" onclick="bulkChangeStage()">Change Stage</button>
+        <button class="btn btn-sm" onclick="bulkAddTag()">Add Tag</button>
+        <button class="btn btn-sm" onclick="bulkEnroll()">Enroll in Sequence</button>
+        <button class="btn btn-sm btn-danger" onclick="bulkDelete()">Delete</button>
+      </div>
+
+      <!-- Leads Table -->
+      <div class="card">
+        <div class="table-container">
+          <table class="data-table" id="leadsTable">
+            <thead>
+              <tr>
+                <th><input type="checkbox" id="selectAll" onchange="toggleSelectAll()"></th>
+                <th>Business</th>
+                <th>Industry</th>
+                <th>Score</th>
+                <th>Stage</th>
+                <th>Email</th>
+                <th>Last Contact</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="leadsTableBody">
+              <tr><td colspan="8" class="loading">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination">
+          <button class="btn btn-sm" id="prevPage" onclick="changePage(-1)" disabled>Previous</button>
+          <span id="pageInfo">Page 1 of 1</span>
+          <button class="btn btn-sm" id="nextPage" onclick="changePage(1)" disabled>Next</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Add Lead Modal -->
+  <div class="modal" id="addLeadModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add New Lead</h3>
+        <button class="modal-close" onclick="hideModal('addLeadModal')">&times;</button>
+      </div>
+      <form id="addLeadForm" onsubmit="handleAddLead(event)">
+        <div class="form-group">
+          <label for="businessName">Business Name *</label>
+          <input type="text" id="businessName" name="business_name" required>
+        </div>
+        <div class="form-group">
+          <label for="websiteUrl">Website URL *</label>
+          <input type="url" id="websiteUrl" name="website_url" required placeholder="https://example.com">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="leadEmail">Email</label>
+            <input type="email" id="leadEmail" name="email">
+          </div>
+          <div class="form-group">
+            <label for="leadPhone">Phone</label>
+            <input type="tel" id="leadPhone" name="phone">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="contactName">Contact Name</label>
+            <input type="text" id="contactName" name="contact_name">
+          </div>
+          <div class="form-group">
+            <label for="leadIndustry">Industry</label>
+            <select id="leadIndustry" name="industry">
+              <option value="other">Other</option>
+              <option value="plumbers">Plumbers</option>
+              <option value="lawyers">Lawyers</option>
+              <option value="restaurants">Restaurants</option>
+              <option value="dentists">Dentists</option>
+              <option value="contractors">Contractors</option>
+              <option value="hvac">HVAC</option>
+              <option value="salons">Salons</option>
+              <option value="doctors">Doctors</option>
+              <option value="accountants">Accountants</option>
+              <option value="realtors">Realtors</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="leadNotes">Notes</label>
+          <textarea id="leadNotes" name="notes" rows="3"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn" onclick="hideModal('addLeadModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add Lead</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <h2>Login to AutoWebsites Pro</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <p class="error-message" id="loginError"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script>
+    let currentPage = 1;
+    let totalPages = 1;
+    let selectedLeads = new Set();
+    let searchTimeout;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!isAuthenticated()) {
+        showLoginModal();
+      } else {
+        loadLeads();
+      }
+    });
+
+    function debounceSearch() {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(loadLeads, 300);
+    }
+
+    async function loadLeads() {
+      const search = document.getElementById('searchInput').value;
+      const stage = document.getElementById('stageFilter').value;
+      const industry = document.getElementById('industryFilter').value;
+      const [sort, order] = document.getElementById('sortSelect').value.split('-');
+
+      const params = new URLSearchParams({
+        page: currentPage,
+        limit: 25,
+        sort,
+        order,
+      });
+
+      if (search) params.append('search', search);
+      if (stage) params.append('stage', stage);
+      if (industry) params.append('industry', industry);
+
+      try {
+        const data = await api(`/api/leads?${params}`);
+
+        totalPages = data.pagination.totalPages;
+        updatePagination();
+        renderLeads(data.leads);
+      } catch (error) {
+        console.error('Failed to load leads:', error);
+        document.getElementById('leadsTableBody').innerHTML =
+          '<tr><td colspan="8" class="error">Failed to load leads</td></tr>';
+      }
+    }
+
+    function renderLeads(leads) {
+      const tbody = document.getElementById('leadsTableBody');
+
+      if (leads.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" class="empty">No leads found</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = leads.map(lead => `
+        <tr data-id="${lead.id}">
+          <td><input type="checkbox" onchange="toggleSelect('${lead.id}')" ${selectedLeads.has(lead.id) ? 'checked' : ''}></td>
+          <td>
+            <a href="/lead-detail.html?id=${lead.id}" class="lead-name">${lead.business_name}</a>
+            <div class="lead-url">${new URL(lead.website_url).hostname}</div>
+          </td>
+          <td><span class="badge badge-industry">${lead.industry}</span></td>
+          <td><span class="score ${getScoreClass(lead.website_score)}">${lead.website_score ?? '-'}</span></td>
+          <td><span class="badge badge-stage badge-${lead.pipeline_stage}">${formatStage(lead.pipeline_stage)}</span></td>
+          <td>${lead.email ? '✓' : '-'}</td>
+          <td>${lead.last_contacted_at ? formatTime(lead.last_contacted_at) : 'Never'}</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-icon" onclick="viewLead('${lead.id}')" title="View">👁️</button>
+              <button class="btn-icon" onclick="changeStage('${lead.id}')" title="Change Stage">📍</button>
+              ${lead.email ? `<button class="btn-icon" onclick="sendEmail('${lead.id}')" title="Send Email">📧</button>` : ''}
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function getScoreClass(score) {
+      if (score === null) return '';
+      if (score <= 4) return 'score-low';
+      if (score <= 6) return 'score-medium';
+      return 'score-high';
+    }
+
+    function formatStage(stage) {
+      return stage.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    function updatePagination() {
+      document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+      document.getElementById('prevPage').disabled = currentPage <= 1;
+      document.getElementById('nextPage').disabled = currentPage >= totalPages;
+    }
+
+    function changePage(delta) {
+      currentPage += delta;
+      loadLeads();
+    }
+
+    function toggleSelectAll() {
+      const checked = document.getElementById('selectAll').checked;
+      const checkboxes = document.querySelectorAll('#leadsTableBody input[type="checkbox"]');
+      checkboxes.forEach(cb => {
+        cb.checked = checked;
+        const id = cb.closest('tr').dataset.id;
+        if (checked) {
+          selectedLeads.add(id);
+        } else {
+          selectedLeads.delete(id);
+        }
+      });
+      updateBulkActions();
+    }
+
+    function toggleSelect(id) {
+      if (selectedLeads.has(id)) {
+        selectedLeads.delete(id);
+      } else {
+        selectedLeads.add(id);
+      }
+      updateBulkActions();
+    }
+
+    function updateBulkActions() {
+      const bulkActions = document.getElementById('bulkActions');
+      const count = selectedLeads.size;
+      if (count > 0) {
+        bulkActions.style.display = 'flex';
+        document.getElementById('selectedCount').textContent = `${count} selected`;
+      } else {
+        bulkActions.style.display = 'none';
+      }
+    }
+
+    function showAddLeadModal() {
+      showModal('addLeadModal');
+    }
+
+    async function handleAddLead(event) {
+      event.preventDefault();
+      const form = event.target;
+      const data = Object.fromEntries(new FormData(form));
+
+      try {
+        await api('/api/leads', {
+          method: 'POST',
+          body: JSON.stringify(data),
+        });
+
+        hideModal('addLeadModal');
+        form.reset();
+        loadLeads();
+      } catch (error) {
+        alert('Failed to add lead: ' + error.message);
+      }
+    }
+
+    function viewLead(id) {
+      location.href = `/lead-detail.html?id=${id}`;
+    }
+
+    async function changeStage(id) {
+      const stage = prompt('Enter new stage (new, qualified, contacted, proposal_sent, negotiating, won, lost):');
+      if (!stage) return;
+
+      try {
+        await api(`/api/leads/${id}/stage`, {
+          method: 'POST',
+          body: JSON.stringify({ stage }),
+        });
+        loadLeads();
+      } catch (error) {
+        alert('Failed to change stage: ' + error.message);
+      }
+    }
+
+    async function bulkChangeStage() {
+      const stage = prompt('Enter new stage:');
+      if (!stage) return;
+
+      try {
+        await api('/api/leads/bulk/stage', {
+          method: 'POST',
+          body: JSON.stringify({ ids: Array.from(selectedLeads), stage }),
+        });
+        selectedLeads.clear();
+        updateBulkActions();
+        loadLeads();
+      } catch (error) {
+        alert('Failed: ' + error.message);
+      }
+    }
+
+    async function bulkAddTag() {
+      const tag = prompt('Enter tag to add:');
+      if (!tag) return;
+
+      try {
+        await api('/api/leads/bulk/tag', {
+          method: 'POST',
+          body: JSON.stringify({ ids: Array.from(selectedLeads), tag }),
+        });
+        alert('Tag added successfully');
+      } catch (error) {
+        alert('Failed: ' + error.message);
+      }
+    }
+
+    async function bulkDelete() {
+      if (!confirm(`Delete ${selectedLeads.size} leads? This cannot be undone.`)) return;
+
+      for (const id of selectedLeads) {
+        try {
+          await api(`/api/leads/${id}`, { method: 'DELETE' });
+        } catch (e) {}
+      }
+      selectedLeads.clear();
+      updateBulkActions();
+      loadLeads();
+    }
+
+    function sendEmail(id) {
+      location.href = `/campaigns.html?lead_id=${id}`;
+    }
+  </script>
+</body>
+</html>

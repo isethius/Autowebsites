@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoWebsites Pro - Dashboard</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h1 class="logo">AutoWebsites<span>Pro</span></h1>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/" class="nav-item active" data-page="dashboard">
+          <span class="nav-icon">📊</span>
+          Dashboard
+        </a>
+        <a href="/leads.html" class="nav-item" data-page="leads">
+          <span class="nav-icon">👥</span>
+          Leads
+        </a>
+        <a href="/campaigns.html" class="nav-item" data-page="campaigns">
+          <span class="nav-icon">📧</span>
+          Campaigns
+        </a>
+        <a href="#" class="nav-item" data-page="proposals">
+          <span class="nav-icon">📝</span>
+          Proposals
+        </a>
+        <a href="#" class="nav-item" data-page="analytics">
+          <span class="nav-icon">📈</span>
+          Analytics
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="themeToggle">🌙</button>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <h2 class="page-title">Dashboard</h2>
+        </div>
+        <div class="header-right">
+          <span class="user-name" id="userName">Loading...</span>
+        </div>
+      </header>
+
+      <!-- Dashboard Content -->
+      <div class="content" id="dashboardContent">
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-info">
+              <span class="stat-value" id="totalLeads">-</span>
+              <span class="stat-label">Total Leads</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📧</div>
+            <div class="stat-info">
+              <span class="stat-value" id="emailsSent">-</span>
+              <span class="stat-label">Emails Sent</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📬</div>
+            <div class="stat-info">
+              <span class="stat-value" id="openRate">-</span>
+              <span class="stat-label">Open Rate</span>
+            </div>
+          </div>
+          <div class="stat-card highlight">
+            <div class="stat-icon">💰</div>
+            <div class="stat-info">
+              <span class="stat-value" id="monthlyRevenue">-</span>
+              <span class="stat-label">Revenue (This Month)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pipeline -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Pipeline Overview</h3>
+          </div>
+          <div class="pipeline" id="pipeline">
+            <div class="pipeline-stage">
+              <span class="stage-name">New</span>
+              <span class="stage-count" id="stageNew">-</span>
+            </div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-stage">
+              <span class="stage-name">Qualified</span>
+              <span class="stage-count" id="stageQualified">-</span>
+            </div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-stage">
+              <span class="stage-name">Contacted</span>
+              <span class="stage-count" id="stageContacted">-</span>
+            </div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-stage">
+              <span class="stage-name">Proposal</span>
+              <span class="stage-count" id="stageProposal">-</span>
+            </div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-stage highlight">
+              <span class="stage-name">Won</span>
+              <span class="stage-count" id="stageWon">-</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Two Column Layout -->
+        <div class="two-columns">
+          <!-- Recent Activity -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Recent Activity</h3>
+            </div>
+            <div class="activity-list" id="activityList">
+              <p class="loading">Loading...</p>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Quick Actions</h3>
+            </div>
+            <div class="quick-actions">
+              <button class="action-btn" onclick="location.href='/leads.html?action=discover'">
+                🔍 Discover New Leads
+              </button>
+              <button class="action-btn" onclick="location.href='/leads.html'">
+                👥 View All Leads
+              </button>
+              <button class="action-btn" onclick="location.href='/campaigns.html'">
+                📧 Email Campaigns
+              </button>
+              <button class="action-btn" onclick="processEmails()">
+                ⚡ Process Email Queue
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Industry Breakdown -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Leads by Industry</h3>
+          </div>
+          <div class="industry-breakdown" id="industryBreakdown">
+            <p class="loading">Loading...</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <h2>Login to AutoWebsites Pro</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <p class="form-footer">
+          No account? <a href="#" id="showRegister">Register</a>
+        </p>
+        <p class="error-message" id="loginError"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script>
+    // Initialize dashboard
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!isAuthenticated()) {
+        showLoginModal();
+      } else {
+        loadDashboard();
+      }
+    });
+
+    async function loadDashboard() {
+      try {
+        const data = await api('/api/analytics/dashboard');
+
+        // Update stats
+        document.getElementById('totalLeads').textContent = data.leads.total;
+        document.getElementById('emailsSent').textContent = data.email.sent;
+        document.getElementById('openRate').textContent = data.email.openRate + '%';
+        document.getElementById('monthlyRevenue').textContent = '$' + data.revenue.thisMonth.toLocaleString();
+
+        // Update pipeline
+        document.getElementById('stageNew').textContent = data.leads.byStage.new || 0;
+        document.getElementById('stageQualified').textContent = data.leads.byStage.qualified || 0;
+        document.getElementById('stageContacted').textContent = data.leads.byStage.contacted || 0;
+        document.getElementById('stageProposal').textContent = data.leads.byStage.proposal_sent || 0;
+        document.getElementById('stageWon').textContent = data.leads.byStage.won || 0;
+
+        // Update activity list
+        const activityList = document.getElementById('activityList');
+        if (data.recentActivity.length === 0) {
+          activityList.innerHTML = '<p class="empty">No recent activity</p>';
+        } else {
+          activityList.innerHTML = data.recentActivity.map(activity => `
+            <div class="activity-item">
+              <div class="activity-icon">${getActivityIcon(activity.type)}</div>
+              <div class="activity-info">
+                <span class="activity-title">${activity.title}</span>
+                <span class="activity-meta">${activity.leads?.business_name || 'Unknown'} • ${formatTime(activity.created_at)}</span>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        // Update user name
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        document.getElementById('userName').textContent = user.name || user.email || 'User';
+
+      } catch (error) {
+        console.error('Failed to load dashboard:', error);
+      }
+    }
+
+    function getActivityIcon(type) {
+      const icons = {
+        email_sent: '📧',
+        email_opened: '👁️',
+        email_clicked: '🖱️',
+        stage_change: '📍',
+        note_added: '📝',
+        proposal_sent: '📄',
+        deal_won: '🎉',
+        deal_lost: '❌',
+      };
+      return icons[type] || '📌';
+    }
+
+    async function processEmails() {
+      try {
+        const result = await api('/api/campaigns/process', { method: 'POST' });
+        alert(`Processed ${result.processed} emails`);
+      } catch (error) {
+        alert('Failed to process emails: ' + error.message);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lead Details - AutoWebsites Pro</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h1 class="logo">AutoWebsites<span>Pro</span></h1>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/" class="nav-item">📊 Dashboard</a>
+        <a href="/leads.html" class="nav-item active">👥 Leads</a>
+        <a href="/campaigns.html" class="nav-item">📧 Campaigns</a>
+        <a href="#" class="nav-item">📝 Proposals</a>
+        <a href="#" class="nav-item">📈 Analytics</a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="themeToggle">🌙</button>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <a href="/leads.html" class="back-link">← Back to Leads</a>
+          <h2 class="page-title" id="businessName">Loading...</h2>
+        </div>
+        <div class="header-right">
+          <button class="btn" onclick="createProposal()">📝 Create Proposal</button>
+          <button class="btn btn-primary" onclick="sendEmail()">📧 Send Email</button>
+        </div>
+      </header>
+
+      <!-- Lead Content -->
+      <div class="content lead-detail-content">
+        <!-- Lead Info Card -->
+        <div class="card lead-info-card">
+          <div class="lead-header">
+            <div class="lead-main-info">
+              <h2 id="leadBusinessName">-</h2>
+              <a href="#" id="leadWebsite" target="_blank" class="lead-website">-</a>
+            </div>
+            <div class="lead-stage-container">
+              <select id="stageSelect" class="stage-select" onchange="updateStage()">
+                <option value="new">New</option>
+                <option value="qualified">Qualified</option>
+                <option value="contacted">Contacted</option>
+                <option value="proposal_sent">Proposal Sent</option>
+                <option value="negotiating">Negotiating</option>
+                <option value="won">Won</option>
+                <option value="lost">Lost</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="lead-details-grid">
+            <div class="detail-item">
+              <label>Industry</label>
+              <span id="leadIndustry">-</span>
+            </div>
+            <div class="detail-item">
+              <label>Website Score</label>
+              <span id="leadScore" class="score">-</span>
+            </div>
+            <div class="detail-item">
+              <label>Contact Name</label>
+              <span id="leadContactName">-</span>
+            </div>
+            <div class="detail-item">
+              <label>Email</label>
+              <span id="leadEmail">-</span>
+            </div>
+            <div class="detail-item">
+              <label>Phone</label>
+              <span id="leadPhone">-</span>
+            </div>
+            <div class="detail-item">
+              <label>Priority</label>
+              <span id="leadPriority">-</span>
+            </div>
+          </div>
+
+          <div class="lead-tags" id="leadTags">
+            <!-- Tags rendered here -->
+          </div>
+        </div>
+
+        <div class="two-columns">
+          <!-- Activity Timeline -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Activity Timeline</h3>
+            </div>
+            <div class="timeline" id="timeline">
+              <p class="loading">Loading...</p>
+            </div>
+          </div>
+
+          <!-- Actions Panel -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Quick Actions</h3>
+            </div>
+            <div class="actions-panel">
+              <button class="action-btn full-width" onclick="addNote()">
+                📝 Add Note
+              </button>
+              <button class="action-btn full-width" onclick="addTag()">
+                🏷️ Add Tag
+              </button>
+              <button class="action-btn full-width" onclick="enrollInSequence()">
+                📧 Enroll in Sequence
+              </button>
+              <button class="action-btn full-width" onclick="viewGallery()">
+                🎨 View Theme Gallery
+              </button>
+              <hr>
+              <button class="action-btn full-width success" onclick="markWon()">
+                ✅ Mark as Won
+              </button>
+              <button class="action-btn full-width danger" onclick="markLost()">
+                ❌ Mark as Lost
+              </button>
+            </div>
+
+            <!-- Notes Section -->
+            <div class="card-header" style="margin-top: 20px;">
+              <h3>Notes</h3>
+            </div>
+            <div class="notes-section">
+              <pre id="leadNotes" class="notes-content">No notes yet</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analysis Card -->
+        <div class="card" id="analysisCard" style="display: none;">
+          <div class="card-header">
+            <h3>AI Analysis</h3>
+          </div>
+          <div class="analysis-content">
+            <div class="analysis-section">
+              <h4>Issues Found</h4>
+              <ul id="issuesList"></ul>
+            </div>
+            <div class="analysis-section">
+              <h4>Recommendations</h4>
+              <ul id="recommendationsList"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <p class="error-message" id="loginError"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script>
+    let leadId;
+    let leadData;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(location.search);
+      leadId = params.get('id');
+
+      if (!leadId) {
+        location.href = '/leads.html';
+        return;
+      }
+
+      if (!isAuthenticated()) {
+        showLoginModal();
+      } else {
+        loadLead();
+      }
+    });
+
+    async function loadLead() {
+      try {
+        const data = await api(`/api/leads/${leadId}`);
+        leadData = data.lead;
+
+        // Update header
+        document.getElementById('businessName').textContent = leadData.business_name;
+        document.getElementById('leadBusinessName').textContent = leadData.business_name;
+        document.getElementById('leadWebsite').textContent = leadData.website_url;
+        document.getElementById('leadWebsite').href = leadData.website_url;
+
+        // Update details
+        document.getElementById('leadIndustry').textContent = leadData.industry;
+        document.getElementById('leadScore').textContent = leadData.website_score ?? '-';
+        document.getElementById('leadContactName').textContent = leadData.contact_name || '-';
+        document.getElementById('leadEmail').textContent = leadData.email || '-';
+        document.getElementById('leadPhone').textContent = leadData.phone || '-';
+        document.getElementById('leadPriority').textContent = leadData.priority;
+
+        // Update stage select
+        document.getElementById('stageSelect').value = leadData.pipeline_stage;
+
+        // Update tags
+        renderTags(leadData.tags || []);
+
+        // Update notes
+        document.getElementById('leadNotes').textContent = leadData.notes || 'No notes yet';
+
+        // Update timeline
+        renderTimeline(data.timeline);
+
+        // Show analysis if available
+        if (leadData.issues_found?.length || leadData.recommendations?.length) {
+          document.getElementById('analysisCard').style.display = 'block';
+          document.getElementById('issuesList').innerHTML =
+            (leadData.issues_found || []).map(i => `<li>${i}</li>`).join('') || '<li>None found</li>';
+          document.getElementById('recommendationsList').innerHTML =
+            (leadData.recommendations || []).map(r => `<li>${r}</li>`).join('') || '<li>None</li>';
+        }
+
+      } catch (error) {
+        console.error('Failed to load lead:', error);
+        alert('Failed to load lead');
+      }
+    }
+
+    function renderTags(tags) {
+      const container = document.getElementById('leadTags');
+      container.innerHTML = tags.map(tag =>
+        `<span class="tag">${tag} <button onclick="removeTag('${tag}')">&times;</button></span>`
+      ).join('') + '<button class="tag-add" onclick="addTag()">+ Add Tag</button>';
+    }
+
+    function renderTimeline(activities) {
+      const timeline = document.getElementById('timeline');
+
+      if (!activities || activities.length === 0) {
+        timeline.innerHTML = '<p class="empty">No activity yet</p>';
+        return;
+      }
+
+      timeline.innerHTML = activities.map(activity => `
+        <div class="timeline-item">
+          <div class="timeline-icon">${getActivityIcon(activity.type)}</div>
+          <div class="timeline-content">
+            <div class="timeline-title">${activity.title}</div>
+            ${activity.description ? `<div class="timeline-desc">${activity.description}</div>` : ''}
+            <div class="timeline-time">${formatTime(activity.created_at)}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function getActivityIcon(type) {
+      const icons = {
+        email_sent: '📧',
+        email_opened: '👁️',
+        email_clicked: '🖱️',
+        stage_change: '📍',
+        note_added: '📝',
+        proposal_created: '📄',
+        proposal_sent: '📨',
+        contract_sent: '📑',
+        deal_won: '🎉',
+        deal_lost: '❌',
+        custom: '📌',
+      };
+      return icons[type] || '📌';
+    }
+
+    async function updateStage() {
+      const stage = document.getElementById('stageSelect').value;
+      try {
+        await api(`/api/leads/${leadId}/stage`, {
+          method: 'POST',
+          body: JSON.stringify({ stage }),
+        });
+        loadLead();
+      } catch (error) {
+        alert('Failed to update stage: ' + error.message);
+      }
+    }
+
+    async function addNote() {
+      const note = prompt('Enter note:');
+      if (!note) return;
+
+      try {
+        await api(`/api/leads/${leadId}/notes`, {
+          method: 'POST',
+          body: JSON.stringify({ note }),
+        });
+        loadLead();
+      } catch (error) {
+        alert('Failed to add note: ' + error.message);
+      }
+    }
+
+    async function addTag() {
+      const tag = prompt('Enter tag:');
+      if (!tag) return;
+
+      try {
+        await api(`/api/leads/${leadId}/tags`, {
+          method: 'POST',
+          body: JSON.stringify({ tag }),
+        });
+        loadLead();
+      } catch (error) {
+        alert('Failed to add tag: ' + error.message);
+      }
+    }
+
+    async function removeTag(tag) {
+      try {
+        await api(`/api/leads/${leadId}/tags/${encodeURIComponent(tag)}`, {
+          method: 'DELETE',
+        });
+        loadLead();
+      } catch (error) {
+        alert('Failed to remove tag: ' + error.message);
+      }
+    }
+
+    async function markWon() {
+      const value = prompt('Enter deal value ($):');
+      if (!value) return;
+
+      try {
+        await api(`/api/leads/${leadId}/won`, {
+          method: 'POST',
+          body: JSON.stringify({ value: parseFloat(value) }),
+        });
+        loadLead();
+        alert('Congratulations on the win!');
+      } catch (error) {
+        alert('Failed: ' + error.message);
+      }
+    }
+
+    async function markLost() {
+      const reason = prompt('Reason for loss:');
+      if (!reason) return;
+
+      try {
+        await api(`/api/leads/${leadId}/lost`, {
+          method: 'POST',
+          body: JSON.stringify({ reason }),
+        });
+        loadLead();
+      } catch (error) {
+        alert('Failed: ' + error.message);
+      }
+    }
+
+    function sendEmail() {
+      location.href = `/campaigns.html?lead_id=${leadId}`;
+    }
+
+    function createProposal() {
+      alert('Proposal creation coming soon!');
+    }
+
+    function enrollInSequence() {
+      location.href = `/campaigns.html?enroll=${leadId}`;
+    }
+
+    function viewGallery() {
+      if (leadData?.gallery_url) {
+        window.open(leadData.gallery_url, '_blank');
+      } else {
+        alert('No theme gallery available for this lead');
+      }
+    }
+  </script>
+</body>
+</html>

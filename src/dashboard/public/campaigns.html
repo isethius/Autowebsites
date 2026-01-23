@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Campaigns - AutoWebsites Pro</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h1 class="logo">AutoWebsites<span>Pro</span></h1>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/" class="nav-item">📊 Dashboard</a>
+        <a href="/leads.html" class="nav-item">👥 Leads</a>
+        <a href="/campaigns.html" class="nav-item active">📧 Campaigns</a>
+        <a href="#" class="nav-item">📝 Proposals</a>
+        <a href="#" class="nav-item">📈 Analytics</a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="themeToggle">🌙</button>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="header">
+        <div class="header-left">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <h2 class="page-title">Email Campaigns</h2>
+        </div>
+        <div class="header-right">
+          <button class="btn btn-primary" onclick="showCreateSequence()">+ New Sequence</button>
+        </div>
+      </header>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active" data-tab="sequences" onclick="switchTab('sequences')">Sequences</button>
+        <button class="tab" data-tab="templates" onclick="switchTab('templates')">Templates</button>
+        <button class="tab" data-tab="performance" onclick="switchTab('performance')">Performance</button>
+      </div>
+
+      <!-- Sequences Tab -->
+      <div class="tab-content active" id="sequences-tab">
+        <div class="sequences-grid" id="sequencesGrid">
+          <p class="loading">Loading sequences...</p>
+        </div>
+      </div>
+
+      <!-- Templates Tab -->
+      <div class="tab-content" id="templates-tab">
+        <div class="templates-grid" id="templatesGrid">
+          <!-- Templates will be loaded here -->
+        </div>
+      </div>
+
+      <!-- Performance Tab -->
+      <div class="tab-content" id="performance-tab">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">📧</div>
+            <div class="stat-info">
+              <span class="stat-value" id="perfSent">-</span>
+              <span class="stat-label">Emails Sent</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📬</div>
+            <div class="stat-info">
+              <span class="stat-value" id="perfDelivered">-</span>
+              <span class="stat-label">Delivered</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">👁️</div>
+            <div class="stat-info">
+              <span class="stat-value" id="perfOpenRate">-</span>
+              <span class="stat-label">Open Rate</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🖱️</div>
+            <div class="stat-info">
+              <span class="stat-value" id="perfClickRate">-</span>
+              <span class="stat-label">Click Rate</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Top Performing Subject Lines</h3>
+          </div>
+          <div class="table-container">
+            <table class="data-table" id="subjectTable">
+              <thead>
+                <tr>
+                  <th>Subject Line</th>
+                  <th>Sent</th>
+                  <th>Open Rate</th>
+                  <th>Click Rate</th>
+                </tr>
+              </thead>
+              <tbody id="subjectTableBody">
+                <tr><td colspan="4" class="loading">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Create Sequence Modal -->
+  <div class="modal" id="createSequenceModal">
+    <div class="modal-content modal-lg">
+      <div class="modal-header">
+        <h3>Create Email Sequence</h3>
+        <button class="modal-close" onclick="hideModal('createSequenceModal')">&times;</button>
+      </div>
+      <form id="createSequenceForm" onsubmit="handleCreateSequence(event)">
+        <div class="form-group">
+          <label>Sequence Name *</label>
+          <input type="text" name="name" required placeholder="e.g., New Lead Outreach">
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea name="description" rows="2" placeholder="What is this sequence for?"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Steps</label>
+          <div id="sequenceSteps">
+            <!-- Steps will be added here -->
+          </div>
+          <button type="button" class="btn btn-sm" onclick="addStep()">+ Add Step</button>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn" onclick="hideModal('createSequenceModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Sequence</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Enroll Modal -->
+  <div class="modal" id="enrollModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Enroll in Sequence</h3>
+        <button class="modal-close" onclick="hideModal('enrollModal')">&times;</button>
+      </div>
+      <div class="form-group">
+        <label>Select Sequence</label>
+        <select id="enrollSequenceSelect">
+          <option value="">Loading sequences...</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>
+          <input type="checkbox" id="enrollStartImmediately" checked>
+          Start sending immediately
+        </label>
+      </div>
+      <div class="form-actions">
+        <button class="btn" onclick="hideModal('enrollModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="confirmEnroll()">Enroll</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <p class="error-message" id="loginError"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script>
+    let stepCount = 0;
+    let enrollLeadId = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(location.search);
+      enrollLeadId = params.get('enroll') || params.get('lead_id');
+
+      if (!isAuthenticated()) {
+        showLoginModal();
+      } else {
+        loadSequences();
+        loadTemplates();
+        loadPerformance();
+
+        if (enrollLeadId) {
+          showEnrollModal(enrollLeadId);
+        }
+      }
+    });
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+
+      document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+      document.getElementById(`${tabName}-tab`).classList.add('active');
+    }
+
+    async function loadSequences() {
+      try {
+        const sequences = await api('/api/campaigns/sequences');
+        renderSequences(sequences);
+      } catch (error) {
+        console.error('Failed to load sequences:', error);
+        document.getElementById('sequencesGrid').innerHTML = '<p class="error">Failed to load sequences</p>';
+      }
+    }
+
+    function renderSequences(sequences) {
+      const grid = document.getElementById('sequencesGrid');
+
+      if (sequences.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <p>No sequences yet</p>
+            <button class="btn btn-primary" onclick="showCreateSequence()">Create Your First Sequence</button>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = sequences.map(seq => `
+        <div class="sequence-card ${seq.is_active ? '' : 'inactive'}">
+          <div class="sequence-header">
+            <h4>${seq.name}</h4>
+            <span class="badge ${seq.is_active ? 'badge-success' : 'badge-muted'}">${seq.is_active ? 'Active' : 'Paused'}</span>
+          </div>
+          <p class="sequence-desc">${seq.description || 'No description'}</p>
+          <div class="sequence-stats">
+            <span>${seq.steps?.length || 0} steps</span>
+            <span>${seq.total_enrolled || 0} enrolled</span>
+            <span>${seq.total_completed || 0} completed</span>
+          </div>
+          <div class="sequence-actions">
+            <button class="btn btn-sm" onclick="viewSequence('${seq.id}')">View</button>
+            <button class="btn btn-sm" onclick="toggleSequence('${seq.id}', ${!seq.is_active})">${seq.is_active ? 'Pause' : 'Activate'}</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function loadTemplates() {
+      try {
+        const templates = await api('/api/campaigns/templates');
+        renderTemplates(templates);
+      } catch (error) {
+        console.error('Failed to load templates:', error);
+      }
+    }
+
+    function renderTemplates(templates) {
+      const grid = document.getElementById('templatesGrid');
+      grid.innerHTML = templates.map(tpl => `
+        <div class="template-card">
+          <h4>${tpl.name}</h4>
+          <p>Variables: ${tpl.variables.join(', ')}</p>
+          <button class="btn btn-sm" onclick="previewTemplate('${tpl.key}')">Preview</button>
+        </div>
+      `).join('');
+    }
+
+    async function loadPerformance() {
+      try {
+        const data = await api('/api/analytics/email');
+
+        document.getElementById('perfSent').textContent = data.overall.totalSent;
+        document.getElementById('perfDelivered').textContent = data.overall.totalDelivered;
+        document.getElementById('perfOpenRate').textContent = data.overall.openRate + '%';
+        document.getElementById('perfClickRate').textContent = data.overall.clickRate + '%';
+
+        // Top subjects
+        const tbody = document.getElementById('subjectTableBody');
+        if (data.topSubjects.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="4" class="empty">No data yet</td></tr>';
+        } else {
+          tbody.innerHTML = data.topSubjects.map(s => `
+            <tr>
+              <td>${s.subject}</td>
+              <td>${s.sent}</td>
+              <td>${s.openRate}%</td>
+              <td>${s.clickRate}%</td>
+            </tr>
+          `).join('');
+        }
+      } catch (error) {
+        console.error('Failed to load performance:', error);
+      }
+    }
+
+    function showCreateSequence() {
+      stepCount = 0;
+      document.getElementById('sequenceSteps').innerHTML = '';
+      addStep(); // Add first step
+      showModal('createSequenceModal');
+    }
+
+    function addStep() {
+      stepCount++;
+      const container = document.getElementById('sequenceSteps');
+      const stepHtml = `
+        <div class="step-item" data-step="${stepCount}">
+          <div class="step-header">
+            <strong>Step ${stepCount}</strong>
+            ${stepCount > 1 ? `<button type="button" class="btn-icon" onclick="removeStep(${stepCount})">🗑️</button>` : ''}
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Delay (days)</label>
+              <input type="number" name="step_${stepCount}_delay" value="${stepCount === 1 ? 0 : 3}" min="0" required>
+            </div>
+            <div class="form-group">
+              <label>Template</label>
+              <select name="step_${stepCount}_template" required>
+                <option value="initial_outreach">Initial Outreach</option>
+                <option value="follow_up_1">Follow Up #1</option>
+                <option value="follow_up_2">Follow Up #2</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Subject Line</label>
+            <input type="text" name="step_${stepCount}_subject" placeholder="Use {{business_name}} for personalization" required>
+          </div>
+          <div class="form-group">
+            <label>Condition</label>
+            <select name="step_${stepCount}_condition">
+              <option value="always">Always send</option>
+              <option value="not_opened">Only if previous not opened</option>
+              <option value="not_clicked">Only if previous not clicked</option>
+              <option value="not_replied">Only if no reply</option>
+            </select>
+          </div>
+        </div>
+      `;
+      container.insertAdjacentHTML('beforeend', stepHtml);
+    }
+
+    function removeStep(stepNum) {
+      document.querySelector(`[data-step="${stepNum}"]`).remove();
+    }
+
+    async function handleCreateSequence(event) {
+      event.preventDefault();
+      const form = event.target;
+      const formData = new FormData(form);
+
+      const steps = [];
+      for (let i = 1; i <= stepCount; i++) {
+        const stepEl = document.querySelector(`[data-step="${i}"]`);
+        if (stepEl) {
+          steps.push({
+            delay_days: parseInt(formData.get(`step_${i}_delay`)) || 0,
+            template: formData.get(`step_${i}_template`),
+            subject: formData.get(`step_${i}_subject`),
+            condition: formData.get(`step_${i}_condition`),
+          });
+        }
+      }
+
+      try {
+        await api('/api/campaigns/sequences', {
+          method: 'POST',
+          body: JSON.stringify({
+            name: formData.get('name'),
+            description: formData.get('description'),
+            steps,
+          }),
+        });
+
+        hideModal('createSequenceModal');
+        loadSequences();
+      } catch (error) {
+        alert('Failed to create sequence: ' + error.message);
+      }
+    }
+
+    async function viewSequence(id) {
+      try {
+        const data = await api(`/api/campaigns/sequences/${id}`);
+        alert(`Sequence: ${data.sequence.name}\nEnrolled: ${data.enrollments.length}\n\nFull view coming soon!`);
+      } catch (error) {
+        alert('Failed to load sequence');
+      }
+    }
+
+    async function toggleSequence(id, activate) {
+      try {
+        await api(`/api/campaigns/sequences/${id}`, {
+          method: 'PATCH',
+          body: JSON.stringify({ is_active: activate }),
+        });
+        loadSequences();
+      } catch (error) {
+        alert('Failed to update sequence');
+      }
+    }
+
+    async function showEnrollModal(leadId) {
+      enrollLeadId = leadId;
+      const select = document.getElementById('enrollSequenceSelect');
+
+      try {
+        const sequences = await api('/api/campaigns/sequences');
+        select.innerHTML = sequences
+          .filter(s => s.is_active)
+          .map(s => `<option value="${s.id}">${s.name}</option>`)
+          .join('');
+
+        if (sequences.length === 0) {
+          select.innerHTML = '<option value="">No active sequences</option>';
+        }
+
+        showModal('enrollModal');
+      } catch (error) {
+        alert('Failed to load sequences');
+      }
+    }
+
+    async function confirmEnroll() {
+      const sequenceId = document.getElementById('enrollSequenceSelect').value;
+      const startImmediately = document.getElementById('enrollStartImmediately').checked;
+
+      if (!sequenceId) {
+        alert('Please select a sequence');
+        return;
+      }
+
+      try {
+        await api(`/api/campaigns/sequences/${sequenceId}/enroll`, {
+          method: 'POST',
+          body: JSON.stringify({
+            lead_id: enrollLeadId,
+            start_immediately: startImmediately,
+          }),
+        });
+
+        hideModal('enrollModal');
+        alert('Lead enrolled successfully!');
+
+        // Redirect back if came from lead page
+        if (document.referrer.includes('lead-detail')) {
+          history.back();
+        }
+      } catch (error) {
+        alert('Failed to enroll: ' + error.message);
+      }
+    }
+
+    async function previewTemplate(key) {
+      try {
+        const result = await api('/api/campaigns/preview', {
+          method: 'POST',
+          body: JSON.stringify({
+            template: key,
+            variables: {
+              business_name: 'Example Business',
+              contact_name: 'John',
+              sender_name: 'Your Name',
+              sender_company: 'AutoWebsites Pro',
+            },
+          }),
+        });
+
+        // Open in new window
+        const win = window.open('', '_blank');
+        win.document.write(result.html);
+      } catch (error) {
+        alert('Failed to preview template');
+      }
+    }
+  </script>
+</body>
+</html>

@@ -4,3 +4,10 @@ tmp/
 .env.local
 *.log
 .DS_Store
+
+# Sensitive files
+.gmail-token.json
+.claude/
+
+# Supabase temp files
+supabase/.temp/
