@@ -1,0 +1,321 @@
+/**
+ * Contact Form Section
+ *
+ * Reusable contact form builders.
+ */
+
+import { escapeHtml } from '../utils';
+
+export interface ContactConfig {
+  title?: string;
+  subtitle?: string;
+  phone?: string;
+  email?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  hours?: string;
+  showMap?: boolean;
+  formFields?: 'basic' | 'detailed' | 'quote';
+  serviceOptions?: string[];
+  sectionId?: string;
+}
+
+/**
+ * Generate contact section CSS
+ */
+export function generateContactCSS(): string {
+  return `
+    .contact {
+      padding: 80px 0;
+      background: var(--white);
+    }
+
+    .contact-content {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 60px;
+    }
+
+    .contact-info h2 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .contact-info > p {
+      color: var(--muted);
+      margin-bottom: 32px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .contact-item-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--gray-100);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .contact-item-content {
+      flex: 1;
+    }
+
+    .contact-item-content strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .contact-item-content a,
+    .contact-item-content span {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .contact-item-content a:hover {
+      color: var(--primary);
+    }
+
+    .contact-form-wrapper {
+      background: var(--gray-50);
+      border-radius: 12px;
+      padding: 40px;
+    }
+
+    .contact-form-wrapper h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      background: var(--primary);
+      color: var(--white);
+      padding: 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .submit-btn:hover {
+      background: var(--secondary);
+    }
+
+    @media (max-width: 900px) {
+      .contact-content {
+        grid-template-columns: 1fr;
+      }
+    }
+  `;
+}
+
+/**
+ * Generate form fields based on type
+ */
+function generateFormFields(type: 'basic' | 'detailed' | 'quote', serviceOptions?: string[]): string {
+  const namePhoneRow = `
+    <div class="form-row">
+      <div class="form-group">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" required placeholder="John Smith">
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" required placeholder="(555) 123-4567">
+      </div>
+    </div>
+  `;
+
+  const emailField = `
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" placeholder="john@example.com">
+    </div>
+  `;
+
+  const messageField = `
+    <div class="form-group">
+      <label for="message">Message</label>
+      <textarea id="message" name="message" placeholder="How can we help you?"></textarea>
+    </div>
+  `;
+
+  if (type === 'basic') {
+    return namePhoneRow + emailField + messageField;
+  }
+
+  if (type === 'quote') {
+    const serviceSelect = serviceOptions?.length ? `
+      <div class="form-group">
+        <label for="service">Service Needed</label>
+        <select id="service" name="service">
+          <option value="">Select a service...</option>
+          ${serviceOptions.map(opt => `<option value="${escapeHtml(opt.toLowerCase().replace(/\s+/g, '-'))}">${escapeHtml(opt)}</option>`).join('')}
+          <option value="other">Other</option>
+        </select>
+      </div>
+    ` : '';
+
+    return namePhoneRow + emailField + serviceSelect + `
+      <div class="form-group">
+        <label for="message">Describe Your Needs</label>
+        <textarea id="message" name="message" placeholder="Please describe what you need help with..."></textarea>
+      </div>
+    `;
+  }
+
+  // Detailed form
+  return namePhoneRow + `
+    <div class="form-row">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="john@example.com">
+      </div>
+      <div class="form-group">
+        <label for="preferred-time">Preferred Contact Time</label>
+        <select id="preferred-time" name="preferred_time">
+          <option value="">Select a time...</option>
+          <option value="morning">Morning (9am - 12pm)</option>
+          <option value="afternoon">Afternoon (12pm - 5pm)</option>
+          <option value="evening">Evening (5pm - 8pm)</option>
+        </select>
+      </div>
+    </div>
+  ` + messageField;
+}
+
+/**
+ * Standard contact section with info and form
+ */
+export function generateContactSection(config: ContactConfig): string {
+  const {
+    title = 'Get In Touch',
+    subtitle = "We'd love to hear from you. Reach out today!",
+    phone,
+    email,
+    address,
+    city,
+    state,
+    hours,
+    formFields = 'basic',
+    serviceOptions,
+    sectionId = 'contact'
+  } = config;
+
+  const location = [city, state].filter(Boolean).join(', ');
+  const fullAddress = address ? `${address}${location ? `, ${location}` : ''}` : location;
+
+  return `
+    <section id="${sectionId}" class="contact">
+      <div class="container contact-content">
+        <div class="contact-info">
+          <h2>${escapeHtml(title)}</h2>
+          <p>${escapeHtml(subtitle)}</p>
+          <div class="contact-details">
+            ${phone ? `
+              <div class="contact-item">
+                <div class="contact-item-icon">📞</div>
+                <div class="contact-item-content">
+                  <strong>Call Us</strong>
+                  <a href="tel:${phone}">${phone}</a>
+                </div>
+              </div>
+            ` : ''}
+            ${email ? `
+              <div class="contact-item">
+                <div class="contact-item-icon">✉️</div>
+                <div class="contact-item-content">
+                  <strong>Email Us</strong>
+                  <a href="mailto:${email}">${email}</a>
+                </div>
+              </div>
+            ` : ''}
+            ${fullAddress ? `
+              <div class="contact-item">
+                <div class="contact-item-icon">📍</div>
+                <div class="contact-item-content">
+                  <strong>Location</strong>
+                  <span>${escapeHtml(fullAddress)}</span>
+                </div>
+              </div>
+            ` : ''}
+            ${hours ? `
+              <div class="contact-item">
+                <div class="contact-item-icon">🕒</div>
+                <div class="contact-item-content">
+                  <strong>Hours</strong>
+                  <span>${escapeHtml(hours)}</span>
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+        <div class="contact-form-wrapper">
+          <h3>Send Us a Message</h3>
+          <form action="#" method="POST">
+            ${generateFormFields(formFields, serviceOptions)}
+            <button type="submit" class="submit-btn">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+/**
+ * Simple CTA-focused contact section
+ */
+export function generateContactCTA(config: ContactConfig): string {
+  const { phone, title = 'Ready to Get Started?' } = config;
+
+  return `
+    <section class="contact" style="background: var(--primary); color: var(--white); padding: 60px 0; text-align: center;">
+      <div class="container">
+        <h2 style="color: var(--white); margin-bottom: 16px;">${escapeHtml(title)}</h2>
+        <p style="opacity: 0.9; margin-bottom: 32px; font-size: 18px;">Contact us today for a free consultation</p>
+        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+          ${phone ? `<a href="tel:${phone}" class="btn btn-white btn-lg">📞 Call ${phone}</a>` : ''}
+          <a href="#contact" class="btn btn-secondary btn-lg" style="color: var(--white); border-color: var(--white);">Send Message</a>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+/**
+ * Minimal contact footer
+ */
+export function generateContactFooter(config: ContactConfig): string {
+  const { phone, email, city, state } = config;
+  const location = [city, state].filter(Boolean).join(', ');
+
+  return `
+    <div style="display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; padding: 20px; background: var(--gray-100); font-size: 14px;">
+      ${phone ? `<a href="tel:${phone}" style="display: flex; align-items: center; gap: 8px;">📞 ${phone}</a>` : ''}
+      ${email ? `<a href="mailto:${email}" style="display: flex; align-items: center; gap: 8px;">✉️ ${email}</a>` : ''}
+      ${location ? `<span style="display: flex; align-items: center; gap: 8px;">📍 ${escapeHtml(location)}</span>` : ''}
+    </div>
+  `;
+}

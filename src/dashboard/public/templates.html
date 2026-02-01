@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Templates - AutoWebsites Pro</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    /* Templates Page Specific Styles */
+    .templates-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .templates-stats {
+      display: flex;
+      gap: 24px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-item .stat-number {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .stat-item .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Category Tabs */
+    .category-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .category-tab {
+      padding: 10px 20px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg-primary);
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .category-tab:hover {
+      border-color: var(--primary);
+      background: var(--bg-secondary);
+    }
+
+    .category-tab.active {
+      border-color: var(--primary);
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--primary);
+    }
+
+    .category-tab .category-icon {
+      font-size: 16px;
+    }
+
+    .category-tab .category-count {
+      background: var(--bg-tertiary);
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .category-tab.active .category-count {
+      background: rgba(37, 99, 235, 0.2);
+      color: var(--primary);
+    }
+
+    /* Search and Filters */
+    .search-filters {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .search-input-wrapper {
+      flex: 1;
+      min-width: 250px;
+      position: relative;
+    }
+
+    .search-input-wrapper::before {
+      content: '🔍';
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 12px 10px 36px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .filter-select {
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-width: 150px;
+    }
+
+    /* Templates Grid */
+    .templates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .template-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .template-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .template-thumbnail {
+      width: 100%;
+      height: 180px;
+      background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .template-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .template-thumbnail .template-icon {
+      font-size: 64px;
+      opacity: 0.5;
+    }
+
+    .template-premium-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .template-content {
+      padding: 20px;
+    }
+
+    .template-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .template-category-badge {
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .badge-service { background: #dbeafe; color: #1e40af; }
+    .badge-professional { background: #fef3c7; color: #92400e; }
+    .badge-health { background: #d1fae5; color: #065f46; }
+    .badge-creative { background: #fce7f3; color: #9d174d; }
+
+    .template-name {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .template-description {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .template-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .template-feature {
+      padding: 4px 8px;
+      background: var(--bg-secondary);
+      border-radius: 4px;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .template-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .template-actions .btn {
+      flex: 1;
+    }
+
+    /* Template Details Modal */
+    .modal-lg {
+      max-width: 900px;
+    }
+
+    .template-detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .template-preview-large {
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .template-preview-large iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 8px;
+    }
+
+    .template-info-section {
+      margin-bottom: 24px;
+    }
+
+    .template-info-section h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text-muted);
+    }
+
+    .color-palette-preview {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .color-swatch {
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+
+    .sections-list {
+      list-style: none;
+    }
+
+    .sections-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sections-list li:last-child {
+      border-bottom: none;
+    }
+
+    /* Empty State */
+    .no-templates {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+    }
+
+    .no-templates .empty-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .no-templates p {
+      margin-bottom: 16px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .templates-header {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+      }
+
+      .category-tabs {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 8px;
+      }
+
+      .search-filters {
+        flex-direction: column;
+      }
+
+      .template-detail-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h1 class="logo">AutoWebsites<span>Pro</span></h1>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/" class="nav-item" data-page="dashboard">
+          <span class="nav-icon">📊</span>
+          Dashboard
+        </a>
+        <a href="/leads.html" class="nav-item" data-page="leads">
+          <span class="nav-icon">👥</span>
+          Leads
+        </a>
+        <a href="/campaigns.html" class="nav-item" data-page="campaigns">
+          <span class="nav-icon">📧</span>
+          Campaigns
+        </a>
+        <a href="/theme-builder.html" class="nav-item" data-page="themes">
+          <span class="nav-icon">🎨</span>
+          Theme Builder
+        </a>
+        <a href="/templates.html" class="nav-item active" data-page="templates">
+          <span class="nav-icon">📄</span>
+          Templates
+        </a>
+        <a href="/jobs.html" class="nav-item" data-page="jobs">
+          <span class="nav-icon">⚙️</span>
+          Job Queue
+        </a>
+        <a href="/overnight.html" class="nav-item" data-page="overnight">
+          <span class="nav-icon">🌙</span>
+          Overnight Runs
+        </a>
+        <a href="/sequence-builder.html" class="nav-item" data-page="sequences">
+          <span class="nav-icon">🔗</span>
+          Sequence Builder
+        </a>
+        <a href="#" class="nav-item" data-page="analytics">
+          <span class="nav-icon">📈</span>
+          Analytics
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="themeToggle">🌙</button>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <h2 class="page-title">Industry Templates</h2>
+        </div>
+        <div class="header-right">
+          <span class="user-name" id="userName">Loading...</span>
+        </div>
+      </header>
+
+      <!-- Templates Content -->
+      <div class="content">
+        <!-- Header Stats -->
+        <div class="templates-header">
+          <div>
+            <p style="color: var(--text-muted); margin-bottom: 4px;">Choose from our professionally designed templates</p>
+          </div>
+          <div class="templates-stats">
+            <div class="stat-item">
+              <div class="stat-number" id="totalTemplates">16</div>
+              <div class="stat-label">Templates</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" id="totalCategories">4</div>
+              <div class="stat-label">Categories</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="category-tabs">
+          <button class="category-tab active" data-category="all" onclick="filterCategory('all')">
+            <span class="category-icon">📋</span>
+            All Templates
+            <span class="category-count" id="countAll">16</span>
+          </button>
+          <button class="category-tab" data-category="service" onclick="filterCategory('service')">
+            <span class="category-icon">🔧</span>
+            Service Trades
+            <span class="category-count" id="countService">5</span>
+          </button>
+          <button class="category-tab" data-category="professional" onclick="filterCategory('professional')">
+            <span class="category-icon">💼</span>
+            Professional
+            <span class="category-count" id="countProfessional">4</span>
+          </button>
+          <button class="category-tab" data-category="health" onclick="filterCategory('health')">
+            <span class="category-icon">🏥</span>
+            Health & Wellness
+            <span class="category-count" id="countHealth">5</span>
+          </button>
+          <button class="category-tab" data-category="creative" onclick="filterCategory('creative')">
+            <span class="category-icon">🎨</span>
+            Food & Creative
+            <span class="category-count" id="countCreative">2</span>
+          </button>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="search-filters">
+          <div class="search-input-wrapper">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search templates..." oninput="filterTemplates()">
+          </div>
+          <select class="filter-select" id="sortSelect" onchange="sortTemplates()">
+            <option value="name">Sort by Name</option>
+            <option value="category">Sort by Category</option>
+            <option value="popular">Most Popular</option>
+            <option value="newest">Newest First</option>
+          </select>
+        </div>
+
+        <!-- Templates Grid -->
+        <div class="templates-grid" id="templatesGrid">
+          <p class="loading">Loading templates...</p>
+        </div>
+
+        <!-- No Results -->
+        <div class="no-templates" id="noTemplates" style="display: none;">
+          <div class="empty-icon">📄</div>
+          <p>No templates found matching your criteria</p>
+          <button class="btn btn-primary" onclick="resetFilters()">Reset Filters</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Template Detail Modal -->
+  <div class="modal" id="templateDetailModal">
+    <div class="modal-content modal-lg">
+      <div class="modal-header">
+        <h3 id="modalTemplateName">Template Name</h3>
+        <button class="modal-close" onclick="closeDetailModal()">&times;</button>
+      </div>
+      <div class="template-detail-grid">
+        <div>
+          <div class="template-preview-large" id="modalPreview">
+            <!-- Preview iframe will be inserted here -->
+          </div>
+        </div>
+        <div>
+          <div class="template-info-section">
+            <h4>Description</h4>
+            <p id="modalDescription"></p>
+          </div>
+          <div class="template-info-section">
+            <h4>Included Sections</h4>
+            <ul class="sections-list" id="modalSections">
+              <!-- Sections will be listed here -->
+            </ul>
+          </div>
+          <div class="template-info-section">
+            <h4>Color Palettes</h4>
+            <div class="color-palette-preview" id="modalPalettes">
+              <!-- Color swatches will be shown here -->
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn" onclick="closeDetailModal()">Cancel</button>
+            <button class="btn btn-primary" id="useTemplateBtn" onclick="useTemplate()">Use This Template</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <h2>Login to AutoWebsites Pro</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <p class="form-footer">
+          No account? <a href="#" id="showRegister">Register</a>
+        </p>
+        <p class="error-message" id="loginError"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script>
+    // Template data - in production this would come from API
+    const templates = [
+      // Service Trades
+      {
+        id: 'plumber',
+        name: 'Plumber',
+        category: 'service',
+        icon: '🔧',
+        description: 'Professional plumbing services template with emergency call features, service areas, and customer testimonials.',
+        features: ['Emergency Services', 'Service Areas', 'Testimonials', 'Contact Form'],
+        sections: ['Hero with CTA', 'Services Grid', 'Why Choose Us', 'Service Areas', 'Testimonials', 'Contact Form', 'Footer'],
+        palettes: [
+          { primary: '#2563eb', secondary: '#1e40af', accent: '#60a5fa' },
+          { primary: '#0891b2', secondary: '#0e7490', accent: '#22d3ee' },
+          { primary: '#059669', secondary: '#047857', accent: '#34d399' },
+          { primary: '#7c3aed', secondary: '#6d28d9', accent: '#a78bfa' }
+        ],
+        isPremium: false
+      },
+      {
+        id: 'hvac',
+        name: 'HVAC',
+        category: 'service',
+        icon: '❄️',
+        description: 'Heating and cooling services template with seasonal promotions, maintenance plans, and energy efficiency focus.',
+        features: ['Seasonal Offers', 'Maintenance Plans', 'Energy Tips', '24/7 Service'],
+        sections: ['Hero', 'Services', 'Why Choose Us', 'Maintenance Plans', 'FAQ', 'Contact', 'Footer'],
+        palettes: [
+          { primary: '#0891b2', secondary: '#0e7490', accent: '#22d3ee' },
+          { primary: '#dc2626', secondary: '#b91c1c', accent: '#f87171' },
+          { primary: '#2563eb', secondary: '#1d4ed8', accent: '#60a5fa' },
+          { primary: '#059669', secondary: '#047857', accent: '#34d399' }
+        ],
+        isPremium: false
+      },
+      {
+        id: 'electrician',
+        name: 'Electrician',
+        category: 'service',
+        icon: '⚡',
+        description: 'Electrical services template with safety certifications, emergency services, and residential/commercial sections.',
+        features: ['Safety First', 'Licensed & Insured', 'Free Estimates', '24/7 Emergency'],
+        sections: ['Hero', 'Services', 'Safety Certifications', 'Gallery', 'Testimonials', 'Contact', 'Footer'],
+        palettes: [
+          { primary: '#f59e0b', secondary: '#d97706', accent: '#fbbf24' },
+          { primary: '#2563eb', secondary: '#1d4ed8', accent: '#60a5fa' },
+          { primary: '#0891b2', secondary: '#0e7490', accent: '#22d3ee' },
+          { primary: '#7c3aed', secondary: '#6d28d9', accent: '#a78bfa' }
+        ],
+        isPremium: false
+      },
+      {
+        id: 'roofer',
+        name: 'Roofer',
+        category: 'service',
+        icon: '🏠',
+        description: 'Roofing services template with before/after gallery, financing options, and storm damage restoration.',
+        features: ['Free Inspections', 'Financing Available', 'Storm Damage', 'Warranty'],
+        sections: ['Hero', 'Services', 'Before/After Gallery', 'Financing', 'Testimonials', 'Contact', 'Footer'],
+        palettes: [
+          { primary: '#78350f', secondary: '#92400e', accent: '#d97706' },
+          { primary: '#1e3a5f', secondary: '#1e40af', accent: '#3b82f6' },
+          { primary: '#166534', secondary: '#15803d', accent: '#22c55e' },
+          { primary: '#4c0519', secondary: '#881337', accent: '#e11d48' }
+        ],
+        isPremium: false
+      },
+      {
+        id: 'contractor',
+        name: 'General Contractor',
+        category: 'service',
+        icon: '🏗️',
+        description: 'Construction and remodeling template with project portfolio, services breakdown, and consultation booking.',
+        features: ['Project Gallery', 'Free Consultations', 'Licensed', 'Insured'],
+        sections: ['Hero', 'Services', 'Portfolio', 'Process', 'Testimonials', 'Contact', 'Footer'],
+        palettes: [
+          { primary: '#0f766e', secondary: '#115e59', accent: '#14b8a6' },
+          { primary: '#374151', secondary: '#4b5563', accent: '#9ca3af' },
+          { primary: '#7c2d12', secondary: '#9a3412', accent: '#ea580c' },
+          { primary: '#1e3a8a', secondary: '#1e40af', accent: '#3b82f6' }
+        ],
+        isPremium: false
+      },
+
+      // Professional Services
+      {
+        id: 'lawyer',
+        name: 'Law Firm',
+        category: 'professional',
+        icon: '⚖️',
+        description: 'Legal services template with practice areas, attorney profiles, case results, and consultation scheduling.',
+        features: ['Practice Areas', 'Attorney Profiles', 'Case Results', 'Free Consultation'],
+        sections: ['Hero', 'Practice Areas', 'Attorney Team', 'Case Results', 'Testimonials', 'Contact', 'Footer'],
+        palettes: [
+          { primary: '#1e3a5f', secondary: '#0f2942', accent: '#c9a227' },
+          { primary: '#1a1a2e', secondary: '#16213e', accent: '#e94560' },
+          { primary: '#2d3436', secondary: '#636e72', accent: '#74b9ff' },
+          { primary: '#2c3e50', secondary: '#34495e', accent: '#3498db' }
+        ],
+        isPremium: false
+      },
+      {
+        id: 'accountant',
+        name: 'Accountant',
+        category: 'professional',
+        icon: '📊',
+        description: 'Accounting services template with tax preparation, bookkeeping, and business advisory sections.',
+        features: ['Tax Services', 'Bookkeeping', 'Business Advisory', 'IRS Help'],
+        sections: ['Hero', 'Services', 'Why Choose Us', 'Process', 'Testimonials', 'Contact', 'Footer'],
+        palettes: [
+          { primary: '#1e40af', secondary: '#1e3a8a', accent: '#60a5fa' },
+          { primary: '#166534', secondary: '#14532d', accent: '#22c55e' },
+          { primary: '#374151', secondary: '#1f2937', accent: '#6b7280' },
+          { primary: '#7c2d12', secondary: '#9a3412', accent: '#ea580c' }
+        ],
+        isPremium: false
+      },
+      {
+        id: 'realtor',
+        name: 'Real Estate Agent',
+        category: 'professional',
+        icon: '🏡',
+        description: 'Real estate template with property listings, market insights, and buyer/seller resources.',
+        features: ['Property Search', 'Market Reports', 'Buyer Guide', 'Seller Guide'],
+        sections: ['Hero', 'Featured Listings', 'About Agent', 'Services', 'Testimonials', 'Contact', 'Footer'],
+        palettes: [
+          { primary: '#1e40af', secondary: '#1e3a8a', accent: '#c9a227' },
+          { primary: '#166534', secondary: '#14532d', accent: '#22c55e' },
+          { primary: '#7c2d12', secondary: '#9a3412', accent: '#ea580c' },
+          { primary: '#4c1d95', secondary: '#5b21b6', accent: '#a78bfa' }
+        ],
+        isPremium: false
+      },
+      {
+        id: 'financial-advisor',
+        name: 'Financial Advisor',
+        category: 'professional',
+        icon: '💰',
+        description: 'Wealth management template with services, credentials, investment philosophy, and consultation booking.',
+        features: ['Wealth Management', 'Retirement Planning', 'Investment Strategy', 'Tax Planning'],
+        sections: ['Hero', 'Services', 'About Advisor', 'Process', 'Testimonials', 'Contact', 'Footer'],
+        palettes: [
+          { primary: '#1e3a5f', secondary: '#0f2942', accent: '#c9a227' },
+          { primary: '#166534', secondary: '#14532d', accent: '#22c55e' },
+          { primary: '#4c1d95', secondary: '#5b21b6', accent: '#a78bfa' },
+          { primary: '#0f766e', secondary: '#115e59', accent: '#14b8a6' }
+        ],
+        isPremium: false
+      },
+
+      // Health & Wellness
+      {
+        id: 'dentist',
+        name: 'Dental Practice',
+        category: 'health',
+        icon: '🦷',
+        description: 'Dental services template with treatment options, team profiles, and online appointment booking.',
+        features: ['Online Booking', 'Treatment Guide', 'Insurance Info', 'Team Profiles'],
+        sections: ['Hero', 'Services', 'Team', 'Technology', 'Testimonials', 'Contact', 'Footer'],
+        palettes: [
+          { primary: '#0891b2', secondary: '#0e7490', accent: '#06b6d4' },
+          { primary: '#2563eb', secondary: '#1d4ed8', accent: '#60a5fa' },
+          { primary: '#059669', secondary: '#047857', accent: '#10b981' },
+          { primary: '#7c3aed', secondary: '#6d28d9', accent: '#a78bfa' }
+        ],
+        isPremium: false
+      },
+      {
+        id: 'chiropractor',
+        name: 'Chiropractor',
+        category: 'health',
+        icon: '🦴',
+        description: 'Chiropractic care template with conditions treated, treatment methods, and wellness programs.',
+        features: ['Conditions Treated', 'Treatment Methods', 'Wellness Programs', 'New Patient Forms'],
+        sections: ['Hero', 'Services', 'Conditions', 'About Doctor', 'Testimonials', 'Contact', 'Footer'],
+        palettes: [
+          { primary: '#059669', secondary: '#047857', accent: '#10b981' },
+          { primary: '#0891b2', secondary: '#0e7490', accent: '#06b6d4' },
+          { primary: '#7c3aed', secondary: '#6d28d9', accent: '#a78bfa' },
+          { primary: '#2563eb', secondary: '#1d4ed8', accent: '#60a5fa' }
+        ],
+        isPremium: false
+      },
+      {
+        id: 'veterinarian',
+        name: 'Veterinary Clinic',
+        category: 'health',
+        icon: '🐾',
+        description: 'Veterinary services template with pet care guides, emergency services, and appointment booking.',
+        features: ['Pet Care Guides', 'Emergency 24/7', 'Preventive Care', 'Surgery Services'],
+        sections: ['Hero', 'Services', 'Pet Care Tips', 'Team', 'Testimonials', 'Contact', 'Footer'],
+        palettes: [
+          { primary: '#059669', secondary: '#047857', accent: '#10b981' },
+          { primary: '#0891b2', secondary: '#0e7490', accent: '#06b6d4' },
+          { primary: '#7c3aed', secondary: '#6d28d9', accent: '#a78bfa' },
+          { primary: '#2563eb', secondary: '#1d4ed8', accent: '#60a5fa' }
+        ],
+        isPremium: false
+      },
+      {
+        id: 'therapist',
+        name: 'Therapist',
+        category: 'health',
+        icon: '🧠',
+        description: 'Mental health services template with specialties, approach description, and confidential contact.',
+        features: ['Specialties', 'Approach', 'Teletherapy', 'Resources'],
+        sections: ['Hero', 'Services', 'About', 'Approach', 'FAQ', 'Contact', 'Footer'],
+        palettes: [
+          { primary: '#7c3aed', secondary: '#6d28d9', accent: '#a78bfa' },
+          { primary: '#059669', secondary: '#047857', accent: '#10b981' },
+          { primary: '#0891b2', secondary: '#0e7490', accent: '#06b6d4' },
+          { primary: '#db2777', secondary: '#be185d', accent: '#f472b6' }
+        ],
+        isPremium: false
+      },
+      {
+        id: 'gym',
+        name: 'Gym / Fitness',
+        category: 'health',
+        icon: '💪',
+        description: 'Fitness center template with membership plans, class schedules, and trainer profiles.',
+        features: ['Membership Plans', 'Class Schedule', 'Trainers', 'Facilities'],
+        sections: ['Hero', 'Memberships', 'Classes', 'Trainers', 'Facilities', 'Contact', 'Footer'],
+        palettes: [
+          { primary: '#dc2626', secondary: '#b91c1c', accent: '#f87171' },
+          { primary: '#059669', secondary: '#047857', accent: '#10b981' },
+          { primary: '#2563eb', secondary: '#1d4ed8', accent: '#60a5fa' },
+          { primary: '#f59e0b', secondary: '#d97706', accent: '#fbbf24' }
+        ],
+        isPremium: false
+      },
+
+      // Food & Creative
+      {
+        id: 'restaurant',
+        name: 'Restaurant',
+        category: 'creative',
+        icon: '🍽️',
+        description: 'Restaurant template with menu display, reservation system, hours, and location information.',
+        features: ['Menu Display', 'Online Reservations', 'Photo Gallery', 'Hours & Location'],
+        sections: ['Hero', 'Menu', 'About', 'Gallery', 'Reservations', 'Contact', 'Footer'],
+        palettes: [
+          { primary: '#b91c1c', secondary: '#991b1b', accent: '#fbbf24' },
+          { primary: '#1e3a5f', secondary: '#0f2942', accent: '#c9a227' },
+          { primary: '#166534', secondary: '#14532d', accent: '#22c55e' },
+          { primary: '#7c2d12', secondary: '#9a3412', accent: '#ea580c' }
+        ],
+        isPremium: false
+      },
+      {
+        id: 'photographer',
+        name: 'Photographer',
+        category: 'creative',
+        icon: '📸',
+        description: 'Photography portfolio template with galleries, package pricing, and booking calendar.',
+        features: ['Portfolio Gallery', 'Packages', 'Booking', 'Client Galleries'],
+        sections: ['Hero', 'Portfolio', 'About', 'Packages', 'Testimonials', 'Contact', 'Footer'],
+        palettes: [
+          { primary: '#1a1a2e', secondary: '#16213e', accent: '#e94560' },
+          { primary: '#f5f5f5', secondary: '#e5e5e5', accent: '#171717' },
+          { primary: '#2d3436', secondary: '#636e72', accent: '#dfe6e9' },
+          { primary: '#4c1d95', secondary: '#5b21b6', accent: '#a78bfa' }
+        ],
+        isPremium: false
+      }
+    ];
+
+    let filteredTemplates = [...templates];
+    let currentCategory = 'all';
+    let currentSort = 'name';
+    let selectedTemplate = null;
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!isAuthenticated()) {
+        showLoginModal();
+        return;
+      }
+
+      // Set user name
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      document.getElementById('userName').textContent = user.name || user.email || 'User';
+
+      updateCounts();
+      renderTemplates();
+    });
+
+    // Update category counts
+    function updateCounts() {
+      const counts = {
+        all: templates.length,
+        service: templates.filter(t => t.category === 'service').length,
+        professional: templates.filter(t => t.category === 'professional').length,
+        health: templates.filter(t => t.category === 'health').length,
+        creative: templates.filter(t => t.category === 'creative').length
+      };
+
+      document.getElementById('countAll').textContent = counts.all;
+      document.getElementById('countService').textContent = counts.service;
+      document.getElementById('countProfessional').textContent = counts.professional;
+      document.getElementById('countHealth').textContent = counts.health;
+      document.getElementById('countCreative').textContent = counts.creative;
+      document.getElementById('totalTemplates').textContent = counts.all;
+    }
+
+    // Filter by category
+    function filterCategory(category) {
+      currentCategory = category;
+
+      // Update tab UI
+      document.querySelectorAll('.category-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.category === category);
+      });
+
+      filterTemplates();
+    }
+
+    // Filter templates
+    function filterTemplates() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+      filteredTemplates = templates.filter(t => {
+        const matchesCategory = currentCategory === 'all' || t.category === currentCategory;
+        const matchesSearch = !searchTerm ||
+          t.name.toLowerCase().includes(searchTerm) ||
+          t.description.toLowerCase().includes(searchTerm) ||
+          t.features.some(f => f.toLowerCase().includes(searchTerm));
+
+        return matchesCategory && matchesSearch;
+      });
+
+      sortTemplates();
+    }
+
+    // Sort templates
+    function sortTemplates() {
+      const sortBy = document.getElementById('sortSelect').value;
+
+      filteredTemplates.sort((a, b) => {
+        switch (sortBy) {
+          case 'name':
+            return a.name.localeCompare(b.name);
+          case 'category':
+            return a.category.localeCompare(b.category) || a.name.localeCompare(b.name);
+          case 'popular':
+            // In production, this would use actual usage stats
+            return 0;
+          case 'newest':
+            // In production, this would use creation date
+            return 0;
+          default:
+            return 0;
+        }
+      });
+
+      renderTemplates();
+    }
+
+    // Render templates grid
+    function renderTemplates() {
+      const grid = document.getElementById('templatesGrid');
+      const noResults = document.getElementById('noTemplates');
+
+      if (filteredTemplates.length === 0) {
+        grid.style.display = 'none';
+        noResults.style.display = 'block';
+        return;
+      }
+
+      grid.style.display = 'grid';
+      noResults.style.display = 'none';
+
+      grid.innerHTML = filteredTemplates.map(t => `
+        <div class="template-card" data-id="${t.id}">
+          <div class="template-thumbnail">
+            <span class="template-icon">${t.icon}</span>
+            ${t.isPremium ? '<span class="template-premium-badge">Premium</span>' : ''}
+          </div>
+          <div class="template-content">
+            <div class="template-meta">
+              <span class="template-category-badge badge-${t.category}">${getCategoryLabel(t.category)}</span>
+            </div>
+            <h3 class="template-name">${escapeHtml(t.name)}</h3>
+            <p class="template-description">${escapeHtml(t.description)}</p>
+            <div class="template-features">
+              ${t.features.slice(0, 3).map(f => `<span class="template-feature">${escapeHtml(f)}</span>`).join('')}
+              ${t.features.length > 3 ? `<span class="template-feature">+${t.features.length - 3} more</span>` : ''}
+            </div>
+            <div class="template-actions">
+              <button class="btn" onclick="previewTemplate('${t.id}')">Preview</button>
+              <button class="btn btn-primary" onclick="showTemplateDetails('${t.id}')">Use Template</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Get category label
+    function getCategoryLabel(category) {
+      const labels = {
+        service: 'Service Trades',
+        professional: 'Professional',
+        health: 'Health & Wellness',
+        creative: 'Food & Creative'
+      };
+      return labels[category] || category;
+    }
+
+    // Preview template
+    function previewTemplate(templateId) {
+      const template = templates.find(t => t.id === templateId);
+      if (!template) return;
+
+      // Open preview in new tab (in production, this would render actual template)
+      window.open(`/api/templates/preview?id=${templateId}`, '_blank');
+    }
+
+    // Show template details modal
+    function showTemplateDetails(templateId) {
+      const template = templates.find(t => t.id === templateId);
+      if (!template) return;
+
+      selectedTemplate = template;
+
+      document.getElementById('modalTemplateName').textContent = template.name;
+      document.getElementById('modalDescription').textContent = template.description;
+
+      // Render sections
+      document.getElementById('modalSections').innerHTML = template.sections.map(s => `
+        <li><span>✓</span> ${escapeHtml(s)}</li>
+      `).join('');
+
+      // Render color palettes
+      document.getElementById('modalPalettes').innerHTML = template.palettes.map((p, i) => `
+        <div style="display: flex; gap: 4px; margin-right: 16px;">
+          <div class="color-swatch" style="background: ${p.primary};" title="Primary"></div>
+          <div class="color-swatch" style="background: ${p.secondary};" title="Secondary"></div>
+          <div class="color-swatch" style="background: ${p.accent};" title="Accent"></div>
+        </div>
+      `).join('');
+
+      // Set preview (in production, this would be an actual preview iframe)
+      document.getElementById('modalPreview').innerHTML = `
+        <div style="font-size: 64px;">${template.icon}</div>
+      `;
+
+      document.getElementById('templateDetailModal').classList.add('active');
+    }
+
+    // Close detail modal
+    function closeDetailModal() {
+      document.getElementById('templateDetailModal').classList.remove('active');
+      selectedTemplate = null;
+    }
+
+    // Use template
+    function useTemplate() {
+      if (!selectedTemplate) return;
+
+      // Redirect to leads page with template pre-selected
+      window.location.href = `/leads.html?action=discover&template=${selectedTemplate.id}`;
+    }
+
+    // Reset filters
+    function resetFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('sortSelect').value = 'name';
+      filterCategory('all');
+    }
+
+    // Toast notification
+    function showToast(message) {
+      let toast = document.querySelector('.toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.className = 'toast';
+        document.body.appendChild(toast);
+      }
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+  </script>
+</body>
+</html>

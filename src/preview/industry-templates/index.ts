@@ -8,6 +8,36 @@
 import { IndustryType } from '../../ai/industry-templates';
 import { ColorPalette, IndustryTemplateConfig } from '../../overnight/types';
 
+// Import palettes from new templates
+import { RESTAURANT_PALETTES } from './restaurant/template';
+import { LAWYER_PALETTES } from './lawyer/template';
+import { DENTIST_PALETTES } from './dentist/template';
+import { REALTOR_PALETTES } from './realtor/template';
+import { CONTRACTOR_PALETTES } from './contractor/template';
+import { ELECTRICIAN_PALETTES } from './electrician/template';
+import { ROOFER_PALETTES } from './roofer/template';
+import { CHIROPRACTOR_PALETTES } from './chiropractor/template';
+import { VETERINARIAN_PALETTES } from './veterinarian/template';
+import { PHOTOGRAPHER_PALETTES } from './photographer/template';
+import { ACCOUNTANT_PALETTES } from './accountant/template';
+import { FINANCIAL_ADVISOR_PALETTES } from './financial-advisor/template';
+
+// Re-export all template palettes
+export {
+  RESTAURANT_PALETTES,
+  LAWYER_PALETTES,
+  DENTIST_PALETTES,
+  REALTOR_PALETTES,
+  CONTRACTOR_PALETTES,
+  ELECTRICIAN_PALETTES,
+  ROOFER_PALETTES,
+  CHIROPRACTOR_PALETTES,
+  VETERINARIAN_PALETTES,
+  PHOTOGRAPHER_PALETTES,
+  ACCOUNTANT_PALETTES,
+  FINANCIAL_ADVISOR_PALETTES,
+};
+
 /**
  * Therapist/Counselor color palettes - calming, professional
  */
@@ -224,10 +254,13 @@ export const YOGA_PALETTES: ColorPalette[] = [
 export function getIndustryPalettes(industry: IndustryType): ColorPalette[] {
   switch (industry) {
     case 'dentists':
+      return DENTIST_PALETTES;
     case 'doctors':
-      return THERAPIST_PALETTES; // Use calming colors for medical
+      return THERAPIST_PALETTES;
     case 'plumbers':
+      return PLUMBER_PALETTES;
     case 'contractors':
+      return CONTRACTOR_PALETTES;
     case 'auto-repair':
       return PLUMBER_PALETTES;
     case 'hvac':
@@ -235,9 +268,17 @@ export function getIndustryPalettes(industry: IndustryType): ColorPalette[] {
     case 'fitness':
       return GYM_PALETTES;
     case 'salons':
-      return YOGA_PALETTES; // Peaceful colors for salons too
+      return YOGA_PALETTES;
+    case 'restaurants':
+      return RESTAURANT_PALETTES;
+    case 'lawyers':
+      return LAWYER_PALETTES;
+    case 'realtors':
+      return REALTOR_PALETTES;
+    case 'accountants':
+      return ACCOUNTANT_PALETTES;
     default:
-      return PLUMBER_PALETTES; // Default to professional blue
+      return PLUMBER_PALETTES;
   }
 }
 
@@ -285,6 +326,103 @@ export const INDUSTRY_CONFIGS: Record<string, IndustryTemplateConfig> = {
     trust_signals: ['Certified Instructors', 'All Levels Welcome', 'Peaceful Environment', 'Community Focused'],
     color_palettes: YOGA_PALETTES,
   },
+  // New templates
+  restaurant: {
+    industry: 'restaurants',
+    display_name: 'Restaurant',
+    sections: ['hero', 'menu', 'about', 'gallery', 'reservations', 'reviews', 'contact'],
+    suggested_ctas: ['View Menu', 'Make a Reservation', 'Order Online', 'Book a Table'],
+    trust_signals: ['Award Winning', 'Fresh Ingredients', 'Family Owned', 'Local Favorite'],
+    color_palettes: RESTAURANT_PALETTES,
+  },
+  lawyer: {
+    industry: 'lawyers',
+    display_name: 'Law Firm',
+    sections: ['hero', 'practice-areas', 'attorneys', 'case-results', 'testimonials', 'about', 'contact'],
+    suggested_ctas: ['Schedule Consultation', 'Free Case Review', 'Contact Us Today', 'Get Legal Help'],
+    trust_signals: ['Years of Experience', 'Successful Cases', 'Award Winning', 'Client Focused'],
+    color_palettes: LAWYER_PALETTES,
+  },
+  dentist: {
+    industry: 'dentists',
+    display_name: 'Dental Practice',
+    sections: ['hero', 'services', 'team', 'technology', 'insurance', 'testimonials', 'contact'],
+    suggested_ctas: ['Book Appointment', 'Schedule Your Visit', 'New Patient Special', 'Contact Us'],
+    trust_signals: ['Gentle Care', 'Modern Technology', 'Insurance Accepted', 'Family Friendly'],
+    color_palettes: DENTIST_PALETTES,
+  },
+  realtor: {
+    industry: 'realtors',
+    display_name: 'Real Estate Agent',
+    sections: ['hero', 'featured-listings', 'services', 'about', 'areas-served', 'testimonials', 'contact'],
+    suggested_ctas: ['View Listings', 'Get a Home Valuation', 'Contact Me', 'Schedule a Showing'],
+    trust_signals: ['Top Producer', 'Local Expert', 'Years of Experience', 'Five Star Reviews'],
+    color_palettes: REALTOR_PALETTES,
+  },
+  contractor: {
+    industry: 'contractors',
+    display_name: 'General Contractor',
+    sections: ['hero', 'services', 'portfolio', 'process', 'testimonials', 'about', 'contact'],
+    suggested_ctas: ['Get a Free Quote', 'View Our Work', 'Start Your Project', 'Contact Us'],
+    trust_signals: ['Licensed & Insured', 'Quality Craftsmanship', 'On-Time Completion', 'Warranty Included'],
+    color_palettes: CONTRACTOR_PALETTES,
+  },
+  electrician: {
+    industry: 'other',
+    display_name: 'Electrical Services',
+    sections: ['hero', 'services', 'safety', 'emergency', 'reviews', 'service-areas', 'contact'],
+    suggested_ctas: ['Call Now', 'Get a Free Estimate', 'Emergency Service', 'Schedule Appointment'],
+    trust_signals: ['Licensed & Insured', 'Safety First', '24/7 Emergency', 'Satisfaction Guaranteed'],
+    color_palettes: ELECTRICIAN_PALETTES,
+  },
+  roofer: {
+    industry: 'contractors',
+    display_name: 'Roofing Services',
+    sections: ['hero', 'services', 'gallery', 'financing', 'emergency', 'testimonials', 'contact'],
+    suggested_ctas: ['Free Roof Inspection', 'Get a Quote', 'Storm Damage Help', 'Contact Us'],
+    trust_signals: ['Licensed & Insured', 'Warranty Included', 'Storm Damage Experts', 'Financing Available'],
+    color_palettes: ROOFER_PALETTES,
+  },
+  chiropractor: {
+    industry: 'doctors',
+    display_name: 'Chiropractic Care',
+    sections: ['hero', 'services', 'conditions', 'about', 'new-patients', 'testimonials', 'contact'],
+    suggested_ctas: ['Schedule Appointment', 'New Patient Special', 'Free Consultation', 'Contact Us'],
+    trust_signals: ['Licensed Chiropractor', 'Gentle Techniques', 'Same Day Appointments', 'Insurance Accepted'],
+    color_palettes: CHIROPRACTOR_PALETTES,
+  },
+  veterinarian: {
+    industry: 'other',
+    display_name: 'Veterinary Clinic',
+    sections: ['hero', 'services', 'team', 'pet-care', 'emergency', 'testimonials', 'contact'],
+    suggested_ctas: ['Book Appointment', 'Emergency Care', 'New Pet Visit', 'Contact Us'],
+    trust_signals: ['Compassionate Care', 'Modern Facility', 'Emergency Services', 'Experienced Team'],
+    color_palettes: VETERINARIAN_PALETTES,
+  },
+  photographer: {
+    industry: 'other',
+    display_name: 'Photography',
+    sections: ['hero', 'portfolio', 'services', 'packages', 'about', 'testimonials', 'contact'],
+    suggested_ctas: ['View Portfolio', 'Book a Session', 'Get Pricing', 'Contact Me'],
+    trust_signals: ['Award Winning', 'Professional Equipment', 'Quick Turnaround', 'Satisfaction Guaranteed'],
+    color_palettes: PHOTOGRAPHER_PALETTES,
+  },
+  accountant: {
+    industry: 'accountants',
+    display_name: 'Accounting Services',
+    sections: ['hero', 'services', 'industries', 'about', 'process', 'testimonials', 'contact'],
+    suggested_ctas: ['Schedule Consultation', 'Get a Quote', 'Tax Help', 'Contact Us'],
+    trust_signals: ['CPA Certified', 'Years of Experience', 'IRS Representation', 'Personalized Service'],
+    color_palettes: ACCOUNTANT_PALETTES,
+  },
+  'financial-advisor': {
+    industry: 'other',
+    display_name: 'Financial Advisor',
+    sections: ['hero', 'services', 'approach', 'about', 'credentials', 'testimonials', 'contact'],
+    suggested_ctas: ['Schedule Consultation', 'Free Financial Review', 'Get Started', 'Contact Us'],
+    trust_signals: ['Fiduciary Standard', 'CFP Certified', 'Years of Experience', 'Comprehensive Planning'],
+    color_palettes: FINANCIAL_ADVISOR_PALETTES,
+  },
 };
 
 /**
@@ -302,10 +440,36 @@ export function industryToTemplateKey(industry: IndustryType): string {
     plumbers: 'plumber',
     hvac: 'hvac',
     fitness: 'gym',
-    dentists: 'therapist',
+    dentists: 'dentist',
     doctors: 'therapist',
     salons: 'yoga',
+    restaurants: 'restaurant',
+    lawyers: 'lawyer',
+    realtors: 'realtor',
+    contractors: 'contractor',
+    accountants: 'accountant',
   };
 
   return mapping[industry] || 'plumber';
+}
+
+/**
+ * Get all available template keys
+ */
+export function getAllTemplateKeys(): string[] {
+  return Object.keys(INDUSTRY_CONFIGS);
+}
+
+/**
+ * Get templates by category
+ */
+export function getTemplatesByCategory(category: 'service' | 'professional' | 'health' | 'creative'): string[] {
+  const categories: Record<string, string[]> = {
+    service: ['plumber', 'hvac', 'electrician', 'roofer', 'contractor'],
+    professional: ['lawyer', 'accountant', 'realtor', 'financial-advisor'],
+    health: ['dentist', 'chiropractor', 'veterinarian', 'therapist', 'gym'],
+    creative: ['restaurant', 'photographer'],
+  };
+
+  return categories[category] || [];
 }

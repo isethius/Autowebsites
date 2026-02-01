@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theme Builder - AutoWebsites Pro</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    /* Theme Builder Specific Styles */
+    .builder-layout {
+      display: grid;
+      grid-template-columns: 350px 1fr;
+      gap: 24px;
+      height: calc(100vh - var(--header-height) - 48px);
+    }
+
+    .builder-sidebar {
+      background: var(--bg-primary);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .builder-section {
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .builder-section:last-child {
+      border-bottom: none;
+    }
+
+    .builder-section h3 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .builder-section h3 .section-icon {
+      font-size: 16px;
+    }
+
+    /* DNA Code Display */
+    .dna-display {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .dna-code {
+      font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--primary);
+      flex: 1;
+    }
+
+    .dna-copy-btn {
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+
+    .dna-randomize-btn {
+      padding: 6px 10px;
+      font-size: 12px;
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* Dimension Selector */
+    .dimension-group {
+      margin-bottom: 16px;
+    }
+
+    .dimension-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .dimension-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+    }
+
+    .dimension-value {
+      font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+      font-size: 12px;
+      color: var(--primary);
+      background: var(--bg-tertiary);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .dimension-options {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .dimension-option {
+      padding: 8px 4px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg-primary);
+      cursor: pointer;
+      font-size: 11px;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .dimension-option:hover {
+      border-color: var(--primary);
+      background: var(--bg-secondary);
+    }
+
+    .dimension-option.selected {
+      border-color: var(--primary);
+      background: rgba(37, 99, 235, 0.1);
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .dimension-option .option-id {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .dimension-option .option-name {
+      font-size: 10px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dimension-option.selected .option-name {
+      color: var(--primary);
+    }
+
+    /* Font Selector */
+    .font-selector {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 14px;
+    }
+
+    .font-preview {
+      margin-top: 12px;
+      padding: 16px;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+    }
+
+    .font-preview-heading {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .font-preview-body {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    /* Color Customizer */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .color-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .color-item label {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .color-picker-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .color-picker {
+      width: 40px;
+      height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .color-value {
+      flex: 1;
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 12px;
+      font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    /* Presets Grid */
+    .presets-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .preset-card {
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--bg-primary);
+    }
+
+    .preset-card:hover {
+      border-color: var(--primary);
+      background: var(--bg-secondary);
+    }
+
+    .preset-card.selected {
+      border-color: var(--primary);
+      background: rgba(37, 99, 235, 0.1);
+    }
+
+    .preset-name {
+      font-weight: 500;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .preset-dna {
+      font-size: 10px;
+      font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+      color: var(--text-muted);
+    }
+
+    .preset-category {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Saved Themes */
+    .saved-theme-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .saved-theme-item:hover {
+      border-color: var(--primary);
+      background: var(--bg-secondary);
+    }
+
+    .saved-theme-info {
+      flex: 1;
+    }
+
+    .saved-theme-name {
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    .saved-theme-dna {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+    }
+
+    .saved-theme-actions {
+      display: flex;
+      gap: 4px;
+    }
+
+    /* Preview Panel */
+    .preview-panel {
+      background: var(--bg-primary);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-secondary);
+    }
+
+    .preview-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .preview-controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .device-toggle {
+      display: flex;
+      background: var(--bg-tertiary);
+      border-radius: 6px;
+      padding: 2px;
+    }
+
+    .device-btn {
+      padding: 6px 10px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .device-btn.active {
+      background: var(--bg-primary);
+      box-shadow: var(--shadow);
+    }
+
+    .preview-frame-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px;
+      background: var(--bg-tertiary);
+      overflow: auto;
+    }
+
+    .preview-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 8px;
+      box-shadow: var(--shadow-lg);
+      background: white;
+      transition: width 0.3s;
+    }
+
+    .preview-frame.tablet {
+      width: 768px;
+    }
+
+    .preview-frame.mobile {
+      width: 375px;
+    }
+
+    .preview-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: var(--text-muted);
+    }
+
+    /* Action Buttons */
+    .builder-actions {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .builder-actions .btn {
+      flex: 1;
+    }
+
+    /* Collapsible Sections */
+    .section-toggle {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .section-toggle::after {
+      content: '';
+      display: inline-block;
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid var(--text-muted);
+      margin-left: auto;
+      transition: transform 0.2s;
+    }
+
+    .section-toggle.collapsed::after {
+      transform: rotate(-90deg);
+    }
+
+    .section-content.collapsed {
+      display: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .builder-layout {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+
+      .builder-sidebar {
+        order: 2;
+      }
+
+      .preview-panel {
+        order: 1;
+        height: 500px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h1 class="logo">AutoWebsites<span>Pro</span></h1>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/" class="nav-item" data-page="dashboard">
+          <span class="nav-icon">📊</span>
+          Dashboard
+        </a>
+        <a href="/leads.html" class="nav-item" data-page="leads">
+          <span class="nav-icon">👥</span>
+          Leads
+        </a>
+        <a href="/campaigns.html" class="nav-item" data-page="campaigns">
+          <span class="nav-icon">📧</span>
+          Campaigns
+        </a>
+        <a href="/theme-builder.html" class="nav-item active" data-page="themes">
+          <span class="nav-icon">🎨</span>
+          Theme Builder
+        </a>
+        <a href="/templates.html" class="nav-item" data-page="templates">
+          <span class="nav-icon">📄</span>
+          Templates
+        </a>
+        <a href="/jobs.html" class="nav-item" data-page="jobs">
+          <span class="nav-icon">⚙️</span>
+          Job Queue
+        </a>
+        <a href="/overnight.html" class="nav-item" data-page="overnight">
+          <span class="nav-icon">🌙</span>
+          Overnight Runs
+        </a>
+        <a href="/sequence-builder.html" class="nav-item" data-page="sequences">
+          <span class="nav-icon">🔗</span>
+          Sequence Builder
+        </a>
+        <a href="#" class="nav-item" data-page="analytics">
+          <span class="nav-icon">📈</span>
+          Analytics
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="themeToggle">🌙</button>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <h2 class="page-title">Theme Builder</h2>
+        </div>
+        <div class="header-right">
+          <span class="user-name" id="userName">Loading...</span>
+        </div>
+      </header>
+
+      <!-- Builder Content -->
+      <div class="content">
+        <div class="builder-layout">
+          <!-- Controls Sidebar -->
+          <div class="builder-sidebar">
+            <!-- DNA Code Display -->
+            <div class="builder-section">
+              <h3><span class="section-icon">🧬</span> Theme DNA</h3>
+              <div class="dna-display">
+                <span class="dna-code" id="dnaCode">H1-L1-C1-N1-D1</span>
+                <button class="btn btn-sm dna-copy-btn" onclick="copyDNA()">Copy</button>
+                <button class="btn btn-sm dna-randomize-btn" onclick="randomizeDNA()">Random</button>
+              </div>
+              <p style="font-size: 12px; color: var(--text-muted);">
+                186,624 possible combinations
+              </p>
+            </div>
+
+            <!-- DNA Dimensions -->
+            <div class="builder-section">
+              <h3 class="section-toggle" onclick="toggleSection(this)">
+                <span class="section-icon">🎯</span> DNA Dimensions
+              </h3>
+              <div class="section-content" id="dimensionsContent">
+                <!-- Hero Variant -->
+                <div class="dimension-group">
+                  <div class="dimension-label">
+                    <span>Hero Style</span>
+                    <span class="dimension-value" id="heroValue">H1</span>
+                  </div>
+                  <div class="dimension-options" id="heroOptions"></div>
+                </div>
+
+                <!-- Layout Variant -->
+                <div class="dimension-group">
+                  <div class="dimension-label">
+                    <span>Layout</span>
+                    <span class="dimension-value" id="layoutValue">L1</span>
+                  </div>
+                  <div class="dimension-options" id="layoutOptions"></div>
+                </div>
+
+                <!-- Color Variant -->
+                <div class="dimension-group">
+                  <div class="dimension-label">
+                    <span>Color Scheme</span>
+                    <span class="dimension-value" id="colorValue">C1</span>
+                  </div>
+                  <div class="dimension-options" id="colorOptions"></div>
+                </div>
+
+                <!-- Nav Variant -->
+                <div class="dimension-group">
+                  <div class="dimension-label">
+                    <span>Navigation</span>
+                    <span class="dimension-value" id="navValue">N1</span>
+                  </div>
+                  <div class="dimension-options" id="navOptions"></div>
+                </div>
+
+                <!-- Design Variant -->
+                <div class="dimension-group">
+                  <div class="dimension-label">
+                    <span>Design Details</span>
+                    <span class="dimension-value" id="designValue">D1</span>
+                  </div>
+                  <div class="dimension-options" id="designOptions"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Font Pairing -->
+            <div class="builder-section">
+              <h3 class="section-toggle" onclick="toggleSection(this)">
+                <span class="section-icon">🔤</span> Font Pairing
+              </h3>
+              <div class="section-content">
+                <select class="font-selector" id="fontSelect" onchange="updateFontPreview()">
+                  <option value="">Loading fonts...</option>
+                </select>
+                <div class="font-preview" id="fontPreview">
+                  <div class="font-preview-heading" id="previewHeading">Heading Font Preview</div>
+                  <div class="font-preview-body" id="previewBody">Body font preview text. This shows how your content will look.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Custom Colors -->
+            <div class="builder-section">
+              <h3 class="section-toggle collapsed" onclick="toggleSection(this)">
+                <span class="section-icon">🎨</span> Custom Colors
+              </h3>
+              <div class="section-content collapsed">
+                <div class="color-grid">
+                  <div class="color-item">
+                    <label>Primary</label>
+                    <div class="color-picker-wrapper">
+                      <input type="color" class="color-picker" id="colorPrimary" value="#2563eb" onchange="updateCustomColors()">
+                      <input type="text" class="color-value" id="colorPrimaryValue" value="#2563eb" onchange="syncColorPicker('Primary')">
+                    </div>
+                  </div>
+                  <div class="color-item">
+                    <label>Secondary</label>
+                    <div class="color-picker-wrapper">
+                      <input type="color" class="color-picker" id="colorSecondary" value="#1e40af" onchange="updateCustomColors()">
+                      <input type="text" class="color-value" id="colorSecondaryValue" value="#1e40af" onchange="syncColorPicker('Secondary')">
+                    </div>
+                  </div>
+                  <div class="color-item">
+                    <label>Accent</label>
+                    <div class="color-picker-wrapper">
+                      <input type="color" class="color-picker" id="colorAccent" value="#f59e0b" onchange="updateCustomColors()">
+                      <input type="text" class="color-value" id="colorAccentValue" value="#f59e0b" onchange="syncColorPicker('Accent')">
+                    </div>
+                  </div>
+                  <div class="color-item">
+                    <label>Background</label>
+                    <div class="color-picker-wrapper">
+                      <input type="color" class="color-picker" id="colorBackground" value="#ffffff" onchange="updateCustomColors()">
+                      <input type="text" class="color-value" id="colorBackgroundValue" value="#ffffff" onchange="syncColorPicker('Background')">
+                    </div>
+                  </div>
+                </div>
+                <button class="btn btn-sm" style="width: 100%; margin-top: 12px;" onclick="resetColors()">Reset to Default</button>
+              </div>
+            </div>
+
+            <!-- Presets -->
+            <div class="builder-section">
+              <h3 class="section-toggle collapsed" onclick="toggleSection(this)">
+                <span class="section-icon">⭐</span> Curated Presets
+              </h3>
+              <div class="section-content collapsed" id="presetsGrid">
+                <div class="presets-grid">
+                  <p class="loading">Loading presets...</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Saved Themes -->
+            <div class="builder-section">
+              <h3 class="section-toggle collapsed" onclick="toggleSection(this)">
+                <span class="section-icon">💾</span> My Saved Themes
+              </h3>
+              <div class="section-content collapsed" id="savedThemesContent">
+                <p class="loading">Loading saved themes...</p>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="builder-actions">
+              <button class="btn btn-primary" onclick="saveTheme()">
+                💾 Save Theme
+              </button>
+              <button class="btn" onclick="openInNewTab()">
+                🔗 Open Full
+              </button>
+            </div>
+          </div>
+
+          <!-- Preview Panel -->
+          <div class="preview-panel">
+            <div class="preview-header">
+              <span class="preview-title">Live Preview</span>
+              <div class="preview-controls">
+                <div class="device-toggle">
+                  <button class="device-btn active" data-device="desktop" onclick="setDevice('desktop')">🖥️</button>
+                  <button class="device-btn" data-device="tablet" onclick="setDevice('tablet')">📱</button>
+                  <button class="device-btn" data-device="mobile" onclick="setDevice('mobile')">📲</button>
+                </div>
+                <button class="btn btn-sm" onclick="refreshPreview()">🔄 Refresh</button>
+              </div>
+            </div>
+            <div class="preview-frame-container">
+              <iframe class="preview-frame" id="previewFrame"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Save Theme Modal -->
+  <div class="modal" id="saveThemeModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Save Theme</h3>
+        <button class="modal-close" onclick="closeSaveModal()">&times;</button>
+      </div>
+      <form id="saveThemeForm" onsubmit="submitSaveTheme(event)">
+        <div class="form-group">
+          <label for="themeName">Theme Name</label>
+          <input type="text" id="themeName" name="themeName" required placeholder="My Custom Theme">
+        </div>
+        <div class="form-group">
+          <label>DNA Code</label>
+          <input type="text" id="themeNameDna" readonly>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn" onclick="closeSaveModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Theme</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script>
+    // State
+    let currentDNA = {
+      hero: 1,
+      layout: 1,
+      color: 1,
+      nav: 1,
+      design: 1
+    };
+    let variants = {};
+    let fonts = [];
+    let presets = [];
+    let savedThemes = [];
+    let selectedFont = null;
+    let customColors = null;
+    let previewDebounce = null;
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!isAuthenticated()) {
+        window.location.href = '/?redirect=theme-builder';
+        return;
+      }
+
+      await loadVariants();
+      await loadFonts();
+      await loadPresets();
+      await loadSavedThemes();
+      updatePreview();
+    });
+
+    // Load data
+    async function loadVariants() {
+      try {
+        const data = await api('/api/themes/variants');
+        variants = data;
+        renderDimensionOptions();
+      } catch (error) {
+        console.error('Failed to load variants:', error);
+        // Use fallback data
+        variants = {
+          hero: Array.from({length: 12}, (_, i) => ({ id: i + 1, name: `Hero ${i + 1}` })),
+          layout: Array.from({length: 12}, (_, i) => ({ id: i + 1, name: `Layout ${i + 1}` })),
+          color: Array.from({length: 12}, (_, i) => ({ id: i + 1, name: `Color ${i + 1}` })),
+          nav: Array.from({length: 9}, (_, i) => ({ id: i + 1, name: `Nav ${i + 1}` })),
+          design: Array.from({length: 12}, (_, i) => ({ id: i + 1, name: `Design ${i + 1}` }))
+        };
+        renderDimensionOptions();
+      }
+    }
+
+    async function loadFonts() {
+      try {
+        const data = await api('/api/themes/fonts');
+        fonts = data;
+        renderFontOptions();
+      } catch (error) {
+        console.error('Failed to load fonts:', error);
+        fonts = [
+          { id: 1, name: 'Modern Sans', heading_font: 'Inter', body_font: 'Inter' },
+          { id: 2, name: 'Classic Serif', heading_font: 'Playfair Display', body_font: 'Lora' }
+        ];
+        renderFontOptions();
+      }
+    }
+
+    async function loadPresets() {
+      try {
+        const data = await api('/api/themes/presets');
+        presets = data;
+        renderPresets();
+      } catch (error) {
+        console.error('Failed to load presets:', error);
+        presets = [];
+        renderPresets();
+      }
+    }
+
+    async function loadSavedThemes() {
+      try {
+        const data = await api('/api/themes/user');
+        savedThemes = data;
+        renderSavedThemes();
+      } catch (error) {
+        console.error('Failed to load saved themes:', error);
+        savedThemes = [];
+        renderSavedThemes();
+      }
+    }
+
+    // Render functions
+    function renderDimensionOptions() {
+      const dimensions = [
+        { key: 'hero', prefix: 'H', container: 'heroOptions', valueEl: 'heroValue' },
+        { key: 'layout', prefix: 'L', container: 'layoutOptions', valueEl: 'layoutValue' },
+        { key: 'color', prefix: 'C', container: 'colorOptions', valueEl: 'colorValue' },
+        { key: 'nav', prefix: 'N', container: 'navOptions', valueEl: 'navValue' },
+        { key: 'design', prefix: 'D', container: 'designOptions', valueEl: 'designValue' }
+      ];
+
+      dimensions.forEach(dim => {
+        const container = document.getElementById(dim.container);
+        const options = variants[dim.key] || [];
+
+        container.innerHTML = options.map(opt => `
+          <div class="dimension-option ${currentDNA[dim.key] === opt.id ? 'selected' : ''}"
+               onclick="selectDimension('${dim.key}', ${opt.id})"
+               title="${opt.description || opt.name}">
+            <span class="option-id">${dim.prefix}${opt.id}</span>
+            <span class="option-name">${opt.name}</span>
+          </div>
+        `).join('');
+      });
+    }
+
+    function renderFontOptions() {
+      const select = document.getElementById('fontSelect');
+      select.innerHTML = `
+        <option value="">Default (uses theme DNA)</option>
+        ${fonts.map(f => `
+          <option value="${f.id}" data-heading="${f.heading_font}" data-body="${f.body_font}">
+            ${f.name} (${f.heading_font} / ${f.body_font})
+          </option>
+        `).join('')}
+      `;
+    }
+
+    function renderPresets() {
+      const container = document.getElementById('presetsGrid');
+      if (presets.length === 0) {
+        container.innerHTML = '<p class="empty">No presets available</p>';
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="presets-grid">
+          ${presets.map(p => `
+            <div class="preset-card" onclick="applyPreset('${p.dna_code}')">
+              <div class="preset-name">${escapeHtml(p.name)}</div>
+              <div class="preset-dna">${p.dna_code}</div>
+              <div class="preset-category">${p.category || 'General'}</div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderSavedThemes() {
+      const container = document.getElementById('savedThemesContent');
+      if (savedThemes.length === 0) {
+        container.innerHTML = '<p class="empty">No saved themes yet</p>';
+        return;
+      }
+
+      container.innerHTML = savedThemes.map(t => `
+        <div class="saved-theme-item" onclick="applySavedTheme('${t.dna_code}')">
+          <div class="saved-theme-info">
+            <div class="saved-theme-name">${escapeHtml(t.name)}</div>
+            <div class="saved-theme-dna">${t.dna_code}</div>
+          </div>
+          <div class="saved-theme-actions">
+            <button class="btn-icon" onclick="event.stopPropagation(); deleteSavedTheme('${t.id}')" title="Delete">🗑️</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Selection handlers
+    function selectDimension(dimension, value) {
+      currentDNA[dimension] = value;
+      updateDNADisplay();
+      renderDimensionOptions();
+      updatePreview();
+    }
+
+    function updateDNADisplay() {
+      const dnaCode = `H${currentDNA.hero}-L${currentDNA.layout}-C${currentDNA.color}-N${currentDNA.nav}-D${currentDNA.design}`;
+      document.getElementById('dnaCode').textContent = dnaCode;
+      document.getElementById('heroValue').textContent = `H${currentDNA.hero}`;
+      document.getElementById('layoutValue').textContent = `L${currentDNA.layout}`;
+      document.getElementById('colorValue').textContent = `C${currentDNA.color}`;
+      document.getElementById('navValue').textContent = `N${currentDNA.nav}`;
+      document.getElementById('designValue').textContent = `D${currentDNA.design}`;
+    }
+
+    function getDNACode() {
+      return `H${currentDNA.hero}-L${currentDNA.layout}-C${currentDNA.color}-N${currentDNA.nav}-D${currentDNA.design}`;
+    }
+
+    function parseDNACode(code) {
+      const match = code.match(/H(\d+)-L(\d+)-C(\d+)-N(\d+)-D(\d+)/);
+      if (match) {
+        return {
+          hero: parseInt(match[1]),
+          layout: parseInt(match[2]),
+          color: parseInt(match[3]),
+          nav: parseInt(match[4]),
+          design: parseInt(match[5])
+        };
+      }
+      return null;
+    }
+
+    function applyPreset(dnaCode) {
+      const parsed = parseDNACode(dnaCode);
+      if (parsed) {
+        currentDNA = parsed;
+        updateDNADisplay();
+        renderDimensionOptions();
+        updatePreview();
+      }
+    }
+
+    function applySavedTheme(dnaCode) {
+      applyPreset(dnaCode);
+    }
+
+    // Preview
+    function updatePreview() {
+      clearTimeout(previewDebounce);
+      previewDebounce = setTimeout(async () => {
+        const frame = document.getElementById('previewFrame');
+        const dna = getDNACode();
+
+        let url = `/api/themes/preview?dna=${dna}`;
+
+        // Add font if selected
+        const fontSelect = document.getElementById('fontSelect');
+        if (fontSelect.value) {
+          url += `&fontId=${fontSelect.value}`;
+        }
+
+        // Add custom colors if set
+        if (customColors) {
+          url += `&colors=${encodeURIComponent(JSON.stringify(customColors))}`;
+        }
+
+        try {
+          frame.src = url;
+        } catch (error) {
+          console.error('Failed to update preview:', error);
+        }
+      }, 300);
+    }
+
+    function refreshPreview() {
+      updatePreview();
+    }
+
+    function setDevice(device) {
+      const frame = document.getElementById('previewFrame');
+      const buttons = document.querySelectorAll('.device-btn');
+
+      buttons.forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`[data-device="${device}"]`).classList.add('active');
+
+      frame.classList.remove('tablet', 'mobile');
+      if (device !== 'desktop') {
+        frame.classList.add(device);
+      }
+    }
+
+    function openInNewTab() {
+      const dna = getDNACode();
+      let url = `/api/themes/preview?dna=${dna}`;
+
+      const fontSelect = document.getElementById('fontSelect');
+      if (fontSelect.value) {
+        url += `&fontId=${fontSelect.value}`;
+      }
+
+      if (customColors) {
+        url += `&colors=${encodeURIComponent(JSON.stringify(customColors))}`;
+      }
+
+      window.open(url, '_blank');
+    }
+
+    // Font handling
+    function updateFontPreview() {
+      const select = document.getElementById('fontSelect');
+      const option = select.options[select.selectedIndex];
+
+      if (option.value) {
+        const heading = option.dataset.heading;
+        const body = option.dataset.body;
+
+        // Load Google Fonts
+        const link = document.createElement('link');
+        link.href = `https://fonts.googleapis.com/css2?family=${heading.replace(' ', '+')}:wght@400;600;700&family=${body.replace(' ', '+')}:wght@400;500&display=swap`;
+        link.rel = 'stylesheet';
+        document.head.appendChild(link);
+
+        document.getElementById('previewHeading').style.fontFamily = `"${heading}", sans-serif`;
+        document.getElementById('previewBody').style.fontFamily = `"${body}", sans-serif`;
+
+        selectedFont = { heading, body };
+      } else {
+        document.getElementById('previewHeading').style.fontFamily = '';
+        document.getElementById('previewBody').style.fontFamily = '';
+        selectedFont = null;
+      }
+
+      updatePreview();
+    }
+
+    // Color handling
+    function updateCustomColors() {
+      customColors = {
+        primary: document.getElementById('colorPrimary').value,
+        secondary: document.getElementById('colorSecondary').value,
+        accent: document.getElementById('colorAccent').value,
+        background: document.getElementById('colorBackground').value
+      };
+
+      document.getElementById('colorPrimaryValue').value = customColors.primary;
+      document.getElementById('colorSecondaryValue').value = customColors.secondary;
+      document.getElementById('colorAccentValue').value = customColors.accent;
+      document.getElementById('colorBackgroundValue').value = customColors.background;
+
+      updatePreview();
+    }
+
+    function syncColorPicker(colorName) {
+      const value = document.getElementById(`color${colorName}Value`).value;
+      if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
+        document.getElementById(`color${colorName}`).value = value;
+        updateCustomColors();
+      }
+    }
+
+    function resetColors() {
+      customColors = null;
+      document.getElementById('colorPrimary').value = '#2563eb';
+      document.getElementById('colorSecondary').value = '#1e40af';
+      document.getElementById('colorAccent').value = '#f59e0b';
+      document.getElementById('colorBackground').value = '#ffffff';
+      document.getElementById('colorPrimaryValue').value = '#2563eb';
+      document.getElementById('colorSecondaryValue').value = '#1e40af';
+      document.getElementById('colorAccentValue').value = '#f59e0b';
+      document.getElementById('colorBackgroundValue').value = '#ffffff';
+      updatePreview();
+    }
+
+    // DNA actions
+    function copyDNA() {
+      const dna = getDNACode();
+      navigator.clipboard.writeText(dna).then(() => {
+        showToast('DNA code copied to clipboard');
+      });
+    }
+
+    async function randomizeDNA() {
+      try {
+        const data = await api('/api/themes/random');
+        const parsed = parseDNACode(data.dna);
+        if (parsed) {
+          currentDNA = parsed;
+          updateDNADisplay();
+          renderDimensionOptions();
+          updatePreview();
+        }
+      } catch (error) {
+        // Fallback to local random
+        currentDNA = {
+          hero: Math.floor(Math.random() * 12) + 1,
+          layout: Math.floor(Math.random() * 12) + 1,
+          color: Math.floor(Math.random() * 12) + 1,
+          nav: Math.floor(Math.random() * 9) + 1,
+          design: Math.floor(Math.random() * 12) + 1
+        };
+        updateDNADisplay();
+        renderDimensionOptions();
+        updatePreview();
+      }
+    }
+
+    // Save theme
+    function saveTheme() {
+      document.getElementById('themeNameDna').value = getDNACode();
+      document.getElementById('saveThemeModal').classList.add('active');
+    }
+
+    function closeSaveModal() {
+      document.getElementById('saveThemeModal').classList.remove('active');
+    }
+
+    async function submitSaveTheme(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('themeName').value;
+      const dnaCode = getDNACode();
+
+      try {
+        await api('/api/themes/save', {
+          method: 'POST',
+          body: JSON.stringify({
+            name,
+            dna_code: dnaCode,
+            custom_colors: customColors,
+            custom_fonts: selectedFont
+          })
+        });
+
+        closeSaveModal();
+        showToast('Theme saved successfully');
+        await loadSavedThemes();
+      } catch (error) {
+        showToast('Failed to save theme: ' + error.message);
+      }
+    }
+
+    async function deleteSavedTheme(id) {
+      if (!confirm('Delete this saved theme?')) return;
+
+      try {
+        await api(`/api/themes/user/${id}`, { method: 'DELETE' });
+        showToast('Theme deleted');
+        await loadSavedThemes();
+      } catch (error) {
+        showToast('Failed to delete theme: ' + error.message);
+      }
+    }
+
+    // UI helpers
+    function toggleSection(header) {
+      header.classList.toggle('collapsed');
+      const content = header.nextElementSibling;
+      content.classList.toggle('collapsed');
+    }
+
+    function showToast(message) {
+      let toast = document.querySelector('.toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.className = 'toast';
+        document.body.appendChild(toast);
+      }
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+  </script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 import rateLimit, { RateLimitRequestHandler, Options } from 'express-rate-limit';
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { createClient, RedisClientType } from 'redis';
 import RedisStore from 'rate-limit-redis';
 import { isProduction, features } from './config';
@@ -240,31 +240,29 @@ export function isRedisRateLimiting(): boolean {
   return redisConnected;
 }
 
+// Helper to create a function-based proxy for lazy initialization
+// The target must be a function so that typeof returns 'function' for Express middleware
+function createLazyLimiter(getter: () => RateLimitRequestHandler): RateLimitRequestHandler {
+  // Use a dummy function as target so typeof returns 'function'
+  const dummyFn = function() {} as RateLimitRequestHandler;
+  return new Proxy(dummyFn, {
+    apply: (_target, thisArg, args) => {
+      const limiter = getter();
+      return limiter.apply(thisArg, args as [Request, Response, NextFunction]);
+    },
+    get: (_target, prop) => {
+      const limiter = getter();
+      return (limiter as any)[prop];
+    },
+  });
+}
+
 // Export rate limiters with getters for lazy initialization
-export const loginRateLimiter = new Proxy({} as RateLimitRequestHandler, {
-  apply: (target, thisArg, args) => getLoginRateLimiter().apply(thisArg, args as any),
-  get: (target, prop) => (getLoginRateLimiter() as any)[prop],
-});
-
-export const registerRateLimiter = new Proxy({} as RateLimitRequestHandler, {
-  apply: (target, thisArg, args) => getRegisterRateLimiter().apply(thisArg, args as any),
-  get: (target, prop) => (getRegisterRateLimiter() as any)[prop],
-});
-
-export const apiRateLimiter = new Proxy({} as RateLimitRequestHandler, {
-  apply: (target, thisArg, args) => getApiRateLimiter().apply(thisArg, args as any),
-  get: (target, prop) => (getApiRateLimiter() as any)[prop],
-});
-
-export const strictRateLimiter = new Proxy({} as RateLimitRequestHandler, {
-  apply: (target, thisArg, args) => getStrictRateLimiter().apply(thisArg, args as any),
-  get: (target, prop) => (getStrictRateLimiter() as any)[prop],
-});
-
-export const publicRateLimiter = new Proxy({} as RateLimitRequestHandler, {
-  apply: (target, thisArg, args) => getPublicRateLimiter().apply(thisArg, args as any),
-  get: (target, prop) => (getPublicRateLimiter() as any)[prop],
-});
+export const loginRateLimiter = createLazyLimiter(getLoginRateLimiter);
+export const registerRateLimiter = createLazyLimiter(getRegisterRateLimiter);
+export const apiRateLimiter = createLazyLimiter(getApiRateLimiter);
+export const strictRateLimiter = createLazyLimiter(getStrictRateLimiter);
+export const publicRateLimiter = createLazyLimiter(getPublicRateLimiter);
 
 // Export all rate limiters
 export const rateLimiters = {

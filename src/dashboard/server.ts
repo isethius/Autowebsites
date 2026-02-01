@@ -10,6 +10,8 @@ import { createProposalsRouter } from './routes/proposals';
 import { createAnalyticsRouter } from './routes/analytics';
 import { createJobsRouter } from './routes/jobs';
 import { createOvernightRouter } from './routes/overnight';
+import { createThemesRouter } from './routes/themes';
+import { createTemplatesRouter } from './routes/templates';
 import { createUnsubscribeHandler } from '../email/unsubscribe';
 import { isProduction } from '../utils/config';
 import { logger, logRequest } from '../utils/logger';
@@ -258,6 +260,9 @@ export async function createDashboardServer(config: DashboardConfig) {
     }
   });
 
+  // Template preview routes (public, read-only, with rate limiting)
+  app.use('/api/templates', rateLimiters.public, createTemplatesRouter());
+
   // Protected API routes with general rate limiting and CSRF protection
   app.use('/api/leads', rateLimiters.api, csrfProtection, authMiddleware(config.jwtSecret), createLeadsRouter());
   app.use('/api/campaigns', rateLimiters.api, csrfProtection, authMiddleware(config.jwtSecret), createCampaignsRouter());
@@ -265,7 +270,7 @@ export async function createDashboardServer(config: DashboardConfig) {
   app.use('/api/analytics', rateLimiters.api, authMiddleware(config.jwtSecret), createAnalyticsRouter()); // Read-only, no CSRF needed
   app.use('/api/jobs', rateLimiters.api, csrfProtection, authMiddleware(config.jwtSecret), createJobsRouter());
   app.use('/api/overnight', rateLimiters.api, csrfProtection, authMiddleware(config.jwtSecret), createOvernightRouter());
-
+  app.use('/api/themes', rateLimiters.api, authMiddleware(config.jwtSecret), createThemesRouter()); // Read-heavy, no CSRF needed for GET routes
   // CSRF error handler (must be after routes that use CSRF protection)
   app.use(csrfErrorHandler);
 
