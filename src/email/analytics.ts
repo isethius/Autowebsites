@@ -1,4 +1,5 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { getSupabaseClient } from '../utils/supabase';
 
 export interface EmailMetrics {
   // Volume
@@ -50,13 +51,7 @@ export class EmailAnalytics {
   private supabase: SupabaseClient;
 
   constructor() {
-    const url = process.env.SUPABASE_URL;
-    const key = process.env.SUPABASE_ANON_KEY;
-    if (!url || !key) {
-      throw new Error('SUPABASE_URL and SUPABASE_ANON_KEY required');
-    }
-
-    this.supabase = createClient(url, key);
+    this.supabase = getSupabaseClient();
   }
 
   async getOverallMetrics(dateRange?: { start: string; end: string }): Promise<EmailMetrics> {

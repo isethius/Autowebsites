@@ -6,6 +6,7 @@ import { PitchGenerator, PitchEmail } from './ai/pitch-generator';
 import { ProposalGenerator, ProposalConfig } from './crm/proposal-generator';
 import { EmailComposer } from './email/composer';
 import { SequenceEngine, SendEmailFunction } from './email/sequence-engine';
+import { MediaGenerator, MediaGeneratorConfig } from './media';
 import { config, features } from './utils/config';
 import { logger } from './utils/logger';
 
@@ -46,6 +47,7 @@ export class Orchestrator {
   private pitchGenerator?: PitchGenerator;
   private emailComposer: EmailComposer;
   private sequenceEngine?: SequenceEngine;
+  private mediaGenerator: MediaGenerator;
   private proposalConfig: ProposalConfig;
   private sendEmail?: SendEmailFunction;
 
@@ -67,6 +69,13 @@ export class Orchestrator {
     };
 
     this.sendEmail = orchestratorConfig.sendEmail;
+
+    // Initialize media generator
+    this.mediaGenerator = new MediaGenerator({
+      uploadToStorage: true,
+      storageBucket: 'media',
+      storageFolder: 'before-after',
+    });
 
     // Initialize AI features if available
     if (features.ai) {
@@ -93,6 +102,7 @@ export class Orchestrator {
     options: {
       analyzeWithAI?: boolean;
       generateGallery?: boolean;
+      generateMedia?: boolean;
       enrollInSequence?: string;
       sendInitialEmail?: boolean;
     } = {}
@@ -118,6 +128,8 @@ export class Orchestrator {
     options: {
       analyzeWithAI?: boolean;
       generateGallery?: boolean;
+      generateMedia?: boolean;
+      galleryDir?: string;
       enrollInSequence?: string;
       sendInitialEmail?: boolean;
     } = {}
@@ -187,6 +199,43 @@ export class Orchestrator {
         } catch (error: any) {
           steps.push({
             step: 'ai_analysis',
+            success: false,
+            message: error.message,
+          });
+        }
+      }
+
+      // Step 3.5: Generate media assets (if enabled and gallery exists)
+      if (options.generateMedia && options.galleryDir) {
+        try {
+          const lead = await this.leadModel.getById(leadId);
+          if (lead?.screenshot_url || lead?.gallery_url) {
+            const mediaResult = await this.mediaGenerator.generateForLead({
+              leadId: leadId,
+              businessName: business.name,
+              beforeScreenshotUrl: lead.screenshot_url || undefined,
+              galleryDir: options.galleryDir,
+            });
+
+            if (mediaResult.beforeAfterGif?.url) {
+              await this.leadModel.update(leadId, {
+                before_after_gif_url: mediaResult.beforeAfterGif.url,
+              });
+
+              steps.push({
+                step: 'generate_media',
+                success: true,
+                message: 'Before/after GIF generated',
+                data: {
+                  gifUrl: mediaResult.beforeAfterGif.url,
+                  size: `${(mediaResult.beforeAfterGif.result.fileSize / 1024).toFixed(1)}KB`,
+                },
+              });
+            }
+          }
+        } catch (error: any) {
+          steps.push({
+            step: 'generate_media',
             success: false,
             message: error.message,
           });

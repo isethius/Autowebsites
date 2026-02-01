@@ -1,6 +1,7 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
 import { LeadModel } from '../crm/lead-model';
 import { ActivityLogger } from '../crm/activity-logger';
+import { getSupabaseClient } from '../utils/supabase';
 
 export interface UnsubscribeRecord {
   id: string;
@@ -29,19 +30,28 @@ export interface UnsubscribePageData {
   isAlreadyUnsubscribed: boolean;
 }
 
+// HTML escape function to prevent XSS
+function escapeHtml(text: string): string {
+  const map: Record<string, string> = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;',
+    '/': '&#x2F;',
+    '`': '&#x60;',
+    '=': '&#x3D;',
+  };
+  return text.replace(/[&<>"'`=/]/g, (char) => map[char]);
+}
+
 export class UnsubscribeHandler {
   private supabase: SupabaseClient;
   private leadModel: LeadModel;
   private activityLogger: ActivityLogger;
 
   constructor(config?: { leadModel?: LeadModel; activityLogger?: ActivityLogger }) {
-    const url = process.env.SUPABASE_URL;
-    const key = process.env.SUPABASE_ANON_KEY;
-    if (!url || !key) {
-      throw new Error('SUPABASE_URL and SUPABASE_ANON_KEY required');
-    }
-
-    this.supabase = createClient(url, key);
+    this.supabase = getSupabaseClient();
     this.leadModel = config?.leadModel || new LeadModel();
     this.activityLogger = config?.activityLogger || new ActivityLogger();
   }
@@ -311,11 +321,11 @@ export class UnsubscribeHandler {
   <div class="container">
     <h1>Unsubscribe</h1>
     <p class="subtitle">
-      We're sorry to see you go, <span class="email">${data.email}</span>
+      We're sorry to see you go, <span class="email">${escapeHtml(data.email)}</span>
     </p>
 
     <form action="/api/unsubscribe" method="POST">
-      <input type="hidden" name="lead_id" value="${leadId}">
+      <input type="hidden" name="lead_id" value="${escapeHtml(leadId)}">
 
       <div class="form-group">
         <label>Why are you unsubscribing? (optional)</label>
@@ -383,7 +393,7 @@ export class UnsubscribeHandler {
   <div class="container">
     <h1>Already Unsubscribed</h1>
     <p>
-      <span class="email">${data.email}</span> is not receiving any emails from us.
+      <span class="email">${escapeHtml(data.email)}</span> is not receiving any emails from us.
     </p>
   </div>
 </body>

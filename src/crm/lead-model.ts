@@ -1,5 +1,25 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
 import { IndustryType } from '../ai/industry-templates';
+import { getSupabaseClient } from '../utils/supabase';
+
+const SAFE_SEARCH_PATTERN = /[a-z0-9@.\- ]/g;
+
+function sanitizeSearchTerm(term: string): string | null {
+  const trimmed = term.trim().toLowerCase();
+  if (!trimmed) return null;
+  const matches = trimmed.match(SAFE_SEARCH_PATTERN);
+  if (!matches) return null;
+  const sanitized = matches.join('').replace(/\s+/g, ' ').trim();
+  if (!sanitized) return null;
+  return sanitized.slice(0, 100);
+}
+
+function normalizeDateFilter(value?: string | null): string | null {
+  if (!value) return null;
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return null;
+  return parsed.toISOString();
+}
 
 export type PipelineStage =
   | 'new'
@@ -68,6 +88,11 @@ export interface Lead {
   gallery_url: string | null;
   proposal_url: string | null;
 
+  // Media assets (Phase 1 & 2)
+  before_after_gif_url: string | null;
+  gallery_video_url: string | null;
+  video_thumbnail_url: string | null;
+
   // Engagement
   emails_sent: number;
   emails_opened: number;
@@ -107,6 +132,9 @@ export interface CreateLeadInput {
   recommendations?: string[];
   screenshot_url?: string;
   gallery_url?: string;
+  before_after_gif_url?: string;
+  gallery_video_url?: string;
+  video_thumbnail_url?: string;
   tags?: string[];
   custom_fields?: Record<string, any>;
   notes?: string;
@@ -119,6 +147,9 @@ export interface UpdateLeadInput extends Partial<CreateLeadInput> {
   priority?: Lead['priority'];
   lead_score?: number;
   proposal_url?: string;
+  before_after_gif_url?: string;
+  gallery_video_url?: string;
+  video_thumbnail_url?: string;
   assigned_to?: string;
   lost_reason?: string;
   won_value?: number;
@@ -133,6 +164,7 @@ export interface LeadFilter {
   min_lead_score?: number;
   has_email?: boolean;
   has_gallery?: boolean;
+  has_media?: boolean;
   is_unsubscribed?: boolean;
   assigned_to?: string;
   tags?: string[];
@@ -159,15 +191,8 @@ export class LeadModel {
   private supabase: SupabaseClient;
   private tableName = 'leads';
 
-  constructor(supabaseUrl?: string, supabaseKey?: string) {
-    const url = supabaseUrl || process.env.SUPABASE_URL;
-    const key = supabaseKey || process.env.SUPABASE_ANON_KEY;
-
-    if (!url || !key) {
-      throw new Error('SUPABASE_URL and SUPABASE_ANON_KEY are required');
-    }
-
-    this.supabase = createClient(url, key);
+  constructor() {
+    this.supabase = getSupabaseClient();
   }
 
   async create(input: CreateLeadInput): Promise<Lead> {
@@ -201,6 +226,9 @@ export class LeadModel {
       screenshot_url: input.screenshot_url || null,
       gallery_url: input.gallery_url || null,
       proposal_url: null,
+      before_after_gif_url: input.before_after_gif_url || null,
+      gallery_video_url: input.gallery_video_url || null,
+      video_thumbnail_url: input.video_thumbnail_url || null,
       emails_sent: 0,
       emails_opened: 0,
       emails_clicked: 0,
@@ -329,6 +357,12 @@ export class LeadModel {
         : query.is('gallery_url', null);
     }
 
+    if (filter.has_media !== undefined) {
+      query = filter.has_media
+        ? query.not('before_after_gif_url', 'is', null)
+        : query.is('before_after_gif_url', null);
+    }
+
     if (filter.is_unsubscribed !== undefined) {
       query = query.eq('is_unsubscribed', filter.is_unsubscribed);
     }
@@ -342,23 +376,32 @@ export class LeadModel {
     }
 
     if (filter.search) {
-      query = query.or(`business_name.ilike.%${filter.search}%,email.ilike.%${filter.search}%,website_url.ilike.%${filter.search}%`);
+      const safeSearch = sanitizeSearchTerm(filter.search);
+      if (safeSearch) {
+        query = query.or(
+          `business_name.ilike.%${safeSearch}%,email.ilike.%${safeSearch}%,website_url.ilike.%${safeSearch}%`
+        );
+      }
     }
 
-    if (filter.created_after) {
-      query = query.gte('created_at', filter.created_after);
+    const createdAfter = normalizeDateFilter(filter.created_after);
+    if (createdAfter) {
+      query = query.gte('created_at', createdAfter);
     }
 
-    if (filter.created_before) {
-      query = query.lte('created_at', filter.created_before);
+    const createdBefore = normalizeDateFilter(filter.created_before);
+    if (createdBefore) {
+      query = query.lte('created_at', createdBefore);
     }
 
-    if (filter.contacted_after) {
-      query = query.gte('last_contacted_at', filter.contacted_after);
+    const contactedAfter = normalizeDateFilter(filter.contacted_after);
+    if (contactedAfter) {
+      query = query.gte('last_contacted_at', contactedAfter);
     }
 
-    if (filter.not_contacted_since) {
-      query = query.or(`last_contacted_at.is.null,last_contacted_at.lt.${filter.not_contacted_since}`);
+    const notContactedSince = normalizeDateFilter(filter.not_contacted_since);
+    if (notContactedSince) {
+      query = query.or(`last_contacted_at.is.null,last_contacted_at.lt.${notContactedSince}`);
     }
 
     // Apply pagination and ordering
@@ -374,18 +417,13 @@ export class LeadModel {
   }
 
   async getStats(): Promise<LeadStats> {
-    const { data: leads, error } = await this.supabase
-      .from(this.tableName)
-      .select('pipeline_stage, industry, priority, website_score, email, last_contacted_at, won_value, created_at');
-
-    if (error) throw new Error(`Failed to get stats: ${error.message}`);
-
     const now = new Date();
     const today = now.toISOString().split('T')[0];
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
 
+    // Initialize stats
     const stats: LeadStats = {
-      total: leads.length,
+      total: 0,
       by_stage: {
         new: 0,
         qualified: 0,
@@ -404,89 +442,114 @@ export class LeadModel {
       won_value_this_month: 0,
     };
 
-    let scoreSum = 0;
-    let scoreCount = 0;
+    // Run multiple aggregation queries in parallel for efficiency
+    const [
+      totalResult,
+      stageResult,
+      industryResult,
+      priorityResult,
+      scoreResult,
+      emailResult,
+      contactedTodayResult,
+      wonThisMonthResult
+    ] = await Promise.all([
+      // Total count
+      this.supabase.from(this.tableName).select('*', { count: 'exact', head: true }),
 
-    for (const lead of leads) {
-      // By stage
-      if (lead.pipeline_stage) {
-        stats.by_stage[lead.pipeline_stage as PipelineStage]++;
-      }
+      // Count by stage
+      this.supabase.from(this.tableName).select('pipeline_stage'),
 
-      // By industry
-      if (lead.industry) {
-        stats.by_industry[lead.industry] = (stats.by_industry[lead.industry] || 0) + 1;
-      }
+      // Count by industry
+      this.supabase.from(this.tableName).select('industry'),
 
-      // By priority
-      if (lead.priority) {
-        stats.by_priority[lead.priority]++;
-      }
+      // Count by priority
+      this.supabase.from(this.tableName).select('priority'),
 
-      // Website score
-      if (lead.website_score !== null) {
-        scoreSum += lead.website_score;
-        scoreCount++;
-      }
+      // Average website score
+      this.supabase.from(this.tableName).select('website_score').not('website_score', 'is', null),
 
-      // Has email
-      if (lead.email) {
-        stats.with_email++;
-      }
+      // Count with email
+      this.supabase.from(this.tableName).select('*', { count: 'exact', head: true }).not('email', 'is', null),
 
       // Contacted today
-      if (lead.last_contacted_at?.startsWith(today)) {
-        stats.contacted_today++;
-      }
+      this.supabase.from(this.tableName).select('*', { count: 'exact', head: true }).gte('last_contacted_at', today),
 
-      // Won this month
-      if (lead.pipeline_stage === 'won' && lead.created_at >= monthStart) {
-        stats.won_this_month++;
-        stats.won_value_this_month += lead.won_value || 0;
+      // Won this month (with value)
+      this.supabase.from(this.tableName).select('won_value').eq('pipeline_stage', 'won').gte('stage_changed_at', monthStart)
+    ]);
+
+    // Process results
+    stats.total = totalResult.count || 0;
+
+    // Process stage counts
+    if (stageResult.data) {
+      for (const lead of stageResult.data) {
+        if (lead.pipeline_stage && stats.by_stage.hasOwnProperty(lead.pipeline_stage)) {
+          stats.by_stage[lead.pipeline_stage as PipelineStage]++;
+        }
       }
     }
 
-    stats.avg_website_score = scoreCount > 0 ? Math.round((scoreSum / scoreCount) * 10) / 10 : 0;
+    // Process industry counts
+    if (industryResult.data) {
+      for (const lead of industryResult.data) {
+        if (lead.industry) {
+          stats.by_industry[lead.industry] = (stats.by_industry[lead.industry] || 0) + 1;
+        }
+      }
+    }
+
+    // Process priority counts
+    if (priorityResult.data) {
+      for (const lead of priorityResult.data) {
+        if (lead.priority && stats.by_priority.hasOwnProperty(lead.priority)) {
+          stats.by_priority[lead.priority]++;
+        }
+      }
+    }
+
+    // Calculate average website score
+    if (scoreResult.data && scoreResult.data.length > 0) {
+      const scores = scoreResult.data.map(d => d.website_score).filter((s): s is number => s !== null);
+      if (scores.length > 0) {
+        const sum = scores.reduce((a, b) => a + b, 0);
+        stats.avg_website_score = Math.round((sum / scores.length) * 10) / 10;
+      }
+    }
+
+    stats.with_email = emailResult.count || 0;
+    stats.contacted_today = contactedTodayResult.count || 0;
+
+    // Won this month stats
+    if (wonThisMonthResult.data) {
+      stats.won_this_month = wonThisMonthResult.data.length;
+      stats.won_value_this_month = wonThisMonthResult.data.reduce((sum, d) => sum + (d.won_value || 0), 0);
+    }
 
     return stats;
   }
 
   async recordEmailSent(id: string): Promise<void> {
+    // Use atomic RPC increment (migration 006_atomic_counters.sql required)
     const { error } = await this.supabase.rpc('increment_emails_sent', { lead_id: id });
-
     if (error) {
-      // Fallback to direct update
-      const lead = await this.getById(id);
-      if (lead) {
-        await this.update(id, {});
-        await this.supabase
-          .from(this.tableName)
-          .update({
-            emails_sent: lead.emails_sent + 1,
-            last_contacted_at: new Date().toISOString(),
-          })
-          .eq('id', id);
-      }
+      console.error('Failed to increment emails_sent:', error.message);
     }
   }
 
   async recordEmailOpened(id: string): Promise<void> {
-    const lead = await this.getById(id);
-    if (lead) {
-      await this.supabase
-        .from(this.tableName)
-        .update({ emails_opened: lead.emails_opened + 1 })
-        .eq('id', id);
+    // Use atomic RPC increment (migration 006_atomic_counters.sql required)
+    const { error } = await this.supabase.rpc('increment_emails_opened', { lead_id: id });
+    if (error) {
+      console.error('Failed to increment emails_opened:', error.message);
     }
   }
 
   async recordEmailClicked(id: string): Promise<void> {
-    const lead = await this.getById(id);
-    if (lead) {
-      await this.supabase
-        .from(this.tableName)
-        .update({ emails_clicked: lead.emails_clicked + 1 })
-        .eq('id', id);
+    // Use atomic RPC increment (migration 006_atomic_counters.sql required)
+    const { error } = await this.supabase.rpc('increment_emails_clicked', { lead_id: id });
+    if (error) {
+      console.error('Failed to increment emails_clicked:', error.message);
     }
   }
 
@@ -542,9 +605,33 @@ export class LeadModel {
   }
 
   async bulkAddTag(ids: string[], tag: string): Promise<void> {
-    for (const id of ids) {
-      await this.addTag(id, tag);
-    }
+    if (ids.length === 0) return;
+
+    // Fetch all leads that don't already have the tag in a single query
+    const { data: leads, error: fetchError } = await this.supabase
+      .from(this.tableName)
+      .select('id, tags')
+      .in('id', ids);
+
+    if (fetchError || !leads?.length) return;
+
+    // Filter to only leads that need the tag and prepare batch updates
+    const updates = leads
+      .filter(lead => !(lead.tags || []).includes(tag))
+      .map(lead => ({
+        id: lead.id,
+        tags: [...(lead.tags || []), tag],
+        updated_at: new Date().toISOString()
+      }));
+
+    if (updates.length === 0) return;
+
+    // Batch upsert all updates in a single query
+    const { error } = await this.supabase
+      .from(this.tableName)
+      .upsert(updates, { onConflict: 'id' });
+
+    if (error) throw new Error(`Failed to bulk add tag: ${error.message}`);
   }
 }
 

@@ -1,0 +1,707 @@
+%% AutoWebsites Pro - System Flows
+%% Generated: 2026-01-23
+%% Updated: 2026-01-24 (Added retry policies, DLQ, alerting)
+%% Updated: 2026-01-26 (Added overnight system, security vulnerability flows)
+%% Verified: 2026-01-31 (Incremental audit - no structural changes)
+
+%% ============================================
+%% SYSTEM ARCHITECTURE OVERVIEW
+%% ============================================
+
+graph TB
+    subgraph CLI["CLI Interface"]
+        MainCLI[cli.ts]
+        Index[index.ts]
+    end
+
+    subgraph Discovery["Lead Discovery"]
+        GooglePlaces[google-places.ts]
+        WebDiscovery[web-discovery.ts]
+        Scraper[scraper.ts]
+        ScoreEngine[score-engine.ts]
+    end
+
+    subgraph Capture["Website Analysis"]
+        PageCapture[page-capture.ts]
+        Screenshots[screenshots.ts]
+        Analyzer[analyzer.ts]
+    end
+
+    subgraph AI["AI Generation"]
+        ClaudeClient[claude-client.ts]
+        ProposalGen[proposal-generator.ts]
+        Themes[themes/]
+    end
+
+    subgraph CRM["Lead Management"]
+        LeadModel[lead-model.ts]
+        Pipeline[pipeline-manager.ts]
+        Activity[activity-logger.ts]
+    end
+
+    subgraph Email["Outreach"]
+        Resend[resend.ts]
+        EmailGen[email-generator.ts]
+        Followup[followup-scheduler.ts]
+        Unsubscribe[unsubscribe.ts]
+        Sequence[sequence-engine.ts]
+    end
+
+    subgraph Dashboard["Web Dashboard"]
+        Server[server.ts]
+        Auth[auth.ts]
+        Routes[routes/]
+        Public[public/]
+    end
+
+    subgraph Scheduler["Job Queue"]
+        Queue[queue.ts]
+        Orchestrator[orchestrator.ts]
+        Worker[worker.ts]
+        RetryPolicy[retry-policy.ts]
+        Alerting[alerting.ts]
+        DLQ[(Dead Letter Queue)]
+    end
+
+    subgraph Data["Data Layer"]
+        Supabase[(Supabase DB)]
+        FileStore[tmp/captures/]
+    end
+
+    MainCLI --> Discovery
+    MainCLI --> Capture
+    MainCLI --> AI
+    MainCLI --> Email
+    MainCLI --> Scheduler
+
+    Discovery --> Supabase
+    Discovery --> ScoreEngine
+
+    Capture --> FileStore
+    Capture --> AI
+
+    AI --> ClaudeClient
+    AI --> Themes
+
+    CRM --> Supabase
+    Email --> Resend
+    Email --> CRM
+
+    Dashboard --> Auth
+    Dashboard --> Routes
+    Routes --> CRM
+    Routes --> Email
+
+    Scheduler --> Queue
+    Orchestrator --> Discovery
+    Orchestrator --> Capture
+    Orchestrator --> AI
+    Orchestrator --> Email
+
+%% ============================================
+%% LEAD DISCOVERY FLOW
+%% ============================================
+
+sequenceDiagram
+    participant CLI
+    participant Discovery
+    participant GooglePlaces
+    participant ScoreEngine
+    participant CRM
+    participant DB
+
+    CLI->>Discovery: discoverLeads(query, location)
+    Discovery->>GooglePlaces: searchBusinesses()
+    GooglePlaces-->>Discovery: Business results
+
+    loop For each business
+        Discovery->>ScoreEngine: scoreLead(business)
+        ScoreEngine-->>Discovery: Score (0-10)
+        Discovery->>CRM: createLead(business, score)
+        CRM->>DB: INSERT lead
+    end
+
+    Discovery-->>CLI: Discovery results
+
+%% ============================================
+%% PROPOSAL GENERATION FLOW
+%% ============================================
+
+sequenceDiagram
+    participant CLI
+    participant Capture
+    participant Puppeteer
+    participant AI
+    participant Themes
+    participant Storage
+
+    CLI->>Capture: captureWebsite(url)
+    Capture->>Puppeteer: takeScreenshot(url)
+    Puppeteer-->>Capture: Screenshots
+    Capture->>Storage: Save screenshots
+
+    Capture->>AI: analyzeWebsite(screenshots)
+    AI-->>Capture: Analysis
+
+    CLI->>AI: generateProposal(analysis)
+    AI->>Themes: getTheme(recommended)
+    Themes-->>AI: Theme config
+    AI-->>CLI: Proposal HTML
+
+%% ============================================
+%% EMAIL OUTREACH FLOW
+%% ============================================
+
+sequenceDiagram
+    participant CLI
+    participant EmailGen
+    participant AI
+    participant Resend
+    participant CRM
+    participant Followup
+
+    CLI->>EmailGen: generateOutreachEmail(lead)
+    EmailGen->>AI: Generate personalized content
+    AI-->>EmailGen: Email content
+
+    EmailGen->>Resend: sendEmail(lead.email, content)
+    Resend-->>EmailGen: Send result
+
+    EmailGen->>CRM: updateLeadStage(contacted)
+    EmailGen->>Followup: scheduleFollowups(lead)
+
+    Note over Followup: 3-5 follow-ups scheduled
+
+%% ============================================
+%% AUTHENTICATION FLOW
+%% ============================================
+
+sequenceDiagram
+    participant Client
+    participant Server
+    participant Auth
+    participant DB
+
+    Client->>Server: POST /api/auth/login
+    Server->>Auth: validateCredentials(email, password)
+    Auth->>DB: SELECT user WHERE email
+    DB-->>Auth: User record
+
+    Auth->>Auth: bcrypt.compare(password, hash)
+    Auth->>Auth: Check login attempts
+
+    alt Valid credentials
+        Auth->>Auth: Generate JWT with tokenVersion
+        Auth-->>Server: { token, refreshToken }
+        Server-->>Client: 200 OK + tokens
+    else Invalid credentials
+        Auth->>Auth: Increment failed attempts
+        Auth-->>Server: Authentication failed
+        Server-->>Client: 401 Unauthorized
+    else Account locked
+        Auth-->>Server: Account locked (15 min)
+        Server-->>Client: 423 Locked
+    end
+
+%% ============================================
+%% JOB QUEUE PROCESSING FLOW
+%% ============================================
+
+sequenceDiagram
+    participant CLI
+    participant Queue
+    participant Worker
+    participant Handler
+    participant DB
+
+    CLI->>Queue: addJob(type, data)
+    Queue->>DB: INSERT job (status=pending)
+
+    loop Poll for jobs
+        Worker->>Queue: processNext()
+        Queue->>DB: SELECT + UPDATE (claim job)
+        DB-->>Queue: Job claimed
+        Queue->>Handler: Execute handler
+
+        alt Success
+            Handler-->>Queue: Result
+            Queue->>DB: UPDATE status=completed
+        else Failure (retriable)
+            Handler-->>Queue: Error
+            Queue->>DB: UPDATE status=pending, scheduled_for=NOW()+backoff
+        else Failure (final)
+            Handler-->>Queue: Error
+            Queue->>DB: UPDATE status=failed
+        end
+    end
+
+%% ============================================
+%% EMAIL SEQUENCE FLOW
+%% ============================================
+
+sequenceDiagram
+    participant Scheduler
+    participant SequenceEngine
+    participant Lead
+    participant Composer
+    participant Resend
+    participant DB
+
+    Scheduler->>SequenceEngine: processNextEmails()
+    SequenceEngine->>DB: SELECT enrollments WHERE next_email_at <= NOW()
+    DB-->>SequenceEngine: Enrollments due
+
+    loop For each enrollment
+        SequenceEngine->>DB: Get sequence definition
+        SequenceEngine->>DB: Get lead details
+        SequenceEngine->>Composer: composeEmail(template, lead)
+        Composer-->>SequenceEngine: Email HTML
+        SequenceEngine->>Resend: send(email)
+
+        alt Send success
+            Resend-->>SequenceEngine: Sent
+            SequenceEngine->>DB: UPDATE enrollment (next step)
+            SequenceEngine->>DB: INSERT activity log
+        else Send failure
+            Resend-->>SequenceEngine: Error
+            SequenceEngine->>DB: UPDATE enrollment (retry/pause)
+        end
+    end
+
+%% ============================================
+%% FULL PIPELINE ORCHESTRATION FLOW
+%% ============================================
+
+sequenceDiagram
+    participant CLI
+    participant Orchestrator
+    participant Discovery
+    participant Capture
+    participant AI
+    participant Email
+    participant DB
+
+    CLI->>Orchestrator: runPipeline(industry, location)
+
+    rect rgb(240, 248, 255)
+        Note over Orchestrator: Phase 1: Discovery
+        Orchestrator->>Discovery: discover(query, location)
+        Discovery-->>Orchestrator: Raw businesses
+        Orchestrator->>AI: scoreAndQualify(businesses)
+        AI-->>Orchestrator: Qualified leads
+        Orchestrator->>DB: Save leads
+    end
+
+    rect rgb(255, 248, 240)
+        Note over Orchestrator: Phase 2: Analysis
+        loop For each lead
+            Orchestrator->>Capture: captureWebsite(lead.url)
+            Capture-->>Orchestrator: Screenshots + metrics
+            Orchestrator->>AI: analyzeWebsite(capture)
+            AI-->>Orchestrator: Website analysis
+            Orchestrator->>DB: Update lead with analysis
+        end
+    end
+
+    rect rgb(240, 255, 240)
+        Note over Orchestrator: Phase 3: Content Generation
+        loop For each analyzed lead
+            Orchestrator->>AI: generateProposal(analysis)
+            AI-->>Orchestrator: Proposal HTML
+            Orchestrator->>AI: generatePitch(analysis)
+            AI-->>Orchestrator: Email pitch
+            Orchestrator->>DB: Save proposal + pitch
+        end
+    end
+
+    rect rgb(255, 240, 255)
+        Note over Orchestrator: Phase 4: Outreach
+        loop For each lead with pitch
+            Orchestrator->>Email: sendOutreach(lead, pitch)
+            Email-->>Orchestrator: Send result
+            Orchestrator->>DB: Update lead stage
+            Orchestrator->>Email: scheduleFollowups(lead)
+        end
+    end
+
+    Orchestrator-->>CLI: Pipeline complete
+
+%% ============================================
+%% RATE LIMITING FLOW
+%% ============================================
+
+sequenceDiagram
+    participant Client
+    participant RateLimiter
+    participant Handler
+    participant Response
+
+    Client->>RateLimiter: Request
+    RateLimiter->>RateLimiter: Check IP + User limits
+
+    alt Under limit
+        RateLimiter->>RateLimiter: Increment counter
+        RateLimiter->>Handler: Pass through
+        Handler-->>Response: 200 OK
+    else Rate limited
+        RateLimiter-->>Response: 429 Too Many Requests
+        Note over Response: Retry-After header included
+    end
+
+%% ============================================
+%% CIRCUIT BREAKER FLOW
+%% ============================================
+
+stateDiagram-v2
+    [*] --> Closed
+    Closed --> Open : Failure threshold exceeded
+    Open --> HalfOpen : Reset timeout elapsed
+    HalfOpen --> Closed : Test request succeeds
+    HalfOpen --> Open : Test request fails
+
+    note right of Closed : Normal operation\nRequests pass through
+    note right of Open : Failing fast\nNo requests sent
+    note right of HalfOpen : Testing recovery\nSingle request allowed
+
+%% ============================================
+%% DATA MODEL (Entity Relationships)
+%% ============================================
+
+erDiagram
+    LEADS ||--o{ ACTIVITIES : has
+    LEADS ||--o{ SEQUENCE_ENROLLMENTS : enrolled_in
+    LEADS ||--o{ PROPOSALS : has
+    SEQUENCES ||--o{ SEQUENCE_ENROLLMENTS : enrolls
+    SEQUENCES ||--o{ SEQUENCE_STEPS : contains
+    USERS ||--o{ ACTIVITIES : creates
+
+    LEADS {
+        uuid id PK
+        string business_name
+        string email
+        string website_url
+        enum pipeline_stage
+        float website_score
+        jsonb ai_analysis
+        timestamp created_at
+    }
+
+    ACTIVITIES {
+        uuid id PK
+        uuid lead_id FK
+        string type
+        string title
+        uuid user_id FK
+        timestamp created_at
+    }
+
+    SEQUENCES {
+        uuid id PK
+        string name
+        boolean active
+        int total_steps
+    }
+
+    SEQUENCE_ENROLLMENTS {
+        uuid id PK
+        uuid sequence_id FK
+        uuid lead_id FK
+        int current_step
+        enum status
+        timestamp next_email_at
+    }
+
+    JOB_QUEUE {
+        uuid id PK
+        string type
+        jsonb data
+        enum status
+        int priority
+        int attempts
+        timestamp scheduled_for
+    }
+
+    DEAD_LETTER_QUEUE {
+        uuid id PK
+        uuid original_job_id
+        string job_type
+        jsonb job_data
+        text error
+        int attempts
+        timestamp failed_at
+        timestamp resolved_at
+    }
+
+%% ============================================
+%% JOB RETRY FLOW WITH POLICIES (NEW 2026-01-24)
+%% ============================================
+
+sequenceDiagram
+    participant Queue
+    participant Handler
+    participant RetryPolicy
+    participant Alerting
+    participant DLQ
+    participant DB
+
+    Queue->>Handler: Execute job
+    Handler-->>Queue: Error thrown
+
+    Queue->>RetryPolicy: getRetryPolicy(jobType)
+    RetryPolicy-->>Queue: { maxAttempts, backoffType, ... }
+
+    Queue->>RetryPolicy: shouldRetry(context)
+    RetryPolicy-->>Queue: boolean
+
+    alt Should retry
+        Queue->>RetryPolicy: calculateRetryDelay(attempt, policy)
+        RetryPolicy-->>Queue: delay_ms (with jitter)
+        Queue->>DB: UPDATE job (status=pending, scheduled_for=now+delay)
+        Queue->>Alerting: sendAlert(job_failed, warning)
+    else Max retries exhausted
+        Queue->>DLQ: addToDLQ(job)
+        Queue->>DB: INSERT into dead_letter_queue
+        Queue->>DB: UPDATE job (status=failed)
+        Queue->>Alerting: sendAlert(job_failed, critical)
+    end
+
+%% ============================================
+%% VISUAL SEQUENCE BUILDER FLOW (NEW 2026-01-24)
+%% ============================================
+
+sequenceDiagram
+    participant User
+    participant Canvas
+    participant API
+    participant DB
+
+    User->>Canvas: Drag node from palette
+    Canvas->>Canvas: Create node at drop position
+    User->>Canvas: Connect nodes (click-to-click)
+    Canvas->>Canvas: Draw connection path
+
+    User->>API: POST /sequences/:id/validate
+    API->>API: Check for cycles
+    API->>API: Check for orphaned nodes
+    API->>API: Verify email templates exist
+    API-->>Canvas: Validation result
+
+    User->>API: PUT /sequences/:id/visual
+    API->>API: Convert visual to steps
+    API->>DB: UPDATE sequence (visual_layout, steps)
+    API-->>Canvas: Saved
+
+    User->>API: POST /sequences/:id/simulate
+    API->>API: Walk graph for sample lead
+    API-->>Canvas: Timeline preview
+
+%% ============================================
+%% ALERTING FLOW (NEW 2026-01-24)
+%% ============================================
+
+sequenceDiagram
+    participant Source
+    participant AlertManager
+    participant Console
+    participant Email
+    participant Webhook
+    participant Slack
+
+    Source->>AlertManager: sendAlert(type, severity, data)
+    AlertManager->>AlertManager: Check thresholds
+    AlertManager->>AlertManager: Determine channels
+
+    par Parallel dispatch
+        AlertManager->>Console: Log alert
+        AlertManager->>Email: Send notification
+        AlertManager->>Webhook: POST to webhook URL
+        AlertManager->>Slack: Post message
+    end
+
+%% ============================================
+%% OVERNIGHT OUTREACH FLOW (NEW 2026-01-26)
+%% ============================================
+
+sequenceDiagram
+    participant Cron
+    participant Scheduler
+    participant Runner
+    participant Yelp
+    participant YellowPages
+    participant Claude
+    participant Vercel
+    participant Gmail
+    participant DB
+
+    Cron->>Scheduler: Trigger (2 AM)
+    Scheduler->>Scheduler: Check isRunning flag
+
+    alt Already running
+        Scheduler-->>Cron: Skip (mutex held)
+    else Available
+        Scheduler->>Runner: execute()
+        Runner->>DB: Create overnight_run record
+        Runner->>DB: Check quotas
+
+        rect rgb(240, 248, 255)
+            Note over Runner: Phase 1: Discovery
+            Runner->>Yelp: searchBusinesses(industry, location)
+            Runner->>YellowPages: searchBusinesses(industry, location)
+            Yelp-->>Runner: Business results
+            YellowPages-->>Runner: Business results
+            Runner->>Runner: Filter & dedupe
+        end
+
+        rect rgb(255, 248, 240)
+            Note over Runner: Phase 2: Process Each Lead
+            loop For each qualified lead
+                Runner->>DB: Create lead record
+                Runner->>Claude: Generate website content
+                Claude-->>Runner: Headlines, services, about
+                Runner->>Vercel: Deploy preview site
+                Vercel-->>Runner: Preview URL
+                Runner->>Gmail: Send outreach email
+                Gmail-->>Runner: Sent confirmation
+                Runner->>DB: Update lead status
+            end
+        end
+
+        Runner->>DB: Save run stats & errors
+        Scheduler->>Scheduler: Release lock
+    end
+
+%% ============================================
+%% WEBSITE PREVIEW GENERATION FLOW (NEW 2026-01-26)
+%% ============================================
+
+sequenceDiagram
+    participant Runner
+    participant Generator
+    participant Templates
+    participant Claude
+    participant FileSystem
+    participant Vercel
+
+    Runner->>Generator: generatePreviewForLead(lead)
+    Generator->>Generator: Detect industry type
+    Generator->>Templates: Load industry template
+    Templates-->>Generator: HTML template
+
+    Generator->>Claude: Generate content
+    Note over Claude: Prompt includes business name,<br/>industry, location, services
+    Claude-->>Generator: Generated content
+
+    Generator->>Generator: Inject content into template
+    Generator->>Generator: Generate 4 color palettes
+    Generator->>FileSystem: Write files to temp dir
+
+    Generator->>Vercel: vercel deploy --prod
+    Vercel-->>Generator: Deployment URL
+
+    Generator->>FileSystem: Cleanup temp files
+    Generator-->>Runner: { previewUrl, localPath }
+
+%% ============================================
+%% SECURITY VULNERABILITIES (Audit 2026-01-26)
+%% ============================================
+
+sequenceDiagram
+    participant Attacker
+    participant API
+    participant deploy.ts
+    participant Shell
+    participant System
+
+    Note over Attacker,System: S-01: Command Injection (CRITICAL)
+
+    Attacker->>API: Create lead with projectName: "test; rm -rf /"
+    API->>deploy.ts: deployToVercel(config)
+    deploy.ts->>Shell: execSync(`vercel ${args}`)
+    Note over Shell: Unsanitized input concatenated
+    Shell->>System: Execute arbitrary command
+    System-->>Attacker: Remote Code Execution
+
+sequenceDiagram
+    participant Attacker
+    participant API
+    participant LeadModel
+    participant Supabase
+
+    Note over Attacker,Supabase: S-02: SQL Injection (CRITICAL)
+
+    Attacker->>API: GET /api/leads?search=test%,email.ilike.%admin%
+    API->>LeadModel: searchLeads({ search: malicious })
+    LeadModel->>LeadModel: query.or(`...${search}%...`)
+    Note over LeadModel: PostgREST filter syntax injection
+    LeadModel->>Supabase: Execute manipulated query
+    Supabase-->>Attacker: Unintended data returned
+
+sequenceDiagram
+    participant Cron1
+    participant Cron2
+    participant Scheduler
+    participant Runner
+    participant DB
+
+    Note over Cron1,DB: S-03: Race Condition (CRITICAL)
+
+    par Concurrent execution
+        Cron1->>Scheduler: Check isRunning
+        Cron2->>Scheduler: Check isRunning
+    end
+    Scheduler-->>Cron1: false
+    Scheduler-->>Cron2: false
+
+    par Both proceed
+        Cron1->>Scheduler: isRunning = true
+        Cron2->>Scheduler: isRunning = true
+    end
+
+    par Duplicate processing
+        Cron1->>Runner: execute()
+        Cron2->>Runner: execute()
+    end
+
+    Runner->>DB: Duplicate leads created
+    Note over DB: Data integrity issue
+
+%% ============================================
+%% OVERNIGHT DASHBOARD DATA FLOW (NEW 2026-01-26)
+%% ============================================
+
+sequenceDiagram
+    participant Browser
+    participant overnight.js
+    participant API
+    participant Auth
+    participant DB
+
+    Browser->>overnight.js: DOMContentLoaded
+    overnight.js->>overnight.js: Check auth token
+
+    par Load all data
+        overnight.js->>API: GET /api/overnight/quotas
+        overnight.js->>API: GET /api/overnight/stats?days=7
+        overnight.js->>API: GET /api/overnight/config
+        overnight.js->>API: GET /api/overnight/runs
+    end
+
+    API->>Auth: Verify JWT
+    Auth-->>API: Valid
+    API->>DB: Query data
+    DB-->>API: Results
+    API-->>overnight.js: JSON responses
+
+    overnight.js->>Browser: Render dashboard
+
+    Note over Browser: User triggers manual run
+    Browser->>overnight.js: Click "Trigger Run Now"
+    overnight.js->>API: POST /api/overnight/trigger
+    API->>Auth: Verify JWT
+    API-->>overnight.js: Run started
+
+    loop Auto-refresh while running
+        overnight.js->>API: GET /api/overnight/runs
+        API-->>overnight.js: Updated status
+        overnight.js->>Browser: Update UI
+    end

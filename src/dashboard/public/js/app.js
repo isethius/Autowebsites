@@ -1,3 +1,27 @@
+// XSS Prevention - escape HTML entities
+function escapeHtml(text) {
+  if (text == null) return '';
+  const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+  return String(text).replace(/[&<>"']/g, m => map[m]);
+}
+
+// CSRF Token management
+let csrfToken = null;
+
+async function fetchCsrfToken() {
+  try {
+    const response = await fetch('/api/csrf-token', {
+      credentials: 'include',
+    });
+    if (response.ok) {
+      const data = await response.json();
+      csrfToken = data.csrfToken;
+    }
+  } catch (error) {
+    console.error('Failed to fetch CSRF token:', error);
+  }
+}
+
 // API Helper
 async function api(url, options = {}) {
   const token = localStorage.getItem('token');
@@ -11,9 +35,16 @@ async function api(url, options = {}) {
     headers['Authorization'] = `Bearer ${token}`;
   }
 
+  // Include CSRF token for state-changing requests
+  const method = (options.method || 'GET').toUpperCase();
+  if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(method) && csrfToken) {
+    headers['X-CSRF-Token'] = csrfToken;
+  }
+
   const response = await fetch(url, {
     ...options,
     headers,
+    credentials: 'include', // Include cookies for CSRF
   });
 
   if (response.status === 401) {
@@ -21,6 +52,27 @@ async function api(url, options = {}) {
     localStorage.removeItem('user');
     showLoginModal();
     throw new Error('Session expired');
+  }
+
+  // Handle CSRF token errors
+  if (response.status === 403) {
+    const data = await response.json();
+    if (data.error?.code === 'CSRF_ERROR') {
+      // Refresh CSRF token and retry once
+      await fetchCsrfToken();
+      if (csrfToken) {
+        headers['X-CSRF-Token'] = csrfToken;
+        const retryResponse = await fetch(url, {
+          ...options,
+          headers,
+          credentials: 'include',
+        });
+        if (retryResponse.ok) {
+          return retryResponse.json();
+        }
+      }
+    }
+    throw new Error(data.error?.message || 'Request forbidden');
   }
 
   const data = await response.json();
@@ -46,7 +98,10 @@ function hideLoginModal() {
 }
 
 // Setup login form
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  // Fetch CSRF token on page load
+  await fetchCsrfToken();
+
   const loginForm = document.getElementById('loginForm');
   if (loginForm) {
     loginForm.addEventListener('submit', handleLogin);

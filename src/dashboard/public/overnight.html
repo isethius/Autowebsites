@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Overnight Runs - AutoWebsites Dashboard</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .stat-card h3 {
+      font-size: 0.875rem;
+      color: #666;
+      margin: 0 0 0.5rem 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-card .value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .stat-card .subtitle {
+      font-size: 0.75rem;
+      color: #888;
+      margin-top: 0.25rem;
+    }
+
+    .quotas-bar {
+      display: flex;
+      gap: 1.5rem;
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 2rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .quota-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .quota-label {
+      font-size: 0.875rem;
+      color: #856404;
+    }
+
+    .quota-value {
+      font-weight: 600;
+      color: #664d03;
+    }
+
+    .progress-bar {
+      width: 100px;
+      height: 6px;
+      background: #e9ecef;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #28a745;
+      transition: width 0.3s;
+    }
+
+    .progress-fill.warning {
+      background: #ffc107;
+    }
+
+    .progress-fill.danger {
+      background: #dc3545;
+    }
+
+    .runs-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .runs-table th,
+    .runs-table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .runs-table th {
+      background: #f8f9fa;
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: #495057;
+    }
+
+    .runs-table tbody tr:hover {
+      background: #f8f9fa;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .status-badge.completed {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .status-badge.running {
+      background: #cce5ff;
+      color: #004085;
+    }
+
+    .status-badge.failed {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .status-badge.pending {
+      background: #e9ecef;
+      color: #495057;
+    }
+
+    .status-badge.cancelled {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .trigger-button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .trigger-button:hover {
+      background: #0056b3;
+    }
+
+    .trigger-button:disabled {
+      background: #6c757d;
+      cursor: not-allowed;
+    }
+
+    .config-panel {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .config-panel h3 {
+      margin: 0 0 1rem 0;
+      font-size: 1rem;
+    }
+
+    .config-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .config-item {
+      font-size: 0.875rem;
+    }
+
+    .config-item label {
+      display: block;
+      color: #666;
+      margin-bottom: 0.25rem;
+    }
+
+    .config-item .value {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .actions-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .period-selector {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .period-button {
+      padding: 0.5rem 1rem;
+      border: 1px solid #dee2e6;
+      background: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+
+    .period-button.active {
+      background: #007bff;
+      color: white;
+      border-color: #007bff;
+    }
+
+    .run-detail-link {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .run-detail-link:hover {
+      text-decoration: underline;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: #666;
+    }
+
+    .empty-state h3 {
+      margin: 0 0 0.5rem 0;
+    }
+
+    .mini-stats {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.875rem;
+      color: #666;
+    }
+
+    .mini-stat {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">
+      <a href="/">AutoWebsites</a>
+    </div>
+    <div class="nav-links">
+      <a href="/leads.html">Leads</a>
+      <a href="/campaigns.html">Campaigns</a>
+      <a href="/overnight.html" class="active">Overnight</a>
+      <a href="/jobs.html">Jobs</a>
+    </div>
+    <div class="nav-user">
+      <span id="userEmail"></span>
+      <button id="logoutBtn" class="btn btn-outline">Logout</button>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="page-header">
+      <h1>Overnight Outreach</h1>
+      <p>Automated lead discovery and outreach runs</p>
+    </div>
+
+    <!-- Quotas Bar -->
+    <div class="quotas-bar" id="quotasBar">
+      <div class="quota-item">
+        <span class="quota-label">Gmail Quota:</span>
+        <div class="progress-bar">
+          <div class="progress-fill" id="gmailProgress"></div>
+        </div>
+        <span class="quota-value" id="gmailQuota">-/-</span>
+      </div>
+      <div class="quota-item">
+        <span class="quota-label">Leads Today:</span>
+        <span class="quota-value" id="leadsToday">-</span>
+      </div>
+      <div class="quota-item">
+        <span class="quota-label">Deployments Today:</span>
+        <span class="quota-value" id="deploysToday">-</span>
+      </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card">
+        <h3>Total Runs</h3>
+        <div class="value" id="statTotalRuns">-</div>
+        <div class="subtitle" id="statPeriod">Last 7 days</div>
+      </div>
+      <div class="stat-card">
+        <h3>Leads Discovered</h3>
+        <div class="value" id="statLeadsDiscovered">-</div>
+        <div class="subtitle" id="statLeadsPerRun">- per run</div>
+      </div>
+      <div class="stat-card">
+        <h3>Emails Sent</h3>
+        <div class="value" id="statEmailsSent">-</div>
+        <div class="subtitle" id="statEmailsPerRun">- per run</div>
+      </div>
+      <div class="stat-card">
+        <h3>Success Rate</h3>
+        <div class="value" id="statSuccessRate">-</div>
+        <div class="subtitle">Completed runs</div>
+      </div>
+    </div>
+
+    <!-- Config Panel -->
+    <div class="config-panel">
+      <h3>Current Configuration</h3>
+      <div class="config-grid" id="configGrid">
+        <div class="config-item">
+          <label>Industries</label>
+          <div class="value" id="configIndustries">-</div>
+        </div>
+        <div class="config-item">
+          <label>Locations</label>
+          <div class="value" id="configLocations">-</div>
+        </div>
+        <div class="config-item">
+          <label>Max Leads</label>
+          <div class="value" id="configMaxLeads">-</div>
+        </div>
+        <div class="config-item">
+          <label>Run Hours</label>
+          <div class="value" id="configRunHours">-</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions Bar -->
+    <div class="actions-bar">
+      <div class="period-selector">
+        <button class="period-button active" data-days="7">7 Days</button>
+        <button class="period-button" data-days="14">14 Days</button>
+        <button class="period-button" data-days="30">30 Days</button>
+      </div>
+      <button class="trigger-button" id="triggerRunBtn">
+        Trigger Run Now
+      </button>
+    </div>
+
+    <!-- Runs Table -->
+    <table class="runs-table">
+      <thead>
+        <tr>
+          <th>Started</th>
+          <th>Status</th>
+          <th>Duration</th>
+          <th>Leads</th>
+          <th>Emails</th>
+          <th>Industries</th>
+          <th>Errors</th>
+        </tr>
+      </thead>
+      <tbody id="runsTableBody">
+        <tr>
+          <td colspan="7" class="empty-state">
+            <h3>Loading runs...</h3>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+
+  <!-- Trigger Run Modal -->
+  <div id="triggerModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h2>Trigger Overnight Run</h2>
+      <form id="triggerForm">
+        <div class="form-group">
+          <label for="triggerIndustries">Industries (comma-separated)</label>
+          <input type="text" id="triggerIndustries" placeholder="plumber, hvac, therapist">
+        </div>
+        <div class="form-group">
+          <label for="triggerLocations">Locations (comma-separated)</label>
+          <input type="text" id="triggerLocations" placeholder="Tucson, AZ">
+        </div>
+        <div class="form-group">
+          <label for="triggerMaxLeads">Max Leads</label>
+          <input type="number" id="triggerMaxLeads" value="10" min="1" max="100">
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="triggerDryRun">
+            Dry Run (no emails)
+          </label>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-outline" id="cancelTrigger">Cancel</button>
+          <button type="submit" class="btn btn-primary">Start Run</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/overnight.js"></script>
+</body>
+</html>

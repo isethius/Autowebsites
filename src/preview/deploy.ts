@@ -1,4 +1,4 @@
-import { execSync, exec } from 'child_process';
+import { execFileSync } from 'child_process';
 import * as path from 'path';
 import * as fs from 'fs';
 
@@ -32,7 +32,7 @@ export async function deployToVercel(options: DeployOptions): Promise<DeployResu
 
   // Check if Vercel CLI is installed
   try {
-    execSync('vercel --version', { stdio: 'pipe' });
+    execFileSync('vercel', ['--version'], { stdio: 'pipe' });
   } catch {
     return {
       url: '',
@@ -73,7 +73,7 @@ export async function deployToVercel(options: DeployOptions): Promise<DeployResu
     console.log(`   Production: ${prod ? 'Yes' : 'No (preview)'}`);
 
     // Execute vercel deploy
-    const result = execSync(`vercel ${args.join(' ')}`, {
+    const result = execFileSync('vercel', args, {
       cwd: directory,
       encoding: 'utf-8',
       stdio: ['pipe', 'pipe', 'pipe']
@@ -108,7 +108,7 @@ export async function deployToVercel(options: DeployOptions): Promise<DeployResu
 
 export async function getDeploymentStatus(projectName: string): Promise<any> {
   try {
-    const result = execSync(`vercel ls ${projectName} --json`, {
+    const result = execFileSync('vercel', ['ls', projectName, '--json'], {
       encoding: 'utf-8',
       stdio: ['pipe', 'pipe', 'pipe']
     });

@@ -26,9 +26,17 @@
           <span class="nav-icon">📧</span>
           Campaigns
         </a>
-        <a href="#" class="nav-item" data-page="proposals">
-          <span class="nav-icon">📝</span>
-          Proposals
+        <a href="/jobs.html" class="nav-item" data-page="jobs">
+          <span class="nav-icon">⚙️</span>
+          Job Queue
+        </a>
+        <a href="/overnight.html" class="nav-item" data-page="overnight">
+          <span class="nav-icon">🌙</span>
+          Overnight Runs
+        </a>
+        <a href="/sequence-builder.html" class="nav-item" data-page="sequences">
+          <span class="nav-icon">🔗</span>
+          Sequence Builder
         </a>
         <a href="#" class="nav-item" data-page="analytics">
           <span class="nav-icon">📈</span>
@@ -227,8 +235,8 @@
             <div class="activity-item">
               <div class="activity-icon">${getActivityIcon(activity.type)}</div>
               <div class="activity-info">
-                <span class="activity-title">${activity.title}</span>
-                <span class="activity-meta">${activity.leads?.business_name || 'Unknown'} • ${formatTime(activity.created_at)}</span>
+                <span class="activity-title">${escapeHtml(activity.title)}</span>
+                <span class="activity-meta">${escapeHtml(activity.leads?.business_name || 'Unknown')} • ${formatTime(activity.created_at)}</span>
               </div>
             </div>
           `).join('');

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Queue - AutoWebsites Pro</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    /* Job-specific styles */
+    .job-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .job-stat-card {
+      background: var(--bg-primary);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 16px;
+      text-align: center;
+    }
+
+    .job-stat-card.pending { border-left: 4px solid #f59e0b; }
+    .job-stat-card.running { border-left: 4px solid #3b82f6; }
+    .job-stat-card.completed { border-left: 4px solid #10b981; }
+    .job-stat-card.failed { border-left: 4px solid #ef4444; }
+    .job-stat-card.scheduled { border-left: 4px solid #8b5cf6; }
+
+    .job-stat-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .job-stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-transform: capitalize;
+    }
+
+    /* Pipeline visualization */
+    .pipeline-flow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px;
+      background: var(--bg-primary);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      overflow-x: auto;
+    }
+
+    .pipeline-stage-box {
+      flex: 1;
+      min-width: 100px;
+      max-width: 150px;
+      text-align: center;
+      padding: 16px 12px;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .pipeline-stage-box:hover {
+      background: var(--bg-tertiary);
+      transform: translateY(-2px);
+    }
+
+    .pipeline-stage-box.active {
+      border: 2px solid var(--primary);
+      background: rgba(37, 99, 235, 0.05);
+    }
+
+    .pipeline-stage-box.bottleneck {
+      border: 2px solid var(--warning);
+    }
+
+    .pipeline-stage-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .pipeline-stage-name {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: capitalize;
+    }
+
+    .pipeline-stage-count {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .pipeline-connector {
+      width: 40px;
+      height: 2px;
+      background: var(--border);
+      position: relative;
+    }
+
+    .pipeline-connector::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: -4px;
+      border: 5px solid transparent;
+      border-left-color: var(--border);
+    }
+
+    /* Job status badges */
+    .badge-pending { background: #fef3c7; color: #92400e; }
+    .badge-running { background: #dbeafe; color: #1e40af; }
+    .badge-completed { background: #d1fae5; color: #065f46; }
+    .badge-failed { background: #fee2e2; color: #991b1b; }
+    .badge-scheduled { background: #ede9fe; color: #5b21b6; }
+    .badge-cancelled { background: var(--bg-tertiary); color: var(--text-muted); }
+
+    /* Job type badges */
+    .badge-discover { background: #dbeafe; color: #1e40af; }
+    .badge-capture { background: #fce7f3; color: #9d174d; }
+    .badge-generate { background: #d1fae5; color: #065f46; }
+    .badge-deploy { background: #ede9fe; color: #5b21b6; }
+    .badge-email { background: #fef3c7; color: #92400e; }
+    .badge-followup { background: #ccfbf1; color: #0f766e; }
+    .badge-score { background: #f3f4f6; color: #374151; }
+
+    /* Toolbar */
+    .jobs-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: var(--bg-primary);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .auto-refresh-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .auto-refresh-toggle input {
+      cursor: pointer;
+    }
+
+    /* Bulk action bar */
+    .bulk-action-bar {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--primary);
+      color: white;
+    }
+
+    .bulk-action-bar.visible {
+      display: flex;
+    }
+
+    .bulk-action-bar .selected-count {
+      font-weight: 500;
+    }
+
+    .bulk-action-bar button {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .bulk-action-bar button:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    /* Job row */
+    .job-row {
+      display: grid;
+      grid-template-columns: 40px 1fr 100px 100px 150px 150px 120px;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+
+    .job-row:hover {
+      background: var(--bg-secondary);
+    }
+
+    .job-row.selected {
+      background: rgba(37, 99, 235, 0.05);
+    }
+
+    .job-header {
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: var(--bg-secondary);
+    }
+
+    .job-id {
+      font-family: monospace;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .job-data-preview {
+      font-size: 13px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 300px;
+    }
+
+    .job-duration {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Job detail modal */
+    .job-detail-content {
+      max-width: 800px;
+    }
+
+    .job-detail-section {
+      margin-bottom: 24px;
+    }
+
+    .job-detail-section h4 {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .job-payload {
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      padding: 16px;
+      font-family: monospace;
+      font-size: 13px;
+      white-space: pre-wrap;
+      word-break: break-all;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .job-logs {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .log-entry {
+      display: flex;
+      gap: 12px;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .log-entry:last-child {
+      border-bottom: none;
+    }
+
+    .log-entry.info { border-left: 3px solid #3b82f6; }
+    .log-entry.warn { border-left: 3px solid #f59e0b; }
+    .log-entry.error { border-left: 3px solid #ef4444; }
+
+    .log-time {
+      color: var(--text-muted);
+      font-family: monospace;
+      white-space: nowrap;
+    }
+
+    .log-message {
+      flex: 1;
+    }
+
+    /* DLQ Tab */
+    .dlq-item {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--danger);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .dlq-item.resolved {
+      border-left-color: var(--success);
+      opacity: 0.7;
+    }
+
+    .dlq-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .dlq-error {
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .dlq-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h1 class="logo">AutoWebsites<span>Pro</span></h1>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/" class="nav-item" data-page="dashboard">
+          <span class="nav-icon">📊</span>
+          Dashboard
+        </a>
+        <a href="/leads.html" class="nav-item" data-page="leads">
+          <span class="nav-icon">👥</span>
+          Leads
+        </a>
+        <a href="/campaigns.html" class="nav-item" data-page="campaigns">
+          <span class="nav-icon">📧</span>
+          Campaigns
+        </a>
+        <a href="/jobs.html" class="nav-item active" data-page="jobs">
+          <span class="nav-icon">⚙️</span>
+          Job Queue
+        </a>
+        <a href="/sequence-builder.html" class="nav-item" data-page="sequences">
+          <span class="nav-icon">🔗</span>
+          Sequence Builder
+        </a>
+        <a href="#" class="nav-item" data-page="analytics">
+          <span class="nav-icon">📈</span>
+          Analytics
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="themeToggle">🌙</button>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <h2 class="page-title">Job Queue</h2>
+        </div>
+        <div class="header-right">
+          <span class="user-name" id="userName">Loading...</span>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="content">
+        <!-- Stats Cards -->
+        <div class="job-stats-grid" id="statsGrid">
+          <div class="job-stat-card">
+            <div class="job-stat-value" id="statTotal">-</div>
+            <div class="job-stat-label">Total Jobs</div>
+          </div>
+          <div class="job-stat-card pending">
+            <div class="job-stat-value" id="statPending">-</div>
+            <div class="job-stat-label">Pending</div>
+          </div>
+          <div class="job-stat-card running">
+            <div class="job-stat-value" id="statRunning">-</div>
+            <div class="job-stat-label">Running</div>
+          </div>
+          <div class="job-stat-card completed">
+            <div class="job-stat-value" id="statCompleted">-</div>
+            <div class="job-stat-label">Completed</div>
+          </div>
+          <div class="job-stat-card failed">
+            <div class="job-stat-value" id="statFailed">-</div>
+            <div class="job-stat-label">Failed</div>
+          </div>
+        </div>
+
+        <!-- Pipeline Flow -->
+        <div class="pipeline-flow" id="pipelineFlow">
+          <div class="pipeline-stage-box" data-type="discover" onclick="filterByType('discover')">
+            <div class="pipeline-stage-icon">🔍</div>
+            <div class="pipeline-stage-count" id="pipelineDiscover">0</div>
+            <div class="pipeline-stage-name">Discover</div>
+          </div>
+          <div class="pipeline-connector"></div>
+          <div class="pipeline-stage-box" data-type="capture" onclick="filterByType('capture')">
+            <div class="pipeline-stage-icon">📸</div>
+            <div class="pipeline-stage-count" id="pipelineCapture">0</div>
+            <div class="pipeline-stage-name">Capture</div>
+          </div>
+          <div class="pipeline-connector"></div>
+          <div class="pipeline-stage-box" data-type="generate" onclick="filterByType('generate')">
+            <div class="pipeline-stage-icon">🎨</div>
+            <div class="pipeline-stage-count" id="pipelineGenerate">0</div>
+            <div class="pipeline-stage-name">Generate</div>
+          </div>
+          <div class="pipeline-connector"></div>
+          <div class="pipeline-stage-box" data-type="deploy" onclick="filterByType('deploy')">
+            <div class="pipeline-stage-icon">🚀</div>
+            <div class="pipeline-stage-count" id="pipelineDeploy">0</div>
+            <div class="pipeline-stage-name">Deploy</div>
+          </div>
+          <div class="pipeline-connector"></div>
+          <div class="pipeline-stage-box" data-type="email" onclick="filterByType('email')">
+            <div class="pipeline-stage-icon">📧</div>
+            <div class="pipeline-stage-count" id="pipelineEmail">0</div>
+            <div class="pipeline-stage-name">Email</div>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+          <button class="tab active" data-tab="jobs" onclick="switchTab('jobs')">All Jobs</button>
+          <button class="tab" data-tab="dlq" onclick="switchTab('dlq')">Dead Letter Queue</button>
+        </div>
+
+        <!-- Jobs Tab Content -->
+        <div class="tab-content active" id="jobsTab">
+          <div class="card">
+            <!-- Toolbar -->
+            <div class="jobs-toolbar">
+              <div class="toolbar-left">
+                <select id="filterStatus" onchange="loadJobs()">
+                  <option value="">All Statuses</option>
+                  <option value="pending">Pending</option>
+                  <option value="running">Running</option>
+                  <option value="completed">Completed</option>
+                  <option value="failed">Failed</option>
+                  <option value="scheduled">Scheduled</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+                <select id="filterType" onchange="loadJobs()">
+                  <option value="">All Types</option>
+                  <option value="discover">Discover</option>
+                  <option value="capture">Capture</option>
+                  <option value="generate">Generate</option>
+                  <option value="deploy">Deploy</option>
+                  <option value="email">Email</option>
+                  <option value="followup">Followup</option>
+                  <option value="score">Score</option>
+                </select>
+                <button class="btn btn-sm" onclick="loadJobs()">Refresh</button>
+              </div>
+              <div class="toolbar-right">
+                <label class="auto-refresh-toggle">
+                  <input type="checkbox" id="autoRefresh" onchange="toggleAutoRefresh()">
+                  Auto-refresh (5s)
+                </label>
+                <button class="btn btn-sm btn-danger" onclick="clearJobs()">Clear Finished</button>
+              </div>
+            </div>
+
+            <!-- Bulk Action Bar -->
+            <div class="bulk-action-bar" id="bulkActionBar">
+              <span class="selected-count"><span id="selectedCount">0</span> selected</span>
+              <button onclick="bulkAction('cancel')">Cancel Selected</button>
+              <button onclick="bulkAction('retry')">Retry Selected</button>
+              <button onclick="clearSelection()">Clear Selection</button>
+            </div>
+
+            <!-- Job List -->
+            <div class="table-container">
+              <div class="job-row job-header">
+                <div><input type="checkbox" id="selectAll" onchange="toggleSelectAll()"></div>
+                <div>Job Details</div>
+                <div>Type</div>
+                <div>Status</div>
+                <div>Created</div>
+                <div>Duration</div>
+                <div>Actions</div>
+              </div>
+              <div id="jobsList">
+                <p class="loading">Loading jobs...</p>
+              </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination"></div>
+          </div>
+        </div>
+
+        <!-- DLQ Tab Content -->
+        <div class="tab-content" id="dlqTab">
+          <div class="card">
+            <div class="card-header">
+              <h3>Dead Letter Queue</h3>
+            </div>
+            <div style="padding: 16px;">
+              <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+                <input type="checkbox" id="showResolvedDLQ" onchange="loadDLQ()">
+                Show resolved items
+              </label>
+              <div id="dlqList">
+                <p class="loading">Loading...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Job Detail Modal -->
+  <div class="modal" id="jobDetailModal">
+    <div class="modal-content job-detail-content">
+      <div class="modal-header">
+        <h3>Job Details</h3>
+        <button class="modal-close" onclick="hideModal('jobDetailModal')">&times;</button>
+      </div>
+      <div id="jobDetailContent">
+        <p class="loading">Loading...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <h2>Login to AutoWebsites Pro</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <p class="form-footer">
+          No account? <a href="#" id="showRegister">Register</a>
+        </p>
+        <p class="error-message" id="loginError"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/jobs.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!isAuthenticated()) {
+        showLoginModal();
+      } else {
+        initJobsPage();
+      }
+
+      // Set user name
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      document.getElementById('userName').textContent = user.name || user.email || 'User';
+    });
+  </script>
+</body>
+</html>

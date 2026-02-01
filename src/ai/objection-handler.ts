@@ -2,6 +2,78 @@ import { getClaudeClient, ClaudeClient } from './claude-client';
 import { WebsiteAnalysis } from './website-analyzer';
 import { IndustryType } from './industry-templates';
 
+// LRU Cache entry with TTL support
+interface CacheEntry<T> {
+  value: T;
+  timestamp: number;
+}
+
+// Simple LRU Cache with TTL support to prevent memory leaks
+class LRUCache<K, V> {
+  private cache: Map<K, CacheEntry<V>> = new Map();
+  private maxSize: number;
+  private ttlMs: number;
+
+  constructor(maxSize: number = 100, ttlMs: number = 60 * 60 * 1000) {
+    this.maxSize = maxSize;
+    this.ttlMs = ttlMs;
+  }
+
+  get(key: K): V | undefined {
+    const entry = this.cache.get(key);
+    if (!entry) return undefined;
+
+    // Check TTL
+    if (Date.now() - entry.timestamp > this.ttlMs) {
+      this.cache.delete(key);
+      return undefined;
+    }
+
+    // Move to end (most recently used) by re-inserting
+    this.cache.delete(key);
+    this.cache.set(key, entry);
+    return entry.value;
+  }
+
+  set(key: K, value: V): void {
+    // Delete if exists to update position
+    if (this.cache.has(key)) {
+      this.cache.delete(key);
+    }
+
+    // Evict oldest entries if at capacity
+    while (this.cache.size >= this.maxSize) {
+      const oldestKey = this.cache.keys().next().value;
+      if (oldestKey !== undefined) {
+        this.cache.delete(oldestKey);
+      }
+    }
+
+    this.cache.set(key, { value, timestamp: Date.now() });
+  }
+
+  has(key: K): boolean {
+    const entry = this.cache.get(key);
+    if (!entry) return false;
+
+    // Check TTL
+    if (Date.now() - entry.timestamp > this.ttlMs) {
+      this.cache.delete(key);
+      return false;
+    }
+
+    return true;
+  }
+
+  clear(): void {
+    this.cache.clear();
+  }
+
+  get size(): number {
+    return this.cache.size;
+  }
+}
+
 export interface ObjectionResponse {
   objection: string;
   category: ObjectionCategory;
@@ -85,7 +157,8 @@ const COMMON_OBJECTIONS: Record<ObjectionCategory, string[]> = {
 
 export class ObjectionHandler {
   private client: ClaudeClient;
-  private cachedResponses: Map<string, CommonObjections> = new Map();
+  // LRU cache with max 100 entries and 1 hour TTL to prevent memory leaks
+  private cachedResponses: LRUCache<string, CommonObjections> = new LRUCache(100, 60 * 60 * 1000);
 
   constructor(client?: ClaudeClient) {
     this.client = client || getClaudeClient();

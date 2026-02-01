@@ -1,25 +1,22 @@
 /**
  * Unified Email Client
  *
- * Automatically uses Gmail (free, 500/day) or SendGrid (paid, high volume)
- * based on which is configured. Gmail is preferred if both are configured.
+ * Uses Gmail for sending emails (free, 500/day limit).
  */
 
 import * as GmailClient from './gmail-client';
-import * as SendGridClient from './sendgrid-client';
 import { features } from '../utils/config';
 
 export { EmailMessage, SendResult } from './gmail-client';
 
 // Re-export types
-export type EmailProvider = 'gmail' | 'sendgrid' | 'none';
+export type EmailProvider = 'gmail' | 'none';
 
 /**
  * Get the currently configured email provider
  */
 export function getEmailProvider(): EmailProvider {
   if (features.gmail) return 'gmail';
-  if (features.sendgrid) return 'sendgrid';
   return 'none';
 }
 
@@ -40,8 +37,6 @@ export async function sendEmail(
 
   if (provider === 'gmail') {
     return GmailClient.sendEmail(message);
-  } else if (provider === 'sendgrid') {
-    return SendGridClient.sendEmail(message);
   }
 
   // No provider configured - simulate
@@ -67,8 +62,6 @@ export async function sendBulkEmails(
 
   if (provider === 'gmail') {
     return GmailClient.sendBulkEmails(messages, options);
-  } else if (provider === 'sendgrid') {
-    return SendGridClient.sendBulkEmails(messages, options);
   }
 
   // No provider - simulate all
@@ -87,8 +80,6 @@ export async function verifyConnection(): Promise<boolean> {
 
   if (provider === 'gmail') {
     return GmailClient.verifyConnection();
-  } else if (provider === 'sendgrid') {
-    return SendGridClient.verifyApiKey();
   }
 
   return false;
@@ -117,15 +108,6 @@ export async function getProviderStatus(): Promise<{
       sent: stats.emailsSent,
       remaining: stats.quotaRemaining,
     };
-  } else if (provider === 'sendgrid') {
-    const connected = await SendGridClient.verifyApiKey();
-    const stats = await SendGridClient.getEmailStats();
-
-    return {
-      provider: 'sendgrid',
-      connected,
-      // SendGrid doesn't have daily limits in the same way
-    };
   }
 
   return {
@@ -144,8 +126,7 @@ export async function canSendToday(count: number = 1): Promise<boolean> {
     return GmailClient.canSendToday(count);
   }
 
-  // SendGrid doesn't have the same daily limits
-  return true;
+  return false;
 }
 
 /**
@@ -161,7 +142,7 @@ export function createSendEmailFunction() {
   ): Promise<{ messageId: string }> => {
     const result = await sendEmail({
       to,
-      from: process.env.GMAIL_FROM_EMAIL || process.env.SENDGRID_FROM_EMAIL || '',
+      from: process.env.GMAIL_FROM_EMAIL || '',
       subject,
       html,
       text,

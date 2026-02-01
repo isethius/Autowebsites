@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Websites for Plumbers — Get More Emergency Calls | AutoWebsites Pro</title>
+  <meta name="description" content="Professional plumbing websites that convert emergency searches into booked jobs. Mobile-first, 24/7 booking, click-to-call. Get a free preview today.">
+  <style>
+    /* Design System */
+    :root {
+      /* Brand Colors - Blue for trust, orange for urgency */
+      --color-primary: #0066CC;
+      --color-primary-dark: #004999;
+      --color-accent: #FF6B35;
+      --color-accent-dark: #E55A25;
+
+      /* Neutrals */
+      --color-bg: #FAFAFA;
+      --color-surface: #FFFFFF;
+      --color-text: #1A1A2E;
+      --color-text-secondary: rgba(26, 26, 46, 0.7);
+      --color-text-muted: rgba(26, 26, 46, 0.5);
+      --color-border: rgba(26, 26, 46, 0.1);
+
+      /* Success/Warning */
+      --color-success: #10B981;
+      --color-warning: #F59E0B;
+
+      /* Typography */
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+      /* Spacing */
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 24px;
+      --space-6: 32px;
+      --space-7: 48px;
+      --space-8: 64px;
+      --space-9: 96px;
+
+      /* Layout */
+      --max-width: 1200px;
+      --content-width: 680px;
+    }
+
+    /* Reset */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+    }
+
+    h1, h2, h3 {
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    h1 { font-size: clamp(2.25rem, 5vw, 3.25rem); }
+    h2 { font-size: clamp(1.75rem, 3vw, 2.25rem); }
+    h3 { font-size: 1.25rem; }
+
+    p {
+      color: var(--color-text-secondary);
+      max-width: 60ch;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    img { max-width: 100%; display: block; }
+
+    /* Layout */
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--space-5);
+    }
+
+    section {
+      padding: var(--space-9) 0;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: var(--space-4) 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--color-primary);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.25rem;
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-5);
+      background: var(--color-accent);
+      color: white;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: background 0.15s;
+    }
+
+    .nav-cta:hover {
+      background: var(--color-accent-dark);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: var(--space-8);
+      background: linear-gradient(135deg, #0066CC 0%, #004999 100%);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 100%;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='rgba(255,255,255,0.05)'/%3E%3C/svg%3E") repeat;
+      opacity: 0.3;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+      align-items: center;
+    }
+
+    .hero-text {
+      max-width: 560px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-4);
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 100px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: var(--space-5);
+    }
+
+    .hero-badge-icon {
+      font-size: 1rem;
+    }
+
+    .hero h1 {
+      margin-bottom: var(--space-5);
+      color: white;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: var(--space-6);
+      max-width: 500px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-4) var(--space-6);
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-primary {
+      background: var(--color-accent);
+      color: white;
+      border-color: var(--color-accent);
+    }
+
+    .btn-primary:hover {
+      background: var(--color-accent-dark);
+      border-color: var(--color-accent-dark);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: white;
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: white;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: var(--space-6);
+      margin-top: var(--space-7);
+      padding-top: var(--space-6);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-stat {
+      text-align: center;
+    }
+
+    .hero-stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .hero-stat-label {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .hero-visual {
+      position: relative;
+    }
+
+    .hero-phone-mockup {
+      background: #1A1A2E;
+      border-radius: 36px;
+      padding: var(--space-3);
+      max-width: 320px;
+      margin: 0 auto;
+      box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-phone-screen {
+      background: white;
+      border-radius: 28px;
+      overflow: hidden;
+    }
+
+    .phone-header {
+      background: var(--color-primary);
+      padding: var(--space-5);
+      text-align: center;
+      color: white;
+    }
+
+    .phone-header h4 {
+      font-size: 1.125rem;
+      margin-bottom: var(--space-2);
+    }
+
+    .phone-header p {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .phone-emergency-btn {
+      display: block;
+      margin: var(--space-3) auto;
+      padding: var(--space-3) var(--space-5);
+      background: var(--color-accent);
+      color: white;
+      font-weight: 600;
+      border-radius: 100px;
+      font-size: 0.9rem;
+    }
+
+    .phone-services {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-2);
+      padding: var(--space-4);
+    }
+
+    .phone-service {
+      text-align: center;
+      padding: var(--space-3);
+      background: var(--color-bg);
+      border-radius: 8px;
+    }
+
+    .phone-service-icon {
+      font-size: 1.5rem;
+      margin-bottom: var(--space-1);
+    }
+
+    .phone-service-label {
+      font-size: 0.7rem;
+      color: var(--color-text-secondary);
+    }
+
+    .phone-trust {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-4);
+      padding: var(--space-4);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .phone-trust-badge {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+      font-size: 0.75rem;
+      color: var(--color-text-secondary);
+    }
+
+    /* Pain Points Section */
+    .pain-points {
+      background: white;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: var(--content-width);
+      margin: 0 auto var(--space-8);
+    }
+
+    .section-header h2 {
+      margin-bottom: var(--space-3);
+    }
+
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-5);
+    }
+
+    .pain-card {
+      padding: var(--space-6);
+      background: var(--color-bg);
+      border-radius: 16px;
+      border: 1px solid var(--color-border);
+    }
+
+    .pain-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: var(--space-4);
+    }
+
+    .pain-card h3 {
+      margin-bottom: var(--space-2);
+    }
+
+    /* Solution Section */
+    .solution {
+      background: linear-gradient(180deg, var(--color-bg) 0%, white 100%);
+    }
+
+    .solution-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-8);
+      align-items: center;
+    }
+
+    .solution-features {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+    }
+
+    .solution-feature {
+      display: flex;
+      gap: var(--space-4);
+    }
+
+    .solution-feature-icon {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    .solution-feature h3 {
+      margin-bottom: var(--space-1);
+    }
+
+    .solution-feature p {
+      font-size: 0.9375rem;
+    }
+
+    .solution-visual {
+      position: relative;
+    }
+
+    .browser-mockup {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    }
+
+    .browser-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-4);
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .browser-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--color-border);
+    }
+
+    .browser-url {
+      flex: 1;
+      padding: var(--space-2) var(--space-3);
+      background: white;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+    }
+
+    .browser-content {
+      padding: var(--space-5);
+    }
+
+    .browser-content-hero {
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+      padding: var(--space-6);
+      border-radius: 8px;
+      color: white;
+      text-align: center;
+      margin-bottom: var(--space-4);
+    }
+
+    .browser-content-hero h4 {
+      font-size: 1.25rem;
+      margin-bottom: var(--space-2);
+    }
+
+    .browser-services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-3);
+    }
+
+    .browser-service-card {
+      padding: var(--space-3);
+      background: var(--color-bg);
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .browser-service-card-icon {
+      font-size: 1.5rem;
+      margin-bottom: var(--space-2);
+    }
+
+    .browser-service-card-label {
+      font-size: 0.75rem;
+      color: var(--color-text-secondary);
+    }
+
+    /* Testimonials */
+    .testimonials {
+      background: white;
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-5);
+    }
+
+    .testimonial-card {
+      padding: var(--space-6);
+      background: var(--color-bg);
+      border-radius: 16px;
+      border: 1px solid var(--color-border);
+    }
+
+    .testimonial-stars {
+      color: #FCD34D;
+      font-size: 1.125rem;
+      margin-bottom: var(--space-3);
+    }
+
+    .testimonial-text {
+      font-size: 1rem;
+      color: var(--color-text);
+      margin-bottom: var(--space-4);
+      line-height: 1.7;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .testimonial-avatar {
+      width: 48px;
+      height: 48px;
+      background: var(--color-primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+    }
+
+    .testimonial-name {
+      font-weight: 600;
+    }
+
+    .testimonial-company {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+    }
+
+    /* Pricing */
+    .pricing {
+      background: var(--color-bg);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-5);
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      padding: var(--space-6);
+      background: white;
+      border-radius: 16px;
+      border: 2px solid var(--color-border);
+      position: relative;
+    }
+
+    .pricing-card.featured {
+      border-color: var(--color-primary);
+      transform: scale(1.02);
+    }
+
+    .pricing-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: var(--space-2) var(--space-4);
+      background: var(--color-primary);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 100px;
+      text-transform: uppercase;
+    }
+
+    .pricing-header {
+      text-align: center;
+      padding-bottom: var(--space-5);
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: var(--space-5);
+    }
+
+    .pricing-tier {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--space-2);
+    }
+
+    .pricing-price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--color-text);
+    }
+
+    .pricing-price span {
+      font-size: 1rem;
+      color: var(--color-text-muted);
+      font-weight: 400;
+    }
+
+    .pricing-features {
+      list-style: none;
+      margin-bottom: var(--space-6);
+    }
+
+    .pricing-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      padding: var(--space-2) 0;
+      font-size: 0.9375rem;
+    }
+
+    .pricing-features li::before {
+      content: '✓';
+      color: var(--color-success);
+      font-weight: 600;
+    }
+
+    .pricing-cta {
+      display: block;
+      width: 100%;
+      padding: var(--space-4);
+      text-align: center;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: all 0.15s;
+    }
+
+    .pricing-card:not(.featured) .pricing-cta {
+      background: var(--color-bg);
+      color: var(--color-text);
+    }
+
+    .pricing-card:not(.featured) .pricing-cta:hover {
+      background: var(--color-border);
+    }
+
+    .pricing-card.featured .pricing-cta {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    .pricing-card.featured .pricing-cta:hover {
+      background: var(--color-primary-dark);
+    }
+
+    /* CTA Section */
+    .cta {
+      background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+      color: white;
+      text-align: center;
+    }
+
+    .cta h2 {
+      color: white;
+      margin-bottom: var(--space-4);
+    }
+
+    .cta p {
+      color: rgba(255, 255, 255, 0.7);
+      margin: 0 auto var(--space-6);
+      max-width: 500px;
+    }
+
+    .cta-actions {
+      display: flex;
+      gap: var(--space-4);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-cta {
+      background: var(--color-accent);
+      color: white;
+    }
+
+    .btn-cta:hover {
+      background: var(--color-accent-dark);
+    }
+
+    .btn-cta-outline {
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      color: white;
+    }
+
+    .btn-cta-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Footer */
+    footer {
+      padding: var(--space-7) 0;
+      background: #0F0F1A;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: var(--space-6);
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-content { grid-template-columns: 1fr; text-align: center; }
+      .hero-text { margin: 0 auto; }
+      .hero-actions { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .hero-visual { display: none; }
+      .pain-grid { grid-template-columns: 1fr 1fr; }
+      .solution-grid { grid-template-columns: 1fr; }
+      .solution-visual { order: -1; }
+      .testimonial-grid { grid-template-columns: 1fr 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+      .pricing-card.featured { transform: none; }
+    }
+
+    @media (max-width: 768px) {
+      section { padding: var(--space-7) 0; }
+      .pain-grid { grid-template-columns: 1fr; }
+      .testimonial-grid { grid-template-columns: 1fr; }
+      .hero-actions { flex-direction: column; }
+      .hero-actions .btn { width: 100%; justify-content: center; }
+      .cta-actions { flex-direction: column; align-items: center; }
+      .cta-actions .btn { width: 100%; max-width: 300px; justify-content: center; }
+      .footer-content { flex-direction: column; gap: var(--space-4); text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="container">
+      <a href="/" class="logo">
+        <span class="logo-icon">🔧</span>
+        AutoWebsites<span style="color: var(--color-primary)">Pro</span>
+      </a>
+      <a href="#pricing" class="nav-cta">Get Your Free Preview</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <div class="hero-badge">
+            <span class="hero-badge-icon">🚨</span>
+            Built for Emergency Service Businesses
+          </div>
+          <h1>Get More Emergency Plumbing Calls</h1>
+          <p>80% of plumbing emergencies start with a mobile search. Your website has 3 seconds to convert a panicked homeowner into a booked job.</p>
+          <div class="hero-actions">
+            <a href="#pricing" class="btn btn-primary">Get Your Free Preview</a>
+            <a href="#features" class="btn btn-outline">See How It Works</a>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <div class="hero-stat-value">3x</div>
+              <div class="hero-stat-label">More Calls</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-value">2s</div>
+              <div class="hero-stat-label">Load Time</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hero-stat-value">24/7</div>
+              <div class="hero-stat-label">Booking</div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-phone-mockup">
+            <div class="hero-phone-screen">
+              <div class="phone-header">
+                <h4>Joe's Plumbing</h4>
+                <p>Licensed • Insured • 24/7 Service</p>
+                <a href="#" class="phone-emergency-btn">📞 Call Now - Emergency</a>
+              </div>
+              <div class="phone-services">
+                <div class="phone-service">
+                  <div class="phone-service-icon">🚿</div>
+                  <div class="phone-service-label">Drain</div>
+                </div>
+                <div class="phone-service">
+                  <div class="phone-service-icon">🔥</div>
+                  <div class="phone-service-label">Water Heater</div>
+                </div>
+                <div class="phone-service">
+                  <div class="phone-service-icon">🚰</div>
+                  <div class="phone-service-label">Pipes</div>
+                </div>
+              </div>
+              <div class="phone-trust">
+                <span class="phone-trust-badge">✓ Licensed</span>
+                <span class="phone-trust-badge">⭐ 4.9 Rating</span>
+                <span class="phone-trust-badge">🛡️ Insured</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pain Points -->
+  <section class="pain-points">
+    <div class="container">
+      <div class="section-header">
+        <h2>Your Competitors Are Stealing Your Calls</h2>
+        <p>Every day, plumbers with better websites are getting the emergency calls that should be going to you.</p>
+      </div>
+      <div class="pain-grid">
+        <div class="pain-card">
+          <div class="pain-icon">📱</div>
+          <h3>Slow Mobile Experience</h3>
+          <p>85% of emergency plumbing searches happen on phones. If your site takes more than 3 seconds to load, they're calling someone else.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">📞</div>
+          <h3>Hidden Contact Info</h3>
+          <p>When a pipe bursts at 2am, homeowners need to call NOW. If they can't find your number in 5 seconds, you've lost them.</p>
+        </div>
+        <div class="pain-card">
+          <div class="pain-icon">🔍</div>
+          <h3>Invisible to Google</h3>
+          <p>When someone searches "plumber near me", you're nowhere to be found. Your competitors are ranking above you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solution Features -->
+  <section class="solution" id="features">
+    <div class="container">
+      <div class="section-header">
+        <h2>Websites That Turn Searches Into Calls</h2>
+        <p>Every element designed to convert panicked homeowners into booked jobs.</p>
+      </div>
+      <div class="solution-grid">
+        <div class="solution-features">
+          <div class="solution-feature">
+            <div class="solution-feature-icon">📱</div>
+            <div>
+              <h3>Mobile-First Design</h3>
+              <p>Click-to-call buttons, tap-friendly navigation, and lightning-fast loading on any device.</p>
+            </div>
+          </div>
+          <div class="solution-feature">
+            <div class="solution-feature-icon">🚨</div>
+            <div>
+              <h3>Emergency Call Button</h3>
+              <p>Prominent 24/7 emergency button that's impossible to miss. One tap to call you directly.</p>
+            </div>
+          </div>
+          <div class="solution-feature">
+            <div class="solution-feature-icon">🗺️</div>
+            <div>
+              <h3>Service Area Map</h3>
+              <p>Interactive map showing your coverage area. Builds trust and captures local searches.</p>
+            </div>
+          </div>
+          <div class="solution-feature">
+            <div class="solution-feature-icon">⭐</div>
+            <div>
+              <h3>Review Integration</h3>
+              <p>Automatic Google review display. Social proof that converts skeptics into customers.</p>
+            </div>
+          </div>
+          <div class="solution-feature">
+            <div class="solution-feature-icon">🛡️</div>
+            <div>
+              <h3>Trust Badges</h3>
+              <p>License, insurance, BBB rating, and certifications prominently displayed.</p>
+            </div>
+          </div>
+        </div>
+        <div class="solution-visual">
+          <div class="browser-mockup">
+            <div class="browser-header">
+              <div class="browser-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="browser-url">joesplumbing.com</div>
+            </div>
+            <div class="browser-content">
+              <div class="browser-content-hero">
+                <h4>24/7 Emergency Plumbing</h4>
+                <p style="color: rgba(255,255,255,0.8); font-size: 0.875rem;">Licensed • Insured • Same-Day Service</p>
+              </div>
+              <div class="browser-services-grid">
+                <div class="browser-service-card">
+                  <div class="browser-service-card-icon">🚿</div>
+                  <div class="browser-service-card-label">Drain Cleaning</div>
+                </div>
+                <div class="browser-service-card">
+                  <div class="browser-service-card-icon">🔥</div>
+                  <div class="browser-service-card-label">Water Heaters</div>
+                </div>
+                <div class="browser-service-card">
+                  <div class="browser-service-card-icon">🚰</div>
+                  <div class="browser-service-card-label">Pipe Repair</div>
+                </div>
+                <div class="browser-service-card">
+                  <div class="browser-service-card-icon">🚽</div>
+                  <div class="browser-service-card-label">Toilet Repair</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <h2>Plumbers Love Their New Websites</h2>
+        <p>Join hundreds of plumbing businesses that have transformed their online presence.</p>
+      </div>
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Within the first month, our emergency calls increased by 40%. The mobile experience is incredible — customers love how easy it is to reach us."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">JM</div>
+            <div>
+              <div class="testimonial-name">Joe Martinez</div>
+              <div class="testimonial-company">Martinez Plumbing, Phoenix AZ</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Best investment we've made. The new site pays for itself every week with the extra jobs we're getting from Google searches."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">RS</div>
+            <div>
+              <div class="testimonial-name">Robert Smith</div>
+              <div class="testimonial-company">Valley Plumbing, Tucson AZ</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Finally, a website that works as hard as we do. The 24/7 booking form captures leads even when we're on jobs."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">DW</div>
+            <div>
+              <div class="testimonial-name">David Wilson</div>
+              <div class="testimonial-company">Wilson & Sons Plumbing, Mesa AZ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <div class="section-header">
+        <h2>Choose Your Package</h2>
+        <p>Every package includes mobile-first design, click-to-call, and emergency booking.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-header">
+            <div class="pricing-tier">Starter</div>
+            <div class="pricing-price">$2,500</div>
+          </div>
+          <ul class="pricing-features">
+            <li>Mobile-optimized 5-page site</li>
+            <li>Click-to-call button</li>
+            <li>Emergency service highlight</li>
+            <li>Google Maps integration</li>
+            <li>Contact form</li>
+            <li>30-day support</li>
+          </ul>
+          <a href="#" class="pricing-cta">Get Started</a>
+        </div>
+        <div class="pricing-card featured">
+          <div class="pricing-badge">Most Popular</div>
+          <div class="pricing-header">
+            <div class="pricing-tier">Professional</div>
+            <div class="pricing-price">$5,000</div>
+          </div>
+          <ul class="pricing-features">
+            <li>Everything in Starter</li>
+            <li>10-page custom site</li>
+            <li>Online booking system</li>
+            <li>Google review integration</li>
+            <li>Service area map</li>
+            <li>Basic SEO setup</li>
+            <li>90-day support</li>
+          </ul>
+          <a href="#" class="pricing-cta">Get Started</a>
+        </div>
+        <div class="pricing-card">
+          <div class="pricing-header">
+            <div class="pricing-tier">Premium</div>
+            <div class="pricing-price">$10,000</div>
+          </div>
+          <ul class="pricing-features">
+            <li>Everything in Professional</li>
+            <li>Unlimited pages</li>
+            <li>Advanced SEO package</li>
+            <li>CRM integration</li>
+            <li>Live chat setup</li>
+            <li>Monthly performance reports</li>
+            <li>1-year priority support</li>
+          </ul>
+          <a href="#" class="pricing-cta">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="container">
+      <h2>Ready to Get More Emergency Calls?</h2>
+      <p>Get a free preview of your new website. No commitment, no credit card required.</p>
+      <div class="cta-actions">
+        <a href="#" class="btn btn-cta">Get Your Free Preview</a>
+        <a href="#" class="btn btn-cta-outline">Schedule a Call</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="#features">Features</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#">Contact</a>
+          <a href="#">Privacy</a>
+        </div>
+        <div>AutoWebsites Pro — Websites for Plumbers</div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

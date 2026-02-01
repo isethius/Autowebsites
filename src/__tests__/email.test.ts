@@ -1,15 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-// Mock SendGrid
-vi.mock('@sendgrid/mail', () => ({
-  default: {
-    setApiKey: vi.fn(),
-    send: vi.fn().mockResolvedValue([
-      { statusCode: 202, headers: { 'x-message-id': 'test-msg-id' } },
-    ]),
-  },
-}));
-
 // Mock Supabase
 vi.mock('@supabase/supabase-js', () => ({
   createClient: vi.fn().mockReturnValue({
@@ -98,37 +88,6 @@ describe('Sequence Engine', () => {
   it('should export SequenceEngine class', async () => {
     const { SequenceEngine } = await import('../email/sequence-engine');
     expect(SequenceEngine).toBeDefined();
-  });
-});
-
-describe('Webhook Handler', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-    process.env.SUPABASE_URL = 'https://test.supabase.co';
-    process.env.SUPABASE_ANON_KEY = 'test-key';
-  });
-
-  it('should export WebhookHandler class', async () => {
-    const { WebhookHandler } = await import('../email/webhook-handler');
-    expect(WebhookHandler).toBeDefined();
-  });
-
-  it('should process webhook events', async () => {
-    const { WebhookHandler } = await import('../email/webhook-handler');
-    const handler = new WebhookHandler();
-
-    const events = [
-      {
-        event: 'open',
-        email: 'test@example.com',
-        timestamp: Date.now(),
-        sg_message_id: 'msg-123',
-      },
-    ];
-
-    const result = await handler.handleEvents(events as any);
-    expect(result).toHaveProperty('processed');
-    expect(result).toHaveProperty('errors');
   });
 });
 

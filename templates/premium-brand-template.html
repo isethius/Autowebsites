@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{BUSINESS_NAME}} | {{TAGLINE}}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quattrocento:wght@400;700&family=Quattrocento+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* =====================================================
+           PREMIUM BRAND-CUSTOMIZABLE TEMPLATE
+           Inspired by Templeton Walker aesthetic
+
+           CUSTOMIZATION: Change --color-primary to your brand color
+           Default: Dark Forest Green #1a472a
+
+           Popular alternatives:
+           - Navy Blue: #1a2a4a
+           - Charcoal: #2d2d2d
+           - Burgundy: #4a1a2a
+           - Deep Teal: #1a4a4a
+           - Royal Purple: #3a1a4a
+           ===================================================== */
+
+        :root {
+            /* BRAND COLOR - Change this to customize */
+            --color-primary: #1a472a;
+            --color-primary-light: #2d5a3d;
+
+            /* Accent color (optional - for badges, highlights) */
+            --color-accent: #c9a959;
+
+            /* Core neutrals - generally don't change these */
+            --color-white: #ffffff;
+            --color-off-white: #fafafa;
+            --color-text: #333333;
+            --color-text-light: #666666;
+            --color-gray: #848484;
+            --color-light-gray: #cccccc;
+
+            /* Typography */
+            --font-serif: 'Quattrocento', Georgia, 'Times New Roman', serif;
+            --font-sans: 'Quattrocento Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+            /* Sizing */
+            --section-padding: 96px;
+            --section-padding-mobile: 64px;
+            --container-max-width: 1300px;
+
+            /* Animation */
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            line-height: 1.7;
+            color: var(--color-text);
+            font-size: 16px;
+            background: var(--color-white);
+        }
+
+        /* =====================================================
+           NAVIGATION
+           ===================================================== */
+        nav {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 24px 0;
+            background: transparent;
+            transition: background 0.4s ease, padding 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: var(--color-primary);
+            padding: 16px 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+        }
+
+        .nav-logo img {
+            height: 48px;
+            width: 48px;
+            object-fit: contain;
+        }
+
+        .nav-logo span {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            color: var(--color-white);
+            font-size: 1.1rem;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--color-white);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: var(--transition);
+            opacity: 0.9;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: currentColor;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .nav-cta {
+            background: var(--color-white);
+            color: var(--color-primary);
+            padding: 14px 28px;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: var(--transition);
+            border: 2px solid var(--color-white);
+        }
+
+        .nav-cta:hover {
+            background: transparent;
+            color: var(--color-white);
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--color-white);
+        }
+
+        /* =====================================================
+           BUTTONS
+           ===================================================== */
+        .btn {
+            display: inline-block;
+            padding: 20px 46px;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: var(--transition);
+            cursor: pointer;
+            font-family: var(--font-serif);
+        }
+
+        .btn-primary {
+            background: var(--color-white);
+            color: var(--color-primary);
+            border: 2px solid var(--color-white);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--color-white);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-white);
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.6);
+        }
+
+        .btn-dark {
+            background: var(--color-primary);
+            color: var(--color-white);
+            border: 2px solid var(--color-primary);
+        }
+
+        .btn-dark:hover {
+            background: var(--color-white);
+            color: var(--color-primary);
+        }
+
+        /* =====================================================
+           ANIMATED LINK UNDERLINES
+           ===================================================== */
+        .link-animated {
+            position: relative;
+            text-decoration: none;
+        }
+
+        .link-animated::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: currentColor;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .link-animated:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* =====================================================
+           HERO SECTION
+           ===================================================== */
+        .hero {
+            min-height: 100vh;
+            background: var(--color-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 40px;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.2) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .hero-label {
+            display: inline-block;
+            color: var(--color-white);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 32px;
+            opacity: 0.8;
+        }
+
+        .hero h1 {
+            font-family: var(--font-serif);
+            font-size: 58px;
+            color: var(--color-white);
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 28px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.85);
+            max-width: 600px;
+            margin: 0 auto 48px;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--color-white);
+            opacity: 0.6;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* =====================================================
+           SECTION STYLES
+           ===================================================== */
+        section {
+            padding: var(--section-padding) 40px;
+        }
+
+        .section-container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+        }
+
+        .section-label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-primary);
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: 35px;
+            color: var(--color-primary);
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 72px;
+        }
+
+        .section-header p {
+            color: var(--color-text-light);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* =====================================================
+           ABOUT SECTION - TWO COLUMN
+           ===================================================== */
+        .about {
+            background: var(--color-white);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .about-image:hover img {
+            transform: scale(1.02);
+        }
+
+        .about-image-placeholder {
+            background: linear-gradient(135deg, #e8f0e8 0%, #d4e4d4 100%);
+            aspect-ratio: 4/5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .about-content p {
+            color: var(--color-text-light);
+            margin-bottom: 24px;
+            font-size: 1rem;
+            line-height: 1.9;
+        }
+
+        .credentials-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 48px;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid #e8e8e8;
+        }
+
+        .credential-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .credential-item .number {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            color: var(--color-primary);
+            font-weight: 400;
+            line-height: 1;
+        }
+
+        .credential-item .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-text-light);
+            margin-top: 8px;
+        }
+
+        /* =====================================================
+           BRAND-COLORED SECTION (Philosophy, CTA, etc.)
+           ===================================================== */
+        .section-brand {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .section-brand .section-label {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .section-brand .section-title {
+            color: var(--color-white);
+        }
+
+        .section-brand p {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .brand-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+            align-items: center;
+        }
+
+        .brand-content p {
+            font-size: 1rem;
+            line-height: 1.9;
+            margin-bottom: 20px;
+        }
+
+        .brand-image {
+            background: rgba(255,255,255,0.1);
+            aspect-ratio: 4/5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* =====================================================
+           SERVICES / CARDS GRID
+           ===================================================== */
+        .services {
+            background: var(--color-off-white);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .service-card {
+            background: var(--color-white);
+            padding: 48px 36px;
+            transition: var(--transition);
+            border: 1px solid transparent;
+            position: relative;
+        }
+
+        .service-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+            border-color: var(--color-primary);
+        }
+
+        .service-icon {
+            font-size: 2rem;
+            margin-bottom: 24px;
+        }
+
+        .service-card h3 {
+            font-family: var(--font-serif);
+            font-size: 25px;
+            color: var(--color-primary);
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
+
+        .service-card p {
+            color: var(--color-text-light);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* =====================================================
+           IMAGE CARDS WITH GRADIENT OVERLAY
+           ===================================================== */
+        .image-card {
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .image-card:hover {
+            transform: scale(1.02);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .image-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .image-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.85) 100%);
+            pointer-events: none;
+        }
+
+        .image-card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 32px;
+            z-index: 1;
+            color: var(--color-white);
+        }
+
+        .image-card-content h3 {
+            font-family: var(--font-serif);
+            font-size: 25px;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+
+        .image-card-content p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* =====================================================
+           PRICING SECTION
+           ===================================================== */
+        .pricing {
+            background: var(--color-white);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .price-card {
+            background: var(--color-off-white);
+            padding: 56px 40px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .price-card:hover {
+            transform: scale(1.02);
+        }
+
+        .price-card.featured {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .price-card.featured:hover {
+            transform: scale(1.05);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            background: var(--color-accent);
+            color: var(--color-primary);
+            padding: 8px 20px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .price-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .price-card h3 {
+            font-family: var(--font-serif);
+            font-size: 25px;
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
+
+        .price-card:not(.featured) h3 {
+            color: var(--color-primary);
+        }
+
+        .price-amount {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+
+        .price-card:not(.featured) .price-amount {
+            color: var(--color-primary);
+        }
+
+        .price-amount span {
+            font-size: 1rem;
+            font-family: var(--font-sans);
+            opacity: 0.7;
+        }
+
+        .price-description {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 32px;
+        }
+
+        .price-features {
+            list-style: none;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .price-features li {
+            padding: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .price-card.featured .price-features li {
+            border-bottom-color: rgba(255,255,255,0.1);
+        }
+
+        .price-features li:last-child {
+            border-bottom: none;
+        }
+
+        .price-features .check {
+            color: var(--color-primary);
+        }
+
+        .price-card.featured .price-features .check {
+            color: var(--color-accent);
+        }
+
+        .price-btn {
+            display: block;
+            padding: 18px 32px;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: var(--transition);
+            font-family: var(--font-serif);
+        }
+
+        .price-card:not(.featured) .price-btn {
+            background: var(--color-primary);
+            color: var(--color-white);
+            border: 2px solid var(--color-primary);
+        }
+
+        .price-card:not(.featured) .price-btn:hover {
+            background: var(--color-white);
+            color: var(--color-primary);
+        }
+
+        .price-card.featured .price-btn {
+            background: var(--color-white);
+            color: var(--color-primary);
+            border: 2px solid var(--color-white);
+        }
+
+        .price-card.featured .price-btn:hover {
+            background: transparent;
+            color: var(--color-white);
+        }
+
+        /* =====================================================
+           TESTIMONIALS
+           ===================================================== */
+        .testimonials {
+            background: var(--color-off-white);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .testimonial-card {
+            background: var(--color-white);
+            padding: 48px;
+            transition: var(--transition);
+        }
+
+        .testimonial-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+        }
+
+        .testimonial-quote {
+            font-family: var(--font-serif);
+            font-size: 5rem;
+            color: var(--color-primary);
+            opacity: 0.15;
+            line-height: 0.5;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-text {
+            color: var(--color-text);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 32px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .author-avatar {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--color-white);
+        }
+
+        .author-info h4 {
+            font-family: var(--font-serif);
+            color: var(--color-primary);
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        .author-info p {
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+        }
+
+        /* =====================================================
+           CTA SECTION
+           ===================================================== */
+        .cta-section {
+            background: var(--color-primary);
+            padding: var(--section-padding) 40px;
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-section .section-label {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .cta-section h2 {
+            font-family: var(--font-serif);
+            font-size: 35px;
+            color: var(--color-white);
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+
+        .cta-section p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .cta-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            color: var(--color-white);
+            padding: 12px 24px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 32px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* =====================================================
+           CONTACT SECTION
+           ===================================================== */
+        .contact {
+            background: var(--color-white);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 80px;
+        }
+
+        .contact-info h2 {
+            font-family: var(--font-serif);
+            font-size: 35px;
+            color: var(--color-primary);
+            font-weight: 400;
+            margin-bottom: 24px;
+        }
+
+        .contact-info > p {
+            color: var(--color-text-light);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 48px;
+        }
+
+        .contact-details {
+            list-style: none;
+        }
+
+        .contact-details li {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 24px 0;
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        .contact-details li:first-child {
+            padding-top: 0;
+        }
+
+        .contact-details li:last-child {
+            border-bottom: none;
+        }
+
+        .contact-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--color-primary);
+            color: var(--color-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .contact-details .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-text-light);
+            margin-bottom: 4px;
+        }
+
+        .contact-details .value {
+            font-size: 1.1rem;
+            color: var(--color-text);
+        }
+
+        .contact-form {
+            background: var(--color-off-white);
+            padding: 56px;
+        }
+
+        .contact-form h3 {
+            font-family: var(--font-serif);
+            font-size: 25px;
+            color: var(--color-primary);
+            font-weight: 400;
+            margin-bottom: 36px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-text);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 16px 20px;
+            border: 1px solid #e0e0e0;
+            font-size: 1rem;
+            font-family: var(--font-sans);
+            transition: var(--transition);
+            background: var(--color-white);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        .form-group textarea {
+            height: 140px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 20px;
+            background: var(--color-primary);
+            color: var(--color-white);
+            border: 2px solid var(--color-primary);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: var(--font-serif);
+        }
+
+        .submit-btn:hover {
+            background: var(--color-white);
+            color: var(--color-primary);
+        }
+
+        /* =====================================================
+           FOOTER
+           ===================================================== */
+        footer {
+            background: var(--color-primary);
+            color: var(--color-white);
+            padding: 80px 40px 40px;
+        }
+
+        .footer-container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-brand img {
+            height: 56px;
+            width: 56px;
+            margin-bottom: 24px;
+        }
+
+        .footer-brand-text {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .footer-brand p {
+            opacity: 0.7;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            max-width: 280px;
+        }
+
+        .footer-links h4 {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 28px;
+            opacity: 0.5;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 14px;
+        }
+
+        .footer-links a {
+            color: var(--color-white);
+            text-decoration: none;
+            font-size: 0.95rem;
+            opacity: 0.8;
+            transition: var(--transition);
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: currentColor;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .footer-links a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            opacity: 0.6;
+        }
+
+        /* =====================================================
+           RESPONSIVE DESIGN
+           ===================================================== */
+        @media (max-width: 1024px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .about-grid,
+            .brand-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .brand-image {
+                order: -1;
+            }
+
+            .services-grid,
+            .pricing-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --section-padding: var(--section-padding-mobile);
+            }
+
+            section {
+                padding: var(--section-padding-mobile) 24px;
+            }
+
+            .nav-container {
+                padding: 0 24px;
+            }
+
+            .hero {
+                padding: 100px 24px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .about-grid,
+            .brand-grid {
+                gap: 48px;
+            }
+
+            .credentials-list {
+                gap: 24px;
+            }
+
+            .credential-item .number {
+                font-size: 2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-form {
+                padding: 40px 24px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+
+            .cta-section h2 {
+                font-size: 28px;
+            }
+
+            .price-card.featured:hover {
+                transform: scale(1.02);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <img src="{{LOGO_URL}}" alt="{{BUSINESS_NAME}}">
+                <span>{{BUSINESS_NAME}}</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+            </ul>
+            <a href="#contact" class="nav-cta">{{CTA_TEXT}}</a>
+            <button class="mobile-toggle" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <span class="hero-label">{{HERO_LABEL}}</span>
+                <h1>{{HERO_HEADLINE}}</h1>
+                <p>{{HERO_DESCRIPTION}}</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">{{PRIMARY_CTA}}</a>
+                    <a href="#about" class="btn btn-secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="scroll-indicator">Scroll</div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about" id="about">
+            <div class="section-container">
+                <div class="about-grid">
+                    <div class="about-image">
+                        <div class="about-image-placeholder">{{ABOUT_IMAGE_PLACEHOLDER}}</div>
+                    </div>
+                    <div class="about-content">
+                        <span class="section-label">About</span>
+                        <h2 class="section-title">{{ABOUT_HEADLINE}}</h2>
+                        <p>{{ABOUT_PARAGRAPH_1}}</p>
+                        <p>{{ABOUT_PARAGRAPH_2}}</p>
+                        <p>{{ABOUT_PARAGRAPH_3}}</p>
+                        <div class="credentials-list">
+                            <div class="credential-item">
+                                <span class="number">{{CREDENTIAL_1_VALUE}}</span>
+                                <span class="label">{{CREDENTIAL_1_LABEL}}</span>
+                            </div>
+                            <div class="credential-item">
+                                <span class="number">{{CREDENTIAL_2_VALUE}}</span>
+                                <span class="label">{{CREDENTIAL_2_LABEL}}</span>
+                            </div>
+                            <div class="credential-item">
+                                <span class="number">{{CREDENTIAL_3_VALUE}}</span>
+                                <span class="label">{{CREDENTIAL_3_LABEL}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Philosophy/Brand Section -->
+        <section class="section-brand">
+            <div class="section-container">
+                <div class="brand-grid">
+                    <div class="brand-content">
+                        <span class="section-label">{{PHILOSOPHY_LABEL}}</span>
+                        <h2 class="section-title">{{PHILOSOPHY_HEADLINE}}</h2>
+                        <p>{{PHILOSOPHY_PARAGRAPH_1}}</p>
+                        <p>{{PHILOSOPHY_PARAGRAPH_2}}</p>
+                        <p>{{PHILOSOPHY_PARAGRAPH_3}}</p>
+                    </div>
+                    <div class="brand-image">
+                        <span style="font-size: 4rem;">{{PHILOSOPHY_IMAGE_PLACEHOLDER}}</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="services" id="services">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-label">Services</span>
+                    <h2 class="section-title">{{SERVICES_HEADLINE}}</h2>
+                    <p>{{SERVICES_DESCRIPTION}}</p>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">{{SERVICE_1_ICON}}</div>
+                        <h3>{{SERVICE_1_TITLE}}</h3>
+                        <p>{{SERVICE_1_DESCRIPTION}}</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">{{SERVICE_2_ICON}}</div>
+                        <h3>{{SERVICE_2_TITLE}}</h3>
+                        <p>{{SERVICE_2_DESCRIPTION}}</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">{{SERVICE_3_ICON}}</div>
+                        <h3>{{SERVICE_3_TITLE}}</h3>
+                        <p>{{SERVICE_3_DESCRIPTION}}</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">{{SERVICE_4_ICON}}</div>
+                        <h3>{{SERVICE_4_TITLE}}</h3>
+                        <p>{{SERVICE_4_DESCRIPTION}}</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">{{SERVICE_5_ICON}}</div>
+                        <h3>{{SERVICE_5_TITLE}}</h3>
+                        <p>{{SERVICE_5_DESCRIPTION}}</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">{{SERVICE_6_ICON}}</div>
+                        <h3>{{SERVICE_6_TITLE}}</h3>
+                        <p>{{SERVICE_6_DESCRIPTION}}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="pricing" id="pricing">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-label">Investment</span>
+                    <h2 class="section-title">{{PRICING_HEADLINE}}</h2>
+                    <p>{{PRICING_DESCRIPTION}}</p>
+                </div>
+                <div class="pricing-grid">
+                    <div class="price-card">
+                        <div class="price-icon">{{PRICE_1_ICON}}</div>
+                        <h3>{{PRICE_1_TITLE}}</h3>
+                        <div class="price-amount">{{PRICE_1_AMOUNT}}<span>{{PRICE_1_PERIOD}}</span></div>
+                        <p class="price-description">{{PRICE_1_DESCRIPTION}}</p>
+                        <ul class="price-features">
+                            <li><span class="check">&#10003;</span> {{PRICE_1_FEATURE_1}}</li>
+                            <li><span class="check">&#10003;</span> {{PRICE_1_FEATURE_2}}</li>
+                            <li><span class="check">&#10003;</span> {{PRICE_1_FEATURE_3}}</li>
+                            <li><span class="check">&#10003;</span> {{PRICE_1_FEATURE_4}}</li>
+                        </ul>
+                        <a href="#contact" class="price-btn">Get Started</a>
+                    </div>
+                    <div class="price-card featured">
+                        <span class="featured-badge">{{FEATURED_BADGE}}</span>
+                        <div class="price-icon">{{PRICE_2_ICON}}</div>
+                        <h3>{{PRICE_2_TITLE}}</h3>
+                        <div class="price-amount">{{PRICE_2_AMOUNT}}<span>{{PRICE_2_PERIOD}}</span></div>
+                        <p class="price-description">{{PRICE_2_DESCRIPTION}}</p>
+                        <ul class="price-features">
+                            <li><span class="check">&#10003;</span> {{PRICE_2_FEATURE_1}}</li>
+                            <li><span class="check">&#10003;</span> {{PRICE_2_FEATURE_2}}</li>
+                            <li><span class="check">&#10003;</span> {{PRICE_2_FEATURE_3}}</li>
+                            <li><span class="check">&#10003;</span> {{PRICE_2_FEATURE_4}}</li>
+                        </ul>
+                        <a href="#contact" class="price-btn">Get Started</a>
+                    </div>
+                    <div class="price-card">
+                        <div class="price-icon">{{PRICE_3_ICON}}</div>
+                        <h3>{{PRICE_3_TITLE}}</h3>
+                        <div class="price-amount">{{PRICE_3_AMOUNT}}<span>{{PRICE_3_PERIOD}}</span></div>
+                        <p class="price-description">{{PRICE_3_DESCRIPTION}}</p>
+                        <ul class="price-features">
+                            <li><span class="check">&#10003;</span> {{PRICE_3_FEATURE_1}}</li>
+                            <li><span class="check">&#10003;</span> {{PRICE_3_FEATURE_2}}</li>
+                            <li><span class="check">&#10003;</span> {{PRICE_3_FEATURE_3}}</li>
+                            <li><span class="check">&#10003;</span> {{PRICE_3_FEATURE_4}}</li>
+                        </ul>
+                        <a href="#contact" class="price-btn">Get Started</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="testimonials" id="testimonials">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-label">Testimonials</span>
+                    <h2 class="section-title">{{TESTIMONIALS_HEADLINE}}</h2>
+                    <p>{{TESTIMONIALS_DESCRIPTION}}</p>
+                </div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">"</div>
+                        <p class="testimonial-text">{{TESTIMONIAL_1_TEXT}}</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">{{TESTIMONIAL_1_AVATAR}}</div>
+                            <div class="author-info">
+                                <h4>{{TESTIMONIAL_1_NAME}}</h4>
+                                <p>{{TESTIMONIAL_1_ROLE}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">"</div>
+                        <p class="testimonial-text">{{TESTIMONIAL_2_TEXT}}</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">{{TESTIMONIAL_2_AVATAR}}</div>
+                            <div class="author-info">
+                                <h4>{{TESTIMONIAL_2_NAME}}</h4>
+                                <p>{{TESTIMONIAL_2_ROLE}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <div class="testimonial-quote">"</div>
+                        <p class="testimonial-text">{{TESTIMONIAL_3_TEXT}}</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">{{TESTIMONIAL_3_AVATAR}}</div>
+                            <div class="author-info">
+                                <h4>{{TESTIMONIAL_3_NAME}}</h4>
+                                <p>{{TESTIMONIAL_3_ROLE}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <div class="cta-content">
+                <span class="cta-badge">{{CTA_BADGE}}</span>
+                <span class="section-label">{{CTA_LABEL}}</span>
+                <h2>{{CTA_HEADLINE}}</h2>
+                <p>{{CTA_DESCRIPTION}}</p>
+                <a href="#contact" class="btn btn-primary">{{CTA_BUTTON}}</a>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact" id="contact">
+            <div class="section-container">
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h2>{{CONTACT_HEADLINE}}</h2>
+                        <p>{{CONTACT_DESCRIPTION}}</p>
+                        <ul class="contact-details">
+                            <li>
+                                <div class="contact-icon">{{CONTACT_ICON_1}}</div>
+                                <div>
+                                    <div class="label">{{CONTACT_LABEL_1}}</div>
+                                    <div class="value">{{CONTACT_VALUE_1}}</div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="contact-icon">{{CONTACT_ICON_2}}</div>
+                                <div>
+                                    <div class="label">{{CONTACT_LABEL_2}}</div>
+                                    <div class="value">{{CONTACT_VALUE_2}}</div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="contact-icon">{{CONTACT_ICON_3}}</div>
+                                <div>
+                                    <div class="label">{{CONTACT_LABEL_3}}</div>
+                                    <div class="value">{{CONTACT_VALUE_3}}</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <form class="contact-form" action="#" method="POST">
+                        <h3>{{FORM_HEADLINE}}</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Full Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="service">{{SELECT_LABEL}}</label>
+                            <select id="service" name="service">
+                                <option value="">Select an option...</option>
+                                <option value="{{OPTION_1_VALUE}}">{{OPTION_1_TEXT}}</option>
+                                <option value="{{OPTION_2_VALUE}}">{{OPTION_2_TEXT}}</option>
+                                <option value="{{OPTION_3_VALUE}}">{{OPTION_3_TEXT}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">{{MESSAGE_LABEL}}</label>
+                            <textarea id="message" name="message" placeholder="{{MESSAGE_PLACEHOLDER}}"></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">{{SUBMIT_BUTTON}}</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="{{LOGO_URL}}" alt="{{BUSINESS_NAME}}">
+                    <span class="footer-brand-text">{{BUSINESS_NAME}}</span>
+                    <p>{{FOOTER_DESCRIPTION}}</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#services">{{FOOTER_SERVICE_1}}</a></li>
+                        <li><a href="#services">{{FOOTER_SERVICE_2}}</a></li>
+                        <li><a href="#services">{{FOOTER_SERVICE_3}}</a></li>
+                        <li><a href="#services">{{FOOTER_SERVICE_4}}</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>{{FOOTER_COLUMN_4_TITLE}}</h4>
+                    <ul>
+                        <li><a href="#pricing">{{FOOTER_LINK_1}}</a></li>
+                        <li><a href="#pricing">{{FOOTER_LINK_2}}</a></li>
+                        <li><a href="#pricing">{{FOOTER_LINK_3}}</a></li>
+                        <li><a href="#contact">{{FOOTER_LINK_4}}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>{{COPYRIGHT}}</p>
+                <p>{{FOOTER_TAGLINE}}</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll-triggered navbar background change
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle (basic implementation)
+        const mobileToggle = document.querySelector('.mobile-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', () => {
+                navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            });
+        }
+    </script>
+</body>
+</html>

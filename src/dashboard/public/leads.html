@@ -270,27 +270,34 @@
         return;
       }
 
-      tbody.innerHTML = leads.map(lead => `
-        <tr data-id="${lead.id}">
-          <td><input type="checkbox" onchange="toggleSelect('${lead.id}')" ${selectedLeads.has(lead.id) ? 'checked' : ''}></td>
+      tbody.innerHTML = leads.map(lead => {
+        const safeId = escapeHtml(lead.id);
+        const safeName = escapeHtml(lead.business_name);
+        const safeIndustry = escapeHtml(lead.industry);
+        const safeStage = escapeHtml(lead.pipeline_stage);
+        let safeHostname = '';
+        try { safeHostname = escapeHtml(new URL(lead.website_url).hostname); } catch(e) { safeHostname = escapeHtml(lead.website_url); }
+        return `
+        <tr data-id="${safeId}">
+          <td><input type="checkbox" onchange="toggleSelect('${safeId}')" ${selectedLeads.has(lead.id) ? 'checked' : ''}></td>
           <td>
-            <a href="/lead-detail.html?id=${lead.id}" class="lead-name">${lead.business_name}</a>
-            <div class="lead-url">${new URL(lead.website_url).hostname}</div>
+            <a href="/lead-detail.html?id=${safeId}" class="lead-name">${safeName}</a>
+            <div class="lead-url">${safeHostname}</div>
           </td>
-          <td><span class="badge badge-industry">${lead.industry}</span></td>
+          <td><span class="badge badge-industry">${safeIndustry}</span></td>
           <td><span class="score ${getScoreClass(lead.website_score)}">${lead.website_score ?? '-'}</span></td>
-          <td><span class="badge badge-stage badge-${lead.pipeline_stage}">${formatStage(lead.pipeline_stage)}</span></td>
+          <td><span class="badge badge-stage badge-${safeStage}">${formatStage(lead.pipeline_stage)}</span></td>
           <td>${lead.email ? '✓' : '-'}</td>
           <td>${lead.last_contacted_at ? formatTime(lead.last_contacted_at) : 'Never'}</td>
           <td>
             <div class="action-buttons">
-              <button class="btn-icon" onclick="viewLead('${lead.id}')" title="View">👁️</button>
-              <button class="btn-icon" onclick="changeStage('${lead.id}')" title="Change Stage">📍</button>
-              ${lead.email ? `<button class="btn-icon" onclick="sendEmail('${lead.id}')" title="Send Email">📧</button>` : ''}
+              <button class="btn-icon" onclick="viewLead('${safeId}')" title="View">👁️</button>
+              <button class="btn-icon" onclick="changeStage('${safeId}')" title="Change Stage">📍</button>
+              ${lead.email ? `<button class="btn-icon" onclick="sendEmail('${safeId}')" title="Send Email">📧</button>` : ''}
             </div>
           </td>
         </tr>
-      `).join('');
+      `}).join('');
     }
 
     function getScoreClass(score) {

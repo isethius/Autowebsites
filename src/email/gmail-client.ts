@@ -1,14 +1,16 @@
+import * as crypto from 'crypto';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as readline from 'readline';
 import { google } from 'googleapis';
 import { OAuth2Client } from 'google-auth-library';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { getSupabaseClient as getSupabaseSingleton } from '../utils/supabase';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-// Reuse the same interface as sendgrid-client for consistency
+// Email message interface
 export interface EmailMessage {
   to: string;
   from: string;
@@ -44,23 +46,107 @@ const FROM_EMAIL = process.env.GMAIL_FROM_EMAIL || '';
 const FROM_NAME = process.env.GMAIL_FROM_NAME || process.env.COMPANY_NAME || 'AutoWebsites';
 const TOKEN_PATH = path.join(process.cwd(), '.gmail-token.json');
 const DAILY_QUOTA = parseInt(process.env.GMAIL_DAILY_QUOTA || '500', 10);
+const TOKEN_KEY_ENV = process.env.GMAIL_TOKEN_ENC_KEY || '';
+
+interface EncryptedTokenPayload {
+  v: 1;
+  alg: 'aes-256-gcm';
+  iv: string;
+  tag: string;
+  data: string;
+}
 
 // OAuth2 scopes
 const SCOPES = ['https://www.googleapis.com/auth/gmail.send'];
 
-// Supabase client for quota tracking
-let supabase: SupabaseClient | null = null;
-
-function getSupabase(): SupabaseClient {
-  if (!supabase) {
-    const url = process.env.SUPABASE_URL;
-    const key = process.env.SUPABASE_ANON_KEY;
-    if (!url || !key) {
-      throw new Error('SUPABASE_URL and SUPABASE_ANON_KEY required for quota tracking');
+// Validate Gmail configuration at startup
+function validateGmailConfiguration(): void {
+  if (CLIENT_ID && CLIENT_SECRET) {
+    try {
+      requireTokenKey();
+    } catch (error: any) {
+      if (process.env.NODE_ENV === 'production') {
+        throw new Error(`Gmail configured but GMAIL_TOKEN_ENC_KEY missing: ${error.message}`);
+      }
+      console.warn('Warning: Gmail token encryption disabled in development');
     }
-    supabase = createClient(url, key);
   }
-  return supabase;
+}
+validateGmailConfiguration();
+
+function getTokenKey(): Buffer | null {
+  if (!TOKEN_KEY_ENV) return null;
+
+  const trimmed = TOKEN_KEY_ENV.trim();
+  if (/^[0-9a-fA-F]{64}$/.test(trimmed)) {
+    return Buffer.from(trimmed, 'hex');
+  }
+
+  try {
+    const buf = Buffer.from(trimmed, 'base64');
+    if (buf.length === 32) {
+      return buf;
+    }
+  } catch {
+    // Ignore and fall through
+  }
+
+  const raw = Buffer.from(trimmed, 'utf8');
+  if (raw.length === 32) {
+    return raw;
+  }
+
+  throw new Error('GMAIL_TOKEN_ENC_KEY must be 32 bytes (base64, hex, or raw)');
+}
+
+function requireTokenKey(): Buffer {
+  const key = getTokenKey();
+  if (!key) {
+    throw new Error('GMAIL_TOKEN_ENC_KEY is required to encrypt/decrypt Gmail tokens');
+  }
+  return key;
+}
+
+function isEncryptedToken(value: any): value is EncryptedTokenPayload {
+  return !!value
+    && value.v === 1
+    && value.alg === 'aes-256-gcm'
+    && typeof value.iv === 'string'
+    && typeof value.tag === 'string'
+    && typeof value.data === 'string';
+}
+
+function encryptToken(token: any): EncryptedTokenPayload {
+  const key = requireTokenKey();
+  const iv = crypto.randomBytes(12);
+  const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
+  const plaintext = Buffer.from(JSON.stringify(token), 'utf8');
+  const ciphertext = Buffer.concat([cipher.update(plaintext), cipher.final()]);
+  const tag = cipher.getAuthTag();
+
+  return {
+    v: 1,
+    alg: 'aes-256-gcm',
+    iv: iv.toString('base64'),
+    tag: tag.toString('base64'),
+    data: ciphertext.toString('base64'),
+  };
+}
+
+function decryptToken(payload: EncryptedTokenPayload): any {
+  const key = requireTokenKey();
+  const iv = Buffer.from(payload.iv, 'base64');
+  const tag = Buffer.from(payload.tag, 'base64');
+  const data = Buffer.from(payload.data, 'base64');
+  const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
+  decipher.setAuthTag(tag);
+  const plaintext = Buffer.concat([decipher.update(data), decipher.final()]);
+  return JSON.parse(plaintext.toString('utf8'));
+}
+
+// Supabase client for quota tracking
+function getSupabase(): SupabaseClient {
+  return getSupabaseSingleton();
 }
 
 // Create OAuth2 client
@@ -77,7 +163,22 @@ function loadToken(): any | null {
   try {
     if (fs.existsSync(TOKEN_PATH)) {
       const content = fs.readFileSync(TOKEN_PATH, 'utf-8');
-      return JSON.parse(content);
+      const parsed = JSON.parse(content);
+
+      if (isEncryptedToken(parsed)) {
+        return decryptToken(parsed);
+      }
+
+      const encrypted = encryptToken(parsed);
+      fs.writeFileSync(TOKEN_PATH, JSON.stringify(encrypted, null, 2), { mode: 0o600 });
+      try {
+        fs.chmodSync(TOKEN_PATH, 0o600);
+      } catch {
+        // Best effort
+      }
+      console.log('Token migrated to encrypted storage');
+
+      return parsed;
     }
   } catch (error) {
     console.error('Error loading token:', error);
@@ -87,7 +188,13 @@ function loadToken(): any | null {
 
 // Save token
 function saveToken(token: any): void {
-  fs.writeFileSync(TOKEN_PATH, JSON.stringify(token, null, 2));
+  const encrypted = encryptToken(token);
+  fs.writeFileSync(TOKEN_PATH, JSON.stringify(encrypted, null, 2), { mode: 0o600 });
+  try {
+    fs.chmodSync(TOKEN_PATH, 0o600);
+  } catch {
+    // Best effort
+  }
   console.log('Token saved to', TOKEN_PATH);
 }
 
@@ -120,6 +227,7 @@ async function getAuthorizedClient(): Promise<OAuth2Client> {
 // Interactive authorization flow
 async function authorize(): Promise<OAuth2Client> {
   const oauth2Client = createOAuth2Client();
+  requireTokenKey();
 
   const authUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
@@ -420,12 +528,10 @@ export async function verifyConnection(): Promise<boolean> {
   }
 
   try {
-    const auth = await getAuthorizedClient();
-    const gmail = google.gmail({ version: 'v1', auth });
-
-    // Try to get profile - this validates the connection
-    const response = await gmail.users.getProfile({ userId: 'me' });
-    return !!response.data.emailAddress;
+    // Just verify we can get an authorized client (token exists and can be refreshed)
+    // We only have gmail.send scope, so we can't call getProfile
+    await getAuthorizedClient();
+    return true;
   } catch (error) {
     return false;
   }
@@ -449,6 +555,11 @@ export async function getAuthorizedEmail(): Promise<string | null> {
 
 // Check if Gmail is configured (has credentials)
 export function isConfigured(): boolean {
+  try {
+    requireTokenKey();
+  } catch {
+    return false;
+  }
   return !!(CLIENT_ID && CLIENT_SECRET);
 }
 
@@ -472,6 +583,14 @@ if (require.main === module) {
       console.log('   GMAIL_CLIENT_ID=xxx.apps.googleusercontent.com');
       console.log('   GMAIL_CLIENT_SECRET=GOCSPX-xxx');
       console.log('   GMAIL_FROM_EMAIL=youremail@gmail.com');
+      console.log('   GMAIL_TOKEN_ENC_KEY=base64-or-hex-32-byte-key');
+      return;
+    }
+
+    try {
+      requireTokenKey();
+    } catch (error: any) {
+      console.log(`Gmail token encryption not configured: ${error.message}`);
       return;
     }
 

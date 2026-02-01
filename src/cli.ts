@@ -26,12 +26,15 @@ import { extractContactInfo } from './discovery/contact-extractor';
 import { discoverLeads, saveDiscoveredLeads, formatDiscoveryReport } from './discovery/lead-finder';
 
 // Email modules
-import { sendEmail, verifyApiKey } from './email/sendgrid-client';
+import { sendEmail, verifyConnection } from './email/index';
 import { startCampaign, processPendingFollowUps, getAllCampaignStatuses } from './email/drip-campaign';
 
 // Scheduler modules
 import { getQueue } from './scheduler/queue';
 import { startScheduler, stopScheduler, configureRunner, runDiscovery, getRunnerStatus, registerHandlers } from './scheduler/pipeline-runner';
+
+// Media modules
+import { MediaGenerator, VideoGenerator, ThemeGridGenerator } from './media';
 
 // New Pro modules
 import { config, features } from './utils/config';
@@ -39,6 +42,13 @@ import { logger } from './utils/logger';
 import { runHealthChecks, quickHealthCheck, getSystemInfo } from './utils/health';
 import { getAutoWebsitesPro } from './index';
 import { createDashboardServer } from './dashboard/server';
+
+// Preflight module
+import { runPreflight, runQuickCheck } from './preflight';
+
+// Overnight modules
+import { OvernightRunner, OvernightScheduler, loadOvernightConfig, getQuotas } from './overnight';
+import type { IndustryType } from './ai/industry-templates';
 
 const HELP_TEXT = `
 ╔══════════════════════════════════════════════════════════════╗
@@ -48,12 +58,15 @@ const HELP_TEXT = `
 ║    capture <url>        Screenshot + extract data            ║
 ║    score <url>          Score design/mobile/perf/seo         ║
 ║    generate <url>       Generate 10 theme variations         ║
+║    template [cmd]      Generate website from template       ║
 ║    ai-analyze <url>     AI-powered website analysis          ║
 ║                                                              ║
 ║  DISCOVERY & OUTREACH:                                       ║
 ║    discover <query>     Find leads (e.g., "plumbers Austin") ║
 ║    send <lead-id>       Send outreach email to lead          ║
 ║    outreach <url>       Full outreach workflow               ║
+║    media <lead-id>      Generate media assets for lead       ║
+║    preview-grid <dir>   Generate theme preview grid image    ║
 ║                                                              ║
 ║  SALES PIPELINE:                                             ║
 ║    proposal <lead-id>   Generate PDF proposal                ║
@@ -63,6 +76,7 @@ const HELP_TEXT = `
 ║  AUTOMATION:                                                 ║
 ║    schedule [action]    Manage automated pipeline            ║
 ║    queue [action]       Manage job queue                     ║
+║    overnight [action]   Overnight outreach automation        ║
 ║                                                              ║
 ║  PREVIEW & DEPLOY:                                           ║
 ║    serve [dir] [port]   Start local preview server           ║
@@ -73,10 +87,12 @@ const HELP_TEXT = `
 ║    leads [action]       Manage leads (list/add/stats/delete) ║
 ║    pipeline <url>       Run full pipeline                    ║
 ║    health               System health check                  ║
+║    preflight [options]  Pre-launch verification              ║
 ║    e2e-test <query>     Run full E2E test                    ║
 ║                                                              ║
 ║  Options:                                                    ║
 ║    --help, -h           Show this help                       ║
+║    --debug              Show stack traces on errors          ║
 ║    --prod               Deploy to production                 ║
 ║    --save               Save results to database             ║
 ║    --email              Auto-send outreach email             ║
@@ -84,74 +100,174 @@ const HELP_TEXT = `
 ╚══════════════════════════════════════════════════════════════╝
 `;
 
+// Global debug mode flag
+let debugMode = false;
+
+// Error handling helpers
+interface ErrorSuggestion {
+  pattern: RegExp;
+  suggestion: string;
+}
+
+const ERROR_SUGGESTIONS: ErrorSuggestion[] = [
+  { pattern: /ECONNREFUSED.*5432/i, suggestion: 'Database connection refused. Check if Supabase is configured correctly or allowlist your IP.' },
+  { pattern: /invalid.*api.*key/i, suggestion: 'Invalid API key. Check your environment variables (ANTHROPIC_API_KEY, GOOGLE_PLACES_KEY, etc.)' },
+  { pattern: /rate.*limit/i, suggestion: 'Rate limit exceeded. Wait a moment before retrying, or check your API quotas.' },
+  { pattern: /SUPABASE/i, suggestion: 'Supabase connection issue. Verify SUPABASE_URL and SUPABASE_ANON_KEY are correctly set.' },
+  { pattern: /permission.*denied/i, suggestion: 'Permission denied. Check your database roles and row-level security policies.' },
+  { pattern: /JWT/i, suggestion: 'JWT error. Check your JWT_SECRET configuration.' },
+  { pattern: /timeout/i, suggestion: 'Request timeout. The service may be overloaded or unreachable.' },
+  { pattern: /ANTHROPIC/i, suggestion: 'Anthropic API issue. Verify your ANTHROPIC_API_KEY and check the Anthropic status page.' },
+  { pattern: /ENOTFOUND/i, suggestion: 'DNS resolution failed. Check your internet connection or the service URL.' },
+  { pattern: /CERTIFICATE/i, suggestion: 'SSL certificate error. This may be a network issue or proxy configuration problem.' },
+  { pattern: /ENOENT/i, suggestion: 'File or directory not found. Check that the path exists.' },
+  { pattern: /EACCES/i, suggestion: 'Permission denied accessing file. Check file permissions.' },
+];
+
+function getSuggestion(error: Error): string | null {
+  const message = error.message + (error.stack || '');
+  for (const { pattern, suggestion } of ERROR_SUGGESTIONS) {
+    if (pattern.test(message)) {
+      return suggestion;
+    }
+  }
+  return null;
+}
+
+function formatError(error: Error, context?: string): void {
+  console.error('\n✗ Error:', error.message);
+  if (context) {
+    console.error('  Context:', context);
+  }
+  const suggestion = getSuggestion(error);
+  if (suggestion) {
+    console.error('\n💡 Suggestion:', suggestion);
+  }
+  if (debugMode && error.stack) {
+    console.error('\nStack trace:');
+    console.error(error.stack);
+  } else if (!debugMode) {
+    console.error('\n  Run with --debug for more details');
+  }
+  console.error('');
+}
+
+// Cleanup handlers
+let cleanupFunctions: (() => Promise<void> | void)[] = [];
+
+function registerCleanup(fn: () => Promise<void> | void): void {
+  cleanupFunctions.push(fn);
+}
+
+async function runCleanup(): Promise<void> {
+  for (const fn of cleanupFunctions) {
+    try { await fn(); } catch { /* ignore */ }
+  }
+  cleanupFunctions = [];
+}
+
+// Graceful shutdown handlers
+process.on('uncaughtException', async (error) => {
+  await runCleanup();
+  formatError(error, 'Uncaught exception');
+  process.exit(1);
+});
+
+process.on('unhandledRejection', async (reason) => {
+  await runCleanup();
+  const error = reason instanceof Error ? reason : new Error(String(reason));
+  formatError(error, 'Unhandled promise rejection');
+  process.exit(1);
+});
+
 async function main() {
   const args = process.argv.slice(2);
 
-  if (args.length === 0 || args.includes('--help') || args.includes('-h')) {
+  // Check for debug flag
+  debugMode = args.includes('--debug');
+  const filteredArgs = args.filter(a => a !== '--debug');
+
+  // Show main help only if no command given, or if --help is the first arg
+  if (filteredArgs.length === 0 || filteredArgs[0] === '--help' || filteredArgs[0] === '-h') {
     console.log(HELP_TEXT);
     process.exit(0);
   }
 
-  const command = args[0];
+  const command = filteredArgs[0];
 
   try {
     switch (command) {
       case 'capture':
-        await handleCapture(args.slice(1));
+        await handleCapture(filteredArgs.slice(1));
         break;
       case 'generate':
-        await handleGenerate(args.slice(1));
+        await handleGenerate(filteredArgs.slice(1));
         break;
       case 'deploy':
-        await handleDeploy(args.slice(1));
+        await handleDeploy(filteredArgs.slice(1));
         break;
       case 'score':
-        await handleScore(args.slice(1));
+        await handleScore(filteredArgs.slice(1));
         break;
       case 'leads':
-        await handleLeads(args.slice(1));
+        await handleLeads(filteredArgs.slice(1));
         break;
       case 'outreach':
-        await handleOutreach(args.slice(1));
+        await handleOutreach(filteredArgs.slice(1));
         break;
       case 'serve':
-        await handleServe(args.slice(1));
+        await handleServe(filteredArgs.slice(1));
         break;
       case 'pipeline':
-        await handlePipeline(args.slice(1));
+        await handlePipeline(filteredArgs.slice(1));
         break;
       case 'discover':
-        await handleDiscover(args.slice(1));
+        await handleDiscover(filteredArgs.slice(1));
         break;
       case 'send':
-        await handleSend(args.slice(1));
+        await handleSend(filteredArgs.slice(1));
         break;
       case 'schedule':
-        await handleSchedule(args.slice(1));
+        await handleSchedule(filteredArgs.slice(1));
         break;
       case 'queue':
-        await handleQueue(args.slice(1));
+        await handleQueue(filteredArgs.slice(1));
         break;
       case 'ai-analyze':
-        await handleAIAnalyze(args.slice(1));
+        await handleAIAnalyze(filteredArgs.slice(1));
         break;
       case 'proposal':
-        await handleProposal(args.slice(1));
+        await handleProposal(filteredArgs.slice(1));
         break;
       case 'contract':
-        await handleContract(args.slice(1));
+        await handleContract(filteredArgs.slice(1));
         break;
       case 'dashboard':
-        await handleDashboard(args.slice(1));
+        await handleDashboard(filteredArgs.slice(1));
         break;
       case 'health':
-        await handleHealth(args.slice(1));
+        await handleHealth(filteredArgs.slice(1));
+        break;
+      case 'template':
+        await handleTemplate(filteredArgs.slice(1));
         break;
       case 'crm':
-        await handleCRM(args.slice(1));
+        await handleCRM(filteredArgs.slice(1));
         break;
       case 'e2e-test':
-        await handleE2ETest(args.slice(1));
+        await handleE2ETest(filteredArgs.slice(1));
+        break;
+      case 'preflight':
+        await handlePreflight(filteredArgs.slice(1));
+        break;
+      case 'media':
+        await handleMedia(filteredArgs.slice(1));
+        break;
+      case 'preview-grid':
+        await handlePreviewGrid(filteredArgs.slice(1));
+        break;
+      case 'overnight':
+        await handleOvernight(filteredArgs.slice(1));
         break;
       default:
         console.error(`Unknown command: ${command}`);
@@ -159,7 +275,7 @@ async function main() {
         process.exit(1);
     }
   } catch (error: any) {
-    console.error(`\n✗ Error: ${error.message}\n`);
+    formatError(error, command);
     process.exit(1);
   }
 }
@@ -210,6 +326,185 @@ async function handleGenerate(args: string[]) {
   console.log(`\n✓ Generated ${themes.length} themes!`);
   console.log(`  Gallery: ${galleryPath}`);
   console.log(`  Run 'npx tsx src/cli.ts serve ${outputDir}' to preview`);
+}
+
+async function handleTemplate(args: string[]) {
+  console.log('src/cli.ts: Template generation command executed');
+  
+  const subcommand = args[0];
+  
+  if (!subcommand || subcommand === '--help' || subcommand === '-h') {
+    console.log(`
+Template Generation Commands:
+
+  template generate <template-name> [options]
+    Generate a website from a template
+    
+    Options:
+      --output <dir>     Output directory (default: tmp/templates/<template-name>)
+      --vars <file>      JSON file with template variables
+      --list             List available templates
+    
+    Example:
+      template generate professional-services --output ./my-site
+      template generate professional-services --vars vars.json
+    
+  template list
+    List all available templates
+    
+  template vars <template-name>
+    Show required variables for a template
+`);
+    return;
+  }
+  
+  if (subcommand === 'list') {
+    const { getAvailableTemplates } = await import('./themes/template-loader');
+    const templates = getAvailableTemplates();
+    
+    console.log('\n📋 Available Templates:\n');
+    if (templates.length === 0) {
+      console.log('  No templates found in templates/ directory\n');
+    } else {
+      for (const template of templates) {
+        console.log(`  • ${template}`);
+      }
+      console.log('');
+    }
+    return;
+  }
+  
+  if (subcommand === 'vars') {
+    const templateName = args[1];
+    if (!templateName) {
+      throw new Error('Please provide a template name');
+    }
+    
+    const { loadTemplate, getTemplateVariables } = await import('./themes/template-loader');
+    const template = loadTemplate(templateName);
+    const variables = getTemplateVariables(template);
+    
+    console.log(`\n📝 Variables for template "${templateName}":\n`);
+    if (variables.length === 0) {
+      console.log('  No variables found\n');
+    } else {
+      for (const variable of variables) {
+        console.log(`  • {{${variable}}}`);
+      }
+      console.log('');
+    }
+    return;
+  }
+  
+  if (subcommand === 'generate') {
+    const templateName = args[1];
+    if (!templateName) {
+      throw new Error('Please provide a template name. Use "template list" to see available templates.');
+    }
+    
+    // Parse options
+    const outputIndex = args.indexOf('--output');
+    const outputDir = outputIndex !== -1 && args[outputIndex + 1]
+      ? args[outputIndex + 1]
+      : `tmp/templates/${templateName}`;
+    
+    const varsIndex = args.indexOf('--vars');
+    const varsFile = varsIndex !== -1 && args[varsIndex + 1]
+      ? args[varsIndex + 1]
+      : null;
+    
+    console.log(`\n🎨 Generating website from template: ${templateName}\n`);
+    
+    // Load template loader
+    const {
+      loadTemplate,
+      populateTemplate,
+      getTemplateVariables,
+      validateTemplateVariables
+    } = await import('./themes/template-loader');
+    
+    // Load template
+    const template = loadTemplate(templateName);
+    const requiredVars = getTemplateVariables(template);
+    
+    // Load variables
+    let variables: Record<string, string | boolean | undefined> = {};
+    
+    if (varsFile) {
+      if (!fs.existsSync(varsFile)) {
+        throw new Error(`Variables file not found: ${varsFile}`);
+      }
+      const varsContent = fs.readFileSync(varsFile, 'utf-8');
+      variables = JSON.parse(varsContent);
+      console.log(`✓ Loaded variables from ${varsFile}`);
+    } else {
+      // Use defaults or prompt (for now, use defaults)
+      console.log('⚠️  No variables file provided. Using defaults.');
+      console.log('   Required variables:', requiredVars.join(', '));
+      console.log('   Use --vars <file> to provide custom values\n');
+      
+      // Set some defaults
+      variables = {
+        BUSINESS_NAME: 'Your Business Name',
+        TAGLINE: 'Professional Services',
+        HERO_TITLE: 'SERVICES',
+        CTA_TEXT: 'GET A FREE QUOTE',
+        CURRENT_YEAR: new Date().getFullYear().toString(),
+        LOGO_URL: '',
+        CONTACT_EMAIL: 'info@example.com',
+        CONTACT_PHONE: '+1 (555) 123-4567',
+        CONTACT_ADDRESS: '123 Main St, City, State 12345',
+        FOOTER_DESCRIPTION: 'Professional services you can trust.',
+        SERVICE_1_TITLE: 'Service 1',
+        SERVICE_1_DESCRIPTION: 'Description for service 1.',
+        SERVICE_1_IMAGE: 'https://via.placeholder.com/800x600',
+        SERVICE_1_ICON: '🔧',
+        SERVICE_2_TITLE: 'Service 2',
+        SERVICE_2_DESCRIPTION: 'Description for service 2.',
+        SERVICE_2_IMAGE: 'https://via.placeholder.com/800x600',
+        SERVICE_2_ICON: '🏗️',
+        SERVICE_3_TITLE: 'Service 3',
+        SERVICE_3_DESCRIPTION: 'Description for service 3.',
+        SERVICE_3_IMAGE: 'https://via.placeholder.com/800x600',
+        SERVICE_3_ICON: '✨',
+        SERVICE_4_TITLE: 'Service 4',
+        SERVICE_4_DESCRIPTION: 'Description for service 4.',
+        SERVICE_4_IMAGE: 'https://via.placeholder.com/800x600',
+        SERVICE_4_ICON: '🎨',
+        HERO_BACKGROUND_IMAGE: 'https://via.placeholder.com/1920x1080'
+      };
+    }
+    
+    // Validate variables
+    const validation = validateTemplateVariables(template, variables);
+    if (validation.missing.length > 0) {
+      console.log('⚠️  Missing variables:', validation.missing.join(', '));
+    }
+    if (validation.warnings.length > 0) {
+      for (const warning of validation.warnings) {
+        console.log('⚠️  ', warning);
+      }
+    }
+    
+    // Populate template
+    const populated = populateTemplate(template, variables);
+    
+    // Create output directory
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir, { recursive: true });
+    }
+    
+    // Write output file
+    const outputPath = path.join(outputDir, 'index.html');
+    fs.writeFileSync(outputPath, populated);
+    
+    console.log(`\n✓ Template generated successfully!`);
+    console.log(`  Output: ${outputPath}`);
+    console.log(`  Run 'npx tsx src/cli.ts serve ${outputDir}' to preview\n`);
+    return;
+  }
+  
+  throw new Error(`Unknown template command: ${subcommand}. Use "template --help" for usage.`);
 }
 
 async function handleDeploy(args: string[]) {
@@ -567,10 +862,10 @@ async function handleSend(args: string[]) {
 
       const result = await sendEmail({
         to: email,
-        from: process.env.SENDGRID_FROM_EMAIL || 'test@example.com',
+        from: process.env.GMAIL_FROM_EMAIL || 'test@example.com',
         subject: 'Test Email from AutoWebsites',
-        text: 'This is a test email to verify your SendGrid integration.',
-        html: '<h1>Test Email</h1><p>Your email integration is working! ✅</p>'
+        text: 'This is a test email to verify your Gmail integration.',
+        html: '<h1>Test Email</h1><p>Your email integration is working!</p>'
       });
 
       if (result.success) {
@@ -582,13 +877,13 @@ async function handleSend(args: string[]) {
     }
 
     case 'verify': {
-      console.log('\n🔑 Verifying SendGrid API key...\n');
-      const valid = await verifyApiKey();
+      console.log('\n🔑 Verifying Gmail connection...\n');
+      const valid = await verifyConnection();
       if (valid) {
-        console.log('✅ API key is valid');
+        console.log('✅ Gmail is connected');
       } else {
-        console.log('❌ API key is invalid or not configured');
-        console.log('   Set SENDGRID_API_KEY in your .env file');
+        console.log('❌ Gmail is not connected');
+        console.log('   Run: npx tsx src/email/gmail-client.ts --auth');
       }
       break;
     }
@@ -924,7 +1219,7 @@ async function handleDashboard(args: string[]) {
     console.log('⚠️ Warning: Some services may be unavailable\n');
   }
 
-  const { app, server } = createDashboardServer({
+  const { app, server } = await createDashboardServer({
     port,
     jwtSecret: config.JWT_SECRET,
   });
@@ -1133,6 +1428,669 @@ async function handleE2ETest(args: string[]) {
   } else {
     console.log('\n💥 E2E TEST FAILED\n');
     process.exit(1);
+  }
+}
+
+async function handleMedia(args: string[]) {
+  const action = args[0];
+
+  if (!action) {
+    console.log(`
+📹 Media Generation Commands:
+
+  media gif <lead-id> [gallery-dir]   Generate before/after GIF
+  media video <lead-id> [gallery-dir] Generate gallery showcase video
+  media test <before> <after>         Test GIF generation with images
+
+Options:
+  --width=800      Output width (default: 800)
+  --height=600     Output height (default: 600)
+  --upload         Upload to Supabase storage
+`);
+    return;
+  }
+
+  const { LeadModel } = await import('./crm/lead-model');
+
+  switch (action) {
+    case 'gif': {
+      const leadId = args[1];
+      const galleryDir = args[2];
+
+      if (!leadId) {
+        throw new Error('Please provide a lead ID');
+      }
+
+      console.log(`\n🎬 Generating before/after GIF for lead ${leadId}...\n`);
+
+      const leadModel = new LeadModel();
+      const lead = await leadModel.getById(leadId);
+
+      if (!lead) {
+        throw new Error(`Lead not found: ${leadId}`);
+      }
+
+      const width = parseInt(args.find(a => a.startsWith('--width='))?.split('=')[1] || '800', 10);
+      const height = parseInt(args.find(a => a.startsWith('--height='))?.split('=')[1] || '600', 10);
+      const upload = args.includes('--upload');
+
+      const generator = new MediaGenerator({
+        uploadToStorage: upload,
+      });
+
+      const resolvedGalleryDir = galleryDir || `tmp/autowebsites/themes`;
+
+      if (!lead.screenshot_url) {
+        throw new Error('Lead does not have a screenshot_url. Run capture first.');
+      }
+
+      const result = await generator.generateForLead({
+        leadId,
+        businessName: lead.business_name,
+        beforeScreenshotUrl: lead.screenshot_url,
+        galleryDir: resolvedGalleryDir,
+        width,
+        height,
+      });
+
+      console.log(`✅ Before/after GIF generated!`);
+      console.log(`   Local path: ${result.beforeAfterGif?.localPath}`);
+      console.log(`   Size: ${((result.beforeAfterGif?.result.fileSize || 0) / 1024).toFixed(1)}KB`);
+      console.log(`   Frames: ${result.beforeAfterGif?.result.frameCount}`);
+
+      if (result.beforeAfterGif?.url) {
+        console.log(`   URL: ${result.beforeAfterGif.url}`);
+
+        // Update lead with GIF URL
+        await leadModel.update(leadId, {
+          before_after_gif_url: result.beforeAfterGif.url,
+        });
+        console.log(`   Lead updated with GIF URL`);
+      }
+      break;
+    }
+
+    case 'video': {
+      const leadId = args[1];
+      const galleryDir = args[2];
+
+      if (!leadId) {
+        throw new Error('Please provide a lead ID');
+      }
+
+      console.log(`\n🎬 Generating gallery video for lead ${leadId}...\n`);
+
+      const leadModel = new LeadModel();
+      const lead = await leadModel.getById(leadId);
+
+      if (!lead) {
+        throw new Error(`Lead not found: ${leadId}`);
+      }
+
+      const width = parseInt(args.find(a => a.startsWith('--width='))?.split('=')[1] || '1920', 10);
+      const height = parseInt(args.find(a => a.startsWith('--height='))?.split('=')[1] || '1080', 10);
+      const upload = args.includes('--upload');
+
+      const generator = new VideoGenerator({
+        uploadToStorage: upload,
+      });
+
+      const resolvedGalleryDir = galleryDir || `tmp/autowebsites/themes`;
+
+      const result = await generator.generateForLead(
+        leadId,
+        resolvedGalleryDir,
+        lead.business_name,
+        { width, height }
+      );
+
+      console.log(`✅ Gallery video generated!`);
+      console.log(`   Video: ${result.result.videoPath}`);
+      console.log(`   Thumbnail: ${result.result.thumbnailPath}`);
+      console.log(`   Size: ${(result.result.fileSize / (1024 * 1024)).toFixed(2)}MB`);
+      console.log(`   Duration: ${result.result.duration}s`);
+
+      if (result.videoUrl) {
+        console.log(`   Video URL: ${result.videoUrl}`);
+        console.log(`   Thumbnail URL: ${result.thumbnailUrl}`);
+
+        // Update lead with video URLs
+        await leadModel.update(leadId, {
+          gallery_video_url: result.videoUrl,
+          video_thumbnail_url: result.thumbnailUrl,
+        });
+        console.log(`   Lead updated with video URLs`);
+      }
+      break;
+    }
+
+    case 'test': {
+      const beforePath = args[1];
+      const afterPath = args[2];
+
+      if (!beforePath || !afterPath) {
+        throw new Error('Please provide before and after image paths');
+      }
+
+      console.log(`\n🧪 Testing GIF generation...\n`);
+
+      const { BeforeAfterGenerator } = await import('./media');
+      const generator = new BeforeAfterGenerator();
+
+      const result = await generator.generate({
+        beforeImagePath: beforePath,
+        afterImagePath: afterPath,
+      });
+
+      console.log(`✅ Test GIF generated!`);
+      console.log(`   Path: ${result.gifPath}`);
+      console.log(`   Size: ${(result.fileSize / 1024).toFixed(1)}KB`);
+      console.log(`   Dimensions: ${result.width}x${result.height}`);
+      console.log(`   Frames: ${result.frameCount}`);
+      console.log(`   Duration: ${(result.duration / 1000).toFixed(1)}s`);
+      break;
+    }
+
+    default:
+      console.log(`Unknown media action: ${action}`);
+      console.log('Available actions: gif, video, test');
+  }
+}
+
+async function handlePreviewGrid(args: string[]) {
+  const galleryDir = args[0];
+
+  if (!galleryDir) {
+    console.log(`
+📸 Theme Preview Grid Generator
+
+Usage:
+  preview-grid <gallery-dir> [options]
+
+Options:
+  --business "Name"    Business name for the header
+  --output <path>      Output path for the grid image
+  --count <n>          Number of themes to include (default: 5)
+
+Examples:
+  preview-grid tmp/autowebsites/themes --business "Joe's Plumbing"
+  preview-grid tmp/themes --business "Acme Corp" --output my-grid.png
+`);
+    return;
+  }
+
+  const businessIndex = args.indexOf('--business');
+  const businessName = businessIndex !== -1 && args[businessIndex + 1]
+    ? args[businessIndex + 1]
+    : 'Your Business';
+
+  const outputIndex = args.indexOf('--output');
+  const outputPath = outputIndex !== -1 && args[outputIndex + 1]
+    ? args[outputIndex + 1]
+    : undefined;
+
+  const countIndex = args.indexOf('--count');
+  const themeCount = countIndex !== -1 && args[countIndex + 1]
+    ? parseInt(args[countIndex + 1], 10)
+    : 5;
+
+  console.log(`\n📸 Generating theme preview grid...\n`);
+  console.log(`  Gallery: ${galleryDir}`);
+  console.log(`  Business: ${businessName}`);
+  console.log(`  Theme count: ${themeCount}`);
+
+  const generator = new ThemeGridGenerator();
+
+  const result = await generator.generateThemeGrid({
+    galleryDir,
+    businessName,
+    themeCount,
+    outputPath,
+  });
+
+  console.log(`\n✅ Theme grid generated!`);
+  console.log(`   Path: ${result.gridPath}`);
+  console.log(`   Size: ${(result.fileSize / 1024).toFixed(1)} KB`);
+  console.log(`   Dimensions: ${result.width}x${result.height}`);
+  console.log(`   Themes: ${result.themeCount} (${result.themeNames.join(', ')})`);
+  console.log(`\n   Open with: open ${result.gridPath}\n`);
+}
+
+async function handlePreflight(args: string[]) {
+  const action = args[0];
+
+  // Check for help flag
+  if (args.includes('--help') || args.includes('-h')) {
+    console.log(`
+╔══════════════════════════════════════════════════════════════╗
+║               PREFLIGHT CHECK OPTIONS                        ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║  Usage: npx tsx src/cli.ts preflight [options]               ║
+║                                                              ║
+║  Options:                                                    ║
+║    --fix              Attempt auto-fixes for fixable issues  ║
+║    --verbose          Show detailed output                   ║
+║    --skip-optional    Skip optional service checks           ║
+║    --test-email <addr> Send test email to verify Gmail       ║
+║    --quick            Run only essential checks              ║
+║                                                              ║
+║  Examples:                                                   ║
+║    npx tsx src/cli.ts preflight                              ║
+║    npx tsx src/cli.ts preflight --verbose                    ║
+║    npx tsx src/cli.ts preflight --test-email you@email.com   ║
+║    npx tsx src/cli.ts preflight --fix                        ║
+║    npx tsx src/cli.ts preflight --skip-optional              ║
+║    npx tsx src/cli.ts preflight --quick                      ║
+║                                                              ║
+║  Categories checked:                                         ║
+║    1. Environment    - .env, credentials, Node version       ║
+║    2. Database       - Supabase connection, schema, CRUD     ║
+║    3. Email          - Gmail OAuth, token, test send         ║
+║    4. Discovery      - Google Places API                     ║
+║    5. Capture        - Playwright, screenshots, scoring      ║
+║    6. AI             - Anthropic API (optional)              ║
+║    7. Themes         - Variance planner, generator, gallery  ║
+║    8. Media          - Sharp, Canvas, GIF generation         ║
+║    9. Composition    - MJML templates, email composer        ║
+║   10. Pipeline       - Full dry-run integration test         ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+`);
+    return;
+  }
+
+  // Parse options
+  const fix = args.includes('--fix');
+  const verbose = args.includes('--verbose') || args.includes('-v');
+  const skipOptional = args.includes('--skip-optional');
+  const quick = args.includes('--quick');
+
+  // Find test email if provided
+  const testEmailIndex = args.indexOf('--test-email');
+  const testEmail = testEmailIndex !== -1 && args[testEmailIndex + 1]
+    ? args[testEmailIndex + 1]
+    : undefined;
+
+  const options = {
+    fix,
+    verbose,
+    skipOptional,
+    testEmail,
+  };
+
+  // Run quick check or full preflight
+  if (quick) {
+    const success = await runQuickCheck(options);
+    process.exit(success ? 0 : 1);
+  } else {
+    const { summary } = await runPreflight(options);
+    process.exit(summary.success ? 0 : 1);
+  }
+}
+
+async function handleOvernight(args: string[]) {
+  const action = args[0];
+
+  if (!action || args.includes('--help') || args.includes('-h')) {
+    console.log(`
+╔══════════════════════════════════════════════════════════════╗
+║               OVERNIGHT OUTREACH SYSTEM                      ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║  Usage: npx tsx src/cli.ts overnight <action> [options]      ║
+║                                                              ║
+║  Actions:                                                    ║
+║    start           Start scheduler (runs at configured hour) ║
+║    run-once        Run single cycle immediately              ║
+║    status          Show current run status and quotas        ║
+║    logs            View recent run logs                      ║
+║                                                              ║
+║  Options for 'start':                                        ║
+║    --industries <list>   Comma-separated industries          ║
+║    --limit <n>           Max leads per run (default: 50)     ║
+║    --hour <n>            Start hour (0-23, default: 2)       ║
+║                                                              ║
+║  Options for 'run-once':                                     ║
+║    --industry <type>     Single industry to target           ║
+║    --location <loc>      Location (e.g., "Tucson, AZ")       ║
+║    --limit <n>           Max leads (default: 5)              ║
+║    --dry-run             Generate previews but don't email   ║
+║                                                              ║
+║  Options for 'logs':                                         ║
+║    --last                Show last run only                  ║
+║    --limit <n>           Number of runs to show (default: 5) ║
+║                                                              ║
+║  Examples:                                                   ║
+║    overnight start --industries therapist,plumber --limit 50 ║
+║    overnight run-once --industry therapist --location "Tucson, AZ" --limit 5 ║
+║    overnight run-once --dry-run --limit 2                    ║
+║    overnight status                                          ║
+║    overnight logs --last                                     ║
+║                                                              ║
+║  Supported Industries:                                       ║
+║    therapist, plumber, hvac, gym, yoga                       ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+`);
+    return;
+  }
+
+  switch (action) {
+    case 'start': {
+      await handleOvernightStart(args.slice(1));
+      break;
+    }
+
+    case 'run-once': {
+      await handleOvernightRunOnce(args.slice(1));
+      break;
+    }
+
+    case 'status': {
+      await handleOvernightStatus();
+      break;
+    }
+
+    case 'logs': {
+      await handleOvernightLogs(args.slice(1));
+      break;
+    }
+
+    default:
+      console.log(`Unknown overnight action: ${action}`);
+      console.log('Available actions: start, run-once, status, logs');
+  }
+}
+
+async function handleOvernightStart(args: string[]) {
+  console.log(`\n🌙 Starting Overnight Outreach Scheduler...\n`);
+
+  // Parse options
+  const industriesIndex = args.indexOf('--industries');
+  const industries = industriesIndex !== -1 && args[industriesIndex + 1]
+    ? args[industriesIndex + 1].split(',').map(i => i.trim() as IndustryType)
+    : undefined;
+
+  const limitIndex = args.indexOf('--limit');
+  const limit = limitIndex !== -1 && args[limitIndex + 1]
+    ? parseInt(args[limitIndex + 1], 10)
+    : undefined;
+
+  const hourIndex = args.indexOf('--hour');
+  const hour = hourIndex !== -1 && args[hourIndex + 1]
+    ? parseInt(args[hourIndex + 1], 10)
+    : 2;
+
+  // Load config with overrides
+  const configOverrides = {
+    ...(industries && { industries }),
+    ...(limit && { maxLeads: limit }),
+    runHours: { start: hour, end: hour + 4 },
+  };
+
+  const config = loadOvernightConfig(configOverrides);
+
+  console.log('Configuration:');
+  console.log(`  Industries: ${config.industries.join(', ')}`);
+  console.log(`  Max leads per run: ${config.maxLeads}`);
+  console.log(`  Max emails per run: ${config.maxEmails}`);
+  console.log(`  Locations: ${config.locations.join(', ')}`);
+  console.log(`  Run hours: ${config.runHours.start}:00 - ${config.runHours.end}:00`);
+  console.log(`  Deploy previews: ${config.deployPreviews}`);
+  console.log(`  Send emails: ${config.sendEmails}\n`);
+
+  // Show quotas
+  try {
+    const quotas = await getQuotas();
+    console.log('Current Quotas:');
+    console.log(`  Gmail: ${quotas.gmail_remaining}/${quotas.gmail_daily_limit} remaining`);
+    console.log(`  Vercel deployments today: ${quotas.vercel_deployed_today}`);
+    console.log(`  Anthropic calls today: ${quotas.anthropic_calls_today}\n`);
+  } catch (err) {
+    console.log('(Could not fetch quotas - database may not be available)\n');
+  }
+
+  // Calculate cron expression for the specified hour
+  const cronExpression = `0 ${hour} * * *`;
+
+  // Create and start scheduler
+  const scheduler = new OvernightScheduler({
+    cronExpression,
+    config: configOverrides,
+  });
+  scheduler.start();
+
+  console.log(`⏰ Scheduler started. Will run daily at ${hour}:00 AM.`);
+  console.log(`   Press Ctrl+C to stop.\n`);
+
+  // Handle shutdown
+  registerCleanup(() => {
+    scheduler.stop();
+  });
+
+  process.on('SIGINT', async () => {
+    console.log('\n\n🛑 Stopping scheduler...');
+    scheduler.stop();
+    await runCleanup();
+    process.exit(0);
+  });
+
+  // Keep process alive
+  await new Promise(() => {});
+}
+
+async function handleOvernightRunOnce(args: string[]) {
+  console.log(`\n🚀 Running single overnight cycle...\n`);
+
+  // Parse options
+  const industryIndex = args.indexOf('--industry');
+  const industry = industryIndex !== -1 && args[industryIndex + 1]
+    ? args[industryIndex + 1] as IndustryType
+    : undefined;
+
+  const locationIndex = args.indexOf('--location');
+  const location = locationIndex !== -1 && args[locationIndex + 1]
+    ? args[locationIndex + 1]
+    : undefined;
+
+  const limitIndex = args.indexOf('--limit');
+  const limit = limitIndex !== -1 && args[limitIndex + 1]
+    ? parseInt(args[limitIndex + 1], 10)
+    : 5;
+
+  const dryRun = args.includes('--dry-run');
+
+  // Build config
+  const baseConfig = loadOvernightConfig();
+  const config = {
+    ...baseConfig,
+    ...(industry && { industries: [industry] }),
+    ...(location && { locations: [location] }),
+    maxLeads: limit,
+    maxEmails: dryRun ? 0 : limit,
+    sendEmails: !dryRun,
+    deployPreviews: true,
+  };
+
+  console.log('Configuration:');
+  console.log(`  Industries: ${config.industries.join(', ')}`);
+  console.log(`  Locations: ${config.locations.join(', ')}`);
+  console.log(`  Max leads: ${limit}`);
+  console.log(`  Dry run: ${dryRun ? 'Yes (no emails)' : 'No'}\n`);
+
+  // Run the overnight cycle
+  const runner = new OvernightRunner(config);
+
+  try {
+    const result = await runner.execute();
+
+    const startedAt = new Date(result.started_at);
+    const completedAt = result.completed_at ? new Date(result.completed_at) : new Date();
+    const durationMin = ((completedAt.getTime() - startedAt.getTime()) / 1000 / 60).toFixed(1);
+
+    console.log('\n' + '═'.repeat(60));
+    console.log('\n📊 RUN COMPLETE\n');
+    console.log(`  Status: ${result.status}`);
+    console.log(`  Duration: ${durationMin} minutes`);
+    console.log(`\n  Statistics:`);
+    console.log(`    Leads discovered: ${result.stats.leads_discovered}`);
+    console.log(`    Leads qualified: ${result.stats.leads_qualified}`);
+    console.log(`    Previews generated: ${result.stats.previews_generated}`);
+    console.log(`    Previews deployed: ${result.stats.previews_deployed}`);
+    console.log(`    Emails composed: ${result.stats.emails_composed}`);
+    console.log(`    Emails sent: ${result.stats.emails_sent}`);
+    console.log(`    Emails failed: ${result.stats.emails_failed}`);
+
+    if (result.stats.by_industry && Object.keys(result.stats.by_industry).length > 0) {
+      console.log(`\n  By Industry:`);
+      for (const [ind, data] of Object.entries(result.stats.by_industry)) {
+        const indData = data as { discovered: number; qualified: number; previews: number; emails: number };
+        console.log(`    ${ind}: ${indData.discovered} discovered, ${indData.emails} emails`);
+      }
+    }
+
+    if (result.errors.length > 0) {
+      console.log(`\n  Errors (${result.errors.length}):`);
+      for (const err of result.errors.slice(0, 5)) {
+        console.log(`    - ${err.phase}: ${err.message}`);
+      }
+      if (result.errors.length > 5) {
+        console.log(`    ... and ${result.errors.length - 5} more`);
+      }
+    }
+
+    console.log('\n' + '═'.repeat(60) + '\n');
+  } catch (error: any) {
+    console.error(`\n❌ Run failed: ${error.message}\n`);
+    throw error;
+  }
+}
+
+async function handleOvernightStatus() {
+  console.log(`\n📊 Overnight Outreach Status\n`);
+
+  // Show quotas
+  try {
+    const quotas = await getQuotas();
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+    console.log('Current Quotas:');
+    console.log(`  Gmail: ${quotas.gmail_remaining}/${quotas.gmail_daily_limit} remaining (resets at midnight)`);
+    console.log(`  Vercel deployments today: ${quotas.vercel_deployed_today}`);
+    console.log(`  Anthropic calls today: ${quotas.anthropic_calls_today}`);
+    console.log(`  Leads processed today: ${quotas.leads_processed_today}\n`);
+  } catch (err) {
+    console.log('(Could not fetch quotas - database may not be available)\n');
+  }
+
+  // Show config
+  const config = loadOvernightConfig();
+  console.log('Configuration:');
+  console.log(`  Industries: ${config.industries.join(', ')}`);
+  console.log(`  Locations: ${config.locations.join(', ')}`);
+  console.log(`  Max leads: ${config.maxLeads}`);
+  console.log(`  Max emails: ${config.maxEmails}`);
+  console.log(`  Score threshold: <${config.websiteScoreThreshold}`);
+  console.log(`  Run hours: ${config.runHours.start}:00 - ${config.runHours.end}:00\n`);
+
+  // Try to get recent runs from database
+  try {
+    const { getSupabaseClient } = await import('./utils/supabase');
+    const supabase = getSupabaseClient();
+
+    const { data: runs, error } = await supabase
+      .from('overnight_runs')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(1);
+
+    if (!error && runs && runs.length > 0) {
+      const lastRun = runs[0];
+      console.log('Last Run:');
+      console.log(`  Status: ${lastRun.status}`);
+      console.log(`  Started: ${new Date(lastRun.started_at).toLocaleString()}`);
+      if (lastRun.completed_at) {
+        console.log(`  Completed: ${new Date(lastRun.completed_at).toLocaleString()}`);
+      }
+      console.log(`  Leads discovered: ${lastRun.stats?.leads_discovered || 0}`);
+      console.log(`  Emails sent: ${lastRun.stats?.emails_sent || 0}\n`);
+    }
+  } catch (err) {
+    console.log('(Database not available for run history)\n');
+  }
+}
+
+async function handleOvernightLogs(args: string[]) {
+  const showLast = args.includes('--last');
+  const limitIndex = args.indexOf('--limit');
+  const limit = limitIndex !== -1 && args[limitIndex + 1]
+    ? parseInt(args[limitIndex + 1], 10)
+    : showLast ? 1 : 5;
+
+  console.log(`\n📜 Overnight Run Logs\n`);
+
+  try {
+    const { getSupabaseClient } = await import('./utils/supabase');
+    const supabase = getSupabaseClient();
+
+    const { data: runs, error } = await supabase
+      .from('overnight_runs')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(limit);
+
+    if (error) {
+      throw error;
+    }
+
+    if (!runs || runs.length === 0) {
+      console.log('No overnight runs found.\n');
+      return;
+    }
+
+    for (const run of runs) {
+      console.log('═'.repeat(60));
+      console.log(`\nRun ID: ${run.id.slice(0, 8)}...`);
+      console.log(`Status: ${run.status}`);
+      console.log(`Started: ${new Date(run.started_at).toLocaleString()}`);
+      if (run.completed_at) {
+        const duration = (new Date(run.completed_at).getTime() - new Date(run.started_at).getTime()) / 1000 / 60;
+        console.log(`Completed: ${new Date(run.completed_at).toLocaleString()} (${duration.toFixed(1)} min)`);
+      }
+
+      console.log(`\nStatistics:`);
+      console.log(`  Leads discovered: ${run.stats?.leads_discovered || 0}`);
+      console.log(`  Leads qualified: ${run.stats?.leads_qualified || 0}`);
+      console.log(`  Previews generated: ${run.stats?.previews_generated || 0}`);
+      console.log(`  Previews deployed: ${run.stats?.previews_deployed || 0}`);
+      console.log(`  Emails sent: ${run.stats?.emails_sent || 0}`);
+      console.log(`  Emails failed: ${run.stats?.emails_failed || 0}`);
+
+      if (run.config?.industries) {
+        console.log(`\nConfiguration:`);
+        console.log(`  Industries: ${run.config.industries.join(', ')}`);
+        console.log(`  Locations: ${run.config.locations?.join(', ') || 'N/A'}`);
+      }
+
+      if (run.errors && run.errors.length > 0) {
+        console.log(`\nErrors (${run.errors.length}):`);
+        for (const err of run.errors.slice(0, 3)) {
+          console.log(`  - [${err.phase}] ${err.message}`);
+        }
+        if (run.errors.length > 3) {
+          console.log(`  ... and ${run.errors.length - 3} more`);
+        }
+      }
+
+      console.log('');
+    }
+
+    console.log('═'.repeat(60) + '\n');
+  } catch (err: any) {
+    console.log(`Unable to fetch logs: ${err.message}`);
+    console.log('Make sure the database migration has been run.\n');
   }
 }
 

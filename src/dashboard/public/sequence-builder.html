@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sequence Builder - AutoWebsites Pro</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/sequence-builder.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h1 class="logo">AutoWebsites<span>Pro</span></h1>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/" class="nav-item" data-page="dashboard">
+          <span class="nav-icon">📊</span>
+          Dashboard
+        </a>
+        <a href="/leads.html" class="nav-item" data-page="leads">
+          <span class="nav-icon">👥</span>
+          Leads
+        </a>
+        <a href="/campaigns.html" class="nav-item" data-page="campaigns">
+          <span class="nav-icon">📧</span>
+          Campaigns
+        </a>
+        <a href="/jobs.html" class="nav-item" data-page="jobs">
+          <span class="nav-icon">⚙️</span>
+          Job Queue
+        </a>
+        <a href="/sequence-builder.html" class="nav-item active" data-page="sequences">
+          <span class="nav-icon">🔗</span>
+          Sequence Builder
+        </a>
+        <a href="#" class="nav-item" data-page="analytics">
+          <span class="nav-icon">📈</span>
+          Analytics
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="theme-toggle" id="themeToggle">🌙</button>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="menu-toggle" id="menuToggle">☰</button>
+          <h2 class="page-title">Sequence Builder</h2>
+        </div>
+        <div class="header-right">
+          <span class="user-name" id="userName">Loading...</span>
+        </div>
+      </header>
+
+      <!-- Builder Content -->
+      <div class="builder-container">
+        <!-- Toolbar -->
+        <div class="builder-toolbar">
+          <div class="toolbar-left">
+            <select id="sequenceSelect" onchange="loadSequence(this.value)">
+              <option value="">-- Select Sequence --</option>
+            </select>
+            <button class="btn" onclick="createNewSequence()">New Sequence</button>
+          </div>
+          <div class="toolbar-center">
+            <span id="sequenceName" class="sequence-name">Untitled Sequence</span>
+            <button class="btn btn-sm btn-icon" onclick="renameSequence()" title="Rename">✏️</button>
+          </div>
+          <div class="toolbar-right">
+            <button class="btn" onclick="validateSequence()">Validate</button>
+            <button class="btn" onclick="previewSequence()">Preview</button>
+            <button class="btn btn-primary" onclick="saveSequence()">Save</button>
+          </div>
+        </div>
+
+        <!-- Main Builder Area -->
+        <div class="builder-main">
+          <!-- Node Palette -->
+          <div class="node-palette">
+            <h3>Components</h3>
+            <div class="palette-nodes">
+              <div class="palette-node" draggable="true" data-type="email">
+                <div class="node-icon">📧</div>
+                <span>Email</span>
+              </div>
+              <div class="palette-node" draggable="true" data-type="delay">
+                <div class="node-icon">⏱️</div>
+                <span>Delay</span>
+              </div>
+              <div class="palette-node" draggable="true" data-type="condition">
+                <div class="node-icon">🔀</div>
+                <span>Condition</span>
+              </div>
+              <div class="palette-node" draggable="true" data-type="end">
+                <div class="node-icon">🏁</div>
+                <span>End</span>
+              </div>
+            </div>
+
+            <h3>Templates</h3>
+            <div id="templatesList" class="templates-list">
+              <p class="loading">Loading...</p>
+            </div>
+          </div>
+
+          <!-- Canvas -->
+          <div class="canvas-container" id="canvasContainer">
+            <svg class="connections-layer" id="connectionsLayer"></svg>
+            <div class="canvas" id="canvas">
+              <div class="canvas-grid"></div>
+              <!-- Nodes will be added here dynamically -->
+            </div>
+            <div class="canvas-controls">
+              <button class="btn btn-sm" onclick="zoomIn()">+</button>
+              <span id="zoomLevel">100%</span>
+              <button class="btn btn-sm" onclick="zoomOut()">-</button>
+              <button class="btn btn-sm" onclick="resetZoom()">Reset</button>
+            </div>
+          </div>
+
+          <!-- Properties Panel -->
+          <div class="properties-panel" id="propertiesPanel">
+            <h3>Properties</h3>
+            <div id="propertiesContent">
+              <p class="empty">Select a node to edit its properties</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Validation Results -->
+        <div class="validation-bar" id="validationBar">
+          <div class="validation-status" id="validationStatus">
+            <span class="status-icon">✓</span>
+            <span class="status-text">Sequence is valid</span>
+          </div>
+          <div class="validation-messages" id="validationMessages"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Node Edit Modal -->
+  <div class="modal" id="nodeEditModal">
+    <div class="modal-content" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3 id="nodeEditTitle">Edit Node</h3>
+        <button class="modal-close" onclick="hideModal('nodeEditModal')">&times;</button>
+      </div>
+      <div id="nodeEditContent">
+        <!-- Dynamic content based on node type -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn" onclick="hideModal('nodeEditModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveNodeChanges()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preview Modal -->
+  <div class="modal" id="previewModal">
+    <div class="modal-content" style="max-width: 800px;">
+      <div class="modal-header">
+        <h3>Sequence Preview</h3>
+        <button class="modal-close" onclick="hideModal('previewModal')">&times;</button>
+      </div>
+      <div id="previewContent">
+        <div class="preview-controls">
+          <label>
+            Sample Lead:
+            <select id="previewLeadSelect" onchange="runSimulation()">
+              <option value="">-- Sample Data --</option>
+            </select>
+          </label>
+          <button class="btn btn-sm" onclick="runSimulation()">Run Simulation</button>
+        </div>
+        <div id="simulationResults">
+          <p class="empty">Select a lead or use sample data to preview the sequence</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Sequence Modal -->
+  <div class="modal" id="newSequenceModal">
+    <div class="modal-content" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3>Create New Sequence</h3>
+        <button class="modal-close" onclick="hideModal('newSequenceModal')">&times;</button>
+      </div>
+      <form id="newSequenceForm" onsubmit="submitNewSequence(event)">
+        <div class="form-group">
+          <label for="newSequenceName">Sequence Name</label>
+          <input type="text" id="newSequenceName" name="name" required placeholder="e.g., Welcome Series">
+        </div>
+        <div class="form-group">
+          <label for="newSequenceDescription">Description (optional)</label>
+          <textarea id="newSequenceDescription" name="description" rows="3" placeholder="Describe the purpose of this sequence..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Start with template:</label>
+          <div class="template-options">
+            <label class="radio-option">
+              <input type="radio" name="template" value="blank" checked>
+              <span>Blank sequence</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="template" value="simple">
+              <span>Simple 3-email series</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="template" value="nurture">
+              <span>Lead nurture (5 emails)</span>
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn" onclick="hideModal('newSequenceModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Sequence</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <h2>Login to AutoWebsites Pro</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <p class="form-footer">
+          No account? <a href="#" id="showRegister">Register</a>
+        </p>
+        <p class="error-message" id="loginError"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/sequence-builder.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!isAuthenticated()) {
+        showLoginModal();
+      } else {
+        initSequenceBuilder();
+      }
+
+      // Set user name
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      document.getElementById('userName').textContent = user.name || user.email || 'User';
+    });
+  </script>
+</body>
+</html>

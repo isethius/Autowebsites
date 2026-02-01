@@ -1,4 +1,5 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { getSupabaseClient } from './utils/supabase';
 import { SequenceEngine, SendEmailFunction } from './email/sequence-engine';
 import { EmailComposer } from './email/composer';
 import { LeadModel } from './crm/lead-model';
@@ -37,14 +38,7 @@ export class Worker {
   private intervalId?: NodeJS.Timeout;
 
   constructor(workerConfig: WorkerConfig) {
-    const url = process.env.SUPABASE_URL;
-    const key = process.env.SUPABASE_ANON_KEY;
-
-    if (!url || !key) {
-      throw new Error('SUPABASE_URL and SUPABASE_ANON_KEY required');
-    }
-
-    this.supabase = createClient(url, key);
+    this.supabase = getSupabaseClient();
     this.leadModel = new LeadModel();
     this.activityLogger = new ActivityLogger();
 
@@ -117,8 +111,31 @@ export class Worker {
       const jobsProcessed = await this.processJobQueue();
 
       logger.debug('Worker tick completed', { emailsProcessed, jobsProcessed });
+
+      // Send heartbeat after successful processing
+      await this.sendHeartbeat();
     } catch (error: any) {
       logger.error('Worker tick error', { error: error.message });
+    }
+  }
+
+  /**
+   * Send heartbeat to external monitoring service
+   * Configured via HEARTBEAT_URL environment variable
+   */
+  private async sendHeartbeat(): Promise<void> {
+    const heartbeatUrl = process.env.HEARTBEAT_URL;
+    if (!heartbeatUrl) return;
+
+    try {
+      await fetch(heartbeatUrl, {
+        method: 'GET',
+        signal: AbortSignal.timeout(5000), // 5 second timeout
+      });
+      logger.debug('Heartbeat sent successfully');
+    } catch (error: any) {
+      // Don't fail the worker if heartbeat fails, just log it
+      logger.warn('Failed to send heartbeat', { error: error.message });
     }
   }
 

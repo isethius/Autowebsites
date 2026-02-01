@@ -1,5 +1,7 @@
 import { searchBusinesses, PlaceResult, filterBusinessesWithWebsites } from './google-places';
 import { extractContactInfo, ContactInfo } from './contact-extractor';
+import { ContactExtractorV2, createContactExtractorV2 } from './contact-extractor-v2';
+import { SpiderClient, getSpiderClient } from './spider-client';
 import { captureWebsite } from '../capture/website-capture';
 import { generateManifest, saveManifest } from '../capture/manifest-generator';
 import { scoreWebsite, WebsiteScore } from '../outreach/website-scorer';
@@ -18,23 +20,55 @@ export interface DiscoveryOptions {
   maxResults?: number;
   scoreThreshold?: number;  // Only include sites scoring below this
   skipExisting?: boolean;   // Skip businesses already in database
+  validateUrls?: boolean;   // Validate URLs before processing (Spider-powered)
+  deepExtract?: boolean;    // Use multi-page crawl for contact extraction
 }
 
 export async function discoverLeads(options: DiscoveryOptions): Promise<DiscoveredLead[]> {
-  const { query, maxResults = 20, scoreThreshold = 6, skipExisting = true } = options;
+  const {
+    query,
+    maxResults = 20,
+    scoreThreshold = 6,
+    skipExisting = true,
+    validateUrls = false,
+    deepExtract = false
+  } = options;
 
   console.log(`\n🔍 Discovering leads: "${query}"\n`);
+  if (validateUrls) console.log(`  URL validation: enabled`);
+  if (deepExtract) console.log(`  Deep extraction: enabled`);
 
   // Step 1: Find businesses
   const businesses = await searchBusinesses({ query, maxResults: maxResults * 2 });
   console.log(`  Found ${businesses.length} businesses`);
 
   // Step 2: Filter to those with websites
-  const withWebsites = await filterBusinessesWithWebsites(businesses);
+  let withWebsites = await filterBusinessesWithWebsites(businesses);
   console.log(`  ${withWebsites.length} have websites`);
+
+  // Step 2.5: Validate URLs in bulk (optional, Spider-powered)
+  if (validateUrls && withWebsites.length > 0) {
+    console.log(`\n  🕷️ Validating URLs with Spider...`);
+    const spider = getSpiderClient();
+    const urls = withWebsites.map(b => b.website!);
+    const validationResults = await spider.validateBulk(urls, 10);
+
+    const validCount = Array.from(validationResults.values()).filter(r => r.valid).length;
+    const deadCount = withWebsites.length - validCount;
+
+    withWebsites = withWebsites.filter(b => {
+      const result = validationResults.get(b.website!);
+      return result?.valid;
+    });
+
+    console.log(`  ✓ ${validCount} valid, ${deadCount} dead/unreachable URLs filtered out`);
+  }
 
   const db = getLeadDatabase();
   const leads: DiscoveredLead[] = [];
+
+  // Initialize deep extractor if needed
+  const deepExtractor = deepExtract ? createContactExtractorV2({ maxPages: 10, maxDepth: 2 }) : null;
 
   // Step 3: Process each business
   for (const business of withWebsites) {
@@ -56,9 +90,24 @@ export async function discoverLeads(options: DiscoveryOptions): Promise<Discover
     }
 
     try {
-      // Extract contact info
-      console.log(`    📧 Extracting contacts...`);
-      const contactInfo = await extractContactInfo(business.website!);
+      // Extract contact info (use deep extractor or standard)
+      console.log(`    📧 Extracting contacts${deepExtract ? ' (deep crawl)' : ''}...`);
+
+      let contactInfo: ContactInfo;
+      if (deepExtractor) {
+        const result = await deepExtractor.extractContacts(business.website!);
+        contactInfo = {
+          emails: result.emails,
+          phones: result.phones,
+          socialLinks: result.socialLinks,
+          contactPageUrl: result.contactPageUrl,
+        };
+        if (result.pagesCrawled > 1) {
+          console.log(`    📄 Crawled ${result.pagesCrawled} pages`);
+        }
+      } else {
+        contactInfo = await extractContactInfo(business.website!);
+      }
 
       // Skip if no email found
       if (contactInfo.emails.length === 0) {
@@ -186,21 +235,26 @@ export function formatDiscoveryReport(leads: DiscoveredLead[]): string {
 
 // CLI entry point
 if (require.main === module) {
-  const query = process.argv[2] || 'plumbers in Austin TX';
-  const maxResults = parseInt(process.argv[3] || '5', 10);
-  const threshold = parseInt(process.argv[4] || '6', 10);
+  const args = process.argv.slice(2);
+  const query = args.find(a => !a.startsWith('--')) || 'plumbers in Austin TX';
+  const maxResults = parseInt(args.find(a => a.startsWith('--max='))?.split('=')[1] || '5', 10);
+  const threshold = parseInt(args.find(a => a.startsWith('--threshold='))?.split('=')[1] || '6', 10);
+  const validateUrls = args.includes('--validate');
+  const deepExtract = args.includes('--deep-extract');
 
   discoverLeads({
     query,
     maxResults,
     scoreThreshold: threshold,
-    skipExisting: true
+    skipExisting: true,
+    validateUrls,
+    deepExtract
   })
     .then(leads => {
       console.log(formatDiscoveryReport(leads));
 
       // Optionally save to database
-      if (process.argv.includes('--save')) {
+      if (args.includes('--save')) {
         return saveDiscoveredLeads(leads);
       }
     })

@@ -247,24 +247,28 @@
         return;
       }
 
-      grid.innerHTML = sequences.map(seq => `
+      grid.innerHTML = sequences.map(seq => {
+        const safeId = escapeHtml(seq.id);
+        const safeName = escapeHtml(seq.name);
+        const safeDesc = escapeHtml(seq.description || 'No description');
+        return `
         <div class="sequence-card ${seq.is_active ? '' : 'inactive'}">
           <div class="sequence-header">
-            <h4>${seq.name}</h4>
+            <h4>${safeName}</h4>
             <span class="badge ${seq.is_active ? 'badge-success' : 'badge-muted'}">${seq.is_active ? 'Active' : 'Paused'}</span>
           </div>
-          <p class="sequence-desc">${seq.description || 'No description'}</p>
+          <p class="sequence-desc">${safeDesc}</p>
           <div class="sequence-stats">
             <span>${seq.steps?.length || 0} steps</span>
             <span>${seq.total_enrolled || 0} enrolled</span>
             <span>${seq.total_completed || 0} completed</span>
           </div>
           <div class="sequence-actions">
-            <button class="btn btn-sm" onclick="viewSequence('${seq.id}')">View</button>
-            <button class="btn btn-sm" onclick="toggleSequence('${seq.id}', ${!seq.is_active})">${seq.is_active ? 'Pause' : 'Activate'}</button>
+            <button class="btn btn-sm" onclick="viewSequence('${safeId}')">View</button>
+            <button class="btn btn-sm" onclick="toggleSequence('${safeId}', ${!seq.is_active})">${seq.is_active ? 'Pause' : 'Activate'}</button>
           </div>
         </div>
-      `).join('');
+      `}).join('');
     }
 
     async function loadTemplates() {
@@ -278,13 +282,17 @@
 
     function renderTemplates(templates) {
       const grid = document.getElementById('templatesGrid');
-      grid.innerHTML = templates.map(tpl => `
+      grid.innerHTML = templates.map(tpl => {
+        const safeName = escapeHtml(tpl.name);
+        const safeKey = escapeHtml(tpl.key);
+        const safeVars = escapeHtml((tpl.variables || []).join(', '));
+        return `
         <div class="template-card">
-          <h4>${tpl.name}</h4>
-          <p>Variables: ${tpl.variables.join(', ')}</p>
-          <button class="btn btn-sm" onclick="previewTemplate('${tpl.key}')">Preview</button>
+          <h4>${safeName}</h4>
+          <p>Variables: ${safeVars}</p>
+          <button class="btn btn-sm" onclick="previewTemplate('${safeKey}')">Preview</button>
         </div>
-      `).join('');
+      `}).join('');
     }
 
     async function loadPerformance() {
@@ -303,7 +311,7 @@
         } else {
           tbody.innerHTML = data.topSubjects.map(s => `
             <tr>
-              <td>${s.subject}</td>
+              <td>${escapeHtml(s.subject)}</td>
               <td>${s.sent}</td>
               <td>${s.openRate}%</td>
               <td>${s.clickRate}%</td>
@@ -431,7 +439,7 @@
         const sequences = await api('/api/campaigns/sequences');
         select.innerHTML = sequences
           .filter(s => s.is_active)
-          .map(s => `<option value="${s.id}">${s.name}</option>`)
+          .map(s => `<option value="${escapeHtml(s.id)}">${escapeHtml(s.name)}</option>`)
           .join('');
 
         if (sequences.length === 0) {

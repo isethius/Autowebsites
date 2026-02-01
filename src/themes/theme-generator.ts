@@ -253,10 +253,105 @@ body {
   grid-template-columns: repeat(4, 1fr);
   grid-auto-rows: 200px;
   gap: 16px;
+  ` : dna.layout === 'L11' ? `
+  display: block;
   ` : `
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
   `}
+}
+
+/* Professional Services Layout (L11) */
+.service-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  margin-bottom: 120px;
+}
+
+.service-block:last-child {
+  margin-bottom: 0;
+}
+
+.service-block.alternate {
+  direction: rtl;
+}
+
+.service-block.alternate > * {
+  direction: ltr;
+}
+
+.service-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.service-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 24px;
+  color: var(--accent-color);
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.service-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--text-color);
+  line-height: 1.1;
+  margin-bottom: 16px;
+  letter-spacing: -1px;
+}
+
+.service-separator {
+  width: 80px;
+  height: 3px;
+  background: var(--accent-color);
+  margin-bottom: 24px;
+}
+
+.service-description {
+  font-size: 1.1rem;
+  color: rgba(0,0,0,0.6);
+  line-height: 1.8;
+  max-width: 600px;
+}
+
+.service-image {
+  position: relative;
+  overflow: hidden;
+  border-radius: ${borderRadius};
+  aspect-ratio: 4/3;
+}
+
+.service-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.service-image:hover img {
+  transform: scale(1.05);
+}
+
+@media (max-width: 1024px) {
+  .service-block {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  
+  .service-block.alternate {
+    direction: ltr;
+  }
+  
+  .service-image {
+    order: -1;
+  }
 }
 
 /* Cards */
@@ -366,6 +461,48 @@ function generateHTML(
 
   // Extract sections content
   const sections = dom.sections.slice(0, 4);
+  
+  // Extract images for service blocks
+  const images = dom.images.slice(0, 4);
+
+  // Generate service blocks for L11 layout
+  const generateServiceBlocks = () => {
+    if (variance.dna.layout !== 'L11') return '';
+    
+    const serviceBlocks = sections.slice(0, 4).map((section, index) => {
+      const isAlternate = index % 2 === 1;
+      const serviceTitle = section.text?.split('.')[0] || `Service ${index + 1}`;
+      const serviceDescription = section.text || 'Professional service description.';
+      const serviceImage = images[index]?.src || `https://via.placeholder.com/800x600?text=Service+${index + 1}`;
+      
+      // Simple icon placeholder (can be enhanced with actual icons)
+      const iconSvg = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+      </svg>`;
+      
+      return `
+      <div class="service-block ${isAlternate ? 'alternate' : ''}">
+        <div class="service-content">
+          <div class="service-icon">${iconSvg}</div>
+          <h2 class="service-title">${serviceTitle}</h2>
+          <div class="service-separator"></div>
+          <p class="service-description">${serviceDescription}</p>
+        </div>
+        <div class="service-image">
+          <img src="${serviceImage}" alt="${serviceTitle}">
+        </div>
+      </div>`;
+    }).join('\n');
+    
+    return `
+    <!-- Services Section -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title" style="text-align: center; margin-bottom: 64px;">Our Services</h2>
+        ${serviceBlocks}
+      </div>
+    </section>`;
+  };
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -403,6 +540,7 @@ ${generateCSS(variance.dna, colorScheme, DESIGN_VARIANTS[variance.dna.design])}
     </div>
   </section>
 
+  ${variance.dna.layout === 'L11' ? generateServiceBlocks() : `
   <!-- Features Section -->
   <section class="section">
     <div class="container">
@@ -442,6 +580,7 @@ ${generateCSS(variance.dna, colorScheme, DESIGN_VARIANTS[variance.dna.design])}
       </div>
     </div>
   </section>
+  `}
 
   <!-- CTA Section -->
   <section class="section" style="background: linear-gradient(135deg, ${colorScheme.colors.primary}, ${colorScheme.colors.accent}); color: white; text-align: center;">

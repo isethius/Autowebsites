@@ -52,7 +52,7 @@ export const LAYOUT_VARIANTS: Record<string, { name: string; description: string
   L8: { name: 'Full-Width Sections', description: 'Stacked full-width blocks' },
   L9: { name: 'Timeline', description: 'Vertical timeline layout' },
   L10: { name: 'Bento Box', description: 'Mixed-size tile grid' },
-  L11: { name: 'Floating Sections', description: 'Overlapping card sections' },
+  L11: { name: 'Professional Services', description: 'Two-column alternating service sections with icons and images' },
   L12: { name: 'Horizontal Scroll', description: 'Horizontal scrolling sections' }
 };
 

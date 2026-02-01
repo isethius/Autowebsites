@@ -54,7 +54,7 @@ class AutoWebsitesPro {
     // Start dashboard if requested
     if (appConfig.startDashboard !== false) {
       const port = appConfig.dashboardPort || config.DASHBOARD_PORT;
-      this.dashboardServer = createDashboardServer({
+      this.dashboardServer = await createDashboardServer({
         port,
         jwtSecret: config.JWT_SECRET,
       });
@@ -144,7 +144,6 @@ export { getIndustryTemplate, INDUSTRIES, IndustryType } from './ai/industry-tem
 // Export email
 export { EmailComposer } from './email/composer';
 export { SequenceEngine } from './email/sequence-engine';
-export { WebhookHandler } from './email/webhook-handler';
 export { EmailAnalytics } from './email/analytics';
 export { UnsubscribeHandler } from './email/unsubscribe';
 

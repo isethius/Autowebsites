@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoWebsites Pro — Transform Any Website in Minutes</title>
+  <meta name="description" content="186,624 unique website designs. One click. Transform outdated websites into modern, conversion-optimized experiences.">
+  <style>
+    /* Design System — Base 8 Scale */
+    :root {
+      /* Typography */
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+
+      /* Colors — Warm Graphite palette with electric accent */
+      --color-bg: #FAFAF9;
+      --color-surface: #FFFFFF;
+      --color-text: #1C1917;
+      --color-text-secondary: rgba(28, 25, 23, 0.65);
+      --color-text-muted: rgba(28, 25, 23, 0.4);
+      --color-border: rgba(28, 25, 23, 0.08);
+      --color-accent: #2563EB;
+      --color-accent-subtle: rgba(37, 99, 235, 0.08);
+
+      /* Spacing — Base 8 */
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 24px;
+      --space-6: 32px;
+      --space-7: 48px;
+      --space-8: 64px;
+      --space-9: 96px;
+      --space-10: 128px;
+
+      /* Layout */
+      --max-width: 1200px;
+      --content-width: 680px;
+    }
+
+    /* Reset */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.5;
+    }
+
+    /* Typography Scale */
+    h1, h2, h3 {
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    h1 { font-size: clamp(2.5rem, 5vw, 3.5rem); }
+    h2 { font-size: clamp(1.75rem, 3vw, 2.25rem); }
+    h3 { font-size: 1.125rem; }
+
+    p {
+      color: var(--color-text-secondary);
+      max-width: 60ch;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Layout */
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 var(--space-5);
+    }
+
+    section {
+      padding: var(--space-9) 0;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: var(--space-4) 0;
+      background: rgba(250, 250, 249, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.125rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .logo span { color: var(--color-accent); }
+
+    .nav-links {
+      display: flex;
+      gap: var(--space-6);
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover { color: var(--color-text); }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-3) var(--space-5);
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: 6px;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn:hover {
+      background: var(--color-bg);
+      border-color: rgba(28, 25, 23, 0.15);
+    }
+
+    .btn-primary {
+      background: var(--color-text);
+      border-color: var(--color-text);
+      color: var(--color-surface);
+    }
+
+    .btn-primary:hover {
+      background: #0C0A09;
+      border-color: #0C0A09;
+    }
+
+    .btn-lg {
+      padding: var(--space-4) var(--space-6);
+      font-size: 1rem;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: var(--space-10);
+    }
+
+    .hero-content {
+      max-width: var(--content-width);
+    }
+
+    .hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-3);
+      margin-bottom: var(--space-5);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--color-accent);
+      background: var(--color-accent-subtle);
+      border-radius: 100px;
+    }
+
+    .hero h1 {
+      margin-bottom: var(--space-5);
+    }
+
+    .hero p {
+      font-size: 1.125rem;
+      margin-bottom: var(--space-6);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .hero-stat {
+      margin-top: var(--space-8);
+      padding-top: var(--space-6);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .hero-stat-number {
+      font-size: 2.5rem;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      font-family: var(--font-mono);
+    }
+
+    .hero-stat-label {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+      margin-top: var(--space-1);
+    }
+
+    /* DNA Section */
+    .dna-section {
+      background: var(--color-surface);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .section-header {
+      max-width: var(--content-width);
+      margin-bottom: var(--space-7);
+    }
+
+    .section-header h2 {
+      margin-bottom: var(--space-3);
+    }
+
+    .dna-code {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-7);
+    }
+
+    .dna-segment {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .dna-segment label {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .dna-value {
+      padding: var(--space-3) var(--space-4);
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 500;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      min-width: 80px;
+      text-align: center;
+    }
+
+    .dna-result {
+      margin-top: var(--space-5);
+      padding: var(--space-4);
+      background: var(--color-bg);
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+    }
+
+    .dna-result span {
+      color: var(--color-accent);
+    }
+
+    .dna-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--space-4);
+      margin-top: var(--space-7);
+    }
+
+    .dna-category {
+      padding: var(--space-5);
+      background: var(--color-bg);
+      border-radius: 8px;
+    }
+
+    .dna-category h4 {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--space-3);
+    }
+
+    .dna-category-count {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .dna-category-name {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      margin-top: var(--space-1);
+    }
+
+    /* Theme Showcase */
+    .themes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+
+    .theme-card {
+      position: relative;
+      aspect-ratio: 4/3;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .theme-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    }
+
+    .theme-preview {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .theme-preview-header {
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .theme-preview-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .theme-preview-dots span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-border);
+    }
+
+    .theme-preview-body {
+      flex: 1;
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .theme-preview-hero {
+      height: 40%;
+      border-radius: 6px;
+    }
+
+    .theme-preview-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--space-2);
+      flex: 1;
+    }
+
+    .theme-preview-block {
+      border-radius: 4px;
+    }
+
+    .theme-label {
+      position: absolute;
+      bottom: var(--space-4);
+      left: var(--space-4);
+      padding: var(--space-2) var(--space-3);
+      background: var(--color-surface);
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Theme Color Variations */
+    .theme-1 .theme-preview-hero { background: linear-gradient(135deg, #3B82F6, #1D4ED8); }
+    .theme-1 .theme-preview-block { background: #EFF6FF; }
+
+    .theme-2 .theme-preview-hero { background: linear-gradient(135deg, #10B981, #059669); }
+    .theme-2 .theme-preview-block { background: #ECFDF5; }
+
+    .theme-3 .theme-preview-hero { background: linear-gradient(135deg, #8B5CF6, #6D28D9); }
+    .theme-3 .theme-preview-block { background: #F5F3FF; }
+
+    .theme-4 .theme-preview-hero { background: linear-gradient(135deg, #F97316, #EA580C); }
+    .theme-4 .theme-preview-block { background: #FFF7ED; }
+
+    .theme-5 .theme-preview-hero { background: linear-gradient(135deg, #EF4444, #DC2626); }
+    .theme-5 .theme-preview-block { background: #FEF2F2; }
+
+    .theme-6 .theme-preview-hero { background: linear-gradient(135deg, #0EA5E9, #0284C7); }
+    .theme-6 .theme-preview-block { background: #F0F9FF; }
+
+    /* Industries Section */
+    .industries-section {
+      background: var(--color-surface);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .industries-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+    }
+
+    .industry-card {
+      padding: var(--space-6);
+      background: var(--color-bg);
+      border-radius: 12px;
+      transition: background 0.15s;
+    }
+
+    .industry-card:hover {
+      background: var(--color-accent-subtle);
+    }
+
+    .industry-icon {
+      font-size: 1.75rem;
+      margin-bottom: var(--space-4);
+    }
+
+    .industry-card h3 {
+      margin-bottom: var(--space-2);
+    }
+
+    .industry-card p {
+      font-size: 0.875rem;
+    }
+
+    /* Before/After Section */
+    .comparison-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+      margin-top: var(--space-7);
+    }
+
+    .comparison-panel {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+    }
+
+    .comparison-header {
+      padding: var(--space-3) var(--space-4);
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-muted);
+    }
+
+    .comparison-body {
+      padding: var(--space-5);
+      background: var(--color-surface);
+      min-height: 320px;
+    }
+
+    .comparison-before .comparison-body {
+      background: #F5F5F4;
+      font-family: 'Times New Roman', serif;
+    }
+
+    .comparison-before .fake-site {
+      max-width: 400px;
+    }
+
+    .fake-site-header {
+      padding: var(--space-3);
+      background: #E7E5E4;
+      margin-bottom: var(--space-4);
+    }
+
+    .fake-site-header h4 {
+      font-size: 1rem;
+      color: #57534E;
+    }
+
+    .fake-site-content {
+      padding: var(--space-3);
+    }
+
+    .fake-site-content p {
+      font-size: 0.875rem;
+      color: #78716C;
+      line-height: 1.6;
+      margin-bottom: var(--space-3);
+    }
+
+    .fake-site-btn {
+      display: inline-block;
+      padding: var(--space-2) var(--space-4);
+      background: #78716C;
+      color: white;
+      font-size: 0.875rem;
+      border-radius: 0;
+    }
+
+    .comparison-after .modern-site {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .modern-site-hero {
+      padding: var(--space-6);
+      background: linear-gradient(135deg, var(--color-accent), #1D4ED8);
+      border-radius: 8px;
+      color: white;
+    }
+
+    .modern-site-hero h4 {
+      font-size: 1.25rem;
+      margin-bottom: var(--space-2);
+    }
+
+    .modern-site-hero p {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: var(--space-4);
+    }
+
+    .modern-site-btn {
+      display: inline-block;
+      padding: var(--space-2) var(--space-4);
+      background: white;
+      color: var(--color-accent);
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: 6px;
+    }
+
+    .modern-site-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-3);
+    }
+
+    .modern-site-card {
+      padding: var(--space-4);
+      background: var(--color-bg);
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .modern-site-card span {
+      font-size: 1.5rem;
+      display: block;
+      margin-bottom: var(--space-2);
+    }
+
+    .modern-site-card p {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+    }
+
+    /* Dashboard Preview */
+    .dashboard-preview {
+      margin-top: var(--space-7);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    }
+
+    .dashboard-preview-header {
+      padding: var(--space-3) var(--space-4);
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .dashboard-preview-body {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      min-height: 400px;
+    }
+
+    .dashboard-sidebar {
+      padding: var(--space-4);
+      background: var(--color-surface);
+      border-right: 1px solid var(--color-border);
+    }
+
+    .dashboard-nav-item {
+      padding: var(--space-2) var(--space-3);
+      margin-bottom: var(--space-2);
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      border-radius: 6px;
+    }
+
+    .dashboard-nav-item.active {
+      background: var(--color-accent-subtle);
+      color: var(--color-accent);
+    }
+
+    .dashboard-main {
+      padding: var(--space-5);
+      background: var(--color-bg);
+    }
+
+    .dashboard-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+      margin-bottom: var(--space-5);
+    }
+
+    .dashboard-stat-card {
+      padding: var(--space-4);
+      background: var(--color-surface);
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+    }
+
+    .dashboard-stat-value {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .dashboard-stat-label {
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      margin-top: var(--space-1);
+    }
+
+    .dashboard-chart {
+      padding: var(--space-5);
+      background: var(--color-surface);
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+    }
+
+    .dashboard-chart-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: var(--space-3);
+      height: 120px;
+      margin-top: var(--space-4);
+    }
+
+    .dashboard-chart-bar {
+      flex: 1;
+      background: var(--color-accent);
+      border-radius: 4px 4px 0 0;
+      opacity: 0.7;
+    }
+
+    .dashboard-chart-bar:nth-child(1) { height: 60%; }
+    .dashboard-chart-bar:nth-child(2) { height: 80%; }
+    .dashboard-chart-bar:nth-child(3) { height: 45%; }
+    .dashboard-chart-bar:nth-child(4) { height: 90%; }
+    .dashboard-chart-bar:nth-child(5) { height: 70%; }
+    .dashboard-chart-bar:nth-child(6) { height: 85%; }
+    .dashboard-chart-bar:nth-child(7) { height: 100%; opacity: 1; }
+
+    /* CTA Section */
+    .cta-section {
+      background: var(--color-text);
+      color: var(--color-surface);
+    }
+
+    .cta-content {
+      max-width: var(--content-width);
+      text-align: center;
+      margin: 0 auto;
+    }
+
+    .cta-content h2 {
+      color: var(--color-surface);
+      margin-bottom: var(--space-4);
+    }
+
+    .cta-content p {
+      color: rgba(255, 255, 255, 0.7);
+      margin: 0 auto var(--space-6);
+    }
+
+    .cta-actions {
+      display: flex;
+      gap: var(--space-4);
+      justify-content: center;
+    }
+
+    .btn-cta {
+      background: var(--color-surface);
+      color: var(--color-text);
+      border-color: var(--color-surface);
+    }
+
+    .btn-cta:hover {
+      background: var(--color-bg);
+      border-color: var(--color-bg);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-color: rgba(255, 255, 255, 0.3);
+      color: var(--color-surface);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Footer */
+    footer {
+      padding: var(--space-7) 0;
+      background: var(--color-surface);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: var(--space-6);
+    }
+
+    .footer-links a {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+    }
+
+    .footer-links a:hover {
+      color: var(--color-text);
+    }
+
+    .footer-copy {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .themes-grid { grid-template-columns: repeat(2, 1fr); }
+      .industries-grid { grid-template-columns: repeat(2, 1fr); }
+      .dna-grid { grid-template-columns: repeat(3, 1fr); }
+      .dashboard-stats { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      section { padding: var(--space-7) 0; }
+
+      .nav-links a:not(.btn) { display: none; }
+
+      .hero { min-height: auto; padding-top: var(--space-9); }
+      .hero-actions { flex-direction: column; }
+      .hero-actions .btn { width: 100%; justify-content: center; }
+
+      .themes-grid { grid-template-columns: 1fr; }
+      .industries-grid { grid-template-columns: 1fr; }
+      .dna-grid { grid-template-columns: 1fr 1fr; }
+      .dna-code { gap: var(--space-2); }
+
+      .comparison-container { grid-template-columns: 1fr; }
+
+      .dashboard-preview-body { grid-template-columns: 1fr; }
+      .dashboard-sidebar { display: none; }
+      .dashboard-stats { grid-template-columns: repeat(2, 1fr); }
+
+      .cta-actions { flex-direction: column; }
+      .cta-actions .btn { width: 100%; justify-content: center; }
+
+      .footer-content { flex-direction: column; gap: var(--space-4); text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+
+    /* Animations — Subtle, purposeful */
+    @media (prefers-reduced-motion: no-preference) {
+      .theme-card,
+      .industry-card,
+      .btn {
+        transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),
+                    box-shadow 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),
+                    background 0.15s;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="container">
+      <a href="/" class="logo">AutoWebsites<span>Pro</span></a>
+      <div class="nav-links">
+        <a href="#themes">Themes</a>
+        <a href="#industries">Industries</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="/" class="btn btn-primary">Open Dashboard</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-label">
+          <span>New</span> DNA-Based Theme System
+        </div>
+        <h1>Transform Any Website in Minutes</h1>
+        <p>Generate stunning, conversion-optimized websites for any industry. 186,624 unique design combinations, zero design skills required.</p>
+        <div class="hero-actions">
+          <a href="/" class="btn btn-primary btn-lg">Open Dashboard</a>
+          <a href="#themes" class="btn btn-lg">See Examples</a>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-number">186,624</div>
+          <div class="hero-stat-label">Unique theme combinations via DNA codes</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DNA System -->
+  <section class="dna-section" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <h2>The DNA Code System</h2>
+        <p>Every website design is defined by a 5-part DNA code. Mix and match to create exactly what your client needs.</p>
+      </div>
+
+      <div class="dna-code">
+        <div class="dna-segment">
+          <label>Hero</label>
+          <div class="dna-value">H7</div>
+        </div>
+        <div class="dna-segment">
+          <label>Layout</label>
+          <div class="dna-value">L3</div>
+        </div>
+        <div class="dna-segment">
+          <label>Colors</label>
+          <div class="dna-value">C5</div>
+        </div>
+        <div class="dna-segment">
+          <label>Navigation</label>
+          <div class="dna-value">N2</div>
+        </div>
+        <div class="dna-segment">
+          <label>Design</label>
+          <div class="dna-value">D8</div>
+        </div>
+      </div>
+
+      <div class="dna-result">
+        Theme DNA: <span>H7-L3-C5-N2-D8</span> — Carousel Hero + Sidebar Layout + Forest Green + Transparent Header + Pill Shapes
+      </div>
+
+      <div class="dna-grid">
+        <div class="dna-category">
+          <h4>Hero Layouts</h4>
+          <div class="dna-category-count">12</div>
+          <div class="dna-category-name">H1–H12</div>
+        </div>
+        <div class="dna-category">
+          <h4>Page Layouts</h4>
+          <div class="dna-category-count">12</div>
+          <div class="dna-category-name">L1–L12</div>
+        </div>
+        <div class="dna-category">
+          <h4>Color Schemes</h4>
+          <div class="dna-category-count">12</div>
+          <div class="dna-category-name">C1–C12</div>
+        </div>
+        <div class="dna-category">
+          <h4>Navigation</h4>
+          <div class="dna-category-count">9</div>
+          <div class="dna-category-name">N1–N9</div>
+        </div>
+        <div class="dna-category">
+          <h4>Design Elements</h4>
+          <div class="dna-category-count">12</div>
+          <div class="dna-category-name">D1–D12</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Theme Showcase -->
+  <section id="themes">
+    <div class="container">
+      <div class="section-header">
+        <h2>Generated Theme Examples</h2>
+        <p>Every theme is production-ready, responsive, and optimized for conversions.</p>
+      </div>
+
+      <div class="themes-grid">
+        <div class="theme-card theme-1">
+          <div class="theme-preview">
+            <div class="theme-preview-header">
+              <div class="theme-preview-dots">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
+            <div class="theme-preview-body">
+              <div class="theme-preview-hero"></div>
+              <div class="theme-preview-content">
+                <div class="theme-preview-block"></div>
+                <div class="theme-preview-block"></div>
+                <div class="theme-preview-block"></div>
+              </div>
+            </div>
+          </div>
+          <div class="theme-label">H1-L1-C1 Modern Blue</div>
+        </div>
+
+        <div class="theme-card theme-2">
+          <div class="theme-preview">
+            <div class="theme-preview-header">
+              <div class="theme-preview-dots">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
+            <div class="theme-preview-body">
+              <div class="theme-preview-hero"></div>
+              <div class="theme-preview-content">
+                <div class="theme-preview-block"></div>
+                <div class="theme-preview-block"></div>
+                <div class="theme-preview-block"></div>
+              </div>
+            </div>
+          </div>
+          <div class="theme-label">H3-L5-C5 Forest Green</div>
+        </div>
+
+        <div class="theme-card theme-3">
+          <div class="theme-preview">
+            <div class="theme-preview-header">
+              <div class="theme-preview-dots">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
+            <div class="theme-preview-body">
+              <div class="theme-preview-hero"></div>
+              <div class="theme-preview-content">
+                <div class="theme-preview-block"></div>
+                <div class="theme-preview-block"></div>
+                <div class="theme-preview-block"></div>
+              </div>
+            </div>
+          </div>
+          <div class="theme-label">H5-L2-C6 Royal Purple</div>
+        </div>
+
+        <div class="theme-card theme-4">
+          <div class="theme-preview">
+            <div class="theme-preview-header">
+              <div class="theme-preview-dots">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
+            <div class="theme-preview-body">
+              <div class="theme-preview-hero"></div>
+              <div class="theme-preview-content">
+                <div class="theme-preview-block"></div>
+                <div class="theme-preview-block"></div>
+                <div class="theme-preview-block"></div>
+              </div>
+            </div>
+          </div>
+          <div class="theme-label">H7-L8-C7 Sunset Orange</div>
+        </div>
+
+        <div class="theme-card theme-5">
+          <div class="theme-preview">
+            <div class="theme-preview-header">
+              <div class="theme-preview-dots">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
+            <div class="theme-preview-body">
+              <div class="theme-preview-hero"></div>
+              <div class="theme-preview-content">
+                <div class="theme-preview-block"></div>
+                <div class="theme-preview-block"></div>
+                <div class="theme-preview-block"></div>
+              </div>
+            </div>
+          </div>
+          <div class="theme-label">H2-L6-C9 Bold Red</div>
+        </div>
+
+        <div class="theme-card theme-6">
+          <div class="theme-preview">
+            <div class="theme-preview-header">
+              <div class="theme-preview-dots">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
+            <div class="theme-preview-body">
+              <div class="theme-preview-hero"></div>
+              <div class="theme-preview-content">
+                <div class="theme-preview-block"></div>
+                <div class="theme-preview-block"></div>
+                <div class="theme-preview-block"></div>
+              </div>
+            </div>
+          </div>
+          <div class="theme-label">H4-L3-C4 Ocean Blue</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Industries -->
+  <section class="industries-section" id="industries">
+    <div class="container">
+      <div class="section-header">
+        <h2>Industry-Specific Templates</h2>
+        <p>Pre-configured content and layouts for 16+ industries. Each template knows exactly what your clients need.</p>
+      </div>
+
+      <div class="industries-grid">
+        <div class="industry-card">
+          <div class="industry-icon">🔧</div>
+          <h3>Plumbers</h3>
+          <p>Emergency services, pricing tables, service areas, trust badges</p>
+        </div>
+        <div class="industry-card">
+          <div class="industry-icon">⚖️</div>
+          <h3>Lawyers</h3>
+          <p>Practice areas, case results, attorney profiles, consultations</p>
+        </div>
+        <div class="industry-card">
+          <div class="industry-icon">🍽️</div>
+          <h3>Restaurants</h3>
+          <p>Menus, reservations, hours, location, photo galleries</p>
+        </div>
+        <div class="industry-card">
+          <div class="industry-icon">🦷</div>
+          <h3>Dentists</h3>
+          <p>Services, team bios, patient forms, insurance info</p>
+        </div>
+        <div class="industry-card">
+          <div class="industry-icon">🔨</div>
+          <h3>Contractors</h3>
+          <p>Project galleries, estimates, licensing, testimonials</p>
+        </div>
+        <div class="industry-card">
+          <div class="industry-icon">🏠</div>
+          <h3>Real Estate</h3>
+          <p>Listings, agent profiles, neighborhood guides, valuations</p>
+        </div>
+        <div class="industry-card">
+          <div class="industry-icon">💪</div>
+          <h3>Fitness</h3>
+          <p>Class schedules, membership plans, trainer bios, facilities</p>
+        </div>
+        <div class="industry-card">
+          <div class="industry-icon">🚗</div>
+          <h3>Auto Services</h3>
+          <p>Service menus, appointments, specials, fleet services</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Before/After -->
+  <section id="transform">
+    <div class="container">
+      <div class="section-header">
+        <h2>Before & After</h2>
+        <p>See the transformation. Outdated websites become modern, conversion-optimized experiences.</p>
+      </div>
+
+      <div class="comparison-container">
+        <div class="comparison-panel comparison-before">
+          <div class="comparison-header">Before</div>
+          <div class="comparison-body">
+            <div class="fake-site">
+              <div class="fake-site-header">
+                <h4>Joe's Plumbing</h4>
+              </div>
+              <div class="fake-site-content">
+                <p>Welcome to Joe's Plumbing! We have been serving the community since 1998. We fix pipes and stuff. Call us for a free estimate.</p>
+                <p>Services: Pipes, Drains, Water Heaters, More...</p>
+                <span class="fake-site-btn">Contact Us</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="comparison-panel comparison-after">
+          <div class="comparison-header">After</div>
+          <div class="comparison-body">
+            <div class="modern-site">
+              <div class="modern-site-hero">
+                <h4>24/7 Emergency Plumbing</h4>
+                <p>Licensed, insured, and ready when you need us most.</p>
+                <span class="modern-site-btn">Get Free Quote</span>
+              </div>
+              <div class="modern-site-cards">
+                <div class="modern-site-card">
+                  <span>⚡</span>
+                  <p>Same-Day Service</p>
+                </div>
+                <div class="modern-site-card">
+                  <span>✓</span>
+                  <p>Licensed & Insured</p>
+                </div>
+                <div class="modern-site-card">
+                  <span>★</span>
+                  <p>5-Star Reviews</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dashboard Preview -->
+  <section id="dashboard">
+    <div class="container">
+      <div class="section-header">
+        <h2>Professional CRM Dashboard</h2>
+        <p>Manage leads, track campaigns, and monitor conversions. Everything you need to grow your agency.</p>
+      </div>
+
+      <div class="dashboard-preview">
+        <div class="dashboard-preview-header">
+          <div class="theme-preview-dots">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="dashboard-preview-body">
+          <div class="dashboard-sidebar">
+            <div class="dashboard-nav-item active">Dashboard</div>
+            <div class="dashboard-nav-item">Leads</div>
+            <div class="dashboard-nav-item">Campaigns</div>
+            <div class="dashboard-nav-item">Proposals</div>
+            <div class="dashboard-nav-item">Analytics</div>
+          </div>
+          <div class="dashboard-main">
+            <div class="dashboard-stats">
+              <div class="dashboard-stat-card">
+                <div class="dashboard-stat-value">847</div>
+                <div class="dashboard-stat-label">Total Leads</div>
+              </div>
+              <div class="dashboard-stat-card">
+                <div class="dashboard-stat-value">2,341</div>
+                <div class="dashboard-stat-label">Emails Sent</div>
+              </div>
+              <div class="dashboard-stat-card">
+                <div class="dashboard-stat-value">34.2%</div>
+                <div class="dashboard-stat-label">Open Rate</div>
+              </div>
+              <div class="dashboard-stat-card">
+                <div class="dashboard-stat-value">$24.5k</div>
+                <div class="dashboard-stat-label">Revenue</div>
+              </div>
+            </div>
+            <div class="dashboard-chart">
+              <h4 style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: var(--space-3);">Weekly Performance</h4>
+              <div class="dashboard-chart-bars">
+                <div class="dashboard-chart-bar"></div>
+                <div class="dashboard-chart-bar"></div>
+                <div class="dashboard-chart-bar"></div>
+                <div class="dashboard-chart-bar"></div>
+                <div class="dashboard-chart-bar"></div>
+                <div class="dashboard-chart-bar"></div>
+                <div class="dashboard-chart-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Ready to Transform Websites?</h2>
+        <p>Start generating professional websites for your clients today. No design skills required.</p>
+        <div class="cta-actions">
+          <a href="/" class="btn btn-lg btn-cta">Open Dashboard</a>
+          <a href="#themes" class="btn btn-lg btn-ghost">View Examples</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="#themes">Themes</a>
+          <a href="#industries">Industries</a>
+          <a href="#dashboard">Dashboard</a>
+          <a href="/">Login</a>
+        </div>
+        <div class="footer-copy">
+          AutoWebsites Pro
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

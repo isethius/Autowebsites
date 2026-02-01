@@ -1,4 +1,4 @@
-import { sendEmail, SendResult } from './sendgrid-client';
+import { sendEmail, SendResult } from './index';
 import { generateEmail, generateFollowUpEmail, EmailTemplate } from '../outreach/email-generator';
 import { getLeadDatabase, Lead, LeadStatus } from '../outreach/lead-database';
 import { WebsiteScore } from '../outreach/website-scorer';
@@ -29,7 +29,7 @@ const DEFAULT_CONFIG: CampaignConfig = {
   followUpDays: [3, 7],  // Follow up at day 3 and day 7
   maxFollowUps: 2,
   senderName: 'Alex',
-  senderEmail: process.env.SENDGRID_FROM_EMAIL || 'hello@example.com',
+  senderEmail: process.env.GMAIL_FROM_EMAIL || 'hello@example.com',
   senderCompany: 'WebDesign Pro',
   maxEmailsPerHour: 50,
   delayBetweenEmailsMs: 2000

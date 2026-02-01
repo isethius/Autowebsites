@@ -1,4 +1,5 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { getSupabaseClient } from '../utils/supabase';
 
 export type ActivityType =
   | 'stage_change'
@@ -56,15 +57,8 @@ export class ActivityLogger {
   private supabase: SupabaseClient;
   private tableName = 'activities';
 
-  constructor(supabaseUrl?: string, supabaseKey?: string) {
-    const url = supabaseUrl || process.env.SUPABASE_URL;
-    const key = supabaseKey || process.env.SUPABASE_ANON_KEY;
-
-    if (!url || !key) {
-      throw new Error('SUPABASE_URL and SUPABASE_ANON_KEY are required');
-    }
-
-    this.supabase = createClient(url, key);
+  constructor() {
+    this.supabase = getSupabaseClient();
   }
 
   async log(input: CreateActivityInput): Promise<Activity> {

@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{BUSINESS_NAME}} | {{TAGLINE}}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* =====================================================
+           PROFESSIONAL SERVICES TEMPLATE
+           Clean, modern design for professional service businesses
+           Inspired by renovation/contractor service pages
+           ===================================================== */
+
+        :root {
+            /* Brand Colors - Customize these */
+            --color-primary: #1a1a1a;        /* Main text color */
+            --color-accent: #4A90E2;        /* Light blue accent */
+            --color-background: #ffffff;     /* Background */
+            --color-text-light: #666666;     /* Secondary text */
+            --color-text-lighter: #999999;   /* Tertiary text */
+            --color-border: #e8e8e8;        /* Border color */
+            
+            /* Typography */
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            
+            /* Spacing */
+            --section-padding: 96px;
+            --section-padding-mobile: 64px;
+            --container-max-width: 1200px;
+            
+            /* Transitions */
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.7;
+            color: var(--color-primary);
+            font-size: 16px;
+            background: var(--color-background);
+        }
+
+        /* =====================================================
+           NAVIGATION
+           ===================================================== */
+        nav {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 24px 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+        }
+
+        nav.scrolled {
+            padding: 16px 0;
+            box-shadow: 0 2px 30px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .nav-logo img {
+            height: 48px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .nav-logo-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--color-primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--color-accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-accent);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: var(--color-primary);
+            color: var(--color-background);
+            padding: 12px 28px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            border: 2px solid var(--color-primary);
+        }
+
+        .nav-cta:hover {
+            background: transparent;
+            color: var(--color-primary);
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--color-primary);
+        }
+
+        /* =====================================================
+           HERO SECTION
+           ===================================================== */
+        .hero {
+            min-height: 60vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), url('{{HERO_BACKGROUND_IMAGE}}');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 140px 40px var(--section-padding);
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            color: var(--color-background);
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 24px;
+        }
+
+        /* =====================================================
+           SERVICE BLOCKS
+           ===================================================== */
+        .services-section {
+            padding: var(--section-padding) 40px;
+            background: var(--color-background);
+        }
+
+        .services-container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+        }
+
+        .service-block {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            margin-bottom: 120px;
+        }
+
+        .service-block:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Alternate layout - image on left, content on right */
+        .service-block.alternate {
+            direction: rtl;
+        }
+
+        .service-block.alternate > * {
+            direction: ltr;
+        }
+
+        .service-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 24px;
+            color: var(--color-accent);
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .service-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        .service-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--color-primary);
+            line-height: 1.1;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .service-separator {
+            width: 80px;
+            height: 3px;
+            background: var(--color-accent);
+            margin-bottom: 24px;
+        }
+
+        .service-description {
+            font-size: 1.1rem;
+            color: var(--color-text-light);
+            line-height: 1.8;
+            max-width: 600px;
+        }
+
+        .service-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            aspect-ratio: 4/3;
+        }
+
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .service-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* =====================================================
+           FOOTER
+           ===================================================== */
+        footer {
+            background: var(--color-primary);
+            color: var(--color-background);
+            padding: 80px 40px 40px;
+        }
+
+        .footer-container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand img {
+            height: 48px;
+            width: auto;
+            margin-bottom: 24px;
+            filter: brightness(0) invert(1);
+        }
+
+        .footer-brand p {
+            opacity: 0.8;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            max-width: 300px;
+        }
+
+        .footer-links h4 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+            opacity: 0.9;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--color-background);
+            text-decoration: none;
+            opacity: 0.7;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--color-accent);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 40px;
+            text-align: center;
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+
+        /* =====================================================
+           RESPONSIVE DESIGN
+           ===================================================== */
+        @media (max-width: 1024px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+
+            .service-block {
+                grid-template-columns: 1fr;
+                gap: 48px;
+                margin-bottom: 80px;
+            }
+
+            .service-block.alternate {
+                direction: ltr;
+            }
+
+            .service-image {
+                order: -1;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --section-padding: var(--section-padding-mobile);
+            }
+
+            .nav-container {
+                padding: 0 24px;
+            }
+
+            .hero {
+                padding: 120px 24px var(--section-padding-mobile);
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .services-section {
+                padding: var(--section-padding-mobile) 24px;
+            }
+
+            .service-block {
+                gap: 32px;
+                margin-bottom: 64px;
+            }
+
+            .service-title {
+                font-size: 2.5rem;
+            }
+
+            .service-description {
+                font-size: 1rem;
+            }
+
+            footer {
+                padding: 60px 24px 32px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                {{#if LOGO_URL}}
+                <img src="{{LOGO_URL}}" alt="{{BUSINESS_NAME}}">
+                {{/if}}
+                <span class="nav-logo-text">{{BUSINESS_NAME}}</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="#contact" class="nav-cta">{{CTA_TEXT}}</a>
+            <button class="mobile-toggle" aria-label="Toggle menu">&#9776;</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>{{HERO_TITLE}}</h1>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section" id="services">
+        <div class="services-container">
+            <!-- Service Block 1 -->
+            <div class="service-block">
+                <div class="service-content">
+                    <div class="service-icon">
+                        {{SERVICE_1_ICON}}
+                    </div>
+                    <h2 class="service-title">{{SERVICE_1_TITLE}}</h2>
+                    <div class="service-separator"></div>
+                    <p class="service-description">{{SERVICE_1_DESCRIPTION}}</p>
+                </div>
+                <div class="service-image">
+                    <img src="{{SERVICE_1_IMAGE}}" alt="{{SERVICE_1_TITLE}}">
+                </div>
+            </div>
+
+            <!-- Service Block 2 -->
+            <div class="service-block alternate">
+                <div class="service-content">
+                    <div class="service-icon">
+                        {{SERVICE_2_ICON}}
+                    </div>
+                    <h2 class="service-title">{{SERVICE_2_TITLE}}</h2>
+                    <div class="service-separator"></div>
+                    <p class="service-description">{{SERVICE_2_DESCRIPTION}}</p>
+                </div>
+                <div class="service-image">
+                    <img src="{{SERVICE_2_IMAGE}}" alt="{{SERVICE_2_TITLE}}">
+                </div>
+            </div>
+
+            <!-- Service Block 3 -->
+            <div class="service-block">
+                <div class="service-content">
+                    <div class="service-icon">
+                        {{SERVICE_3_ICON}}
+                    </div>
+                    <h2 class="service-title">{{SERVICE_3_TITLE}}</h2>
+                    <div class="service-separator"></div>
+                    <p class="service-description">{{SERVICE_3_DESCRIPTION}}</p>
+                </div>
+                <div class="service-image">
+                    <img src="{{SERVICE_3_IMAGE}}" alt="{{SERVICE_3_TITLE}}">
+                </div>
+            </div>
+
+            <!-- Service Block 4 -->
+            <div class="service-block alternate">
+                <div class="service-content">
+                    <div class="service-icon">
+                        {{SERVICE_4_ICON}}
+                    </div>
+                    <h2 class="service-title">{{SERVICE_4_TITLE}}</h2>
+                    <div class="service-separator"></div>
+                    <p class="service-description">{{SERVICE_4_DESCRIPTION}}</p>
+                </div>
+                <div class="service-image">
+                    <img src="{{SERVICE_4_IMAGE}}" alt="{{SERVICE_4_TITLE}}">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    {{#if LOGO_URL}}
+                    <img src="{{LOGO_URL}}" alt="{{BUSINESS_NAME}}">
+                    {{/if}}
+                    <p>{{FOOTER_DESCRIPTION}}</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#services">{{SERVICE_1_TITLE}}</a></li>
+                        <li><a href="#services">{{SERVICE_2_TITLE}}</a></li>
+                        <li><a href="#services">{{SERVICE_3_TITLE}}</a></li>
+                        <li><a href="#services">{{SERVICE_4_TITLE}}</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:{{CONTACT_EMAIL}}">{{CONTACT_EMAIL}}</a></li>
+                        <li><a href="tel:{{CONTACT_PHONE}}">{{CONTACT_PHONE}}</a></li>
+                        <li>{{CONTACT_ADDRESS}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; {{CURRENT_YEAR}} {{BUSINESS_NAME}}. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll-triggered navbar script -->
+    <script>
+        console.log('src/templates/professional-services-template.html: Template loaded successfully');
+        
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileToggle = document.querySelector('.mobile-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        if (mobileToggle && navLinks) {
+            mobileToggle.addEventListener('click', () => {
+                navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            });
+        }
+    </script>
+</body>
+</html>

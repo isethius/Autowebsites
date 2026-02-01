@@ -98,6 +98,57 @@ export const createSequenceSchema = z.object({
   steps: z.array(sequenceStepSchema).min(1).max(10),
 });
 
+// Password validation
+export const passwordSchema = z.string()
+  .min(8, 'Password must be at least 8 characters')
+  .refine((val) => /[A-Z]/.test(val), 'Password must contain at least one uppercase letter')
+  .refine((val) => /[a-z]/.test(val), 'Password must contain at least one lowercase letter')
+  .refine((val) => /\d/.test(val), 'Password must contain at least one number');
+
+// Strong password (with special character - optional but recommended)
+export const strongPasswordSchema = passwordSchema
+  .refine((val) => /[!@#$%^&*(),.?":{}|<>]/.test(val), 'Password must contain at least one special character');
+
+// Password validation helper
+export function validatePassword(password: string): {
+  valid: boolean;
+  errors: string[];
+  strength: 'weak' | 'medium' | 'strong';
+  details: {
+    hasMinLength: boolean;
+    hasUppercase: boolean;
+    hasLowercase: boolean;
+    hasNumber: boolean;
+    hasSpecial: boolean;
+  };
+} {
+  const details = {
+    hasMinLength: password.length >= 8,
+    hasUppercase: /[A-Z]/.test(password),
+    hasLowercase: /[a-z]/.test(password),
+    hasNumber: /\d/.test(password),
+    hasSpecial: /[!@#$%^&*(),.?":{}|<>]/.test(password),
+  };
+
+  const errors: string[] = [];
+  if (!details.hasMinLength) errors.push('Password must be at least 8 characters');
+  if (!details.hasUppercase) errors.push('Password must contain at least one uppercase letter');
+  if (!details.hasLowercase) errors.push('Password must contain at least one lowercase letter');
+  if (!details.hasNumber) errors.push('Password must contain at least one number');
+
+  const passedChecks = Object.values(details).filter(Boolean).length;
+  let strength: 'weak' | 'medium' | 'strong' = 'weak';
+  if (passedChecks >= 4) strength = 'medium';
+  if (passedChecks === 5 && password.length >= 12) strength = 'strong';
+
+  return {
+    valid: errors.length === 0,
+    errors,
+    strength,
+    details,
+  };
+}
+
 // Auth schemas
 export const loginSchema = z.object({
   email: emailSchema,
@@ -106,8 +157,13 @@ export const loginSchema = z.object({
 
 export const registerSchema = z.object({
   email: emailSchema,
-  password: z.string().min(8, 'Password must be at least 8 characters'),
+  password: passwordSchema,
   name: z.string().max(100).optional(),
+});
+
+export const changePasswordSchema = z.object({
+  currentPassword: z.string().min(1),
+  newPassword: passwordSchema,
 });
 
 // Validation helper

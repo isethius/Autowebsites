@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseClient } from './supabase';
 import { verifyConnection as verifyGmailConnection, isConfigured as isGmailConfigured } from '../email/gmail-client';
 
 export interface HealthCheckResult {
@@ -21,14 +21,7 @@ export interface ServiceCheck {
 
 // Check Supabase connection
 async function checkSupabase(): Promise<void> {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_ANON_KEY;
-
-  if (!url || !key) {
-    throw new Error('Supabase not configured');
-  }
-
-  const supabase = createClient(url, key);
+  const supabase = getSupabaseClient();
   const { error } = await supabase.from('leads').select('id').limit(1);
 
   if (error && !error.message.includes('does not exist')) {
@@ -45,23 +38,6 @@ async function checkGmail(): Promise<void> {
   const connected = await verifyGmailConnection();
   if (!connected) {
     throw new Error('Gmail not authorized. Run: npx tsx src/email/gmail-client.ts');
-  }
-}
-
-// Check SendGrid (optional)
-async function checkSendGrid(): Promise<void> {
-  const apiKey = process.env.SENDGRID_API_KEY;
-
-  if (!apiKey) {
-    throw new Error('SendGrid not configured');
-  }
-
-  const response = await fetch('https://api.sendgrid.com/v3/scopes', {
-    headers: { Authorization: `Bearer ${apiKey}` },
-  });
-
-  if (!response.ok) {
-    throw new Error(`SendGrid API error: ${response.status}`);
   }
 }
 
@@ -117,7 +93,6 @@ export async function runHealthChecks(): Promise<HealthCheckResult> {
     { name: 'database', check: checkSupabase, critical: true },
     { name: 'memory', check: checkMemory, critical: true },
     { name: 'gmail', check: checkGmail, critical: false },
-    { name: 'sendgrid', check: checkSendGrid, critical: false },
     { name: 'stripe', check: checkStripe, critical: false },
     { name: 'anthropic', check: checkAnthropic, critical: false },
   ];

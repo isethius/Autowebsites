@@ -237,9 +237,9 @@
         if (leadData.issues_found?.length || leadData.recommendations?.length) {
           document.getElementById('analysisCard').style.display = 'block';
           document.getElementById('issuesList').innerHTML =
-            (leadData.issues_found || []).map(i => `<li>${i}</li>`).join('') || '<li>None found</li>';
+            (leadData.issues_found || []).map(i => `<li>${escapeHtml(i)}</li>`).join('') || '<li>None found</li>';
           document.getElementById('recommendationsList').innerHTML =
-            (leadData.recommendations || []).map(r => `<li>${r}</li>`).join('') || '<li>None</li>';
+            (leadData.recommendations || []).map(r => `<li>${escapeHtml(r)}</li>`).join('') || '<li>None</li>';
         }
 
       } catch (error) {
@@ -250,9 +250,11 @@
 
     function renderTags(tags) {
       const container = document.getElementById('leadTags');
-      container.innerHTML = tags.map(tag =>
-        `<span class="tag">${tag} <button onclick="removeTag('${tag}')">&times;</button></span>`
-      ).join('') + '<button class="tag-add" onclick="addTag()">+ Add Tag</button>';
+      container.innerHTML = tags.map(tag => {
+        const safeTag = escapeHtml(tag);
+        const safeTagAttr = encodeURIComponent(tag);
+        return `<span class="tag">${safeTag} <button onclick="removeTag(decodeURIComponent('${safeTagAttr}'))">&times;</button></span>`;
+      }).join('') + '<button class="tag-add" onclick="addTag()">+ Add Tag</button>';
     }
 
     function renderTimeline(activities) {
@@ -267,8 +269,8 @@
         <div class="timeline-item">
           <div class="timeline-icon">${getActivityIcon(activity.type)}</div>
           <div class="timeline-content">
-            <div class="timeline-title">${activity.title}</div>
-            ${activity.description ? `<div class="timeline-desc">${activity.description}</div>` : ''}
+            <div class="timeline-title">${escapeHtml(activity.title)}</div>
+            ${activity.description ? `<div class="timeline-desc">${escapeHtml(activity.description)}</div>` : ''}
             <div class="timeline-time">${formatTime(activity.created_at)}</div>
           </div>
         </div>

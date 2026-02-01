@@ -1,7 +1,8 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
 import { Lead, LeadModel } from '../crm/lead-model';
 import { EmailComposer, TemplateVariables } from './composer';
 import { ActivityLogger } from '../crm/activity-logger';
+import { getSupabaseClient } from '../utils/supabase';
 
 export interface SequenceStep {
   delay_days: number;
@@ -52,13 +53,7 @@ export class SequenceEngine {
     activityLogger?: ActivityLogger;
     sendEmail: SendEmailFunction;
   }) {
-    const url = process.env.SUPABASE_URL;
-    const key = process.env.SUPABASE_ANON_KEY;
-    if (!url || !key) {
-      throw new Error('SUPABASE_URL and SUPABASE_ANON_KEY required');
-    }
-
-    this.supabase = createClient(url, key);
+    this.supabase = getSupabaseClient();
     this.leadModel = config.leadModel || new LeadModel();
     this.emailComposer = config.emailComposer;
     this.activityLogger = config.activityLogger || new ActivityLogger();
@@ -229,6 +224,30 @@ export class SequenceEngine {
       .eq('id', enrollmentId);
   }
 
+  async pauseEnrollmentsBatch(ids: string[], reason?: string): Promise<void> {
+    if (ids.length === 0) return;
+
+    await this.supabase
+      .from('sequence_enrollments')
+      .update({
+        status: 'paused',
+        stop_reason: reason,
+      })
+      .in('id', ids);
+  }
+
+  async cancelEnrollmentsBatch(ids: string[], reason?: string): Promise<void> {
+    if (ids.length === 0) return;
+
+    await this.supabase
+      .from('sequence_enrollments')
+      .update({
+        status: 'cancelled',
+        stop_reason: reason || 'Manually cancelled',
+      })
+      .in('id', ids);
+  }
+
   async processNextEmails(batchSize: number = 50): Promise<number> {
     // Get enrollments ready to send
     const now = new Date().toISOString();
@@ -245,18 +264,129 @@ export class SequenceEngine {
       return 0;
     }
 
-    let sentCount = 0;
+    if (!enrollments || enrollments.length === 0) {
+      return 0;
+    }
 
-    for (const enrollment of enrollments || []) {
-      try {
-        const sent = await this.processEnrollmentStep(enrollment);
-        if (sent) sentCount++;
-      } catch (err) {
-        console.error(`Failed to process enrollment ${enrollment.id}:`, err);
+    // Batch fetch all sequences and leads needed (N+1 query fix)
+    const sequenceIds = [...new Set(enrollments.map(e => e.sequence_id))];
+    const leadIds = [...new Set(enrollments.map(e => e.lead_id))];
+
+    const [sequencesResult, leadsResult] = await Promise.all([
+      this.supabase.from('email_sequences').select('*').in('id', sequenceIds),
+      this.supabase.from('leads').select('*').in('id', leadIds)
+    ]);
+
+    // Create lookup Maps for O(1) access
+    const sequenceMap = new Map<string, EmailSequence>();
+    const leadMap = new Map<string, Lead>();
+
+    if (sequencesResult.data) {
+      for (const seq of sequencesResult.data) {
+        sequenceMap.set(seq.id, seq);
+      }
+    }
+
+    if (leadsResult.data) {
+      for (const lead of leadsResult.data) {
+        leadMap.set(lead.id, lead);
+      }
+    }
+
+    // Process enrollments in parallel with pre-fetched data
+    const results = await Promise.allSettled(
+      enrollments.map(enrollment =>
+        this.processEnrollmentStepWithCache(enrollment, sequenceMap, leadMap)
+      )
+    );
+
+    // Count successful sends
+    let sentCount = 0;
+    for (const result of results) {
+      if (result.status === 'fulfilled' && result.value) {
+        sentCount++;
+      } else if (result.status === 'rejected') {
+        console.error('Failed to process enrollment:', result.reason);
       }
     }
 
     return sentCount;
+  }
+
+  private async processEnrollmentStepWithCache(
+    enrollment: SequenceEnrollment,
+    sequenceMap: Map<string, EmailSequence>,
+    leadMap: Map<string, Lead>
+  ): Promise<boolean> {
+    const sequence = sequenceMap.get(enrollment.sequence_id);
+    if (!sequence) return false;
+
+    const lead = leadMap.get(enrollment.lead_id);
+    if (!lead || !lead.email) return false;
+
+    // Check if lead unsubscribed
+    if (lead.is_unsubscribed) {
+      await this.cancelEnrollment(enrollment.id, 'Lead unsubscribed');
+      return false;
+    }
+
+    // Check if lead replied (auto-pause)
+    if (lead.last_response_at && enrollment.last_email_at) {
+      const responseTime = new Date(lead.last_response_at);
+      const lastEmail = new Date(enrollment.last_email_at);
+      if (responseTime > lastEmail) {
+        await this.pauseEnrollment(enrollment.id, 'Lead replied');
+        return false;
+      }
+    }
+
+    const step = sequence.steps[enrollment.current_step];
+    if (!step) {
+      await this.completeEnrollment(enrollment, sequence);
+      return false;
+    }
+
+    // Check step condition
+    if (step.condition && !this.checkCondition(step.condition, lead)) {
+      // Skip to next step
+      await this.advanceToNextStep(enrollment, sequence, lead);
+      return false;
+    }
+
+    // Send email
+    const variables: TemplateVariables = {
+      contact_name: lead.contact_name || 'there',
+      business_name: lead.business_name,
+      preview_url: lead.gallery_url || '',
+      sender_name: 'Your Name', // Would come from config
+      sender_company: 'Your Company',
+      ...step.custom_variables,
+    };
+
+    const email = this.emailComposer.composeFromTemplate(step.template, variables, {
+      subject: this.interpolateSubject(step.subject, lead),
+    });
+
+    try {
+      const result = await this.sendEmail(lead.email, email.subject, email.html, email.text);
+
+      // Log activity
+      await this.activityLogger.logEmailSent(lead.id, {
+        subject: email.subject,
+        emailId: result.messageId,
+      });
+
+      // Update lead
+      await this.leadModel.recordEmailSent(lead.id);
+
+      // Advance enrollment
+      await this.advanceToNextStep(enrollment, sequence, lead);
+
+      return true;
+    } catch (err) {
+      console.error(`Failed to send email to ${lead.email}:`, err);
+      return false;
+    }
   }
 
   async processEnrollmentStep(enrollment: SequenceEnrollment): Promise<boolean> {
@@ -336,30 +466,28 @@ export class SequenceEngine {
     eventType: 'opened' | 'clicked' | 'replied' | 'bounced' | 'unsubscribed'
   ): Promise<void> {
     if (eventType === 'replied') {
-      // Pause all active enrollments for this lead
+      // Pause all active enrollments for this lead (batch update to avoid N+1)
       const { data: enrollments } = await this.supabase
         .from('sequence_enrollments')
-        .select('*')
+        .select('id')
         .eq('lead_id', leadId)
         .eq('status', 'active');
 
-      for (const enrollment of enrollments || []) {
-        await this.pauseEnrollment(enrollment.id, 'Lead replied');
-      }
+      const enrollmentIds = (enrollments || []).map(e => e.id);
+      await this.pauseEnrollmentsBatch(enrollmentIds, 'Lead replied');
 
       // Log the reply
       await this.activityLogger.logEmailReplied(leadId);
     } else if (eventType === 'bounced' || eventType === 'unsubscribed') {
-      // Cancel all enrollments
+      // Cancel all enrollments (batch update to avoid N+1)
       const { data: enrollments } = await this.supabase
         .from('sequence_enrollments')
-        .select('*')
+        .select('id')
         .eq('lead_id', leadId)
         .in('status', ['active', 'paused']);
 
-      for (const enrollment of enrollments || []) {
-        await this.cancelEnrollment(enrollment.id, `Email ${eventType}`);
-      }
+      const enrollmentIds = (enrollments || []).map(e => e.id);
+      await this.cancelEnrollmentsBatch(enrollmentIds, `Email ${eventType}`);
     }
   }
 

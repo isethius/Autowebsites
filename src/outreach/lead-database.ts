@@ -1,4 +1,5 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { getSupabaseClient } from '../utils/supabase';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -34,14 +35,7 @@ export class LeadDatabase {
   private tableName = 'leads';
 
   constructor() {
-    const supabaseUrl = process.env.SUPABASE_URL;
-    const supabaseKey = process.env.SUPABASE_ANON_KEY;
-
-    if (!supabaseUrl || !supabaseKey) {
-      throw new Error('Missing SUPABASE_URL or SUPABASE_ANON_KEY environment variables');
-    }
-
-    this.supabase = createClient(supabaseUrl, supabaseKey);
+    this.supabase = getSupabaseClient();
   }
 
   async createLead(lead: Omit<Lead, 'id' | 'created_at' | 'updated_at'>): Promise<Lead> {
