@@ -1,0 +1,66 @@
+[
+  {
+    "industry": "dentist",
+    "vibe": "executive",
+    "html": "dist/portfolio/health/dentist-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:36.555Z"
+  },
+  {
+    "industry": "dentist",
+    "vibe": "maverick",
+    "html": "dist/portfolio/health/dentist-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:36.555Z"
+  },
+  {
+    "industry": "dentist",
+    "vibe": "artisan",
+    "html": "dist/portfolio/health/dentist-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:36.555Z"
+  },
+  {
+    "industry": "dentist",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/health/dentist-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:36.555Z"
+  },
+  {
+    "industry": "dentist",
+    "vibe": "bold",
+    "html": "dist/portfolio/health/dentist-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:36.555Z"
+  },
+  {
+    "industry": "dentist",
+    "vibe": "classic",
+    "html": "dist/portfolio/health/dentist-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:36.555Z"
+  },
+  {
+    "industry": "dentist",
+    "vibe": "modern",
+    "html": "dist/portfolio/health/dentist-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:36.555Z"
+  },
+  {
+    "industry": "dentist",
+    "vibe": "playful",
+    "html": "dist/portfolio/health/dentist-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:36.555Z"
+  }
+]
