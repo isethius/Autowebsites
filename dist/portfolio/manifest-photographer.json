@@ -1,0 +1,66 @@
+[
+  {
+    "industry": "photographer",
+    "vibe": "executive",
+    "html": "dist/portfolio/creative/photographer-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:52.130Z"
+  },
+  {
+    "industry": "photographer",
+    "vibe": "maverick",
+    "html": "dist/portfolio/creative/photographer-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:52.130Z"
+  },
+  {
+    "industry": "photographer",
+    "vibe": "artisan",
+    "html": "dist/portfolio/creative/photographer-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:52.130Z"
+  },
+  {
+    "industry": "photographer",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/creative/photographer-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:52.130Z"
+  },
+  {
+    "industry": "photographer",
+    "vibe": "bold",
+    "html": "dist/portfolio/creative/photographer-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:52.130Z"
+  },
+  {
+    "industry": "photographer",
+    "vibe": "classic",
+    "html": "dist/portfolio/creative/photographer-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:52.130Z"
+  },
+  {
+    "industry": "photographer",
+    "vibe": "modern",
+    "html": "dist/portfolio/creative/photographer-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:52.130Z"
+  },
+  {
+    "industry": "photographer",
+    "vibe": "playful",
+    "html": "dist/portfolio/creative/photographer-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:52.130Z"
+  }
+]

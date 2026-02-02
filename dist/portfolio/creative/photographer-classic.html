@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dentist Co</title>
-  <meta name="description" content="Reliable Dentist solutions for homes and businesses.">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>Photographer Co</title>
+  <meta name="description" content="Reliable Photographer solutions for homes and businesses.">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
   <style>
     
     * {
@@ -15,12 +15,12 @@
     }
 
     :root {
-      --primary: #088eaf;
-      --secondary: #1640a2;
-      --accent: #11a67a;
-      --background: #fafafa;
-      --text: #252728;
-      --muted: #6f7576;
+      --primary: #18181b;
+      --secondary: #000000;
+      --accent: #2b2b3b;
+      --background: #f5f5f5;
+      --text: #252527;
+      --muted: #707075;
       --white: #ffffff;
       --black: #000000;
       --gray-50: #f9fafb;
@@ -184,7 +184,7 @@
       background: var(--text);
       color: var(--white);
       padding: 10px 20px;
-      border-radius: 12px;
+      border-radius: 16px;
       text-decoration: none;
       font-weight: 600;
       font-size: 14px;
@@ -200,117 +200,89 @@
     }
   
 
-    .hero-h1 {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    .hero-h9 {
+      background: var(--text);
       color: var(--white);
-      padding: 100px 0;
-      min-height: 70vh;
+      padding: 120px 0;
+      text-align: center;
+    }
+
+    .hero-h9 h1 {
+      font-size: 72px;
+      line-height: 1.05;
+      margin-bottom: 32px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-h9 .tagline {
+      font-size: 24px;
+      opacity: 0.8;
+      margin-bottom: 48px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.5;
+    }
+
+    .hero-h9-buttons {
       display: flex;
-      align-items: center;
-    }
-
-    .hero-h1-content {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 60px;
-      align-items: center;
-    }
-
-    .hero-h1 h1 {
-      font-size: 56px;
-      line-height: 1.1;
-      margin-bottom: 24px;
-    }
-
-    .hero-h1 .tagline {
-      font-size: 22px;
-      opacity: 0.9;
-      margin-bottom: 36px;
-      line-height: 1.6;
-    }
-
-    .hero-h1-buttons {
-      display: flex;
-      gap: 16px;
+      gap: 20px;
+      justify-content: center;
       flex-wrap: wrap;
     }
 
-    .hero-h1 .hero-cta-primary {
+    .hero-h9 .btn-primary {
       background: var(--white);
-      color: var(--primary);
-      padding: 18px 36px;
-      border-radius: 12px;
+      color: var(--text);
+      padding: 18px 40px;
+      border-radius: 16px;
       font-weight: 700;
       font-size: 18px;
       text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .hero-h1 .hero-cta-primary:hover {
+    .hero-h9 .btn-primary:hover {
       transform: translateY(-3px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 
-    .hero-h1 .hero-cta-secondary {
+    .hero-h9 .btn-secondary {
       background: transparent;
       color: var(--white);
       border: 2px solid var(--white);
-      padding: 16px 32px;
-      border-radius: 12px;
+      padding: 16px 36px;
+      border-radius: 16px;
       font-weight: 600;
+      font-size: 18px;
       text-decoration: none;
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .hero-h1 .hero-cta-secondary:hover {
+    .hero-h9 .btn-secondary:hover {
       background: rgba(255,255,255,0.1);
-    }
-
-    .hero-h1 .trust-badges {
-      display: flex;
-      gap: 32px;
-      margin-top: 48px;
-      flex-wrap: wrap;
-    }
-
-    .hero-h1 .trust-badge {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 15px;
-      font-weight: 500;
-    }
-
-    .hero-h1 .trust-icon {
-      width: 36px;
-      height: 36px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .hero-h1-image {
-      background: rgba(255,255,255,0.1);
-      border-radius: 12px;
-      height: 450px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 64px;
     }
 
     @media (max-width: 900px) {
-      .hero-h1-content { grid-template-columns: 1fr; }
-      .hero-h1 h1 { font-size: 40px; }
-      .hero-h1-image { display: none; }
-      .hero-h1 .trust-badges { justify-content: center; }
+      .hero-h9 { padding: 80px 0; }
+      .hero-h9 h1 { font-size: 44px; }
+      .hero-h9 .tagline { font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-h9 h1 { font-size: 36px; }
     }
   
+
+      .section-placeholder {
+        padding: 60px 0;
+        background: var(--gray-50);
+        text-align: center;
+      }
+    
 
     .services-l5 {
       padding: 80px 0;
@@ -330,20 +302,20 @@
       gap: 24px;
       padding: 32px;
       background: var(--gray-50);
-      border-radius: 12px;
+      border-radius: 16px;
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
     .services-l5-item:hover {
       background: var(--white);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
 
     .services-l5-icon {
       width: 64px;
       height: 64px;
       background: var(--primary);
-      border-radius: 12px;
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -389,91 +361,6 @@
         text-align: center;
       }
     
-
-    .testimonials {
-      padding: 80px 0;
-      background: var(--gray-50);
-    }
-
-    .testimonials-white {
-      background: var(--white);
-    }
-
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    .testimonial-card {
-      background: var(--white);
-      border-radius: 12px;
-      padding: 32px;
-      border: 1px solid var(--gray-200);
-    }
-
-    .testimonial-stars {
-      color: #fbbf24;
-      font-size: 20px;
-      margin-bottom: 16px;
-      letter-spacing: 2px;
-    }
-
-    .testimonial-text {
-      font-size: 15px;
-      color: var(--muted);
-      margin-bottom: 20px;
-      font-style: italic;
-      line-height: 1.7;
-    }
-
-    .testimonial-text::before {
-      content: '"';
-      font-size: 24px;
-      color: var(--primary);
-      opacity: 0.3;
-    }
-
-    .testimonial-author {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .testimonial-avatar {
-      width: 48px;
-      height: 48px;
-      background: var(--primary);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--white);
-      font-weight: 600;
-      font-size: 18px;
-    }
-
-    .testimonial-author-info {
-      flex: 1;
-    }
-
-    .testimonial-author-name {
-      font-weight: 600;
-      font-size: 15px;
-      color: var(--text);
-    }
-
-    .testimonial-author-location {
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    @media (max-width: 900px) {
-      .testimonials-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  
 
     .contact {
       padding: 80px 0;
@@ -585,7 +472,7 @@
   
     <header class="nav-n9">
       <div class="container nav-n9-content">
-        <a href="#" class="nav-n9-logo">Dentist Co</a>
+        <a href="#" class="nav-n9-logo">Photographer Co</a>
         <div class="nav-n9-right">
           <nav class="nav-n9-links">
             <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
@@ -596,40 +483,41 @@
     </header>
   
 
-    <section class="dna-fade-in hero-h1 dna-animate">
-      <div class="container hero-h1-content">
-        <div class="hero-text">
-          <h1>Dentist Co</h1>
-          <p class="tagline">Trusted Dentist services you can count on</p>
-          <div class="hero-h1-buttons">
-            <a href="tel:555-1234" class="hero-cta-primary">Call Now: 555-1234</a>
-            
-            
-          </div>
+    <section class="dna-slide-in hero-h9 dna-animate">
+      <div class="container">
+        <h1>Photographer Co</h1>
+        <p class="tagline">Trusted Photographer services you can count on</p>
+        <div class="hero-h9-buttons">
           
-        </div>
-        <div class="hero-h1-image">
-          📸
+          
         </div>
       </div>
     </section>
   
 
-    <section class="dna-fade-in" id="services" class="services-l5 dna-animate">
+      <section id="gallery" class="section-placeholder">
+        <div class="container">
+          <h2>Our Work</h2>
+          <p>Section: gallery</p>
+        </div>
+      </section>
+    
+
+    <section class="dna-slide-in" id="services" class="services-l5 dna-animate">
       <div class="container">
         <div class="section-header">
-          <h2>Our Services</h2>
-          <p>Comprehensive care for your needs</p>
+          <h2>Services</h2>
+          <p>What we offer</p>
         </div>
         <div class="services-l5-list">
           
             <div class="services-l5-item">
               <div class="services-l5-icon">
-                ✨
+                ⭐
               </div>
               <div class="services-l5-content">
-                <h3>Cleanings</h3>
-                <p>Reliable cleanings from experienced specialists.</p>
+                <h3>Portraits</h3>
+                <p>Reliable portraits from experienced specialists.</p>
               </div>
             </div>
           
@@ -638,28 +526,28 @@
                 ⭐
               </div>
               <div class="services-l5-content">
-                <h3>Cosmetic Dentistry</h3>
-                <p>Reliable cosmetic dentistry from experienced specialists.</p>
+                <h3>Events</h3>
+                <p>Reliable events from experienced specialists.</p>
               </div>
             </div>
           
             <div class="services-l5-item">
               <div class="services-l5-icon">
-                🦷
+                ⭐
               </div>
               <div class="services-l5-content">
-                <h3>Implants</h3>
-                <p>Reliable implants from experienced specialists.</p>
+                <h3>Branding</h3>
+                <p>Reliable branding from experienced specialists.</p>
               </div>
             </div>
           
             <div class="services-l5-item">
               <div class="services-l5-icon">
-                🚨
+                ⭐
               </div>
               <div class="services-l5-content">
-                <h3>Emergency Care</h3>
-                <p>Reliable emergency care from experienced specialists.</p>
+                <h3>Editing</h3>
+                <p>Reliable editing from experienced specialists.</p>
               </div>
             </div>
           
@@ -670,81 +558,27 @@
 
       <section id="about" class="section-placeholder">
         <div class="container">
-          <h2>About Our Practice</h2>
+          <h2>About</h2>
           <p>Section: about</p>
         </div>
       </section>
     
 
-      <section id="features" class="section-placeholder">
+      <section id="pricing" class="section-placeholder">
         <div class="container">
-          <h2>Why Choose Us</h2>
-          <p>Section: features</p>
+          <h2>Packages</h2>
+          <p>Section: pricing</p>
         </div>
       </section>
     
 
-    <section class="dna-fade-in testimonials testimonials-white" style="padding: 60px 0;">
-      <div class="container-sm" style="text-align: center;">
-        <div class="testimonial-stars" style="font-size: 28px; margin-bottom: 24px;">
-          ★★★★★
-        </div>
-        <blockquote style="font-size: 24px; font-style: italic; color: var(--text); margin-bottom: 24px; line-height: 1.6;">
-          "Great service!"
-        </blockquote>
-        <div style="font-weight: 600; color: var(--primary);">— Customer</div>
-        
-      </div>
-    </section>
-  
-
-    <section id="contact" class="contact">
-      <div class="container contact-content">
-        <div class="contact-info">
-          <h2>Book an Appointment</h2>
-          <p>We&#039;d love to hear from you. Reach out today!</p>
-          <div class="contact-details">
-            
-              <div class="contact-item">
-                <div class="contact-item-icon">📞</div>
-                <div class="contact-item-content">
-                  <strong>Call Us</strong>
-                  <a href="tel:555-1234">555-1234</a>
-                </div>
-              </div>
-            
-            
-            
-            
-          </div>
-        </div>
-        <div class="contact-form-wrapper">
-          <h3>Send Us a Message</h3>
-          <form action="#" method="POST">
-            
-    <div class="form-row">
-      <div class="form-group">
-        <label for="name">Your Name</label>
-        <input type="text" id="name" name="name" required placeholder="John Smith">
-      </div>
-      <div class="form-group">
-        <label for="phone">Phone Number</label>
-        <input type="tel" id="phone" name="phone" required placeholder="(555) 123-4567">
-      </div>
-    </div>
-  
-    <div class="form-group">
-      <label for="email">Email Address</label>
-      <input type="email" id="email" name="email" placeholder="john@example.com">
-    </div>
-  
-    <div class="form-group">
-      <label for="message">Message</label>
-      <textarea id="message" name="message" placeholder="How can we help you?"></textarea>
-    </div>
-  
-            <button type="submit" class="submit-btn">Send Message</button>
-          </form>
+    <section class="contact" style="background: var(--primary); color: var(--white); padding: 60px 0; text-align: center;">
+      <div class="container">
+        <h2 style="color: var(--white); margin-bottom: 16px;">Get in Touch</h2>
+        <p style="opacity: 0.9; margin-bottom: 32px; font-size: 18px;">Contact us today for a free consultation</p>
+        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+          <a href="tel:555-1234" class="btn btn-white btn-lg">📞 Call 555-1234</a>
+          <a href="#contact" class="btn btn-secondary btn-lg" style="color: var(--white); border-color: var(--white);">Send Message</a>
         </div>
       </div>
     </section>
@@ -752,11 +586,28 @@
 
     <footer style="background: var(--gray-800); color: var(--gray-400); padding: 24px 0; text-align: center; font-size: 13px;">
       <div class="container">
-        <span>&copy; 2026 Dentist Co. All rights reserved.</span>
+        <span>&copy; 2026 Photographer Co. All rights reserved.</span>
          · <a href="https://showcasedesigns.com" style="color: var(--accent);">Website by Showcase Designs</a>
       </div>
     </footer>
   
   
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script>
+    // Lenis Smooth Scroll - Smooth Feel
+    const lenis = new Lenis({
+      duration: 1.0,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      smoothWheel: true,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+  </script>
 </body>
 </html>
