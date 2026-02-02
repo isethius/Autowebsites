@@ -1,0 +1,66 @@
+[
+  {
+    "industry": "hvac",
+    "vibe": "executive",
+    "html": "dist/portfolio/service/hvac-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:58:06.571Z"
+  },
+  {
+    "industry": "hvac",
+    "vibe": "maverick",
+    "html": "dist/portfolio/service/hvac-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:58:06.571Z"
+  },
+  {
+    "industry": "hvac",
+    "vibe": "artisan",
+    "html": "dist/portfolio/service/hvac-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:58:06.571Z"
+  },
+  {
+    "industry": "hvac",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/service/hvac-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:58:06.571Z"
+  },
+  {
+    "industry": "hvac",
+    "vibe": "bold",
+    "html": "dist/portfolio/service/hvac-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:58:06.571Z"
+  },
+  {
+    "industry": "hvac",
+    "vibe": "classic",
+    "html": "dist/portfolio/service/hvac-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:58:06.571Z"
+  },
+  {
+    "industry": "hvac",
+    "vibe": "modern",
+    "html": "dist/portfolio/service/hvac-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:58:06.571Z"
+  },
+  {
+    "industry": "hvac",
+    "vibe": "playful",
+    "html": "dist/portfolio/service/hvac-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:58:06.571Z"
+  }
+]

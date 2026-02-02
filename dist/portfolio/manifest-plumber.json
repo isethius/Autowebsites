@@ -1,0 +1,66 @@
+[
+  {
+    "industry": "plumber",
+    "vibe": "executive",
+    "html": "dist/portfolio/service/plumber-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:49.779Z"
+  },
+  {
+    "industry": "plumber",
+    "vibe": "maverick",
+    "html": "dist/portfolio/service/plumber-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:49.779Z"
+  },
+  {
+    "industry": "plumber",
+    "vibe": "artisan",
+    "html": "dist/portfolio/service/plumber-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:49.779Z"
+  },
+  {
+    "industry": "plumber",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/service/plumber-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:49.779Z"
+  },
+  {
+    "industry": "plumber",
+    "vibe": "bold",
+    "html": "dist/portfolio/service/plumber-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:49.779Z"
+  },
+  {
+    "industry": "plumber",
+    "vibe": "classic",
+    "html": "dist/portfolio/service/plumber-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:49.779Z"
+  },
+  {
+    "industry": "plumber",
+    "vibe": "modern",
+    "html": "dist/portfolio/service/plumber-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:49.779Z"
+  },
+  {
+    "industry": "plumber",
+    "vibe": "playful",
+    "html": "dist/portfolio/service/plumber-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:49.779Z"
+  }
+]

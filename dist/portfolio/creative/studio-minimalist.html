@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio Co</title>
+  <meta name="description" content="Reliable Studio solutions for homes and businesses.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #1e5a8a;
+      --secondary: #2b2f7d;
+      --accent: #27827d;
+      --background: #fafafa;
+      --text: #252628;
+      --muted: #6f7376;
+      --white: #ffffff;
+      --black: #000000;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--background);
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-header h2 {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+
+    .section-header p {
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    /* DNA Entrance Animations */
+    
+    /* DNA Entrance Animation Keyframes */
+    @keyframes dna-fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes dna-slide-in {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes dna-scale-in {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Animation Class Selectors */
+    .dna-fade-in {
+      animation: dna-fade-in 0.6s ease-out forwards;
+    }
+
+    .dna-slide-in {
+      animation: dna-slide-in 0.6s ease-out forwards;
+    }
+
+    .dna-scale-in {
+      animation: dna-scale-in 0.6s ease-out forwards;
+    }
+
+    /* Staggered animation delays for child elements */
+    .dna-stagger > *:nth-child(1) { animation-delay: 0s; }
+    .dna-stagger > *:nth-child(2) { animation-delay: 0.1s; }
+    .dna-stagger > *:nth-child(3) { animation-delay: 0.2s; }
+    .dna-stagger > *:nth-child(4) { animation-delay: 0.3s; }
+    .dna-stagger > *:nth-child(5) { animation-delay: 0.4s; }
+    .dna-stagger > *:nth-child(6) { animation-delay: 0.5s; }
+    .dna-stagger > *:nth-child(n+7) { animation-delay: 0.6s; }
+
+    /* Reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      .dna-fade-in,
+      .dna-slide-in,
+      .dna-scale-in {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  
+
+    @media (max-width: 768px) {
+      .section-header h2 { font-size: 28px; }
+      .section-header p { font-size: 16px; }
+    }
+  
+    
+    .nav-n9 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 24px 0;
+      z-index: 100;
+    }
+
+    .nav-n9-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-n9-logo {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-n9-right {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav-n9-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .nav-n9-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      transition: color var(--transition-duration, 0.2s) ease;
+    }
+
+    .nav-n9-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-n9-cta {
+      background: var(--text);
+      color: var(--white);
+      padding: 10px 20px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all var(--transition-duration, 0.2s) ease;
+    }
+
+    .nav-n9-cta:hover {
+      opacity: 0.9;
+    }
+
+    @media (max-width: 768px) {
+      .nav-n9-links { display: none; }
+    }
+  
+
+    .hero-h9 {
+      background: var(--text);
+      color: var(--white);
+      padding: 120px 0;
+      text-align: center;
+    }
+
+    .hero-h9 h1 {
+      font-size: 72px;
+      line-height: 1.05;
+      margin-bottom: 32px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-h9 .tagline {
+      font-size: 24px;
+      opacity: 0.8;
+      margin-bottom: 48px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.5;
+    }
+
+    .hero-h9-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-h9 .btn-primary {
+      background: var(--white);
+      color: var(--text);
+      padding: 18px 40px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 18px;
+      text-decoration: none;
+      transition: all var(--transition-duration, 0.2s) ease;
+    }
+
+    .hero-h9 .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .hero-h9 .btn-secondary {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid var(--white);
+      padding: 16px 36px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 18px;
+      text-decoration: none;
+      transition: all var(--transition-duration, 0.2s) ease;
+    }
+
+    .hero-h9 .btn-secondary:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    @media (max-width: 900px) {
+      .hero-h9 { padding: 80px 0; }
+      .hero-h9 h1 { font-size: 44px; }
+      .hero-h9 .tagline { font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-h9 h1 { font-size: 36px; }
+    }
+  
+
+      .section-placeholder {
+        padding: 60px 0;
+        background: var(--gray-50);
+        text-align: center;
+      }
+    
+
+    .services-l5 {
+      padding: 80px 0;
+      background: var(--white);
+    }
+
+    .services-l5-list {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .services-l5-item {
+      display: flex;
+      gap: 24px;
+      padding: 32px;
+      background: var(--gray-50);
+      border-radius: 4px;
+      transition: all var(--transition-duration, 0.2s) ease;
+    }
+
+    .services-l5-item:hover {
+      background: var(--white);
+      box-shadow: none;
+    }
+
+    .services-l5-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--primary);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    .services-l5-content {
+      flex: 1;
+    }
+
+    .services-l5-item h3 {
+      font-size: 22px;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .services-l5-item p {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 640px) {
+      .services-l5-item {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+      }
+    }
+  
+
+      .section-placeholder {
+        padding: 60px 0;
+        background: var(--gray-50);
+        text-align: center;
+      }
+    
+
+      .section-placeholder {
+        padding: 60px 0;
+        background: var(--gray-50);
+        text-align: center;
+      }
+    
+
+
+    footer {
+      background: var(--gray-800);
+      color: var(--white);
+      padding: 60px 0 30px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .footer-brand {
+      max-width: 350px;
+    }
+
+    .footer-brand h3 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .footer-brand p {
+      color: var(--gray-400);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .footer-license {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--gray-400);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 40px;
+    }
+
+    .footer-links a {
+      color: var(--gray-400);
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--white);
+    }
+
+    .footer-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-contact a {
+      color: var(--gray-400);
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+
+    .footer-contact a:hover {
+      color: var(--white);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      background: var(--gray-700);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: background 0.2s;
+    }
+
+    .footer-social a:hover {
+      background: var(--primary);
+    }
+
+    .footer-bottom {
+      padding-top: 30px;
+      border-top: 1px solid var(--gray-700);
+      display: flex;
+      justify-content: space-between;
+      color: var(--gray-400);
+      font-size: 13px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-bottom a {
+      color: var(--accent);
+    }
+
+    .footer-bottom a:hover {
+      color: var(--white);
+    }
+
+    @media (max-width: 768px) {
+      .footer-content {
+        flex-direction: column;
+      }
+
+      .footer-links {
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  
+  </style>
+</head>
+<body>
+  
+    <header class="nav-n9">
+      <div class="container nav-n9-content">
+        <a href="#" class="nav-n9-logo">Studio Co</a>
+        <div class="nav-n9-right">
+          <nav class="nav-n9-links">
+            <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
+          </nav>
+          
+        </div>
+      </div>
+    </header>
+  
+
+    <section class="dna-fade-in hero-h9 dna-animate">
+      <div class="container">
+        <h1>Studio Co</h1>
+        <p class="tagline">Trusted Studio services you can count on</p>
+        <div class="hero-h9-buttons">
+          
+          
+        </div>
+      </div>
+    </section>
+  
+
+      <section id="gallery" class="section-placeholder">
+        <div class="container">
+          <h2>Our Work</h2>
+          <p>Section: gallery</p>
+        </div>
+      </section>
+    
+
+    <section class="dna-fade-in" id="services" class="services-l5 dna-animate">
+      <div class="container">
+        <div class="section-header">
+          <h2>Services</h2>
+          <p>What we offer</p>
+        </div>
+        <div class="services-l5-list">
+          
+            <div class="services-l5-item">
+              <div class="services-l5-icon">
+                📋
+              </div>
+              <div class="services-l5-content">
+                <h3>Consultations</h3>
+                <p>Reliable consultations from experienced specialists.</p>
+              </div>
+            </div>
+          
+            <div class="services-l5-item">
+              <div class="services-l5-icon">
+                ⚙️
+              </div>
+              <div class="services-l5-content">
+                <h3>Installations</h3>
+                <p>Reliable installations from experienced specialists.</p>
+              </div>
+            </div>
+          
+            <div class="services-l5-item">
+              <div class="services-l5-icon">
+                🔧
+              </div>
+              <div class="services-l5-content">
+                <h3>Maintenance</h3>
+                <p>Reliable maintenance from experienced specialists.</p>
+              </div>
+            </div>
+          
+        </div>
+      </div>
+    </section>
+  
+
+      <section id="about" class="section-placeholder">
+        <div class="container">
+          <h2>About</h2>
+          <p>Section: about</p>
+        </div>
+      </section>
+    
+
+      <section id="pricing" class="section-placeholder">
+        <div class="container">
+          <h2>Packages</h2>
+          <p>Section: pricing</p>
+        </div>
+      </section>
+    
+
+    <div style="display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; padding: 20px; background: var(--gray-100); font-size: 14px;">
+      <a href="tel:555-1234" style="display: flex; align-items: center; gap: 8px;">📞 555-1234</a>
+      
+      
+    </div>
+  
+
+    <footer style="padding: 40px 0;">
+      <div class="container" style="text-align: center;">
+        <div style="margin-bottom: 20px;">
+          <a href="tel:555-1234" style="margin: 0 16px;">📞 555-1234</a>
+          
+        </div>
+        <div class="footer-bottom" style="justify-content: center; border: none; padding-top: 0;">
+          <span>&copy; 2026 Studio Co</span>
+          <span style="margin-left: 24px;">Website by <a href="https://showcasedesigns.com">Showcase Designs</a></span>
+        </div>
+      </div>
+    </footer>
+  
+  
+</body>
+</html>

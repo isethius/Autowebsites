@@ -1,0 +1,66 @@
+[
+  {
+    "industry": "studio",
+    "vibe": "executive",
+    "html": "dist/portfolio/creative/studio-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:58.849Z"
+  },
+  {
+    "industry": "studio",
+    "vibe": "maverick",
+    "html": "dist/portfolio/creative/studio-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:58.849Z"
+  },
+  {
+    "industry": "studio",
+    "vibe": "artisan",
+    "html": "dist/portfolio/creative/studio-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:58.849Z"
+  },
+  {
+    "industry": "studio",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/creative/studio-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:58.849Z"
+  },
+  {
+    "industry": "studio",
+    "vibe": "bold",
+    "html": "dist/portfolio/creative/studio-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:58.849Z"
+  },
+  {
+    "industry": "studio",
+    "vibe": "classic",
+    "html": "dist/portfolio/creative/studio-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:58.849Z"
+  },
+  {
+    "industry": "studio",
+    "vibe": "modern",
+    "html": "dist/portfolio/creative/studio-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:58.849Z"
+  },
+  {
+    "industry": "studio",
+    "vibe": "playful",
+    "html": "dist/portfolio/creative/studio-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:58.849Z"
+  }
+]
