@@ -12,6 +12,7 @@ import { createJobsRouter } from './routes/jobs';
 import { createOvernightRouter } from './routes/overnight';
 import { createThemesRouter } from './routes/themes';
 import { createTemplatesRouter } from './routes/templates';
+import demoRouter from './routes/demo';
 import { createUnsubscribeHandler } from '../email/unsubscribe';
 import { isProduction } from '../utils/config';
 import { logger, logRequest } from '../utils/logger';
@@ -263,6 +264,8 @@ export async function createDashboardServer(config: DashboardConfig) {
 
   // Template preview routes (public, read-only, with rate limiting)
   app.use('/api/templates', rateLimiters.public, createTemplatesRouter());
+  // Live demo preview routes (public, read-only, with rate limiting)
+  app.use('/demo', rateLimiters.public, demoRouter);
 
   // Protected API routes with general rate limiting and CSRF protection
   app.use('/api/leads', rateLimiters.api, csrfProtection, authMiddleware(config.jwtSecret), createLeadsRouter());
