@@ -1,0 +1,53 @@
+{
+  "generatedAt": "2026-02-02T21:33:18.293Z",
+  "items": [
+    {
+      "industry": "plumber",
+      "vibe": "executive",
+      "path": "plumber/executive/index.html",
+      "screenshot": null
+    },
+    {
+      "industry": "plumber",
+      "vibe": "maverick",
+      "path": "plumber/maverick/index.html",
+      "screenshot": null
+    },
+    {
+      "industry": "plumber",
+      "vibe": "creative",
+      "path": "plumber/creative/index.html",
+      "screenshot": null
+    },
+    {
+      "industry": "plumber",
+      "vibe": "minimal",
+      "path": "plumber/minimal/index.html",
+      "screenshot": null
+    },
+    {
+      "industry": "plumber",
+      "vibe": "bold",
+      "path": "plumber/bold/index.html",
+      "screenshot": null
+    },
+    {
+      "industry": "plumber",
+      "vibe": "executive",
+      "path": "plumber/executive/index.html",
+      "screenshot": null
+    },
+    {
+      "industry": "plumber",
+      "vibe": "minimal",
+      "path": "plumber/minimal/index.html",
+      "screenshot": null
+    },
+    {
+      "industry": "plumber",
+      "vibe": "friendly",
+      "path": "plumber/friendly/index.html",
+      "screenshot": null
+    }
+  ]
+}
