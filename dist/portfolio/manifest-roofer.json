@@ -1,0 +1,66 @@
+[
+  {
+    "industry": "roofer",
+    "vibe": "executive",
+    "html": "dist/portfolio/service/roofer-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:06.574Z"
+  },
+  {
+    "industry": "roofer",
+    "vibe": "maverick",
+    "html": "dist/portfolio/service/roofer-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:06.574Z"
+  },
+  {
+    "industry": "roofer",
+    "vibe": "artisan",
+    "html": "dist/portfolio/service/roofer-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:06.574Z"
+  },
+  {
+    "industry": "roofer",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/service/roofer-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:06.574Z"
+  },
+  {
+    "industry": "roofer",
+    "vibe": "bold",
+    "html": "dist/portfolio/service/roofer-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:06.574Z"
+  },
+  {
+    "industry": "roofer",
+    "vibe": "classic",
+    "html": "dist/portfolio/service/roofer-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:06.574Z"
+  },
+  {
+    "industry": "roofer",
+    "vibe": "modern",
+    "html": "dist/portfolio/service/roofer-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:06.574Z"
+  },
+  {
+    "industry": "roofer",
+    "vibe": "playful",
+    "html": "dist/portfolio/service/roofer-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:06.574Z"
+  }
+]

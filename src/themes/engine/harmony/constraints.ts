@@ -47,6 +47,20 @@ const BASE_VIBES: Record<string, Vibe> = {
     chaos: 0,
   },
 
+  classic: {
+    id: 'classic',
+    name: 'Classic',
+    description: 'Timeless, traditional, dependable. Perfect for established firms.',
+    typography: ['T2'],              // Serif only
+    colors: ['C1', 'C3', 'C8'],      // Light, Warm, Monochrome
+    layout: ['L1', 'L3'],            // Classic grid, Cards
+    design: ['D1', 'D4', 'D11'],     // Rounded soft, Flat minimal, Layered
+    hero: ['H1', 'H3'],              // Full-width, Minimal
+    nav: ['N1', 'N2'],               // Fixed, Transparent
+    motion: ['M1'],                  // Subtle only
+    chaos: 0.1,
+  },
+
   maverick: {
     id: 'maverick',
     name: 'Maverick',
@@ -75,6 +89,20 @@ const BASE_VIBES: Record<string, Vibe> = {
     chaos: 0.2,
   },
 
+  artisan: {
+    id: 'artisan',
+    name: 'Artisan',
+    description: 'Handcrafted, warm, boutique. Perfect for bespoke services.',
+    typography: ['T2', 'T4'],        // Serif or Playful
+    colors: ['C3', 'C5', 'C12'],     // Warm, Forest, Vintage
+    layout: ['L2', 'L5', 'L7'],      // Masonry, Single column, Asymmetric
+    design: ['D1', 'D6', 'D11'],     // Soft, Glass, Layered
+    hero: ['H2', 'H8', 'H12'],       // Split, Asymmetric, Geometric
+    nav: ['N2', 'N7'],               // Transparent, Floating
+    motion: ['M1', 'M2'],            // Subtle, Dynamic
+    chaos: 0.4,
+  },
+
   bold: {
     id: 'bold',
     name: 'Bold',
@@ -87,6 +115,20 @@ const BASE_VIBES: Record<string, Vibe> = {
     nav: ['N1', 'N7'],               // Fixed, Floating
     motion: ['M2', 'M3'],            // Dynamic, Dramatic
     chaos: 0.5,
+  },
+
+  modern: {
+    id: 'modern',
+    name: 'Modern',
+    description: 'Clean, contemporary, confident. Perfect for real estate and tech.',
+    typography: ['T1', 'T2'],        // Sans or Serif
+    colors: ['C1', 'C8', 'C11'],     // Light, Monochrome, Corporate Blue
+    layout: ['L3', 'L10'],           // Cards, Bento
+    design: ['D4', 'D5', 'D6'],      // Flat, Neumorphic, Glass
+    hero: ['H3', 'H8', 'H12'],       // Minimal, Asymmetric, Geometric
+    nav: ['N2', 'N7'],               // Transparent, Floating
+    motion: ['M2'],                  // Dynamic
+    chaos: 0.3,
   },
 
   friendly: {
@@ -103,6 +145,20 @@ const BASE_VIBES: Record<string, Vibe> = {
     chaos: 0.3,
   },
 
+  playful: {
+    id: 'playful',
+    name: 'Playful',
+    description: 'Lighthearted, energetic, cheerful. Perfect for lifestyle brands.',
+    typography: ['T4', 'T1'],        // Playful or Sans
+    colors: ['C3', 'C7', 'C10'],     // Warm, Gradient, Pastel
+    layout: ['L3', 'L7'],            // Cards, Asymmetric
+    design: ['D1', 'D8', 'D10'],     // Rounded, Pill shapes, Gradient borders
+    hero: ['H1', 'H2', 'H12'],       // Full-width, Split, Geometric
+    nav: ['N3', 'N7'],               // Hamburger, Floating
+    motion: ['M2', 'M3'],            // Dynamic, Dramatic
+    chaos: 0.6,
+  },
+
   minimal: {
     id: 'minimal',
     name: 'Minimal',
@@ -114,6 +170,20 @@ const BASE_VIBES: Record<string, Vibe> = {
     hero: ['H3', 'H9'],              // Minimal, Text only
     nav: ['N9'],                     // Minimal links only
     motion: ['M1'],                   // Subtle only
+    chaos: 0.1,
+  },
+
+  minimalist: {
+    id: 'minimalist',
+    name: 'Minimalist',
+    description: 'Ultra-clean, restrained, and focused. Perfect for modern brands.',
+    typography: ['T1'],              // Sans only
+    colors: ['C1', 'C2', 'C8'],      // Light, Dark, Monochrome
+    layout: ['L1', 'L5'],            // Classic, Single column
+    design: ['D2', 'D4'],            // Sharp, Flat
+    hero: ['H3', 'H9'],              // Minimal, Text only
+    nav: ['N9'],                     // Minimal links only
+    motion: ['M1'],                  // Subtle only
     chaos: 0.1,
   },
 

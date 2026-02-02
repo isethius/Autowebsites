@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Realtor Co</title>
   <meta name="description" content="Reliable Realtor solutions for homes and businesses.">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     
     * {
@@ -135,71 +135,62 @@
     }
   
     
-    .nav-n7-wrapper {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
+    .nav-n1 {
+      background: var(--white);
+      padding: 16px 0;
+      border-bottom: 1px solid var(--gray-200);
+      position: sticky;
+      top: 0;
       z-index: 100;
-      width: 100%;
-      max-width: 900px;
-      padding: 0 20px;
     }
 
-    .nav-n7 {
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(10px);
-      border-radius: 9999px;
-      padding: 12px 12px 12px 24px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+    .nav-n1-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .nav-n7-logo {
-      font-size: 20px;
+    .nav-n1-logo {
+      font-size: 24px;
       font-weight: 800;
       color: var(--primary);
       text-decoration: none;
     }
 
-    .nav-n7-links {
+    .nav-n1-links {
       display: flex;
-      gap: 24px;
+      gap: 32px;
     }
 
-    .nav-n7-links a {
+    .nav-n1-links a {
       color: var(--text);
       text-decoration: none;
       font-weight: 500;
-      font-size: 14px;
+      font-size: 15px;
       transition: color var(--transition-duration, 0.2s) ease;
     }
 
-    .nav-n7-links a:hover {
+    .nav-n1-links a:hover {
       color: var(--primary);
     }
 
-    .nav-n7-cta {
+    .nav-n1-cta {
       background: var(--primary);
       color: var(--white);
-      padding: 10px 20px;
-      border-radius: 9999px;
+      padding: 12px 24px;
+      border-radius: 0;
       text-decoration: none;
       font-weight: 600;
-      font-size: 14px;
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .nav-n7-cta:hover {
+    .nav-n1-cta:hover {
       background: var(--secondary);
-      transform: scale(1.02);
+      transform: translateY(-1px);
     }
 
-    @media (max-width: 768px) {
-      .nav-n7-links { display: none; }
-      .nav-n7 { padding: 10px 10px 10px 20px; }
+    @media (max-width: 900px) {
+      .nav-n1-links { display: none; }
     }
   
 
@@ -280,7 +271,7 @@
       background: var(--primary);
       color: var(--white);
       padding: 16px 32px;
-      border-radius: 8px;
+      border-radius: 0;
       font-weight: 600;
       text-decoration: none;
       transition: all var(--transition-duration, 0.2s) ease;
@@ -296,7 +287,7 @@
       color: var(--primary);
       border: 2px solid var(--primary);
       padding: 14px 28px;
-      border-radius: 8px;
+      border-radius: 0;
       font-weight: 600;
       text-decoration: none;
       transition: all var(--transition-duration, 0.2s) ease;
@@ -339,7 +330,7 @@
 
     .services-l10-card {
       background: var(--gray-50);
-      border-radius: 8px;
+      border-radius: 0;
       padding: 28px;
       display: flex;
       flex-direction: column;
@@ -754,18 +745,18 @@
 </head>
 <body>
   
-    <div class="nav-n7-wrapper">
-      <header class="nav-n7">
-        <a href="#" class="nav-n7-logo">Realtor Co</a>
-        <nav class="nav-n7-links">
+    <header class="nav-n1">
+      <div class="container nav-n1-content">
+        <a href="#" class="nav-n1-logo">Realtor Co</a>
+        <nav class="nav-n1-links">
           <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
         </nav>
         
-      </header>
-    </div>
+      </div>
+    </header>
   
 
-    <section class="dna-slide-in hero-h12 dna-animate">
+    <section class="dna-scale-in hero-h12 dna-animate">
       <div class="hero-h12-shapes">
         <div class="hero-h12-shape hero-h12-shape-1"></div>
         <div class="hero-h12-shape hero-h12-shape-2"></div>
@@ -783,7 +774,7 @@
     </section>
   
 
-    <section class="dna-slide-in" id="services" class="services-l10 dna-animate">
+    <section class="dna-scale-in" id="services" class="services-l10 dna-animate">
       <div class="container">
         <div class="section-header">
           <h2>Practice Areas</h2>
@@ -836,7 +827,7 @@
       </section>
     
 
-    <section class="dna-slide-in" id="testimonials" class="testimonials ">
+    <section class="dna-scale-in" id="testimonials" class="testimonials ">
       <div class="container">
         <div class="section-header">
           <h2>Client Testimonials</h2>
@@ -976,9 +967,9 @@
   
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
   <script>
-    // Lenis Smooth Scroll - Smooth Feel
+    // Lenis Smooth Scroll - Luxurious Feel
     const lenis = new Lenis({
-      duration: 1.0,
+      duration: 1.4,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       smoothWheel: true,

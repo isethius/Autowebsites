@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Realtor Co</title>
   <meta name="description" content="Reliable Realtor solutions for homes and businesses.">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     
     * {
@@ -135,159 +135,127 @@
     }
   
     
-    .nav-n2 {
+    .nav-n9 {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      padding: 20px 0;
+      padding: 24px 0;
       z-index: 100;
     }
 
-    .nav-n2-content {
+    .nav-n9-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .nav-n2-logo {
-      font-size: 24px;
+    .nav-n9-logo {
+      font-size: 22px;
       font-weight: 800;
-      color: var(--white);
+      color: var(--text);
       text-decoration: none;
     }
 
-    .nav-n2-links {
+    .nav-n9-right {
       display: flex;
+      align-items: center;
       gap: 32px;
     }
 
-    .nav-n2-links a {
-      color: rgba(255,255,255,0.9);
+    .nav-n9-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .nav-n9-links a {
+      color: var(--muted);
       text-decoration: none;
       font-weight: 500;
-      font-size: 15px;
+      font-size: 14px;
       transition: color var(--transition-duration, 0.2s) ease;
     }
 
-    .nav-n2-links a:hover {
-      color: var(--white);
-    }
-
-    .nav-n2-cta {
-      background: var(--white);
-      color: var(--primary);
-      padding: 12px 24px;
-      border-radius: 20px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all var(--transition-duration, 0.2s) ease;
-    }
-
-    .nav-n2-cta:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-
-    @media (max-width: 900px) {
-      .nav-n2-links { display: none; }
-    }
-  
-
-    .hero-h2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-height: 80vh;
-    }
-
-    .hero-h2-image {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 80px;
-      color: var(--white);
-    }
-
-    .hero-h2-content {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 60px 80px;
-      background: var(--background);
-    }
-
-    .hero-h2 h1 {
-      font-size: 48px;
-      line-height: 1.15;
-      margin-bottom: 24px;
+    .nav-n9-links a:hover {
       color: var(--text);
     }
 
-    .hero-h2 .tagline {
+    .nav-n9-cta {
+      background: var(--text);
+      color: var(--white);
+      padding: 10px 20px;
+      border-radius: 0;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all var(--transition-duration, 0.2s) ease;
+    }
+
+    .nav-n9-cta:hover {
+      opacity: 0.9;
+    }
+
+    @media (max-width: 768px) {
+      .nav-n9-links { display: none; }
+    }
+  
+
+    .hero-h3 {
+      background: var(--gray-50);
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .hero-h3 h1 {
+      font-size: 44px;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: var(--text);
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-h3 .tagline {
       font-size: 20px;
       color: var(--muted);
-      margin-bottom: 36px;
-      line-height: 1.6;
+      margin-bottom: 32px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    .hero-h2-buttons {
+    .hero-h3-buttons {
       display: flex;
       gap: 16px;
+      justify-content: center;
       flex-wrap: wrap;
     }
 
-    .hero-h2 .btn-primary {
+    .hero-h3 .btn-primary {
       background: var(--primary);
       color: var(--white);
-      padding: 16px 32px;
-      border-radius: 20px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all var(--transition-duration, 0.2s) ease;
-    }
-
-    .hero-h2 .btn-primary:hover {
-      background: var(--secondary);
-      transform: translateY(-2px);
-    }
-
-    .hero-h2 .btn-secondary {
-      background: transparent;
-      color: var(--primary);
-      border: 2px solid var(--primary);
       padding: 14px 28px;
-      border-radius: 20px;
+      border-radius: 0;
       font-weight: 600;
       text-decoration: none;
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .hero-h2 .btn-secondary:hover {
-      background: var(--primary);
-      color: var(--white);
+    .hero-h3 .btn-secondary {
+      background: var(--white);
+      color: var(--text);
+      padding: 14px 28px;
+      border-radius: 0;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--gray-200);
+      transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .hero-h2 .trust-badges {
-      display: flex;
-      gap: 24px;
-      margin-top: 40px;
-      flex-wrap: wrap;
-    }
-
-    .hero-h2 .trust-badge {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
-      color: var(--muted);
-    }
-
-    @media (max-width: 900px) {
-      .hero-h2 { grid-template-columns: 1fr; }
-      .hero-h2-image { min-height: 300px; order: -1; }
-      .hero-h2-content { padding: 40px 20px; }
-      .hero-h2 h1 { font-size: 36px; }
+    @media (max-width: 768px) {
+      .hero-h3 h1 { font-size: 32px; }
+      .hero-h3 .tagline { font-size: 18px; }
     }
   
 
@@ -309,20 +277,20 @@
       gap: 24px;
       padding: 32px;
       background: var(--gray-50);
-      border-radius: 20px;
+      border-radius: 0;
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
     .services-l5-item:hover {
       background: var(--white);
-      box-shadow: 8px 8px 16px #d1d1d1, -8px -8px 16px #ffffff;
+      box-shadow: none;
     }
 
     .services-l5-icon {
       width: 64px;
       height: 64px;
       background: var(--primary);
-      border-radius: 20px;
+      border-radius: 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -562,29 +530,27 @@
 </head>
 <body>
   
-    <header class="nav-n2">
-      <div class="container nav-n2-content">
-        <a href="#" class="nav-n2-logo">Realtor Co</a>
-        <nav class="nav-n2-links">
-          <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
-        </nav>
-        
+    <header class="nav-n9">
+      <div class="container nav-n9-content">
+        <a href="#" class="nav-n9-logo">Realtor Co</a>
+        <div class="nav-n9-right">
+          <nav class="nav-n9-links">
+            <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
+          </nav>
+          
+        </div>
       </div>
     </header>
   
 
-    <section class="dna-fade-in hero-h2 dna-animate">
-      <div class="hero-h2-image">
-        📸
-      </div>
-      <div class="hero-h2-content">
+    <section class="dna-fade-in hero-h3 dna-animate">
+      <div class="container">
         <h1>Realtor Co</h1>
         <p class="tagline">Trusted Realtor services you can count on</p>
-        <div class="hero-h2-buttons">
+        <div class="hero-h3-buttons">
           
           
         </div>
-        
       </div>
     </section>
   
