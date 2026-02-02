@@ -1,0 +1,66 @@
+[
+  {
+    "industry": "consultant",
+    "vibe": "executive",
+    "html": "dist/portfolio/pro/consultant-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:37:05.149Z"
+  },
+  {
+    "industry": "consultant",
+    "vibe": "maverick",
+    "html": "dist/portfolio/pro/consultant-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:37:05.149Z"
+  },
+  {
+    "industry": "consultant",
+    "vibe": "artisan",
+    "html": "dist/portfolio/pro/consultant-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:37:05.149Z"
+  },
+  {
+    "industry": "consultant",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/pro/consultant-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:37:05.149Z"
+  },
+  {
+    "industry": "consultant",
+    "vibe": "bold",
+    "html": "dist/portfolio/pro/consultant-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:37:05.149Z"
+  },
+  {
+    "industry": "consultant",
+    "vibe": "classic",
+    "html": "dist/portfolio/pro/consultant-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:37:05.149Z"
+  },
+  {
+    "industry": "consultant",
+    "vibe": "modern",
+    "html": "dist/portfolio/pro/consultant-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:37:05.149Z"
+  },
+  {
+    "industry": "consultant",
+    "vibe": "playful",
+    "html": "dist/portfolio/pro/consultant-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:37:05.149Z"
+  }
+]

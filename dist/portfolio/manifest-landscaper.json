@@ -1,0 +1,66 @@
+[
+  {
+    "industry": "landscaper",
+    "vibe": "executive",
+    "html": "dist/portfolio/service/landscaper-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:41:04.872Z"
+  },
+  {
+    "industry": "landscaper",
+    "vibe": "maverick",
+    "html": "dist/portfolio/service/landscaper-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:41:04.872Z"
+  },
+  {
+    "industry": "landscaper",
+    "vibe": "artisan",
+    "html": "dist/portfolio/service/landscaper-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:41:04.872Z"
+  },
+  {
+    "industry": "landscaper",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/service/landscaper-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:41:04.872Z"
+  },
+  {
+    "industry": "landscaper",
+    "vibe": "bold",
+    "html": "dist/portfolio/service/landscaper-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:41:04.872Z"
+  },
+  {
+    "industry": "landscaper",
+    "vibe": "classic",
+    "html": "dist/portfolio/service/landscaper-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:41:04.872Z"
+  },
+  {
+    "industry": "landscaper",
+    "vibe": "modern",
+    "html": "dist/portfolio/service/landscaper-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:41:04.872Z"
+  },
+  {
+    "industry": "landscaper",
+    "vibe": "playful",
+    "html": "dist/portfolio/service/landscaper-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:41:04.872Z"
+  }
+]

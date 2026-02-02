@@ -32,7 +32,7 @@ export interface Vibe {
  * Pre-defined vibes that produce consistently good-looking sites.
  * These are the "safe" combinations that work well together.
  */
-export const VIBES: Record<string, Vibe> = {
+const BASE_VIBES: Record<string, Vibe> = {
   executive: {
     id: 'executive',
     name: 'Executive',
@@ -143,6 +143,40 @@ export const VIBES: Record<string, Vibe> = {
     nav: ['N1', 'N2'],               // Fixed, Transparent
     motion: ['M1'],                   // Subtle only
     chaos: 0.1,
+  },
+};
+
+export const VIBES: Record<string, Vibe> = {
+  ...BASE_VIBES,
+  artisan: {
+    ...BASE_VIBES.creative,
+    id: 'artisan',
+    name: 'Artisan',
+    description: 'Handcrafted, warm, bespoke. Perfect for makers, studios, premium local services.',
+  },
+  minimalist: {
+    ...BASE_VIBES.minimal,
+    id: 'minimalist',
+    name: 'Minimalist',
+    description: 'Ultra clean, focused, uncluttered. Perfect for premium and modern brands.',
+  },
+  classic: {
+    ...BASE_VIBES.elegant,
+    id: 'classic',
+    name: 'Classic',
+    description: 'Timeless, traditional, refined. Perfect for established professional services.',
+  },
+  modern: {
+    ...BASE_VIBES.executive,
+    id: 'modern',
+    name: 'Modern',
+    description: 'Contemporary, crisp, confident. Perfect for forward-looking service businesses.',
+  },
+  playful: {
+    ...BASE_VIBES.friendly,
+    id: 'playful',
+    name: 'Playful',
+    description: 'Light, upbeat, approachable. Perfect for family-friendly local services.',
   },
 };
 

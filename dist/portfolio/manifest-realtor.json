@@ -1,0 +1,66 @@
+[
+  {
+    "industry": "realtor",
+    "vibe": "executive",
+    "html": "dist/portfolio/pro/realtor-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:39:14.213Z"
+  },
+  {
+    "industry": "realtor",
+    "vibe": "maverick",
+    "html": "dist/portfolio/pro/realtor-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:39:14.213Z"
+  },
+  {
+    "industry": "realtor",
+    "vibe": "artisan",
+    "html": "dist/portfolio/pro/realtor-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:39:14.213Z"
+  },
+  {
+    "industry": "realtor",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/pro/realtor-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:39:14.213Z"
+  },
+  {
+    "industry": "realtor",
+    "vibe": "bold",
+    "html": "dist/portfolio/pro/realtor-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:39:14.213Z"
+  },
+  {
+    "industry": "realtor",
+    "vibe": "classic",
+    "html": "dist/portfolio/pro/realtor-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:39:14.213Z"
+  },
+  {
+    "industry": "realtor",
+    "vibe": "modern",
+    "html": "dist/portfolio/pro/realtor-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:39:14.213Z"
+  },
+  {
+    "industry": "realtor",
+    "vibe": "playful",
+    "html": "dist/portfolio/pro/realtor-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:39:14.213Z"
+  }
+]

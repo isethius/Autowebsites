@@ -1,0 +1,66 @@
+[
+  {
+    "industry": "accountant",
+    "vibe": "executive",
+    "html": "dist/portfolio/pro/accountant-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:40:59.758Z"
+  },
+  {
+    "industry": "accountant",
+    "vibe": "maverick",
+    "html": "dist/portfolio/pro/accountant-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:40:59.758Z"
+  },
+  {
+    "industry": "accountant",
+    "vibe": "artisan",
+    "html": "dist/portfolio/pro/accountant-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:40:59.758Z"
+  },
+  {
+    "industry": "accountant",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/pro/accountant-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:40:59.758Z"
+  },
+  {
+    "industry": "accountant",
+    "vibe": "bold",
+    "html": "dist/portfolio/pro/accountant-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:40:59.758Z"
+  },
+  {
+    "industry": "accountant",
+    "vibe": "classic",
+    "html": "dist/portfolio/pro/accountant-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:40:59.758Z"
+  },
+  {
+    "industry": "accountant",
+    "vibe": "modern",
+    "html": "dist/portfolio/pro/accountant-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:40:59.758Z"
+  },
+  {
+    "industry": "accountant",
+    "vibe": "playful",
+    "html": "dist/portfolio/pro/accountant-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:40:59.758Z"
+  }
+]

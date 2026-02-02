@@ -11,7 +11,7 @@
     "dashboard": "tsx src/cli.ts dashboard",
     "worker": "tsx src/worker.ts",
     "swarm:dispatch": "tsx scripts/dispatch-swarm.ts",
-    "swarm:worker": "tsx scripts/agent-work-unit.ts",
+    "swarm:worker": "node --import tsx scripts/agent-work-unit.ts",
     "capture": "tsx src/cli.ts capture",
     "generate": "tsx src/cli.ts generate",
     "score": "tsx src/cli.ts score",
