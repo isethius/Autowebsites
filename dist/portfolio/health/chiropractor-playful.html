@@ -242,7 +242,7 @@
       background: var(--white);
       color: var(--primary);
       padding: 18px 36px;
-      border-radius: 16px;
+      border-radius: 9999px;
       font-weight: 700;
       font-size: 18px;
       text-decoration: none;
@@ -262,7 +262,7 @@
       color: var(--white);
       border: 2px solid var(--white);
       padding: 16px 32px;
-      border-radius: 16px;
+      border-radius: 9999px;
       font-weight: 600;
       text-decoration: none;
       transition: all var(--transition-duration, 0.2s) ease;
@@ -299,7 +299,7 @@
 
     .hero-h1-image {
       background: rgba(255,255,255,0.1);
-      border-radius: 16px;
+      border-radius: 9999px;
       height: 450px;
       display: flex;
       align-items: center;
@@ -333,20 +333,20 @@
       gap: 24px;
       padding: 32px;
       background: var(--gray-50);
-      border-radius: 16px;
+      border-radius: 9999px;
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
     .services-l5-item:hover {
       background: var(--white);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     .services-l5-icon {
       width: 64px;
       height: 64px;
       background: var(--primary);
-      border-radius: 16px;
+      border-radius: 9999px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -597,7 +597,7 @@
     </div>
   
 
-    <section class="dna-fade-in hero-h1 dna-animate">
+    <section class="dna-slide-in hero-h1 dna-animate">
       <div class="container hero-h1-content">
         <div class="hero-text">
           <h1>Chiropractor Co</h1>
@@ -616,7 +616,7 @@
     </section>
   
 
-    <section class="dna-fade-in" id="services" class="services-l5 dna-animate">
+    <section class="dna-slide-in" id="services" class="services-l5 dna-animate">
       <div class="container">
         <div class="section-header">
           <h2>Our Services</h2>
@@ -685,7 +685,7 @@
       </section>
     
 
-    <section class="dna-fade-in testimonials testimonials-white" style="padding: 60px 0;">
+    <section class="dna-slide-in testimonials testimonials-white" style="padding: 60px 0;">
       <div class="container-sm" style="text-align: center;">
         <div class="testimonial-stars" style="font-size: 28px; margin-bottom: 24px;">
           ★★★★★
@@ -759,5 +759,22 @@
     </footer>
   
   
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script>
+    // Lenis Smooth Scroll - Smooth Feel
+    const lenis = new Lenis({
+      duration: 1.0,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      smoothWheel: true,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+  </script>
 </body>
 </html>
