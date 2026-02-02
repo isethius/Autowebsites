@@ -1,0 +1,66 @@
+[
+  {
+    "industry": "lawyer",
+    "vibe": "executive",
+    "html": "dist/portfolio/pro/lawyer-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:29.115Z"
+  },
+  {
+    "industry": "lawyer",
+    "vibe": "maverick",
+    "html": "dist/portfolio/pro/lawyer-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:29.115Z"
+  },
+  {
+    "industry": "lawyer",
+    "vibe": "artisan",
+    "html": "dist/portfolio/pro/lawyer-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:29.115Z"
+  },
+  {
+    "industry": "lawyer",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/pro/lawyer-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:29.115Z"
+  },
+  {
+    "industry": "lawyer",
+    "vibe": "bold",
+    "html": "dist/portfolio/pro/lawyer-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:29.115Z"
+  },
+  {
+    "industry": "lawyer",
+    "vibe": "classic",
+    "html": "dist/portfolio/pro/lawyer-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:29.115Z"
+  },
+  {
+    "industry": "lawyer",
+    "vibe": "modern",
+    "html": "dist/portfolio/pro/lawyer-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:29.115Z"
+  },
+  {
+    "industry": "lawyer",
+    "vibe": "playful",
+    "html": "dist/portfolio/pro/lawyer-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:29.115Z"
+  }
+]
