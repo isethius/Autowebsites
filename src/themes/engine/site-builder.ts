@@ -29,6 +29,7 @@ import {
 } from './section-registry';
 import { resolveServiceLayout, generateLayoutCSS } from './layout-resolver';
 import { getContentTone, generateTonePrompt } from './content-tone';
+import { generateEntranceAnimationClasses } from '../../preview/industry-templates/_shared/styles/dna-styles';
 
 /**
  * Content for building a website
@@ -364,6 +365,39 @@ function getDefaultSections(): BlueprintSection[] {
 }
 
 /**
+ * Generate Lenis smooth scroll script
+ * Injected for M2/M3 motion levels to provide premium scroll physics
+ */
+function generateLenisScript(motion: string): string {
+  // Only inject for M2 (moderate) or M3 (dramatic) motion
+  if (motion !== 'M2' && motion !== 'M3') {
+    return '';
+  }
+
+  // M3 = luxurious feel (1.4s), M2 = smooth feel (1.0s)
+  const duration = motion === 'M3' ? '1.4' : '1.0';
+
+  return `
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script>
+    // Lenis Smooth Scroll - ${motion === 'M3' ? 'Luxurious' : 'Smooth'} Feel
+    const lenis = new Lenis({
+      duration: ${duration},
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      smoothWheel: true,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+  </script>`;
+}
+
+/**
  * Assemble the final HTML document
  */
 function assembleDocument(params: {
@@ -389,6 +423,9 @@ function assembleDocument(params: {
     ? getFontImport(dna.typography || 'T1')
     : '';
 
+  // Lenis script for smooth scrolling (M2/M3 motion only)
+  const lenisScript = generateLenisScript(dna.motion || 'M1');
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -404,6 +441,7 @@ function assembleDocument(params: {
 </head>
 <body>
   ${allHTML}
+  ${lenisScript}
 </body>
 </html>`;
 }
@@ -412,6 +450,9 @@ function assembleDocument(params: {
  * Generate base CSS styles
  */
 function generateBaseStyles(dna: DNACode, palette: ColorPalette): string {
+  // Get entrance animation classes for DNA motion
+  const entranceAnimations = generateEntranceAnimationClasses();
+
   return `
     * {
       margin: 0;
@@ -481,6 +522,9 @@ function generateBaseStyles(dna: DNACode, palette: ColorPalette): string {
       color: var(--muted);
       font-size: 18px;
     }
+
+    /* DNA Entrance Animations */
+    ${entranceAnimations}
 
     @media (max-width: 768px) {
       .section-header h2 { font-size: 28px; }

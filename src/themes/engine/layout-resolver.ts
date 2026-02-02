@@ -27,6 +27,21 @@ export interface LayoutConfig {
   spans: GridPattern;
   gap: 'small' | 'medium' | 'large';
   className: string;
+  /** Whether broken grid displacement should be applied */
+  enableDisplacement?: boolean;
+  /** Chaos level for displacement intensity */
+  chaos?: number;
+}
+
+/**
+ * Displacement configuration for broken grid overlaps
+ */
+export interface DisplacementConfig {
+  enabled: boolean;
+  translateY: string;      // e.g., "-20px" to lift into previous section
+  translateX: string;      // e.g., "10%" for horizontal offset
+  zIndex: number;          // Layering control
+  overlapPercent: number;  // 0-15% safe range for text readability
 }
 
 /**
@@ -35,6 +50,66 @@ export interface LayoutConfig {
 export interface LayoutItem {
   priority?: number;  // Higher = more prominent placement
   featured?: boolean; // Should this item be larger?
+}
+
+/**
+ * Generate displacement CSS for broken grid overlaps
+ *
+ * When chaos > 0.6, applies controlled overlapping transforms
+ * to create Awwwards-quality visual tension.
+ *
+ * @param chaos - Chaos level 0-1
+ * @param className - Base class name for the grid
+ * @returns CSS string for displacement transforms
+ */
+export function generateDisplacementCSS(chaos: number, className: string): string {
+  // No displacement for chaos < 0.6
+  if (chaos < 0.6) {
+    return '';
+  }
+
+  // Calculate displacement intensity (0 at 0.6, max at 1.0)
+  const intensity = (chaos - 0.6) / 0.4; // 0-1 range within 0.6-1.0
+  const maxOverlap = 15; // Max 15% overlap for readability
+
+  // Calculate displacement values
+  const overlapPercent = Math.min(maxOverlap, intensity * maxOverlap);
+  const translateYOdd = Math.round(-8 - intensity * 16); // -8px to -24px
+  const translateYEven = Math.round(4 + intensity * 8);   // 4px to 12px
+  const translateXOdd = Math.round(intensity * 5);         // 0% to 5%
+  const translateXEven = Math.round(-intensity * 3);       // 0% to -3%
+
+  return `
+    /* Broken Grid Displacement - Chaos Level: ${chaos.toFixed(2)} */
+    .${className}.broken-grid > * {
+      position: relative;
+      transition: transform 0.3s ease-out, z-index 0s;
+    }
+
+    .${className}.broken-grid > *:nth-child(odd) {
+      transform: translateY(${translateYOdd}px) translateX(${translateXOdd}%);
+      z-index: 2;
+    }
+
+    .${className}.broken-grid > *:nth-child(even) {
+      transform: translateY(${translateYEven}px) translateX(${translateXEven}%);
+      z-index: 1;
+    }
+
+    /* Hover state lifts item above others */
+    .${className}.broken-grid > *:hover {
+      z-index: 10;
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    /* Mobile: Disable displacement for readability */
+    @media (max-width: 768px) {
+      .${className}.broken-grid > * {
+        transform: none !important;
+        z-index: auto !important;
+      }
+    }
+  `;
 }
 
 /**
@@ -160,12 +235,14 @@ export function resolveServiceLayout<T extends LayoutItem>(
     spans: pattern,
     gap,
     className: `layout-${layoutCode.toLowerCase()}`,
+    enableDisplacement: actualChaos > 0.6,
+    chaos: actualChaos,
   };
 }
 
 /**
  * Generate CSS for a layout configuration
- * Includes mobile-first responsive styles
+ * Includes mobile-first responsive styles and optional broken grid displacement
  */
 export function generateLayoutCSS(config: LayoutConfig): string {
   const gapSizes = {
@@ -204,6 +281,27 @@ export function generateLayoutCSS(config: LayoutConfig): string {
     `;
   }
 
+  // Generate displacement CSS if enabled
+  const displacementCSS = config.enableDisplacement && config.chaos
+    ? generateDisplacementCSS(config.chaos, config.className)
+    : '';
+
+  // Handle whitespace columns (span === 0)
+  const spanCSS = config.spans.map((span, i) => {
+    if (span === 0) {
+      return `
+      .${config.className} > *:nth-child(${i + 1}) {
+        visibility: hidden;
+        grid-column: span 1;
+        pointer-events: none;
+      }`;
+    }
+    return `
+      .${config.className} > *:nth-child(${i + 1}) {
+        grid-column: span ${span};
+      }`;
+  }).join('');
+
   // Grid layout
   return `
     /* Mobile First - Stack */
@@ -221,11 +319,12 @@ export function generateLayoutCSS(config: LayoutConfig): string {
         gap: ${gapSizes[config.gap]};
       }
 
-      ${config.spans.map((span, i) => `
-      .${config.className} > *:nth-child(${i + 1}) {
-        grid-column: span ${span};
+      ${spanCSS}
+
+      /* Mobile: show hidden whitespace columns */
+      .${config.className} > * {
+        visibility: visible !important;
       }
-      `).join('')}
     }
 
     /* Large screens - might use larger gaps */
@@ -234,6 +333,8 @@ export function generateLayoutCSS(config: LayoutConfig): string {
         gap: calc(${gapSizes[config.gap]} * 1.25);
       }
     }
+
+    ${displacementCSS}
   `;
 }
 

@@ -286,6 +286,89 @@ function getEntranceAnimation(entrance: string, intensity: string): string {
 }
 
 /**
+ * Generate entrance animation classes based on motion DNA
+ *
+ * These classes can be applied directly to section elements to trigger
+ * the appropriate animation based on the motion setting.
+ *
+ * M1 (subtle) = fade
+ * M2 (moderate) = slide
+ * M3 (dramatic) = scale
+ *
+ * @returns CSS string with all animation keyframes and class selectors
+ */
+export function generateEntranceAnimationClasses(): string {
+  return `
+    /* DNA Entrance Animation Keyframes */
+    @keyframes dna-fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes dna-slide-in {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes dna-scale-in {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Animation Class Selectors */
+    .dna-fade-in {
+      animation: dna-fade-in 0.6s ease-out forwards;
+    }
+
+    .dna-slide-in {
+      animation: dna-slide-in 0.6s ease-out forwards;
+    }
+
+    .dna-scale-in {
+      animation: dna-scale-in 0.6s ease-out forwards;
+    }
+
+    /* Staggered animation delays for child elements */
+    .dna-stagger > *:nth-child(1) { animation-delay: 0s; }
+    .dna-stagger > *:nth-child(2) { animation-delay: 0.1s; }
+    .dna-stagger > *:nth-child(3) { animation-delay: 0.2s; }
+    .dna-stagger > *:nth-child(4) { animation-delay: 0.3s; }
+    .dna-stagger > *:nth-child(5) { animation-delay: 0.4s; }
+    .dna-stagger > *:nth-child(6) { animation-delay: 0.5s; }
+    .dna-stagger > *:nth-child(n+7) { animation-delay: 0.6s; }
+
+    /* Reduced motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      .dna-fade-in,
+      .dna-slide-in,
+      .dna-scale-in {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  `;
+}
+
+/**
+ * Get the animation class name based on motion DNA code
+ *
+ * @param motion - Motion DNA code (M1, M2, or M3)
+ * @returns Animation class name to apply to elements
+ */
+export function getAnimationClass(motion: string): string {
+  switch (motion) {
+    case 'M3':
+      return 'dna-scale-in';
+    case 'M2':
+      return 'dna-slide-in';
+    case 'M1':
+    default:
+      return 'dna-fade-in';
+  }
+}
+
+/**
  * Get design-specific CSS overrides
  */
 function getDesignOverrides(style: string): string {
@@ -598,6 +681,7 @@ export function generateAwwwardsDNAStyles(dna: DNACode, palette: ColorPalette): 
  */
 export function generateCompleteDNAStyles(dna: DNACode, palette: ColorPalette): string {
   const { css } = generateDNAStyles(dna, palette);
+  const entranceAnimations = generateEntranceAnimationClasses();
 
   return `
     * {
@@ -667,6 +751,9 @@ export function generateCompleteDNAStyles(dna: DNACode, palette: ColorPalette): 
       max-width: 600px;
       margin: 0 auto;
     }
+
+    /* Entrance Animations */
+    ${entranceAnimations}
 
     /* Responsive */
     @media (max-width: 1024px) {

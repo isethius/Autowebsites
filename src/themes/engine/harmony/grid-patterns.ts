@@ -15,6 +15,43 @@
 export type GridPattern = number[];
 
 /**
+ * Broken Grid Patterns
+ *
+ * Patterns with `0` values representing empty space (whitespace columns).
+ * Used when chaos > 0.7 to create asymmetric, Awwwards-quality layouts.
+ *
+ * 0 = empty column (whitespace)
+ */
+export const BROKEN_PATTERNS: Record<number, GridPattern[]> = {
+  // 3 items with whitespace
+  3: [
+    [2, 0, 1],      // Left-heavy with breathing room
+    [1, 0, 2],      // Right-heavy with breathing room
+    [0, 2, 1],      // Leading whitespace
+  ],
+
+  // 4 items with whitespace
+  4: [
+    [2, 1, 0, 1],   // Asymmetric with gap
+    [1, 0, 1, 2],   // Gap in middle-left
+    [0, 2, 2, 0],   // Centered with margins
+  ],
+
+  // 5 items with whitespace
+  5: [
+    [2, 1, 0, 1, 1],
+    [1, 0, 2, 0, 1],
+    [0, 1, 2, 1, 0],
+  ],
+
+  // 6 items with whitespace
+  6: [
+    [2, 1, 0, 1, 1, 1],
+    [1, 0, 2, 2, 0, 1],
+  ],
+};
+
+/**
  * Patterns organized by item count
  * Each count has multiple patterns ordered by chaos level (0 = most uniform)
  */
@@ -90,9 +127,17 @@ export const PATTERNS: Record<number, GridPattern[]> = {
  *
  * @param count - Number of items to lay out
  * @param chaos - Chaos level 0-1 (0 = uniform, 1 = asymmetric)
- * @returns Array of column spans
+ * @returns Array of column spans (0 = whitespace column for broken patterns)
  */
 export function selectPattern(count: number, chaos: number): GridPattern {
+  // High chaos (> 0.7) uses broken patterns with whitespace
+  if (chaos > 0.7 && BROKEN_PATTERNS[count]) {
+    const brokenPatterns = BROKEN_PATTERNS[count];
+    // Select from broken patterns based on how far above 0.7 we are
+    const brokenIndex = Math.floor((chaos - 0.7) / 0.3 * (brokenPatterns.length - 1));
+    return brokenPatterns[Math.min(brokenIndex, brokenPatterns.length - 1)];
+  }
+
   // Find the closest count we have patterns for
   const availableCounts = Object.keys(PATTERNS).map(Number);
   const closestCount = availableCounts.reduce((prev, curr) =>
@@ -247,9 +292,12 @@ export function selectTwoRowPattern(itemCount: number, chaos: number): { row1: G
 
 /**
  * Generate CSS grid classes for a pattern
+ * Handles span === 0 as invisible whitespace columns
  */
 export function generatePatternCSS(pattern: GridPattern, className: string): string {
-  const maxSpan = Math.max(...pattern);
+  // Filter out 0s for calculating column count, but use max of remaining spans
+  const nonZeroSpans = pattern.filter(s => s > 0);
+  const maxSpan = nonZeroSpans.length > 0 ? Math.max(...nonZeroSpans) : 1;
 
   return `
     .${className} {
@@ -258,19 +306,30 @@ export function generatePatternCSS(pattern: GridPattern, className: string): str
       gap: 1.5rem;
     }
 
-    ${pattern.map((span, i) => `
+    ${pattern.map((span, i) => {
+      if (span === 0) {
+        // Whitespace column: hidden but maintains grid position
+        return `
+    .${className} > *:nth-child(${i + 1}) {
+      visibility: hidden;
+      grid-column: span 1;
+      pointer-events: none;
+    }`;
+      }
+      return `
     .${className} > *:nth-child(${i + 1}) {
       grid-column: span ${span};
-    }
-    `).join('')}
+    }`;
+    }).join('')}
 
-    /* Mobile: Stack everything */
+    /* Mobile: Stack everything and show all items */
     @media (max-width: 768px) {
       .${className} {
         grid-template-columns: 1fr;
       }
       .${className} > * {
         grid-column: span 1 !important;
+        visibility: visible !important;
       }
     }
   `;
