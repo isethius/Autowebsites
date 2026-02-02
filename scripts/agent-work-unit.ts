@@ -363,9 +363,12 @@ async function main() {
     await screenshotter.close();
   }
 
-  await updateManifest(DEFAULT_MANIFEST_PATH, manifestEntries);
+  // Write to per-industry manifest to avoid race conditions with concurrent workers
+  const industryManifestPath = path.join('dist', 'portfolio', `manifest-${industry}.json`);
+  await updateManifest(industryManifestPath, manifestEntries);
 
   console.log(`Generated ${manifestEntries.length} website(s) for ${industry}.`);
+  console.log(`Manifest written to: ${industryManifestPath}`);
 }
 
 if (require.main === module) {
