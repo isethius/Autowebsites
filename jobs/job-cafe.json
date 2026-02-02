@@ -1,0 +1,16 @@
+{
+  "industry": "cafe",
+  "blueprint": "creative-visual",
+  "vibes": [
+    "executive",
+    "maverick",
+    "artisan",
+    "minimalist",
+    "bold",
+    "classic",
+    "modern",
+    "playful"
+  ],
+  "outputDir": "dist/portfolio/creative/",
+  "sampleContent": {}
+}

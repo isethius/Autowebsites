@@ -1,0 +1,16 @@
+{
+  "industry": "landscaper",
+  "blueprint": "service-business",
+  "vibes": [
+    "executive",
+    "maverick",
+    "artisan",
+    "minimalist",
+    "bold",
+    "classic",
+    "modern",
+    "playful"
+  ],
+  "outputDir": "dist/portfolio/service/",
+  "sampleContent": {}
+}

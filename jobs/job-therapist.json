@@ -1,0 +1,16 @@
+{
+  "industry": "therapist",
+  "blueprint": "health-wellness",
+  "vibes": [
+    "executive",
+    "maverick",
+    "artisan",
+    "minimalist",
+    "bold",
+    "classic",
+    "modern",
+    "playful"
+  ],
+  "outputDir": "dist/portfolio/health/",
+  "sampleContent": {}
+}

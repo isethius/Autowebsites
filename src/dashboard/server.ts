@@ -147,6 +147,7 @@ export async function createDashboardServer(config: DashboardConfig) {
 
   // Static files (before rate limiting for performance)
   app.use(express.static(path.join(__dirname, 'public')));
+  app.use('/portfolio', express.static(path.resolve(process.cwd(), 'dist/portfolio')));
 
   // Health check endpoints (no rate limiting, for monitoring/k8s)
   app.get('/health', healthEndpoint);      // Full health check with all services
