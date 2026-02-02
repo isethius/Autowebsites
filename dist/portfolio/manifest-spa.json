@@ -1,0 +1,66 @@
+[
+  {
+    "industry": "spa",
+    "vibe": "executive",
+    "html": "dist/portfolio/health/spa-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:23.972Z"
+  },
+  {
+    "industry": "spa",
+    "vibe": "maverick",
+    "html": "dist/portfolio/health/spa-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:23.972Z"
+  },
+  {
+    "industry": "spa",
+    "vibe": "artisan",
+    "html": "dist/portfolio/health/spa-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:23.972Z"
+  },
+  {
+    "industry": "spa",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/health/spa-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:23.972Z"
+  },
+  {
+    "industry": "spa",
+    "vibe": "bold",
+    "html": "dist/portfolio/health/spa-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:23.972Z"
+  },
+  {
+    "industry": "spa",
+    "vibe": "classic",
+    "html": "dist/portfolio/health/spa-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:23.972Z"
+  },
+  {
+    "industry": "spa",
+    "vibe": "modern",
+    "html": "dist/portfolio/health/spa-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:23.972Z"
+  },
+  {
+    "industry": "spa",
+    "vibe": "playful",
+    "html": "dist/portfolio/health/spa-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:23.972Z"
+  }
+]

@@ -1,0 +1,66 @@
+[
+  {
+    "industry": "therapist",
+    "vibe": "executive",
+    "html": "dist/portfolio/health/therapist-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:09.978Z"
+  },
+  {
+    "industry": "therapist",
+    "vibe": "maverick",
+    "html": "dist/portfolio/health/therapist-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:09.978Z"
+  },
+  {
+    "industry": "therapist",
+    "vibe": "artisan",
+    "html": "dist/portfolio/health/therapist-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:09.978Z"
+  },
+  {
+    "industry": "therapist",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/health/therapist-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:09.978Z"
+  },
+  {
+    "industry": "therapist",
+    "vibe": "bold",
+    "html": "dist/portfolio/health/therapist-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:09.978Z"
+  },
+  {
+    "industry": "therapist",
+    "vibe": "classic",
+    "html": "dist/portfolio/health/therapist-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:09.978Z"
+  },
+  {
+    "industry": "therapist",
+    "vibe": "modern",
+    "html": "dist/portfolio/health/therapist-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:09.978Z"
+  },
+  {
+    "industry": "therapist",
+    "vibe": "playful",
+    "html": "dist/portfolio/health/therapist-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:09.978Z"
+  }
+]

@@ -1,0 +1,66 @@
+[
+  {
+    "industry": "gym",
+    "vibe": "executive",
+    "html": "dist/portfolio/health/gym-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:10.030Z"
+  },
+  {
+    "industry": "gym",
+    "vibe": "maverick",
+    "html": "dist/portfolio/health/gym-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:10.030Z"
+  },
+  {
+    "industry": "gym",
+    "vibe": "artisan",
+    "html": "dist/portfolio/health/gym-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:10.030Z"
+  },
+  {
+    "industry": "gym",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/health/gym-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:10.030Z"
+  },
+  {
+    "industry": "gym",
+    "vibe": "bold",
+    "html": "dist/portfolio/health/gym-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:10.030Z"
+  },
+  {
+    "industry": "gym",
+    "vibe": "classic",
+    "html": "dist/portfolio/health/gym-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:10.030Z"
+  },
+  {
+    "industry": "gym",
+    "vibe": "modern",
+    "html": "dist/portfolio/health/gym-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:10.030Z"
+  },
+  {
+    "industry": "gym",
+    "vibe": "playful",
+    "html": "dist/portfolio/health/gym-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:10.030Z"
+  }
+]

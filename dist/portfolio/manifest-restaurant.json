@@ -1,0 +1,66 @@
+[
+  {
+    "industry": "restaurant",
+    "vibe": "executive",
+    "html": "dist/portfolio/creative/restaurant-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:20.061Z"
+  },
+  {
+    "industry": "restaurant",
+    "vibe": "maverick",
+    "html": "dist/portfolio/creative/restaurant-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:20.061Z"
+  },
+  {
+    "industry": "restaurant",
+    "vibe": "artisan",
+    "html": "dist/portfolio/creative/restaurant-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:20.061Z"
+  },
+  {
+    "industry": "restaurant",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/creative/restaurant-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:20.061Z"
+  },
+  {
+    "industry": "restaurant",
+    "vibe": "bold",
+    "html": "dist/portfolio/creative/restaurant-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:20.061Z"
+  },
+  {
+    "industry": "restaurant",
+    "vibe": "classic",
+    "html": "dist/portfolio/creative/restaurant-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:20.061Z"
+  },
+  {
+    "industry": "restaurant",
+    "vibe": "modern",
+    "html": "dist/portfolio/creative/restaurant-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:20.061Z"
+  },
+  {
+    "industry": "restaurant",
+    "vibe": "playful",
+    "html": "dist/portfolio/creative/restaurant-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:20.061Z"
+  }
+]
