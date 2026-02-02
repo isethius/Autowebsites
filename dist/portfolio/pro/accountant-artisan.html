@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Accountant Co</title>
   <meta name="description" content="Reliable Accountant solutions for homes and businesses.">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     
     * {
@@ -135,123 +135,118 @@
     }
   
     
-    .nav-n9 {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      padding: 24px 0;
+    .nav-n7-wrapper {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 100;
+      width: 100%;
+      max-width: 900px;
+      padding: 0 20px;
     }
 
-    .nav-n9-content {
+    .nav-n7 {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 9999px;
+      padding: 12px 12px 12px 24px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .nav-n9-logo {
-      font-size: 22px;
+    .nav-n7-logo {
+      font-size: 20px;
       font-weight: 800;
-      color: var(--text);
+      color: var(--primary);
       text-decoration: none;
     }
 
-    .nav-n9-right {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-    }
-
-    .nav-n9-links {
+    .nav-n7-links {
       display: flex;
       gap: 24px;
     }
 
-    .nav-n9-links a {
-      color: var(--muted);
+    .nav-n7-links a {
+      color: var(--text);
       text-decoration: none;
       font-weight: 500;
       font-size: 14px;
       transition: color var(--transition-duration, 0.2s) ease;
     }
 
-    .nav-n9-links a:hover {
-      color: var(--text);
+    .nav-n7-links a:hover {
+      color: var(--primary);
     }
 
-    .nav-n9-cta {
-      background: var(--text);
+    .nav-n7-cta {
+      background: var(--primary);
       color: var(--white);
       padding: 10px 20px;
-      border-radius: 12px;
+      border-radius: 9999px;
       text-decoration: none;
       font-weight: 600;
       font-size: 14px;
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .nav-n9-cta:hover {
-      opacity: 0.9;
+    .nav-n7-cta:hover {
+      background: var(--secondary);
+      transform: scale(1.02);
     }
 
     @media (max-width: 768px) {
-      .nav-n9-links { display: none; }
+      .nav-n7-links { display: none; }
+      .nav-n7 { padding: 10px 10px 10px 20px; }
     }
   
 
-    .hero-h8 {
-      position: relative;
-      min-height: 85vh;
+    .hero-h2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 80vh;
+    }
+
+    .hero-h2-image {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       display: flex;
       align-items: center;
-      overflow: hidden;
+      justify-content: center;
+      font-size: 80px;
+      color: var(--white);
     }
 
-    .hero-h8-bg {
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: 55%;
-      height: 100%;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
+    .hero-h2-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 80px;
+      background: var(--background);
     }
 
-    .hero-h8-content {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      display: grid;
-      grid-template-columns: 55% 45%;
-      align-items: center;
-    }
-
-    .hero-h8-text {
-      padding-right: 60px;
-    }
-
-    .hero-h8 h1 {
-      font-size: 52px;
-      line-height: 1.1;
+    .hero-h2 h1 {
+      font-size: 48px;
+      line-height: 1.15;
       margin-bottom: 24px;
       color: var(--text);
     }
 
-    .hero-h8 .tagline {
+    .hero-h2 .tagline {
       font-size: 20px;
       color: var(--muted);
       margin-bottom: 36px;
       line-height: 1.6;
     }
 
-    .hero-h8-buttons {
+    .hero-h2-buttons {
       display: flex;
       gap: 16px;
       flex-wrap: wrap;
     }
 
-    .hero-h8 .btn-primary {
+    .hero-h2 .btn-primary {
       background: var(--primary);
       color: var(--white);
       padding: 16px 32px;
@@ -261,7 +256,12 @@
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .hero-h8 .btn-secondary {
+    .hero-h2 .btn-primary:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+    }
+
+    .hero-h2 .btn-secondary {
       background: transparent;
       color: var(--primary);
       border: 2px solid var(--primary);
@@ -272,14 +272,19 @@
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .hero-h8 .trust-badges {
+    .hero-h2 .btn-secondary:hover {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .hero-h2 .trust-badges {
       display: flex;
       gap: 24px;
       margin-top: 40px;
       flex-wrap: wrap;
     }
 
-    .hero-h8 .trust-badge {
+    .hero-h2 .trust-badge {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -287,78 +292,106 @@
       color: var(--muted);
     }
 
-    .hero-h8-visual {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--white);
-      font-size: 80px;
-    }
-
     @media (max-width: 900px) {
-      .hero-h8-bg { width: 100%; clip-path: none; opacity: 0.1; }
-      .hero-h8-content { grid-template-columns: 1fr; }
-      .hero-h8-text { padding: 0; text-align: center; }
-      .hero-h8-visual { display: none; }
-      .hero-h8 h1 { font-size: 36px; }
-      .hero-h8-buttons { justify-content: center; }
-      .hero-h8 .trust-badges { justify-content: center; }
+      .hero-h2 { grid-template-columns: 1fr; }
+      .hero-h2-image { min-height: 300px; order: -1; }
+      .hero-h2-content { padding: 40px 20px; }
+      .hero-h2 h1 { font-size: 36px; }
     }
   
 
-    .services-l3 {
+    .services-l10 {
       padding: 80px 0;
-    }
-
-    .services-bg-gray { background: var(--gray-50); }
-    .services-bg-white { background: var(--white); }
-    .services-bg-primary { background: var(--primary); color: var(--white); }
-
-    .services-l3-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-    }
-
-    .services-l3-card {
       background: var(--white);
+    }
+
+    .services-l10-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 200px;
+      gap: 16px;
+    }
+
+    .services-l10-card {
+      background: var(--gray-50);
       border-radius: 12px;
-      padding: 32px;
-      transition: all var(--transition-duration, 0.2s) ease;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05);
-    }
-
-    .services-bg-gray .services-l3-card {
-      border: 1px solid var(--gray-200);
-    }
-
-    .services-l3-card:hover {
-      transform: var(--hover-transform, translateY(-4px));
-      box-shadow: var(--hover-shadow, 0 12px 40px rgba(0,0,0,0.1));
-    }
-
-    .services-l3-icon {
-      width: 56px;
-      height: 56px;
-      background: var(--primary);
-      border-radius: 12px;
+      padding: 28px;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
+      flex-direction: column;
+      transition: all var(--transition-duration, 0.2s) ease;
+    }
+
+    .services-l10-card:hover {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .services-l10-card:hover h3,
+    .services-l10-card:hover p {
+      color: inherit;
+    }
+
+    /* First card is large */
+    .services-l10-card:nth-child(1) {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    /* Third card spans 2 columns */
+    .services-l10-card:nth-child(3) {
+      grid-column: span 2;
+    }
+
+    .services-l10-icon {
+      font-size: 32px;
+      margin-bottom: auto;
+    }
+
+    .services-l10-card h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: var(--text);
+      margin-top: 16px;
+    }
+
+    .services-l10-card p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* Large card gets bigger typography */
+    .services-l10-card:nth-child(1) h3 {
       font-size: 24px;
     }
 
-    .services-l3-card h3 {
-      font-size: 20px;
-      margin-bottom: 12px;
-      color: var(--text);
+    .services-l10-card:nth-child(1) p {
+      font-size: 16px;
     }
 
-    .services-l3-card p {
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.6;
+    @media (max-width: 900px) {
+      .services-l10-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 180px;
+      }
+      .services-l10-card:nth-child(1) {
+        grid-column: span 2;
+        grid-row: span 1;
+      }
+      .services-l10-card:nth-child(3) {
+        grid-column: span 1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .services-l10-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+      }
+      .services-l10-card:nth-child(1),
+      .services-l10-card:nth-child(3) {
+        grid-column: span 1;
+      }
     }
   
 
@@ -696,72 +729,67 @@
 </head>
 <body>
   
-    <header class="nav-n9">
-      <div class="container nav-n9-content">
-        <a href="#" class="nav-n9-logo">Accountant Co</a>
-        <div class="nav-n9-right">
-          <nav class="nav-n9-links">
-            <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
-          </nav>
-          
-        </div>
-      </div>
-    </header>
+    <div class="nav-n7-wrapper">
+      <header class="nav-n7">
+        <a href="#" class="nav-n7-logo">Accountant Co</a>
+        <nav class="nav-n7-links">
+          <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
+        </nav>
+        
+      </header>
+    </div>
   
 
-    <section class="dna-fade-in hero-h8 dna-animate">
-      <div class="hero-h8-bg"></div>
-      <div class="container hero-h8-content">
-        <div class="hero-h8-text">
-          <h1>Accountant Co</h1>
-          <p class="tagline">Trusted Accountant services you can count on</p>
-          <div class="hero-h8-buttons">
-            
-            
-          </div>
+    <section class="dna-scale-in hero-h2 dna-animate">
+      <div class="hero-h2-image">
+        📸
+      </div>
+      <div class="hero-h2-content">
+        <h1>Accountant Co</h1>
+        <p class="tagline">Trusted Accountant services you can count on</p>
+        <div class="hero-h2-buttons">
+          
           
         </div>
-        <div class="hero-h8-visual">
-          📸
-        </div>
+        
       </div>
     </section>
   
 
-    <section class="dna-fade-in" id="services" class="services-l3 services-bg-gray dna-animate">
+    <section class="dna-scale-in" id="services" class="services-l10 dna-animate">
       <div class="container">
         <div class="section-header">
           <h2>Practice Areas</h2>
           <p>How we can help you</p>
         </div>
-        <div class="services-l3-grid">
+        <div class="services-l10-grid">
           
-            <div class="services-l3-card dna-card">
-              <div class="services-l3-icon">
+            <div class="services-l10-card">
+              <div class="services-l10-icon">
                 ⭐
               </div>
               <h3>Tax Preparation</h3>
               <p>Reliable tax preparation from experienced specialists.</p>
             </div>
           
-            <div class="services-l3-card dna-card">
-              <div class="services-l3-icon">
+            <div class="services-l10-card">
+              <div class="services-l10-icon">
                 ⭐
               </div>
               <h3>Bookkeeping</h3>
               <p>Reliable bookkeeping from experienced specialists.</p>
             </div>
           
-            <div class="services-l3-card dna-card">
-              <div class="services-l3-icon">
+            <div class="services-l10-card">
+              <div class="services-l10-icon">
                 ⭐
               </div>
               <h3>Payroll</h3>
               <p>Reliable payroll from experienced specialists.</p>
             </div>
           
-            <div class="services-l3-card dna-card">
-              <div class="services-l3-icon">
+            <div class="services-l10-card">
+              <div class="services-l10-icon">
                 ⭐
               </div>
               <h3>Financial Reporting</h3>
@@ -781,7 +809,7 @@
       </section>
     
 
-    <section class="dna-fade-in" id="testimonials" class="testimonials ">
+    <section class="dna-scale-in" id="testimonials" class="testimonials ">
       <div class="container">
         <div class="section-header">
           <h2>Client Testimonials</h2>
@@ -919,5 +947,22 @@
     </footer>
   
   
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script>
+    // Lenis Smooth Scroll - Luxurious Feel
+    const lenis = new Lenis({
+      duration: 1.4,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      smoothWheel: true,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+  </script>
 </body>
 </html>

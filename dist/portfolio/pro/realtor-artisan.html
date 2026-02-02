@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Realtor Co</title>
   <meta name="description" content="Reliable Realtor solutions for homes and businesses.">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     
     * {
@@ -178,7 +178,7 @@
       background: var(--white);
       color: var(--primary);
       padding: 12px 24px;
-      border-radius: 12px;
+      border-radius: 16px;
       text-decoration: none;
       font-weight: 600;
       transition: all var(--transition-duration, 0.2s) ease;
@@ -271,7 +271,7 @@
       background: var(--primary);
       color: var(--white);
       padding: 16px 32px;
-      border-radius: 12px;
+      border-radius: 16px;
       font-weight: 600;
       text-decoration: none;
       transition: all var(--transition-duration, 0.2s) ease;
@@ -287,7 +287,7 @@
       color: var(--primary);
       border: 2px solid var(--primary);
       padding: 14px 28px;
-      border-radius: 12px;
+      border-radius: 16px;
       font-weight: 600;
       text-decoration: none;
       transition: all var(--transition-duration, 0.2s) ease;
@@ -332,10 +332,10 @@
 
     .services-l3-card {
       background: var(--white);
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 32px;
       transition: all var(--transition-duration, 0.2s) ease;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
     }
 
     .services-bg-gray .services-l3-card {
@@ -351,7 +351,7 @@
       width: 56px;
       height: 56px;
       background: var(--primary);
-      border-radius: 12px;
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -717,7 +717,7 @@
     </header>
   
 
-    <section class="dna-slide-in hero-h12 dna-animate">
+    <section class="dna-scale-in hero-h12 dna-animate">
       <div class="hero-h12-shapes">
         <div class="hero-h12-shape hero-h12-shape-1"></div>
         <div class="hero-h12-shape hero-h12-shape-2"></div>
@@ -735,7 +735,7 @@
     </section>
   
 
-    <section class="dna-slide-in" id="services" class="services-l3 services-bg-gray dna-animate">
+    <section class="dna-scale-in" id="services" class="services-l3 services-bg-gray dna-animate">
       <div class="container">
         <div class="section-header">
           <h2>Practice Areas</h2>
@@ -788,7 +788,7 @@
       </section>
     
 
-    <section class="dna-slide-in" id="testimonials" class="testimonials ">
+    <section class="dna-scale-in" id="testimonials" class="testimonials ">
       <div class="container">
         <div class="section-header">
           <h2>Client Testimonials</h2>
@@ -928,9 +928,9 @@
   
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
   <script>
-    // Lenis Smooth Scroll - Smooth Feel
+    // Lenis Smooth Scroll - Luxurious Feel
     const lenis = new Lenis({
-      duration: 1.0,
+      duration: 1.4,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       smoothWheel: true,

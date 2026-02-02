@@ -194,179 +194,118 @@
     }
   
 
-    .hero-h1 {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: var(--white);
-      padding: 100px 0;
-      min-height: 70vh;
-      display: flex;
-      align-items: center;
+    .hero-h3 {
+      background: var(--gray-50);
+      padding: 80px 0;
+      text-align: center;
     }
 
-    .hero-h1-content {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 60px;
-      align-items: center;
+    .hero-h3 h1 {
+      font-size: 44px;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: var(--text);
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    .hero-h1 h1 {
-      font-size: 56px;
-      line-height: 1.1;
-      margin-bottom: 24px;
+    .hero-h3 .tagline {
+      font-size: 20px;
+      color: var(--muted);
+      margin-bottom: 32px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    .hero-h1 .tagline {
-      font-size: 22px;
-      opacity: 0.9;
-      margin-bottom: 36px;
-      line-height: 1.6;
-    }
-
-    .hero-h1-buttons {
+    .hero-h3-buttons {
       display: flex;
       gap: 16px;
+      justify-content: center;
       flex-wrap: wrap;
     }
 
-    .hero-h1 .hero-cta-primary {
-      background: var(--white);
-      color: var(--primary);
-      padding: 18px 36px;
-      border-radius: 16px;
-      font-weight: 700;
-      font-size: 18px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all var(--transition-duration, 0.2s) ease;
-    }
-
-    .hero-h1 .hero-cta-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
-    }
-
-    .hero-h1 .hero-cta-secondary {
-      background: transparent;
+    .hero-h3 .btn-primary {
+      background: var(--primary);
       color: var(--white);
-      border: 2px solid var(--white);
-      padding: 16px 32px;
+      padding: 14px 28px;
       border-radius: 16px;
       font-weight: 600;
       text-decoration: none;
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .hero-h1 .hero-cta-secondary:hover {
-      background: rgba(255,255,255,0.1);
-    }
-
-    .hero-h1 .trust-badges {
-      display: flex;
-      gap: 32px;
-      margin-top: 48px;
-      flex-wrap: wrap;
-    }
-
-    .hero-h1 .trust-badge {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 15px;
-      font-weight: 500;
-    }
-
-    .hero-h1 .trust-icon {
-      width: 36px;
-      height: 36px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .hero-h1-image {
-      background: rgba(255,255,255,0.1);
-      border-radius: 16px;
-      height: 450px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 64px;
-    }
-
-    @media (max-width: 900px) {
-      .hero-h1-content { grid-template-columns: 1fr; }
-      .hero-h1 h1 { font-size: 40px; }
-      .hero-h1-image { display: none; }
-      .hero-h1 .trust-badges { justify-content: center; }
-    }
-  
-
-    .services-l5 {
-      padding: 80px 0;
+    .hero-h3 .btn-secondary {
       background: var(--white);
-    }
-
-    .services-l5-list {
-      max-width: 800px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    .services-l5-item {
-      display: flex;
-      gap: 24px;
-      padding: 32px;
-      background: var(--gray-50);
+      color: var(--text);
+      padding: 14px 28px;
       border-radius: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--gray-200);
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .services-l5-item:hover {
+    @media (max-width: 768px) {
+      .hero-h3 h1 { font-size: 32px; }
+      .hero-h3 .tagline { font-size: 18px; }
+    }
+  
+
+    .services-l3 {
+      padding: 80px 0;
+    }
+
+    .services-bg-gray { background: var(--gray-50); }
+    .services-bg-white { background: var(--white); }
+    .services-bg-primary { background: var(--primary); color: var(--white); }
+
+    .services-l3-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .services-l3-card {
       background: var(--white);
+      border-radius: 16px;
+      padding: 32px;
+      transition: all var(--transition-duration, 0.2s) ease;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
 
-    .services-l5-icon {
-      width: 64px;
-      height: 64px;
+    .services-bg-gray .services-l3-card {
+      border: 1px solid var(--gray-200);
+    }
+
+    .services-l3-card:hover {
+      transform: var(--hover-transform, translateY(-4px));
+      box-shadow: var(--hover-shadow, 0 12px 40px rgba(0,0,0,0.1));
+    }
+
+    .services-l3-icon {
+      width: 56px;
+      height: 56px;
       background: var(--primary);
       border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
-      flex-shrink: 0;
+      margin-bottom: 20px;
+      font-size: 24px;
     }
 
-    .services-l5-content {
-      flex: 1;
-    }
-
-    .services-l5-item h3 {
-      font-size: 22px;
-      margin-bottom: 8px;
+    .services-l3-card h3 {
+      font-size: 20px;
+      margin-bottom: 12px;
       color: var(--text);
     }
 
-    .services-l5-item p {
+    .services-l3-card p {
       color: var(--muted);
-      font-size: 16px;
+      font-size: 15px;
       line-height: 1.6;
-    }
-
-    @media (max-width: 640px) {
-      .services-l5-item {
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
-      }
     }
   
 
@@ -573,6 +512,133 @@
     }
   
 
+    footer {
+      background: var(--gray-800);
+      color: var(--white);
+      padding: 60px 0 30px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .footer-brand {
+      max-width: 350px;
+    }
+
+    .footer-brand h3 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .footer-brand p {
+      color: var(--gray-400);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .footer-license {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--gray-400);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 40px;
+    }
+
+    .footer-links a {
+      color: var(--gray-400);
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--white);
+    }
+
+    .footer-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-contact a {
+      color: var(--gray-400);
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+
+    .footer-contact a:hover {
+      color: var(--white);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      background: var(--gray-700);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: background 0.2s;
+    }
+
+    .footer-social a:hover {
+      background: var(--primary);
+    }
+
+    .footer-bottom {
+      padding-top: 30px;
+      border-top: 1px solid var(--gray-700);
+      display: flex;
+      justify-content: space-between;
+      color: var(--gray-400);
+      font-size: 13px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-bottom a {
+      color: var(--accent);
+    }
+
+    .footer-bottom a:hover {
+      color: var(--white);
+    }
+
+    @media (max-width: 768px) {
+      .footer-content {
+        flex-direction: column;
+      }
+
+      .footer-links {
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  
   </style>
 </head>
 <body>
@@ -588,71 +654,56 @@
     </header>
   
 
-    <section class="dna-fade-in hero-h1 dna-animate">
-      <div class="container hero-h1-content">
-        <div class="hero-text">
-          <h1>Lawyer Co</h1>
-          <p class="tagline">Trusted Lawyer services you can count on</p>
-          <div class="hero-h1-buttons">
-            <a href="tel:555-1234" class="hero-cta-primary">Call Now: 555-1234</a>
-            
-            
-          </div>
+    <section class="dna-slide-in hero-h3 dna-animate">
+      <div class="container">
+        <h1>Lawyer Co</h1>
+        <p class="tagline">Trusted Lawyer services you can count on</p>
+        <div class="hero-h3-buttons">
           
-        </div>
-        <div class="hero-h1-image">
-          📸
+          
         </div>
       </div>
     </section>
   
 
-    <section class="dna-fade-in" id="services" class="services-l5 dna-animate">
+    <section class="dna-slide-in" id="services" class="services-l3 services-bg-gray dna-animate">
       <div class="container">
         <div class="section-header">
           <h2>Practice Areas</h2>
           <p>How we can help you</p>
         </div>
-        <div class="services-l5-list">
+        <div class="services-l3-grid">
           
-            <div class="services-l5-item">
-              <div class="services-l5-icon">
+            <div class="services-l3-card dna-card">
+              <div class="services-l3-icon">
                 📋
               </div>
-              <div class="services-l5-content">
-                <h3>Consultations</h3>
-                <p>Reliable consultations from experienced specialists.</p>
-              </div>
+              <h3>Consultations</h3>
+              <p>Reliable consultations from experienced specialists.</p>
             </div>
           
-            <div class="services-l5-item">
-              <div class="services-l5-icon">
+            <div class="services-l3-card dna-card">
+              <div class="services-l3-icon">
                 ⭐
               </div>
-              <div class="services-l5-content">
-                <h3>Case Evaluation</h3>
-                <p>Reliable case evaluation from experienced specialists.</p>
-              </div>
+              <h3>Case Evaluation</h3>
+              <p>Reliable case evaluation from experienced specialists.</p>
             </div>
           
-            <div class="services-l5-item">
-              <div class="services-l5-icon">
+            <div class="services-l3-card dna-card">
+              <div class="services-l3-icon">
                 ⭐
               </div>
-              <div class="services-l5-content">
-                <h3>Representation</h3>
-                <p>Reliable representation from experienced specialists.</p>
-              </div>
+              <h3>Representation</h3>
+              <p>Reliable representation from experienced specialists.</p>
             </div>
           
-            <div class="services-l5-item">
-              <div class="services-l5-icon">
+            <div class="services-l3-card dna-card">
+              <div class="services-l3-icon">
                 ⭐
               </div>
-              <div class="services-l5-content">
-                <h3>Document Review</h3>
-                <p>Reliable document review from experienced specialists.</p>
-              </div>
+              <h3>Document Review</h3>
+              <p>Reliable document review from experienced specialists.</p>
             </div>
           
         </div>
@@ -668,16 +719,51 @@
       </section>
     
 
-    <section class="dna-fade-in testimonials testimonials-white" style="padding: 60px 0;">
-      <div class="container-sm" style="text-align: center;">
-        <div class="testimonial-stars" style="font-size: 28px; margin-bottom: 24px;">
-          ★★★★★
+    <section class="dna-slide-in" id="testimonials" class="testimonials ">
+      <div class="container">
+        <div class="section-header">
+          <h2>Client Testimonials</h2>
+          <p>Real reviews from satisfied customers</p>
         </div>
-        <blockquote style="font-size: 24px; font-style: italic; color: var(--text); margin-bottom: 24px; line-height: 1.6;">
-          "Great service!"
-        </blockquote>
-        <div style="font-weight: 600; color: var(--primary);">— Customer</div>
-        
+        <div class="testimonials-grid">
+          
+            <div class="testimonial-card">
+              <div class="testimonial-stars">★★★★★</div>
+              <p class="testimonial-text">Excellent service! Professional and reliable.</p>
+              <div class="testimonial-author">
+                <div class="testimonial-avatar">LC</div>
+                <div class="testimonial-author-info">
+                  <div class="testimonial-author-name">Local Customer</div>
+                  
+                </div>
+              </div>
+            </div>
+          
+            <div class="testimonial-card">
+              <div class="testimonial-stars">★★★★★</div>
+              <p class="testimonial-text">Highly recommend. Great work and fair pricing.</p>
+              <div class="testimonial-author">
+                <div class="testimonial-avatar">HC</div>
+                <div class="testimonial-author-info">
+                  <div class="testimonial-author-name">Happy Client</div>
+                  
+                </div>
+              </div>
+            </div>
+          
+            <div class="testimonial-card">
+              <div class="testimonial-stars">★★★★★</div>
+              <p class="testimonial-text">The best in the business. Will use again!</p>
+              <div class="testimonial-author">
+                <div class="testimonial-avatar">SC</div>
+                <div class="testimonial-author-info">
+                  <div class="testimonial-author-name">Satisfied Customer</div>
+                  
+                </div>
+              </div>
+            </div>
+          
+        </div>
       </div>
     </section>
   
@@ -742,13 +828,51 @@
     </section>
   
 
-    <footer style="background: var(--gray-800); color: var(--gray-400); padding: 24px 0; text-align: center; font-size: 13px;">
+    <footer>
       <div class="container">
-        <span>&copy; 2026 Lawyer Co. All rights reserved.</span>
-         · <a href="https://showcasedesigns.com" style="color: var(--accent);">Website by Showcase Designs</a>
+        <div class="footer-content">
+          <div class="footer-brand">
+            <h3>Lawyer Co</h3>
+            <p>Your trusted local experts. Contact us today for professional service.</p>
+            
+            
+          </div>
+
+          <div class="footer-links">
+            <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
+          </div>
+
+          <div class="footer-contact">
+            <a href="tel:555-1234">📞 555-1234</a>
+            
+            
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>&copy; 2026 Lawyer Co. All rights reserved.</span>
+          <span>Website by <a href="https://showcasedesigns.com">Showcase Designs</a></span>
+        </div>
       </div>
     </footer>
   
   
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script>
+    // Lenis Smooth Scroll - Smooth Feel
+    const lenis = new Lenis({
+      duration: 1.0,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      smoothWheel: true,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+  </script>
 </body>
 </html>

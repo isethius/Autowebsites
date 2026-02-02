@@ -1,0 +1,66 @@
+[
+  {
+    "industry": "electrician",
+    "vibe": "executive",
+    "html": "dist/portfolio/service/electrician-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:43:26.046Z"
+  },
+  {
+    "industry": "electrician",
+    "vibe": "maverick",
+    "html": "dist/portfolio/service/electrician-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:43:26.046Z"
+  },
+  {
+    "industry": "electrician",
+    "vibe": "artisan",
+    "html": "dist/portfolio/service/electrician-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:43:26.046Z"
+  },
+  {
+    "industry": "electrician",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/service/electrician-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:43:26.046Z"
+  },
+  {
+    "industry": "electrician",
+    "vibe": "bold",
+    "html": "dist/portfolio/service/electrician-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:43:26.046Z"
+  },
+  {
+    "industry": "electrician",
+    "vibe": "classic",
+    "html": "dist/portfolio/service/electrician-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:43:26.046Z"
+  },
+  {
+    "industry": "electrician",
+    "vibe": "modern",
+    "html": "dist/portfolio/service/electrician-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:43:26.046Z"
+  },
+  {
+    "industry": "electrician",
+    "vibe": "playful",
+    "html": "dist/portfolio/service/electrician-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:43:26.046Z"
+  }
+]

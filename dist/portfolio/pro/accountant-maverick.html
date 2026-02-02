@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Accountant Co</title>
   <meta name="description" content="Reliable Accountant solutions for homes and businesses.">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     
     * {
@@ -135,62 +135,71 @@
     }
   
     
-    .nav-n1 {
-      background: var(--white);
-      padding: 16px 0;
-      border-bottom: 1px solid var(--gray-200);
-      position: sticky;
-      top: 0;
+    .nav-n7-wrapper {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 100;
+      width: 100%;
+      max-width: 900px;
+      padding: 0 20px;
     }
 
-    .nav-n1-content {
+    .nav-n7 {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 9999px;
+      padding: 12px 12px 12px 24px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .nav-n1-logo {
-      font-size: 24px;
+    .nav-n7-logo {
+      font-size: 20px;
       font-weight: 800;
       color: var(--primary);
       text-decoration: none;
     }
 
-    .nav-n1-links {
+    .nav-n7-links {
       display: flex;
-      gap: 32px;
+      gap: 24px;
     }
 
-    .nav-n1-links a {
+    .nav-n7-links a {
       color: var(--text);
       text-decoration: none;
       font-weight: 500;
-      font-size: 15px;
+      font-size: 14px;
       transition: color var(--transition-duration, 0.2s) ease;
     }
 
-    .nav-n1-links a:hover {
+    .nav-n7-links a:hover {
       color: var(--primary);
     }
 
-    .nav-n1-cta {
+    .nav-n7-cta {
       background: var(--primary);
       color: var(--white);
-      padding: 12px 24px;
-      border-radius: 0;
+      padding: 10px 20px;
+      border-radius: 9999px;
       text-decoration: none;
       font-weight: 600;
+      font-size: 14px;
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .nav-n1-cta:hover {
+    .nav-n7-cta:hover {
       background: var(--secondary);
-      transform: translateY(-1px);
+      transform: scale(1.02);
     }
 
-    @media (max-width: 900px) {
-      .nav-n1-links { display: none; }
+    @media (max-width: 768px) {
+      .nav-n7-links { display: none; }
+      .nav-n7 { padding: 10px 10px 10px 20px; }
     }
   
 
@@ -271,59 +280,98 @@
     }
   
 
-    .services-l3 {
+    .services-l10 {
       padding: 80px 0;
-    }
-
-    .services-bg-gray { background: var(--gray-50); }
-    .services-bg-white { background: var(--white); }
-    .services-bg-primary { background: var(--primary); color: var(--white); }
-
-    .services-l3-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-    }
-
-    .services-l3-card {
       background: var(--white);
+    }
+
+    .services-l10-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 200px;
+      gap: 16px;
+    }
+
+    .services-l10-card {
+      background: var(--gray-50);
       border-radius: 0;
-      padding: 32px;
-      transition: all var(--transition-duration, 0.2s) ease;
-      box-shadow: 4px 4px 0 #000;
-    }
-
-    .services-bg-gray .services-l3-card {
-      border: 1px solid var(--gray-200);
-    }
-
-    .services-l3-card:hover {
-      transform: var(--hover-transform, translateY(-4px));
-      box-shadow: var(--hover-shadow, 0 12px 40px rgba(0,0,0,0.1));
-    }
-
-    .services-l3-icon {
-      width: 56px;
-      height: 56px;
-      background: var(--primary);
-      border-radius: 0;
+      padding: 28px;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
+      flex-direction: column;
+      transition: all var(--transition-duration, 0.2s) ease;
+    }
+
+    .services-l10-card:hover {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .services-l10-card:hover h3,
+    .services-l10-card:hover p {
+      color: inherit;
+    }
+
+    /* First card is large */
+    .services-l10-card:nth-child(1) {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    /* Third card spans 2 columns */
+    .services-l10-card:nth-child(3) {
+      grid-column: span 2;
+    }
+
+    .services-l10-icon {
+      font-size: 32px;
+      margin-bottom: auto;
+    }
+
+    .services-l10-card h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: var(--text);
+      margin-top: 16px;
+    }
+
+    .services-l10-card p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* Large card gets bigger typography */
+    .services-l10-card:nth-child(1) h3 {
       font-size: 24px;
     }
 
-    .services-l3-card h3 {
-      font-size: 20px;
-      margin-bottom: 12px;
-      color: var(--text);
+    .services-l10-card:nth-child(1) p {
+      font-size: 16px;
     }
 
-    .services-l3-card p {
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.6;
+    @media (max-width: 900px) {
+      .services-l10-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 180px;
+      }
+      .services-l10-card:nth-child(1) {
+        grid-column: span 2;
+        grid-row: span 1;
+      }
+      .services-l10-card:nth-child(3) {
+        grid-column: span 1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .services-l10-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+      }
+      .services-l10-card:nth-child(1),
+      .services-l10-card:nth-child(3) {
+        grid-column: span 1;
+      }
     }
   
 
@@ -661,15 +709,15 @@
 </head>
 <body>
   
-    <header class="nav-n1">
-      <div class="container nav-n1-content">
-        <a href="#" class="nav-n1-logo">Accountant Co</a>
-        <nav class="nav-n1-links">
+    <div class="nav-n7-wrapper">
+      <header class="nav-n7">
+        <a href="#" class="nav-n7-logo">Accountant Co</a>
+        <nav class="nav-n7-links">
           <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
         </nav>
         
-      </div>
-    </header>
+      </header>
+    </div>
   
 
     <section class="dna-scale-in hero-h9 dna-animate">
@@ -684,40 +732,40 @@
     </section>
   
 
-    <section class="dna-scale-in" id="services" class="services-l3 services-bg-gray dna-animate">
+    <section class="dna-scale-in" id="services" class="services-l10 dna-animate">
       <div class="container">
         <div class="section-header">
           <h2>Practice Areas</h2>
           <p>How we can help you</p>
         </div>
-        <div class="services-l3-grid">
+        <div class="services-l10-grid">
           
-            <div class="services-l3-card dna-card">
-              <div class="services-l3-icon">
+            <div class="services-l10-card">
+              <div class="services-l10-icon">
                 ⭐
               </div>
               <h3>Tax Preparation</h3>
               <p>Reliable tax preparation from experienced specialists.</p>
             </div>
           
-            <div class="services-l3-card dna-card">
-              <div class="services-l3-icon">
+            <div class="services-l10-card">
+              <div class="services-l10-icon">
                 ⭐
               </div>
               <h3>Bookkeeping</h3>
               <p>Reliable bookkeeping from experienced specialists.</p>
             </div>
           
-            <div class="services-l3-card dna-card">
-              <div class="services-l3-icon">
+            <div class="services-l10-card">
+              <div class="services-l10-icon">
                 ⭐
               </div>
               <h3>Payroll</h3>
               <p>Reliable payroll from experienced specialists.</p>
             </div>
           
-            <div class="services-l3-card dna-card">
-              <div class="services-l3-icon">
+            <div class="services-l10-card">
+              <div class="services-l10-icon">
                 ⭐
               </div>
               <h3>Financial Reporting</h3>

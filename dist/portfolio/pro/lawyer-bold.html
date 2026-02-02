@@ -194,210 +194,136 @@
     }
   
 
-    .hero-h1 {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    .hero-h9 {
+      background: var(--text);
       color: var(--white);
-      padding: 100px 0;
-      min-height: 70vh;
+      padding: 120px 0;
+      text-align: center;
+    }
+
+    .hero-h9 h1 {
+      font-size: 72px;
+      line-height: 1.05;
+      margin-bottom: 32px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-h9 .tagline {
+      font-size: 24px;
+      opacity: 0.8;
+      margin-bottom: 48px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.5;
+    }
+
+    .hero-h9-buttons {
       display: flex;
-      align-items: center;
-    }
-
-    .hero-h1-content {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 60px;
-      align-items: center;
-    }
-
-    .hero-h1 h1 {
-      font-size: 56px;
-      line-height: 1.1;
-      margin-bottom: 24px;
-    }
-
-    .hero-h1 .tagline {
-      font-size: 22px;
-      opacity: 0.9;
-      margin-bottom: 36px;
-      line-height: 1.6;
-    }
-
-    .hero-h1-buttons {
-      display: flex;
-      gap: 16px;
+      gap: 20px;
+      justify-content: center;
       flex-wrap: wrap;
     }
 
-    .hero-h1 .hero-cta-primary {
+    .hero-h9 .btn-primary {
       background: var(--white);
-      color: var(--primary);
-      padding: 18px 36px;
+      color: var(--text);
+      padding: 18px 40px;
       border-radius: 0;
       font-weight: 700;
       font-size: 18px;
       text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .hero-h1 .hero-cta-primary:hover {
+    .hero-h9 .btn-primary:hover {
       transform: translateY(-3px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 
-    .hero-h1 .hero-cta-secondary {
+    .hero-h9 .btn-secondary {
       background: transparent;
       color: var(--white);
       border: 2px solid var(--white);
-      padding: 16px 32px;
+      padding: 16px 36px;
       border-radius: 0;
       font-weight: 600;
+      font-size: 18px;
       text-decoration: none;
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .hero-h1 .hero-cta-secondary:hover {
+    .hero-h9 .btn-secondary:hover {
       background: rgba(255,255,255,0.1);
-    }
-
-    .hero-h1 .trust-badges {
-      display: flex;
-      gap: 32px;
-      margin-top: 48px;
-      flex-wrap: wrap;
-    }
-
-    .hero-h1 .trust-badge {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 15px;
-      font-weight: 500;
-    }
-
-    .hero-h1 .trust-icon {
-      width: 36px;
-      height: 36px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .hero-h1-image {
-      background: rgba(255,255,255,0.1);
-      border-radius: 0;
-      height: 450px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 64px;
     }
 
     @media (max-width: 900px) {
-      .hero-h1-content { grid-template-columns: 1fr; }
-      .hero-h1 h1 { font-size: 40px; }
-      .hero-h1-image { display: none; }
-      .hero-h1 .trust-badges { justify-content: center; }
+      .hero-h9 { padding: 80px 0; }
+      .hero-h9 h1 { font-size: 44px; }
+      .hero-h9 .tagline { font-size: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-h9 h1 { font-size: 36px; }
     }
   
 
-    .services-l10 {
+    .services-l3 {
       padding: 80px 0;
-      background: var(--white);
     }
 
-    .services-l10-grid {
+    .services-bg-gray { background: var(--gray-50); }
+    .services-bg-white { background: var(--white); }
+    .services-bg-primary { background: var(--primary); color: var(--white); }
+
+    .services-l3-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-auto-rows: 200px;
-      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
     }
 
-    .services-l10-card {
-      background: var(--gray-50);
+    .services-l3-card {
+      background: var(--white);
       border-radius: 0;
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
+      padding: 32px;
       transition: all var(--transition-duration, 0.2s) ease;
+      box-shadow: 8px 8px 0 #000;
     }
 
-    .services-l10-card:hover {
+    .services-bg-gray .services-l3-card {
+      border: 1px solid var(--gray-200);
+    }
+
+    .services-l3-card:hover {
+      transform: var(--hover-transform, translateY(-4px));
+      box-shadow: var(--hover-shadow, 0 12px 40px rgba(0,0,0,0.1));
+    }
+
+    .services-l3-icon {
+      width: 56px;
+      height: 56px;
       background: var(--primary);
-      color: var(--white);
-    }
-
-    .services-l10-card:hover h3,
-    .services-l10-card:hover p {
-      color: inherit;
-    }
-
-    /* First card is large */
-    .services-l10-card:nth-child(1) {
-      grid-column: span 2;
-      grid-row: span 2;
-    }
-
-    /* Third card spans 2 columns */
-    .services-l10-card:nth-child(3) {
-      grid-column: span 2;
-    }
-
-    .services-l10-icon {
-      font-size: 32px;
-      margin-bottom: auto;
-    }
-
-    .services-l10-card h3 {
-      font-size: 18px;
-      margin-bottom: 8px;
-      color: var(--text);
-      margin-top: 16px;
-    }
-
-    .services-l10-card p {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    /* Large card gets bigger typography */
-    .services-l10-card:nth-child(1) h3 {
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
       font-size: 24px;
     }
 
-    .services-l10-card:nth-child(1) p {
-      font-size: 16px;
+    .services-l3-card h3 {
+      font-size: 20px;
+      margin-bottom: 12px;
+      color: var(--text);
     }
 
-    @media (max-width: 900px) {
-      .services-l10-grid {
-        grid-template-columns: repeat(2, 1fr);
-        grid-auto-rows: 180px;
-      }
-      .services-l10-card:nth-child(1) {
-        grid-column: span 2;
-        grid-row: span 1;
-      }
-      .services-l10-card:nth-child(3) {
-        grid-column: span 1;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .services-l10-grid {
-        grid-template-columns: 1fr;
-        grid-auto-rows: auto;
-      }
-      .services-l10-card:nth-child(1),
-      .services-l10-card:nth-child(3) {
-        grid-column: span 1;
-      }
+    .services-l3-card p {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
     }
   
 
@@ -746,59 +672,52 @@
     </header>
   
 
-    <section class="dna-slide-in hero-h1 dna-animate">
-      <div class="container hero-h1-content">
-        <div class="hero-text">
-          <h1>Lawyer Co</h1>
-          <p class="tagline">Trusted Lawyer services you can count on</p>
-          <div class="hero-h1-buttons">
-            <a href="tel:555-1234" class="hero-cta-primary">Call Now: 555-1234</a>
-            
-            
-          </div>
+    <section class="dna-slide-in hero-h9 dna-animate">
+      <div class="container">
+        <h1>Lawyer Co</h1>
+        <p class="tagline">Trusted Lawyer services you can count on</p>
+        <div class="hero-h9-buttons">
           
-        </div>
-        <div class="hero-h1-image">
-          📸
+          
         </div>
       </div>
     </section>
   
 
-    <section class="dna-slide-in" id="services" class="services-l10 dna-animate">
+    <section class="dna-slide-in" id="services" class="services-l3 services-bg-gray dna-animate">
       <div class="container">
         <div class="section-header">
           <h2>Practice Areas</h2>
           <p>How we can help you</p>
         </div>
-        <div class="services-l10-grid">
+        <div class="services-l3-grid">
           
-            <div class="services-l10-card">
-              <div class="services-l10-icon">
+            <div class="services-l3-card dna-card">
+              <div class="services-l3-icon">
                 📋
               </div>
               <h3>Consultations</h3>
               <p>Reliable consultations from experienced specialists.</p>
             </div>
           
-            <div class="services-l10-card">
-              <div class="services-l10-icon">
+            <div class="services-l3-card dna-card">
+              <div class="services-l3-icon">
                 ⭐
               </div>
               <h3>Case Evaluation</h3>
               <p>Reliable case evaluation from experienced specialists.</p>
             </div>
           
-            <div class="services-l10-card">
-              <div class="services-l10-icon">
+            <div class="services-l3-card dna-card">
+              <div class="services-l3-icon">
                 ⭐
               </div>
               <h3>Representation</h3>
               <p>Reliable representation from experienced specialists.</p>
             </div>
           
-            <div class="services-l10-card">
-              <div class="services-l10-icon">
+            <div class="services-l3-card dna-card">
+              <div class="services-l3-icon">
                 ⭐
               </div>
               <h3>Document Review</h3>

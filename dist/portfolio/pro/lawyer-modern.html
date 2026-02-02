@@ -135,68 +135,62 @@
     }
   
     
-    .nav-n9 {
+    .nav-n2 {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      padding: 24px 0;
+      padding: 20px 0;
       z-index: 100;
     }
 
-    .nav-n9-content {
+    .nav-n2-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .nav-n9-logo {
-      font-size: 22px;
+    .nav-n2-logo {
+      font-size: 24px;
       font-weight: 800;
-      color: var(--text);
+      color: var(--white);
       text-decoration: none;
     }
 
-    .nav-n9-right {
+    .nav-n2-links {
       display: flex;
-      align-items: center;
       gap: 32px;
     }
 
-    .nav-n9-links {
-      display: flex;
-      gap: 24px;
-    }
-
-    .nav-n9-links a {
-      color: var(--muted);
+    .nav-n2-links a {
+      color: rgba(255,255,255,0.9);
       text-decoration: none;
       font-weight: 500;
-      font-size: 14px;
+      font-size: 15px;
       transition: color var(--transition-duration, 0.2s) ease;
     }
 
-    .nav-n9-links a:hover {
-      color: var(--text);
+    .nav-n2-links a:hover {
+      color: var(--white);
     }
 
-    .nav-n9-cta {
-      background: var(--text);
-      color: var(--white);
-      padding: 10px 20px;
+    .nav-n2-cta {
+      background: var(--white);
+      color: var(--primary);
+      padding: 12px 24px;
       border-radius: 12px;
       text-decoration: none;
       font-weight: 600;
-      font-size: 14px;
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .nav-n9-cta:hover {
-      opacity: 0.9;
+    .nav-n2-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
-    @media (max-width: 768px) {
-      .nav-n9-links { display: none; }
+    @media (max-width: 900px) {
+      .nav-n2-links { display: none; }
     }
   
 
@@ -649,15 +643,13 @@
 </head>
 <body>
   
-    <header class="nav-n9">
-      <div class="container nav-n9-content">
-        <a href="#" class="nav-n9-logo">Lawyer Co</a>
-        <div class="nav-n9-right">
-          <nav class="nav-n9-links">
-            <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
-          </nav>
-          
-        </div>
+    <header class="nav-n2">
+      <div class="container nav-n2-content">
+        <a href="#" class="nav-n2-logo">Lawyer Co</a>
+        <nav class="nav-n2-links">
+          <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
+        </nav>
+        
       </div>
     </header>
   

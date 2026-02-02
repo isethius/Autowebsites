@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Accountant Co</title>
   <meta name="description" content="Reliable Accountant solutions for homes and businesses.">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     
     * {
@@ -135,62 +135,71 @@
     }
   
     
-    .nav-n1 {
-      background: var(--white);
-      padding: 16px 0;
-      border-bottom: 1px solid var(--gray-200);
-      position: sticky;
-      top: 0;
+    .nav-n7-wrapper {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 100;
+      width: 100%;
+      max-width: 900px;
+      padding: 0 20px;
     }
 
-    .nav-n1-content {
+    .nav-n7 {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 9999px;
+      padding: 12px 12px 12px 24px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .nav-n1-logo {
-      font-size: 24px;
+    .nav-n7-logo {
+      font-size: 20px;
       font-weight: 800;
       color: var(--primary);
       text-decoration: none;
     }
 
-    .nav-n1-links {
+    .nav-n7-links {
       display: flex;
-      gap: 32px;
+      gap: 24px;
     }
 
-    .nav-n1-links a {
+    .nav-n7-links a {
       color: var(--text);
       text-decoration: none;
       font-weight: 500;
-      font-size: 15px;
+      font-size: 14px;
       transition: color var(--transition-duration, 0.2s) ease;
     }
 
-    .nav-n1-links a:hover {
+    .nav-n7-links a:hover {
       color: var(--primary);
     }
 
-    .nav-n1-cta {
+    .nav-n7-cta {
       background: var(--primary);
       color: var(--white);
-      padding: 12px 24px;
-      border-radius: 16px;
+      padding: 10px 20px;
+      border-radius: 9999px;
       text-decoration: none;
       font-weight: 600;
+      font-size: 14px;
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .nav-n1-cta:hover {
+    .nav-n7-cta:hover {
       background: var(--secondary);
-      transform: translateY(-1px);
+      transform: scale(1.02);
     }
 
-    @media (max-width: 900px) {
-      .nav-n1-links { display: none; }
+    @media (max-width: 768px) {
+      .nav-n7-links { display: none; }
+      .nav-n7 { padding: 10px 10px 10px 20px; }
     }
   
 
@@ -230,7 +239,7 @@
       background: var(--primary);
       color: var(--white);
       padding: 14px 28px;
-      border-radius: 16px;
+      border-radius: 9999px;
       font-weight: 600;
       text-decoration: none;
       transition: all var(--transition-duration, 0.2s) ease;
@@ -240,7 +249,7 @@
       background: var(--white);
       color: var(--text);
       padding: 14px 28px;
-      border-radius: 16px;
+      border-radius: 9999px;
       font-weight: 600;
       text-decoration: none;
       border: 1px solid var(--gray-200);
@@ -253,67 +262,59 @@
     }
   
 
-    .services-l5 {
+    .services-l3 {
       padding: 80px 0;
+    }
+
+    .services-bg-gray { background: var(--gray-50); }
+    .services-bg-white { background: var(--white); }
+    .services-bg-primary { background: var(--primary); color: var(--white); }
+
+    .services-l3-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .services-l3-card {
       background: var(--white);
-    }
-
-    .services-l5-list {
-      max-width: 800px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    .services-l5-item {
-      display: flex;
-      gap: 24px;
+      border-radius: 9999px;
       padding: 32px;
-      background: var(--gray-50);
-      border-radius: 16px;
       transition: all var(--transition-duration, 0.2s) ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
-    .services-l5-item:hover {
-      background: var(--white);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    .services-bg-gray .services-l3-card {
+      border: 1px solid var(--gray-200);
     }
 
-    .services-l5-icon {
-      width: 64px;
-      height: 64px;
+    .services-l3-card:hover {
+      transform: var(--hover-transform, translateY(-4px));
+      box-shadow: var(--hover-shadow, 0 12px 40px rgba(0,0,0,0.1));
+    }
+
+    .services-l3-icon {
+      width: 56px;
+      height: 56px;
       background: var(--primary);
-      border-radius: 16px;
+      border-radius: 9999px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
-      flex-shrink: 0;
+      margin-bottom: 20px;
+      font-size: 24px;
     }
 
-    .services-l5-content {
-      flex: 1;
-    }
-
-    .services-l5-item h3 {
-      font-size: 22px;
-      margin-bottom: 8px;
+    .services-l3-card h3 {
+      font-size: 20px;
+      margin-bottom: 12px;
       color: var(--text);
     }
 
-    .services-l5-item p {
+    .services-l3-card p {
       color: var(--muted);
-      font-size: 16px;
+      font-size: 15px;
       line-height: 1.6;
-    }
-
-    @media (max-width: 640px) {
-      .services-l5-item {
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
-      }
     }
   
 
@@ -520,19 +521,146 @@
     }
   
 
+    footer {
+      background: var(--gray-800);
+      color: var(--white);
+      padding: 60px 0 30px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .footer-brand {
+      max-width: 350px;
+    }
+
+    .footer-brand h3 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .footer-brand p {
+      color: var(--gray-400);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .footer-license {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--gray-400);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 40px;
+    }
+
+    .footer-links a {
+      color: var(--gray-400);
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--white);
+    }
+
+    .footer-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-contact a {
+      color: var(--gray-400);
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+
+    .footer-contact a:hover {
+      color: var(--white);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      background: var(--gray-700);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: background 0.2s;
+    }
+
+    .footer-social a:hover {
+      background: var(--primary);
+    }
+
+    .footer-bottom {
+      padding-top: 30px;
+      border-top: 1px solid var(--gray-700);
+      display: flex;
+      justify-content: space-between;
+      color: var(--gray-400);
+      font-size: 13px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-bottom a {
+      color: var(--accent);
+    }
+
+    .footer-bottom a:hover {
+      color: var(--white);
+    }
+
+    @media (max-width: 768px) {
+      .footer-content {
+        flex-direction: column;
+      }
+
+      .footer-links {
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  
   </style>
 </head>
 <body>
   
-    <header class="nav-n1">
-      <div class="container nav-n1-content">
-        <a href="#" class="nav-n1-logo">Accountant Co</a>
-        <nav class="nav-n1-links">
+    <div class="nav-n7-wrapper">
+      <header class="nav-n7">
+        <a href="#" class="nav-n7-logo">Accountant Co</a>
+        <nav class="nav-n7-links">
           <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
         </nav>
         
-      </div>
-    </header>
+      </header>
+    </div>
   
 
     <section class="dna-fade-in hero-h3 dna-animate">
@@ -547,52 +675,44 @@
     </section>
   
 
-    <section class="dna-fade-in" id="services" class="services-l5 dna-animate">
+    <section class="dna-fade-in" id="services" class="services-l3 services-bg-gray dna-animate">
       <div class="container">
         <div class="section-header">
           <h2>Practice Areas</h2>
           <p>How we can help you</p>
         </div>
-        <div class="services-l5-list">
+        <div class="services-l3-grid">
           
-            <div class="services-l5-item">
-              <div class="services-l5-icon">
+            <div class="services-l3-card dna-card">
+              <div class="services-l3-icon">
                 ⭐
               </div>
-              <div class="services-l5-content">
-                <h3>Tax Preparation</h3>
-                <p>Reliable tax preparation from experienced specialists.</p>
-              </div>
+              <h3>Tax Preparation</h3>
+              <p>Reliable tax preparation from experienced specialists.</p>
             </div>
           
-            <div class="services-l5-item">
-              <div class="services-l5-icon">
+            <div class="services-l3-card dna-card">
+              <div class="services-l3-icon">
                 ⭐
               </div>
-              <div class="services-l5-content">
-                <h3>Bookkeeping</h3>
-                <p>Reliable bookkeeping from experienced specialists.</p>
-              </div>
+              <h3>Bookkeeping</h3>
+              <p>Reliable bookkeeping from experienced specialists.</p>
             </div>
           
-            <div class="services-l5-item">
-              <div class="services-l5-icon">
+            <div class="services-l3-card dna-card">
+              <div class="services-l3-icon">
                 ⭐
               </div>
-              <div class="services-l5-content">
-                <h3>Payroll</h3>
-                <p>Reliable payroll from experienced specialists.</p>
-              </div>
+              <h3>Payroll</h3>
+              <p>Reliable payroll from experienced specialists.</p>
             </div>
           
-            <div class="services-l5-item">
-              <div class="services-l5-icon">
+            <div class="services-l3-card dna-card">
+              <div class="services-l3-icon">
                 ⭐
               </div>
-              <div class="services-l5-content">
-                <h3>Financial Reporting</h3>
-                <p>Reliable financial reporting from experienced specialists.</p>
-              </div>
+              <h3>Financial Reporting</h3>
+              <p>Reliable financial reporting from experienced specialists.</p>
             </div>
           
         </div>
@@ -608,16 +728,51 @@
       </section>
     
 
-    <section class="dna-fade-in testimonials testimonials-white" style="padding: 60px 0;">
-      <div class="container-sm" style="text-align: center;">
-        <div class="testimonial-stars" style="font-size: 28px; margin-bottom: 24px;">
-          ★★★★★
+    <section class="dna-fade-in" id="testimonials" class="testimonials ">
+      <div class="container">
+        <div class="section-header">
+          <h2>Client Testimonials</h2>
+          <p>Real reviews from satisfied customers</p>
         </div>
-        <blockquote style="font-size: 24px; font-style: italic; color: var(--text); margin-bottom: 24px; line-height: 1.6;">
-          "Great service!"
-        </blockquote>
-        <div style="font-weight: 600; color: var(--primary);">— Customer</div>
-        
+        <div class="testimonials-grid">
+          
+            <div class="testimonial-card">
+              <div class="testimonial-stars">★★★★★</div>
+              <p class="testimonial-text">Excellent service! Professional and reliable.</p>
+              <div class="testimonial-author">
+                <div class="testimonial-avatar">LC</div>
+                <div class="testimonial-author-info">
+                  <div class="testimonial-author-name">Local Customer</div>
+                  
+                </div>
+              </div>
+            </div>
+          
+            <div class="testimonial-card">
+              <div class="testimonial-stars">★★★★★</div>
+              <p class="testimonial-text">Highly recommend. Great work and fair pricing.</p>
+              <div class="testimonial-author">
+                <div class="testimonial-avatar">HC</div>
+                <div class="testimonial-author-info">
+                  <div class="testimonial-author-name">Happy Client</div>
+                  
+                </div>
+              </div>
+            </div>
+          
+            <div class="testimonial-card">
+              <div class="testimonial-stars">★★★★★</div>
+              <p class="testimonial-text">The best in the business. Will use again!</p>
+              <div class="testimonial-author">
+                <div class="testimonial-avatar">SC</div>
+                <div class="testimonial-author-info">
+                  <div class="testimonial-author-name">Satisfied Customer</div>
+                  
+                </div>
+              </div>
+            </div>
+          
+        </div>
       </div>
     </section>
   
@@ -682,10 +837,31 @@
     </section>
   
 
-    <footer style="background: var(--gray-800); color: var(--gray-400); padding: 24px 0; text-align: center; font-size: 13px;">
+    <footer>
       <div class="container">
-        <span>&copy; 2026 Accountant Co. All rights reserved.</span>
-         · <a href="https://showcasedesigns.com" style="color: var(--accent);">Website by Showcase Designs</a>
+        <div class="footer-content">
+          <div class="footer-brand">
+            <h3>Accountant Co</h3>
+            <p>Your trusted local experts. Contact us today for professional service.</p>
+            
+            
+          </div>
+
+          <div class="footer-links">
+            <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
+          </div>
+
+          <div class="footer-contact">
+            <a href="tel:555-1234">📞 555-1234</a>
+            
+            
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>&copy; 2026 Accountant Co. All rights reserved.</span>
+          <span>Website by <a href="https://showcasedesigns.com">Showcase Designs</a></span>
+        </div>
       </div>
     </footer>
   

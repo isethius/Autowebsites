@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Realtor Co</title>
-  <meta name="description" content="Reliable Realtor solutions for homes and businesses.">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>Electrician Co</title>
+  <meta name="description" content="Reliable Electrician solutions for homes and businesses.">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     
     * {
@@ -15,12 +15,12 @@
     }
 
     :root {
-      --primary: #7c3bed;
-      --secondary: #c94bdd;
-      --accent: #465be2;
+      --primary: #f59f0a;
+      --secondary: #c7e21d;
+      --accent: #e83317;
       --background: #fafafa;
-      --text: #262528;
-      --muted: #726f76;
+      --text: #282725;
+      --muted: #76746f;
       --white: #ffffff;
       --black: #000000;
       --gray-50: #f9fafb;
@@ -135,127 +135,168 @@
     }
   
     
-    .nav-n9 {
+    .nav-n2 {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      padding: 24px 0;
+      padding: 20px 0;
       z-index: 100;
     }
 
-    .nav-n9-content {
+    .nav-n2-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .nav-n9-logo {
-      font-size: 22px;
+    .nav-n2-logo {
+      font-size: 24px;
       font-weight: 800;
-      color: var(--text);
+      color: var(--white);
       text-decoration: none;
     }
 
-    .nav-n9-right {
+    .nav-n2-links {
       display: flex;
-      align-items: center;
       gap: 32px;
     }
 
-    .nav-n9-links {
-      display: flex;
-      gap: 24px;
-    }
-
-    .nav-n9-links a {
-      color: var(--muted);
+    .nav-n2-links a {
+      color: rgba(255,255,255,0.9);
       text-decoration: none;
       font-weight: 500;
-      font-size: 14px;
+      font-size: 15px;
       transition: color var(--transition-duration, 0.2s) ease;
     }
 
-    .nav-n9-links a:hover {
-      color: var(--text);
+    .nav-n2-links a:hover {
+      color: var(--white);
     }
 
-    .nav-n9-cta {
-      background: var(--text);
-      color: var(--white);
-      padding: 10px 20px;
-      border-radius: 0;
+    .nav-n2-cta {
+      background: var(--white);
+      color: var(--primary);
+      padding: 12px 24px;
+      border-radius: 12px;
       text-decoration: none;
       font-weight: 600;
-      font-size: 14px;
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .nav-n9-cta:hover {
-      opacity: 0.9;
+    .nav-n2-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
-    @media (max-width: 768px) {
-      .nav-n9-links { display: none; }
+    @media (max-width: 900px) {
+      .nav-n2-links { display: none; }
     }
   
 
-    .hero-h3 {
-      background: var(--gray-50);
-      padding: 80px 0;
-      text-align: center;
+    .hero-h8 {
+      position: relative;
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
     }
 
-    .hero-h3 h1 {
-      font-size: 44px;
-      line-height: 1.2;
-      margin-bottom: 20px;
+    .hero-h8-bg {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 55%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .hero-h8-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 55% 45%;
+      align-items: center;
+    }
+
+    .hero-h8-text {
+      padding-right: 60px;
+    }
+
+    .hero-h8 h1 {
+      font-size: 52px;
+      line-height: 1.1;
+      margin-bottom: 24px;
       color: var(--text);
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
     }
 
-    .hero-h3 .tagline {
+    .hero-h8 .tagline {
       font-size: 20px;
       color: var(--muted);
-      margin-bottom: 32px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
+      margin-bottom: 36px;
+      line-height: 1.6;
     }
 
-    .hero-h3-buttons {
+    .hero-h8-buttons {
       display: flex;
       gap: 16px;
-      justify-content: center;
       flex-wrap: wrap;
     }
 
-    .hero-h3 .btn-primary {
+    .hero-h8 .btn-primary {
       background: var(--primary);
       color: var(--white);
-      padding: 14px 28px;
-      border-radius: 0;
+      padding: 16px 32px;
+      border-radius: 12px;
       font-weight: 600;
       text-decoration: none;
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .hero-h3 .btn-secondary {
-      background: var(--white);
-      color: var(--text);
+    .hero-h8 .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
       padding: 14px 28px;
-      border-radius: 0;
+      border-radius: 12px;
       font-weight: 600;
       text-decoration: none;
-      border: 1px solid var(--gray-200);
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    @media (max-width: 768px) {
-      .hero-h3 h1 { font-size: 32px; }
-      .hero-h3 .tagline { font-size: 18px; }
+    .hero-h8 .trust-badges {
+      display: flex;
+      gap: 24px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .hero-h8 .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .hero-h8-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-size: 80px;
+    }
+
+    @media (max-width: 900px) {
+      .hero-h8-bg { width: 100%; clip-path: none; opacity: 0.1; }
+      .hero-h8-content { grid-template-columns: 1fr; }
+      .hero-h8-text { padding: 0; text-align: center; }
+      .hero-h8-visual { display: none; }
+      .hero-h8 h1 { font-size: 36px; }
+      .hero-h8-buttons { justify-content: center; }
+      .hero-h8 .trust-badges { justify-content: center; }
     }
   
 
@@ -275,10 +316,10 @@
 
     .services-l3-card {
       background: var(--white);
-      border-radius: 0;
+      border-radius: 12px;
       padding: 32px;
       transition: all var(--transition-duration, 0.2s) ease;
-      box-shadow: none;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05);
     }
 
     .services-bg-gray .services-l3-card {
@@ -294,7 +335,7 @@
       width: 56px;
       height: 56px;
       background: var(--primary);
-      border-radius: 0;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -314,13 +355,6 @@
       line-height: 1.6;
     }
   
-
-      .section-placeholder {
-        padding: 60px 0;
-        background: var(--gray-50);
-        text-align: center;
-      }
-    
 
     .testimonials {
       padding: 80px 0;
@@ -649,69 +683,74 @@
 </head>
 <body>
   
-    <header class="nav-n9">
-      <div class="container nav-n9-content">
-        <a href="#" class="nav-n9-logo">Realtor Co</a>
-        <div class="nav-n9-right">
-          <nav class="nav-n9-links">
-            <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
-          </nav>
-          
-        </div>
+    <header class="nav-n2">
+      <div class="container nav-n2-content">
+        <a href="#" class="nav-n2-logo">Electrician Co</a>
+        <nav class="nav-n2-links">
+          <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
+        </nav>
+        
       </div>
     </header>
   
 
-    <section class="dna-fade-in hero-h3 dna-animate">
-      <div class="container">
-        <h1>Realtor Co</h1>
-        <p class="tagline">Trusted Realtor services you can count on</p>
-        <div class="hero-h3-buttons">
+    <section class="dna-slide-in hero-h8 dna-animate">
+      <div class="hero-h8-bg"></div>
+      <div class="container hero-h8-content">
+        <div class="hero-h8-text">
+          <h1>Electrician Co</h1>
+          <p class="tagline">Trusted Electrician services you can count on</p>
+          <div class="hero-h8-buttons">
+            
+            
+          </div>
           
-          
+        </div>
+        <div class="hero-h8-visual">
+          📸
         </div>
       </div>
     </section>
   
 
-    <section class="dna-fade-in" id="services" class="services-l3 services-bg-gray dna-animate">
+    <section class="dna-slide-in" id="services" class="services-l3 services-bg-gray dna-animate">
       <div class="container">
         <div class="section-header">
-          <h2>Practice Areas</h2>
-          <p>How we can help you</p>
+          <h2>Our Services</h2>
+          <p>Professional solutions for your home</p>
         </div>
         <div class="services-l3-grid">
           
             <div class="services-l3-card dna-card">
               <div class="services-l3-icon">
-                ⭐
+                📋
               </div>
-              <h3>Buyer Representation</h3>
-              <p>Reliable buyer representation from experienced specialists.</p>
+              <h3>Panel Upgrades</h3>
+              <p>Reliable panel upgrades from experienced specialists.</p>
+            </div>
+          
+            <div class="services-l3-card dna-card">
+              <div class="services-l3-icon">
+                ⚙️
+              </div>
+              <h3>Lighting Installation</h3>
+              <p>Reliable lighting installation from experienced specialists.</p>
+            </div>
+          
+            <div class="services-l3-card dna-card">
+              <div class="services-l3-icon">
+                💨
+              </div>
+              <h3>Wiring Repairs</h3>
+              <p>Reliable wiring repairs from experienced specialists.</p>
             </div>
           
             <div class="services-l3-card dna-card">
               <div class="services-l3-icon">
                 ⭐
               </div>
-              <h3>Listing Services</h3>
-              <p>Reliable listing services from experienced specialists.</p>
-            </div>
-          
-            <div class="services-l3-card dna-card">
-              <div class="services-l3-icon">
-                ⭐
-              </div>
-              <h3>Market Analysis</h3>
-              <p>Reliable market analysis from experienced specialists.</p>
-            </div>
-          
-            <div class="services-l3-card dna-card">
-              <div class="services-l3-icon">
-                ⭐
-              </div>
-              <h3>Negotiation</h3>
-              <p>Reliable negotiation from experienced specialists.</p>
+              <h3>Safety Inspections</h3>
+              <p>Reliable safety inspections from experienced specialists.</p>
             </div>
           
         </div>
@@ -719,18 +758,10 @@
     </section>
   
 
-      <section id="about" class="section-placeholder">
-        <div class="container">
-          <h2>About</h2>
-          <p>Section: about</p>
-        </div>
-      </section>
-    
-
-    <section class="dna-fade-in" id="testimonials" class="testimonials ">
+    <section class="dna-slide-in" id="testimonials" class="testimonials ">
       <div class="container">
         <div class="section-header">
-          <h2>Client Testimonials</h2>
+          <h2>What Our Customers Say</h2>
           <p>Real reviews from satisfied customers</p>
         </div>
         <div class="testimonials-grid">
@@ -776,10 +807,10 @@
     </section>
   
 
-      <section id="cta" class="section-placeholder">
+      <section id="about" class="section-placeholder">
         <div class="container">
-          <h2>Ready to Get Started?</h2>
-          <p>Section: cta</p>
+          <h2>About Us</h2>
+          <p>Section: about</p>
         </div>
       </section>
     
@@ -787,7 +818,7 @@
     <section id="contact" class="contact">
       <div class="container contact-content">
         <div class="contact-info">
-          <h2>Schedule a Consultation</h2>
+          <h2>Contact Us</h2>
           <p>We&#039;d love to hear from you. Reach out today!</p>
           <div class="contact-details">
             
@@ -840,7 +871,7 @@
       <div class="container">
         <div class="footer-content">
           <div class="footer-brand">
-            <h3>Realtor Co</h3>
+            <h3>Electrician Co</h3>
             <p>Your trusted local experts. Contact us today for professional service.</p>
             
             
@@ -858,12 +889,29 @@
         </div>
 
         <div class="footer-bottom">
-          <span>&copy; 2026 Realtor Co. All rights reserved.</span>
+          <span>&copy; 2026 Electrician Co. All rights reserved.</span>
           <span>Website by <a href="https://showcasedesigns.com">Showcase Designs</a></span>
         </div>
       </div>
     </footer>
   
   
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script>
+    // Lenis Smooth Scroll - Smooth Feel
+    const lenis = new Lenis({
+      duration: 1.0,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      smoothWheel: true,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+  </script>
 </body>
 </html>
