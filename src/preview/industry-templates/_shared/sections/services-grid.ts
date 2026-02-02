@@ -1,10 +1,11 @@
 /**
  * Services Grid Section
  *
- * Reusable service/feature grid builders.
+ * DNA-aware service/feature grid builders with multiple layout options.
  */
 
-import { ServiceItem } from '../types';
+import { ServiceItem, SectionOutput } from '../types';
+import { DNACode, DESIGN_VARIANTS } from '../../../../themes/variance-planner';
 import { escapeHtml } from '../utils';
 
 export interface ServicesConfig {
@@ -16,6 +17,12 @@ export interface ServicesConfig {
   sectionId?: string;
   background?: 'white' | 'gray' | 'primary';
 }
+
+export interface DNAServicesConfig extends ServicesConfig {
+  dna: DNACode;
+}
+
+export { SectionOutput };
 
 /**
  * Generate services grid CSS
@@ -255,4 +262,479 @@ export function generateServicesBar(services: ServiceItem[]): string {
       `).join('')}
     </div>
   `;
+}
+
+// =============================================================================
+// DNA-AWARE SERVICES GENERATOR
+// =============================================================================
+
+/**
+ * Generate services section based on DNA layout code
+ * L3 = Card Grid, L5 = Single Column, L9 = Timeline, L10 = Bento Box
+ */
+export function generateDNAServices(config: DNAServicesConfig): SectionOutput {
+  const { dna } = config;
+  const layoutCode = dna.layout || 'L3';
+
+  switch (layoutCode) {
+    case 'L3':
+      return generateServicesL3Cards(config);
+    case 'L5':
+      return generateServicesL5SingleColumn(config);
+    case 'L9':
+      return generateServicesL9Timeline(config);
+    case 'L10':
+      return generateServicesL10Bento(config);
+    default:
+      return generateServicesL3Cards(config);
+  }
+}
+
+/**
+ * L3: Card Grid - Uniform card-based layout
+ */
+function generateServicesL3Cards(config: DNAServicesConfig): SectionOutput {
+  const {
+    title = 'Our Services',
+    subtitle = 'Professional solutions for all your needs',
+    services,
+    dna,
+    sectionId = 'services',
+    background = 'gray',
+  } = config;
+  const design = DESIGN_VARIANTS[dna.design] || DESIGN_VARIANTS.D1;
+
+  const bgClass = background === 'white' ? 'services-bg-white' :
+                  background === 'primary' ? 'services-bg-primary' : 'services-bg-gray';
+
+  const css = `
+    .services-l3 {
+      padding: 80px 0;
+    }
+
+    .services-bg-gray { background: var(--gray-50); }
+    .services-bg-white { background: var(--white); }
+    .services-bg-primary { background: var(--primary); color: var(--white); }
+
+    .services-l3-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .services-l3-card {
+      background: var(--white);
+      border-radius: ${design.borderRadius};
+      padding: 32px;
+      transition: all var(--transition-duration, 0.2s) ease;
+      box-shadow: ${design.shadow};
+    }
+
+    .services-bg-gray .services-l3-card {
+      border: 1px solid var(--gray-200);
+    }
+
+    .services-l3-card:hover {
+      transform: var(--hover-transform, translateY(-4px));
+      box-shadow: var(--hover-shadow, 0 12px 40px rgba(0,0,0,0.1));
+    }
+
+    .services-l3-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--primary);
+      border-radius: ${design.borderRadius};
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .services-l3-card h3 {
+      font-size: 20px;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .services-l3-card p {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+  `;
+
+  const html = `
+    <section id="${sectionId}" class="services-l3 ${bgClass} dna-animate">
+      <div class="container">
+        <div class="section-header">
+          <h2>${escapeHtml(title)}</h2>
+          <p>${escapeHtml(subtitle)}</p>
+        </div>
+        <div class="services-l3-grid">
+          ${services.map(service => `
+            <div class="services-l3-card dna-card">
+              <div class="services-l3-icon">
+                ${service.icon || getServiceIcon(service.name)}
+              </div>
+              <h3>${escapeHtml(service.name)}</h3>
+              <p>${escapeHtml(service.description)}</p>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </section>
+  `;
+
+  return { html, css };
+}
+
+/**
+ * L5: Single Column - Clean single-column flow
+ */
+function generateServicesL5SingleColumn(config: DNAServicesConfig): SectionOutput {
+  const {
+    title = 'Our Services',
+    subtitle = 'Professional solutions for all your needs',
+    services,
+    dna,
+    sectionId = 'services',
+  } = config;
+  const design = DESIGN_VARIANTS[dna.design] || DESIGN_VARIANTS.D1;
+
+  const css = `
+    .services-l5 {
+      padding: 80px 0;
+      background: var(--white);
+    }
+
+    .services-l5-list {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .services-l5-item {
+      display: flex;
+      gap: 24px;
+      padding: 32px;
+      background: var(--gray-50);
+      border-radius: ${design.borderRadius};
+      transition: all var(--transition-duration, 0.2s) ease;
+    }
+
+    .services-l5-item:hover {
+      background: var(--white);
+      box-shadow: ${design.shadow};
+    }
+
+    .services-l5-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--primary);
+      border-radius: ${design.borderRadius};
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    .services-l5-content {
+      flex: 1;
+    }
+
+    .services-l5-item h3 {
+      font-size: 22px;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .services-l5-item p {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 640px) {
+      .services-l5-item {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+      }
+    }
+  `;
+
+  const html = `
+    <section id="${sectionId}" class="services-l5 dna-animate">
+      <div class="container">
+        <div class="section-header">
+          <h2>${escapeHtml(title)}</h2>
+          <p>${escapeHtml(subtitle)}</p>
+        </div>
+        <div class="services-l5-list">
+          ${services.map(service => `
+            <div class="services-l5-item">
+              <div class="services-l5-icon">
+                ${service.icon || getServiceIcon(service.name)}
+              </div>
+              <div class="services-l5-content">
+                <h3>${escapeHtml(service.name)}</h3>
+                <p>${escapeHtml(service.description)}</p>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </section>
+  `;
+
+  return { html, css };
+}
+
+/**
+ * L9: Timeline - Vertical timeline layout
+ */
+function generateServicesL9Timeline(config: DNAServicesConfig): SectionOutput {
+  const {
+    title = 'Our Services',
+    subtitle = 'Professional solutions for all your needs',
+    services,
+    dna,
+    sectionId = 'services',
+  } = config;
+  const design = DESIGN_VARIANTS[dna.design] || DESIGN_VARIANTS.D1;
+
+  const css = `
+    .services-l9 {
+      padding: 80px 0;
+      background: var(--gray-50);
+    }
+
+    .services-l9-timeline {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .services-l9-timeline::before {
+      content: '';
+      position: absolute;
+      left: 32px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--primary);
+      opacity: 0.3;
+    }
+
+    .services-l9-item {
+      display: flex;
+      gap: 32px;
+      padding: 24px 0;
+      position: relative;
+    }
+
+    .services-l9-marker {
+      width: 64px;
+      height: 64px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .services-l9-content {
+      flex: 1;
+      background: var(--white);
+      border-radius: ${design.borderRadius};
+      padding: 24px;
+      box-shadow: ${design.shadow};
+    }
+
+    .services-l9-item h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .services-l9-item p {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 640px) {
+      .services-l9-timeline::before { left: 20px; }
+      .services-l9-marker { width: 40px; height: 40px; font-size: 16px; }
+      .services-l9-item { gap: 16px; }
+    }
+  `;
+
+  const html = `
+    <section id="${sectionId}" class="services-l9 dna-animate">
+      <div class="container">
+        <div class="section-header">
+          <h2>${escapeHtml(title)}</h2>
+          <p>${escapeHtml(subtitle)}</p>
+        </div>
+        <div class="services-l9-timeline">
+          ${services.map(service => `
+            <div class="services-l9-item">
+              <div class="services-l9-marker">
+                ${service.icon || getServiceIcon(service.name)}
+              </div>
+              <div class="services-l9-content dna-card">
+                <h3>${escapeHtml(service.name)}</h3>
+                <p>${escapeHtml(service.description)}</p>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </section>
+  `;
+
+  return { html, css };
+}
+
+/**
+ * L10: Bento Box - Mixed-size tile grid
+ */
+function generateServicesL10Bento(config: DNAServicesConfig): SectionOutput {
+  const {
+    title = 'Our Services',
+    subtitle = 'Professional solutions for all your needs',
+    services,
+    dna,
+    sectionId = 'services',
+  } = config;
+  const design = DESIGN_VARIANTS[dna.design] || DESIGN_VARIANTS.D1;
+
+  const css = `
+    .services-l10 {
+      padding: 80px 0;
+      background: var(--white);
+    }
+
+    .services-l10-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 200px;
+      gap: 16px;
+    }
+
+    .services-l10-card {
+      background: var(--gray-50);
+      border-radius: ${design.borderRadius};
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      transition: all var(--transition-duration, 0.2s) ease;
+    }
+
+    .services-l10-card:hover {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .services-l10-card:hover h3,
+    .services-l10-card:hover p {
+      color: inherit;
+    }
+
+    /* First card is large */
+    .services-l10-card:nth-child(1) {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    /* Third card spans 2 columns */
+    .services-l10-card:nth-child(3) {
+      grid-column: span 2;
+    }
+
+    .services-l10-icon {
+      font-size: 32px;
+      margin-bottom: auto;
+    }
+
+    .services-l10-card h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: var(--text);
+      margin-top: 16px;
+    }
+
+    .services-l10-card p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* Large card gets bigger typography */
+    .services-l10-card:nth-child(1) h3 {
+      font-size: 24px;
+    }
+
+    .services-l10-card:nth-child(1) p {
+      font-size: 16px;
+    }
+
+    @media (max-width: 900px) {
+      .services-l10-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 180px;
+      }
+      .services-l10-card:nth-child(1) {
+        grid-column: span 2;
+        grid-row: span 1;
+      }
+      .services-l10-card:nth-child(3) {
+        grid-column: span 1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .services-l10-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+      }
+      .services-l10-card:nth-child(1),
+      .services-l10-card:nth-child(3) {
+        grid-column: span 1;
+      }
+    }
+  `;
+
+  const html = `
+    <section id="${sectionId}" class="services-l10 dna-animate">
+      <div class="container">
+        <div class="section-header">
+          <h2>${escapeHtml(title)}</h2>
+          <p>${escapeHtml(subtitle)}</p>
+        </div>
+        <div class="services-l10-grid">
+          ${services.map(service => `
+            <div class="services-l10-card">
+              <div class="services-l10-icon">
+                ${service.icon || getServiceIcon(service.name)}
+              </div>
+              <h3>${escapeHtml(service.name)}</h3>
+              <p>${escapeHtml(service.description)}</p>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </section>
+  `;
+
+  return { html, css };
 }

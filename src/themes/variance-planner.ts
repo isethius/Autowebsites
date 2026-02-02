@@ -10,11 +10,19 @@
  */
 
 export interface DNACode {
-  hero: string;      // H1-H12
-  layout: string;    // L1-L12
-  color: string;     // C1-C12
-  nav: string;       // N1-N9
-  design: string;    // D1-D12
+  hero: string;        // H1-H12
+  layout: string;      // L1-L12
+  color: string;       // C1-C12
+  nav: string;         // N1-N9
+  design: string;      // D1-D12
+  typography?: string; // T1-T4
+  motion?: string;     // M1-M3
+  // New Awwwards-level genes
+  texture?: string;    // X1-X4: grain, mesh-gradient, dots, clean
+  radius?: string;     // R1-R4: sharp, smooth, playful, pill
+  border?: string;     // B1-B4: none, thin, thick-brutalist, double-offset
+  hover?: string;      // V1-V4: lift, glow, skew, cursor-follow
+  chaos?: number;      // 0-1: controls asymmetry and randomness
 }
 
 export interface ThemeVariance {
@@ -101,19 +109,83 @@ export const DESIGN_VARIANTS: Record<string, { name: string; borderRadius: strin
   D12: { name: 'Retro Pixel', borderRadius: '0', shadow: '4px 4px 0 #000', style: 'retro' }
 };
 
+// Typography variants
+export const TYPOGRAPHY_VARIANTS: Record<string, { name: string; headingFont: string; bodyFont: string; style: string; headingWeight: string; letterSpacing: string }> = {
+  T1: { name: 'Modern Sans', headingFont: 'Inter', bodyFont: 'Inter', style: 'modern', headingWeight: '800', letterSpacing: '-0.02em' },
+  T2: { name: 'Elegant Serif', headingFont: 'Playfair Display', bodyFont: 'Source Sans Pro', style: 'elegant', headingWeight: '700', letterSpacing: '0' },
+  T3: { name: 'Brutalist Mono', headingFont: 'Space Mono', bodyFont: 'IBM Plex Sans', style: 'brutalist', headingWeight: '700', letterSpacing: '0.05em' },
+  T4: { name: 'Playful Rounded', headingFont: 'Nunito', bodyFont: 'Nunito', style: 'playful', headingWeight: '800', letterSpacing: '0' },
+};
+
+// Motion/animation variants
+export const MOTION_VARIANTS: Record<string, { name: string; entrance: string; hover: string; intensity: string; duration: string }> = {
+  M1: { name: 'Subtle', entrance: 'fade', hover: 'lift', intensity: 'subtle', duration: '0.2s' },
+  M2: { name: 'Dynamic', entrance: 'slide', hover: 'lift', intensity: 'moderate', duration: '0.3s' },
+  M3: { name: 'Dramatic', entrance: 'scale', hover: 'glow', intensity: 'dramatic', duration: '0.4s' },
+};
+
+// =============================================================================
+// AWWWARDS-LEVEL DNA TOKENS
+// =============================================================================
+
+// Texture variants - background textures for premium feel
+export const TEXTURE_VARIANTS: Record<string, { name: string; type: string; intensity: number; description: string }> = {
+  X1: { name: 'Film Grain', type: 'grain', intensity: 0.15, description: 'Subtle film grain overlay for organic feel' },
+  X2: { name: 'Mesh Gradient', type: 'mesh-gradient', intensity: 0.8, description: 'Smooth multi-color gradient blobs' },
+  X3: { name: 'Dot Pattern', type: 'dots', intensity: 0.1, description: 'Subtle halftone dot pattern' },
+  X4: { name: 'Clean', type: 'clean', intensity: 0, description: 'No texture, pure solid colors' },
+};
+
+// Radius variants - border radius presets
+export const RADIUS_VARIANTS: Record<string, { name: string; value: string; multiplier: number; description: string }> = {
+  R1: { name: 'Sharp', value: '0px', multiplier: 0, description: 'No border radius, sharp corners' },
+  R2: { name: 'Smooth', value: '8px', multiplier: 1, description: 'Standard smooth corners' },
+  R3: { name: 'Playful', value: '24px', multiplier: 3, description: 'Extra rounded, friendly feel' },
+  R4: { name: 'Pill', value: '9999px', multiplier: 999, description: 'Fully rounded pill shape' },
+};
+
+// Border variants - border styles for cards and elements
+export const BORDER_VARIANTS: Record<string, { name: string; style: string; width: string; description: string }> = {
+  B1: { name: 'None', style: 'none', width: '0', description: 'No border' },
+  B2: { name: 'Subtle', style: 'solid', width: '1px', description: 'Thin subtle border' },
+  B3: { name: 'Brutalist', style: 'solid', width: '3px', description: 'Thick bold border for brutalist style' },
+  B4: { name: 'Double Offset', style: 'double-offset', width: '2px', description: 'Double border with offset shadow' },
+};
+
+// Hover variants - interaction styles
+export const HOVER_VARIANTS: Record<string, { name: string; transform: string; effect: string; description: string }> = {
+  V1: { name: 'Lift', transform: 'translateY(-4px)', effect: 'shadow', description: 'Subtle lift with shadow' },
+  V2: { name: 'Glow', transform: 'translateY(-2px)', effect: 'glow', description: 'Glow effect on hover' },
+  V3: { name: 'Skew', transform: 'skewY(-2deg)', effect: 'none', description: 'Playful skew transform' },
+  V4: { name: 'Scale', transform: 'scale(1.02)', effect: 'none', description: 'Subtle scale up' },
+};
+
 export function generateDNACode(): DNACode {
   const heroKeys = Object.keys(HERO_VARIANTS);
   const layoutKeys = Object.keys(LAYOUT_VARIANTS);
   const colorKeys = Object.keys(COLOR_VARIANTS);
   const navKeys = Object.keys(NAV_VARIANTS);
   const designKeys = Object.keys(DESIGN_VARIANTS);
+  const typographyKeys = Object.keys(TYPOGRAPHY_VARIANTS);
+  const motionKeys = Object.keys(MOTION_VARIANTS);
+  const textureKeys = Object.keys(TEXTURE_VARIANTS);
+  const radiusKeys = Object.keys(RADIUS_VARIANTS);
+  const borderKeys = Object.keys(BORDER_VARIANTS);
+  const hoverKeys = Object.keys(HOVER_VARIANTS);
 
   return {
     hero: heroKeys[Math.floor(Math.random() * heroKeys.length)],
     layout: layoutKeys[Math.floor(Math.random() * layoutKeys.length)],
     color: colorKeys[Math.floor(Math.random() * colorKeys.length)],
     nav: navKeys[Math.floor(Math.random() * navKeys.length)],
-    design: designKeys[Math.floor(Math.random() * designKeys.length)]
+    design: designKeys[Math.floor(Math.random() * designKeys.length)],
+    typography: typographyKeys[Math.floor(Math.random() * typographyKeys.length)],
+    motion: motionKeys[Math.floor(Math.random() * motionKeys.length)],
+    texture: textureKeys[Math.floor(Math.random() * textureKeys.length)],
+    radius: radiusKeys[Math.floor(Math.random() * radiusKeys.length)],
+    border: borderKeys[Math.floor(Math.random() * borderKeys.length)],
+    hover: hoverKeys[Math.floor(Math.random() * hoverKeys.length)],
+    chaos: Math.random(),
   };
 }
 
@@ -129,7 +201,7 @@ export function generateUniqueVariances(count: number = 10): ThemeVariance[] {
 
   while (variances.length < count) {
     const dna = generateDNACode();
-    const comboKey = `${dna.hero}-${dna.layout}-${dna.color}-${dna.nav}-${dna.design}`;
+    const comboKey = `${dna.hero}-${dna.layout}-${dna.color}-${dna.nav}-${dna.design}-${dna.typography}-${dna.motion}`;
 
     if (!usedCombos.has(comboKey)) {
       usedCombos.add(comboKey);
@@ -139,12 +211,17 @@ export function generateUniqueVariances(count: number = 10): ThemeVariance[] {
       const colorInfo = COLOR_VARIANTS[dna.color];
       const navInfo = NAV_VARIANTS[dna.nav];
       const designInfo = DESIGN_VARIANTS[dna.design];
+      const typographyInfo = dna.typography ? TYPOGRAPHY_VARIANTS[dna.typography] : null;
+      const motionInfo = dna.motion ? MOTION_VARIANTS[dna.motion] : null;
+
+      const typographyDesc = typographyInfo ? `, ${typographyInfo.name} typography` : '';
+      const motionDesc = motionInfo ? `, ${motionInfo.name} motion` : '';
 
       variances.push({
         id: `theme-${variances.length + 1}`,
         name: themeNames[variances.length] || `Theme ${variances.length + 1}`,
         dna,
-        description: `${heroInfo.name} hero with ${layoutInfo.name} layout, ${colorInfo.name} colors, ${navInfo.name} nav, and ${designInfo.name} design`
+        description: `${heroInfo.name} hero with ${layoutInfo.name} layout, ${colorInfo.name} colors, ${navInfo.name} nav, and ${designInfo.name} design${typographyDesc}${motionDesc}`
       });
     }
   }
@@ -158,8 +235,15 @@ export function getDNADescription(dna: DNACode): string {
   const color = COLOR_VARIANTS[dna.color]?.name || dna.color;
   const nav = NAV_VARIANTS[dna.nav]?.name || dna.nav;
   const design = DESIGN_VARIANTS[dna.design]?.name || dna.design;
+  const typography = dna.typography ? (TYPOGRAPHY_VARIANTS[dna.typography]?.name || dna.typography) : 'Default';
+  const motion = dna.motion ? (MOTION_VARIANTS[dna.motion]?.name || dna.motion) : 'Default';
+  const texture = dna.texture ? (TEXTURE_VARIANTS[dna.texture]?.name || dna.texture) : 'Clean';
+  const radius = dna.radius ? (RADIUS_VARIANTS[dna.radius]?.name || dna.radius) : 'Smooth';
+  const border = dna.border ? (BORDER_VARIANTS[dna.border]?.name || dna.border) : 'None';
+  const hover = dna.hover ? (HOVER_VARIANTS[dna.hover]?.name || dna.hover) : 'Lift';
+  const chaos = dna.chaos !== undefined ? `Chaos: ${Math.round(dna.chaos * 100)}%` : '';
 
-  return `${hero} | ${layout} | ${color} | ${nav} | ${design}`;
+  return `${hero} | ${layout} | ${color} | ${nav} | ${design} | ${typography} | ${motion} | ${texture} | ${radius} | ${border} | ${hover}${chaos ? ` | ${chaos}` : ''}`;
 }
 
 // CLI entry point
@@ -169,7 +253,7 @@ if (require.main === module) {
 
   for (const v of variances) {
     console.log(`${v.id}: ${v.name}`);
-    console.log(`  DNA: ${v.dna.hero}-${v.dna.layout}-${v.dna.color}-${v.dna.nav}-${v.dna.design}`);
+    console.log(`  DNA: ${v.dna.hero}-${v.dna.layout}-${v.dna.color}-${v.dna.nav}-${v.dna.design}-${v.dna.typography || 'T1'}-${v.dna.motion || 'M1'}`);
     console.log(`  ${v.description}\n`);
   }
 }

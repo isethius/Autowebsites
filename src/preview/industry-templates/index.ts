@@ -3,10 +3,28 @@
  *
  * Industry-specific website templates with tailored layouts,
  * content structures, and color palettes.
+ *
+ * Now with DNA-aware template generation for "Awwwards" quality variety.
  */
 
 import { IndustryType } from '../../ai/industry-templates';
-import { ColorPalette, IndustryTemplateConfig } from '../../overnight/types';
+import { ColorPalette, IndustryTemplateConfig, PreviewContent } from '../../overnight/types';
+import { DNACode, generateDNACode } from '../../themes/variance-planner';
+import {
+  buildWebsite as buildGenerativeWebsite,
+  registerExistingSections,
+  type SiteContent,
+  type BuildOptions,
+} from '../../themes/engine';
+
+// Feature flag for generative architecture
+export const USE_GENERATIVE_ARCHITECTURE = false;
+
+// Auto-register existing sections with the registry
+registerExistingSections();
+
+// Import DNA-aware templates
+import { generatePlumberTemplate, PlumberTemplateInput } from './plumber/template';
 
 // Import palettes from new templates
 import { RESTAURANT_PALETTES } from './restaurant/template';
@@ -473,3 +491,280 @@ export function getTemplatesByCategory(category: 'service' | 'professional' | 'h
 
   return categories[category] || [];
 }
+
+// =============================================================================
+// DNA-AWARE TEMPLATE FACTORY
+// =============================================================================
+
+/**
+ * Input for DNA-aware template generation
+ */
+export interface DNATemplateFactoryInput {
+  businessName: string;
+  content: PreviewContent;
+  palette: ColorPalette;
+  phone?: string;
+  email?: string;
+  city?: string;
+  state?: string;
+  dna?: DNACode;
+  // Template-specific options
+  serviceAreas?: string[];
+  licenseNumber?: string;
+  yearsInBusiness?: number;
+}
+
+/**
+ * Output from design variation generation
+ */
+export interface DesignVariation {
+  dna: DNACode;
+  html: string;
+  description: string;
+}
+
+/**
+ * Generate an industry template with optional DNA codes
+ *
+ * @param templateKey - The template identifier (e.g., 'plumber', 'dentist')
+ * @param input - Template input including content, palette, and optional DNA
+ * @returns Generated HTML string
+ *
+ * @example
+ * ```typescript
+ * const html = generateIndustryTemplate('plumber', {
+ *   businessName: 'Quick Fix Plumbing',
+ *   content: { headline: '...', ... },
+ *   palette: PLUMBER_PALETTES[0],
+ *   phone: '555-1234',
+ *   dna: { hero: 'H9', layout: 'L5', color: 'C1', nav: 'N7', design: 'D7', typography: 'T3', motion: 'M2' }
+ * });
+ * ```
+ */
+export function generateIndustryTemplate(templateKey: string, input: DNATemplateFactoryInput): string {
+  switch (templateKey) {
+    case 'plumber':
+      return generatePlumberTemplate({
+        businessName: input.businessName,
+        content: input.content,
+        palette: input.palette,
+        phone: input.phone,
+        email: input.email,
+        city: input.city,
+        state: input.state,
+        serviceAreas: input.serviceAreas,
+        licenseNumber: input.licenseNumber,
+        yearsInBusiness: input.yearsInBusiness,
+        dna: input.dna,
+      });
+
+    // TODO: Add more DNA-aware templates as they're migrated
+    // case 'dentist':
+    //   return generateDentistTemplate({ ...input });
+    // case 'lawyer':
+    //   return generateLawyerTemplate({ ...input });
+
+    default:
+      // Fall back to plumber template for now
+      console.warn(`Template '${templateKey}' not yet DNA-aware, using plumber template`);
+      return generatePlumberTemplate({
+        businessName: input.businessName,
+        content: input.content,
+        palette: input.palette,
+        phone: input.phone,
+        email: input.email,
+        city: input.city,
+        state: input.state,
+        dna: input.dna,
+      });
+  }
+}
+
+/**
+ * Generate multiple visually distinct design variations for a template
+ *
+ * This is perfect for A/B testing or showing clients multiple options.
+ * Each variation uses different DNA codes while keeping the same content.
+ *
+ * @param templateKey - The template identifier
+ * @param input - Base template input (DNA will be auto-generated)
+ * @param count - Number of variations to generate (default: 3)
+ * @returns Array of design variations with DNA codes and HTML
+ *
+ * @example
+ * ```typescript
+ * const variations = generateDesignVariations('plumber', {
+ *   businessName: 'Quick Fix Plumbing',
+ *   content: { ... },
+ *   palette: PLUMBER_PALETTES[0],
+ * }, 3);
+ *
+ * // Each variation is visually distinct:
+ * // - variations[0]: H1/L3/D1 (Modern Clean)
+ * // - variations[1]: H9/L5/D7 (Brutalist)
+ * // - variations[2]: H2/L10/D6 (Elegant Bento)
+ * ```
+ */
+export function generateDesignVariations(
+  templateKey: string,
+  input: Omit<DNATemplateFactoryInput, 'dna'>,
+  count: number = 3
+): DesignVariation[] {
+  const variations: DesignVariation[] = [];
+  const usedCombos = new Set<string>();
+
+  // Pre-defined high-impact combinations for guaranteed variety
+  const curatedCombos: Partial<DNACode>[] = [
+    { hero: 'H1', layout: 'L3', design: 'D1', nav: 'N1', typography: 'T1', motion: 'M1' }, // Modern Clean
+    { hero: 'H9', layout: 'L5', design: 'D7', nav: 'N1', typography: 'T3', motion: 'M2' }, // Brutalist
+    { hero: 'H2', layout: 'L10', design: 'D6', nav: 'N7', typography: 'T2', motion: 'M2' }, // Elegant Bento
+    { hero: 'H8', layout: 'L9', design: 'D4', nav: 'N9', typography: 'T1', motion: 'M1' }, // Asymmetric Timeline
+    { hero: 'H12', layout: 'L3', design: 'D8', nav: 'N2', typography: 'T4', motion: 'M3' }, // Geometric Playful
+    { hero: 'H3', layout: 'L5', design: 'D11', nav: 'N1', typography: 'T2', motion: 'M1' }, // Minimal Elegant
+  ];
+
+  const styleNames = [
+    'Modern Clean',
+    'Bold Brutalist',
+    'Elegant Bento',
+    'Asymmetric Timeline',
+    'Geometric Playful',
+    'Minimal Elegant',
+  ];
+
+  for (let i = 0; i < count; i++) {
+    let dna: DNACode;
+    let description: string;
+
+    if (i < curatedCombos.length) {
+      // Use curated combinations first
+      const curated = curatedCombos[i];
+      dna = {
+        hero: curated.hero || 'H1',
+        layout: curated.layout || 'L3',
+        color: 'C1', // Color comes from palette, not DNA
+        nav: curated.nav || 'N1',
+        design: curated.design || 'D1',
+        typography: curated.typography || 'T1',
+        motion: curated.motion || 'M1',
+      };
+      description = styleNames[i] || `Variation ${i + 1}`;
+    } else {
+      // Generate random DNA for additional variations
+      dna = generateDNACode();
+      description = `Variation ${i + 1}`;
+    }
+
+    const comboKey = `${dna.hero}-${dna.layout}-${dna.design}-${dna.nav}`;
+
+    // Skip if we've already generated this combination
+    if (usedCombos.has(comboKey)) {
+      // Generate a fresh random one
+      dna = generateDNACode();
+    }
+
+    usedCombos.add(comboKey);
+
+    const html = generateIndustryTemplate(templateKey, {
+      ...input,
+      dna,
+    });
+
+    variations.push({
+      dna,
+      html,
+      description,
+    });
+  }
+
+  return variations;
+}
+
+/**
+ * Get a default DNA code suitable for a given industry
+ *
+ * Different industries benefit from different default styles:
+ * - Service trades: Professional, trust-focused (H1, N1, D1)
+ * - Creative: Bold, visual (H2, N7, D6)
+ * - Professional: Elegant, minimal (H3, N1, D4)
+ * - Health: Clean, reassuring (H1, N1, D1)
+ */
+export function getDefaultDNAForIndustry(industry: string): DNACode {
+  const defaults: Record<string, DNACode> = {
+    // Service trades - professional, trust-focused
+    plumber: { hero: 'H1', layout: 'L3', color: 'C1', nav: 'N1', design: 'D1', typography: 'T1', motion: 'M1' },
+    hvac: { hero: 'H1', layout: 'L3', color: 'C1', nav: 'N1', design: 'D1', typography: 'T1', motion: 'M1' },
+    electrician: { hero: 'H1', layout: 'L3', color: 'C1', nav: 'N1', design: 'D1', typography: 'T1', motion: 'M1' },
+    roofer: { hero: 'H1', layout: 'L3', color: 'C1', nav: 'N1', design: 'D1', typography: 'T1', motion: 'M1' },
+    contractor: { hero: 'H2', layout: 'L3', color: 'C1', nav: 'N1', design: 'D1', typography: 'T1', motion: 'M2' },
+
+    // Professional - elegant, minimal
+    lawyer: { hero: 'H3', layout: 'L5', color: 'C1', nav: 'N1', design: 'D4', typography: 'T2', motion: 'M1' },
+    accountant: { hero: 'H3', layout: 'L5', color: 'C1', nav: 'N1', design: 'D4', typography: 'T1', motion: 'M1' },
+    'financial-advisor': { hero: 'H3', layout: 'L5', color: 'C1', nav: 'N1', design: 'D4', typography: 'T2', motion: 'M1' },
+    realtor: { hero: 'H2', layout: 'L10', color: 'C1', nav: 'N7', design: 'D6', typography: 'T2', motion: 'M2' },
+
+    // Health - clean, reassuring
+    dentist: { hero: 'H1', layout: 'L3', color: 'C1', nav: 'N1', design: 'D1', typography: 'T1', motion: 'M1' },
+    chiropractor: { hero: 'H2', layout: 'L5', color: 'C1', nav: 'N1', design: 'D1', typography: 'T1', motion: 'M1' },
+    veterinarian: { hero: 'H1', layout: 'L3', color: 'C1', nav: 'N1', design: 'D1', typography: 'T4', motion: 'M1' },
+    therapist: { hero: 'H3', layout: 'L5', color: 'C1', nav: 'N9', design: 'D4', typography: 'T2', motion: 'M1' },
+    gym: { hero: 'H9', layout: 'L3', color: 'C1', nav: 'N1', design: 'D2', typography: 'T1', motion: 'M3' },
+
+    // Creative - bold, visual
+    restaurant: { hero: 'H2', layout: 'L10', color: 'C1', nav: 'N7', design: 'D6', typography: 'T2', motion: 'M2' },
+    photographer: { hero: 'H9', layout: 'L2', color: 'C1', nav: 'N9', design: 'D4', typography: 'T3', motion: 'M2' },
+  };
+
+  return defaults[industry] || defaults.plumber;
+}
+
+// =============================================================================
+// GENERATIVE ARCHITECTURE BRIDGE
+// =============================================================================
+
+/**
+ * Build a website using the new generative architecture.
+ * This is the bridge between the old template system and the new engine.
+ *
+ * When USE_GENERATIVE_ARCHITECTURE is enabled, this uses the new
+ * buildWebsite() function from the engine.
+ *
+ * @param content - Site content including business info and services
+ * @param options - Build options including DNA and palette overrides
+ * @returns Complete HTML document
+ */
+export function buildWebsite(content: SiteContent, options: BuildOptions = {}): string {
+  if (USE_GENERATIVE_ARCHITECTURE) {
+    return buildGenerativeWebsite(content, options);
+  }
+
+  // Fall back to old template system
+  const templateKey = industryToTemplateKey(content.industry as IndustryType);
+  const previewContent: PreviewContent = {
+    headline: content.headline || content.businessName,
+    tagline: content.tagline || content.description || '',
+    about: content.description || '',
+    services: content.services?.map(s => ({
+      name: s.name,
+      description: s.description,
+    })) || [],
+    cta_text: 'Contact Us',
+    contact_text: 'Get in touch today',
+    meta_description: content.tagline || content.description || '',
+  };
+
+  return generateIndustryTemplate(templateKey, {
+    businessName: content.businessName,
+    content: previewContent,
+    palette: options.palette || PLUMBER_PALETTES[0],
+    phone: content.contact.phone,
+    email: content.contact.email,
+    city: content.contact.city,
+    state: content.contact.state,
+    dna: options.dna,
+  });
+}
+
+// Re-export types for convenience
+export type { SiteContent, BuildOptions };

@@ -3,6 +3,7 @@
  */
 
 import { ColorPalette, PreviewContent } from '../../../overnight/types';
+import { DNACode } from '../../../themes/variance-planner';
 
 /**
  * Base template input that all industry templates share
@@ -18,6 +19,24 @@ export interface BaseTemplateInput {
   address?: string;
   website?: string;
   hours?: BusinessHours;
+}
+
+/**
+ * DNA-aware template input that extends base with DNA codes for layout/style variance
+ */
+export interface DNATemplateInput extends BaseTemplateInput {
+  dna?: DNACode;  // DNA codes for layout/style variance
+}
+
+// Re-export DNACode for convenience
+export type { DNACode };
+
+/**
+ * Output from DNA-aware section generators
+ */
+export interface SectionOutput {
+  html: string;
+  css: string;
 }
 
 /**
