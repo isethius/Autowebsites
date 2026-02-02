@@ -135,148 +135,184 @@
     }
   
     
-    .nav-n7-wrapper {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
+    .nav-n1 {
+      background: var(--white);
+      padding: 16px 0;
+      border-bottom: 1px solid var(--gray-200);
+      position: sticky;
+      top: 0;
       z-index: 100;
-      width: 100%;
-      max-width: 900px;
-      padding: 0 20px;
     }
 
-    .nav-n7 {
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(10px);
-      border-radius: 9999px;
-      padding: 12px 12px 12px 24px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+    .nav-n1-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .nav-n7-logo {
-      font-size: 20px;
+    .nav-n1-logo {
+      font-size: 24px;
       font-weight: 800;
       color: var(--primary);
       text-decoration: none;
     }
 
-    .nav-n7-links {
+    .nav-n1-links {
       display: flex;
-      gap: 24px;
+      gap: 32px;
     }
 
-    .nav-n7-links a {
+    .nav-n1-links a {
       color: var(--text);
       text-decoration: none;
       font-weight: 500;
-      font-size: 14px;
+      font-size: 15px;
       transition: color var(--transition-duration, 0.2s) ease;
     }
 
-    .nav-n7-links a:hover {
+    .nav-n1-links a:hover {
       color: var(--primary);
     }
 
-    .nav-n7-cta {
+    .nav-n1-cta {
       background: var(--primary);
       color: var(--white);
-      padding: 10px 20px;
-      border-radius: 9999px;
+      padding: 12px 24px;
+      border-radius: 0;
       text-decoration: none;
       font-weight: 600;
-      font-size: 14px;
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .nav-n7-cta:hover {
+    .nav-n1-cta:hover {
       background: var(--secondary);
-      transform: scale(1.02);
-    }
-
-    @media (max-width: 768px) {
-      .nav-n7-links { display: none; }
-      .nav-n7 { padding: 10px 10px 10px 20px; }
-    }
-  
-
-    .hero-h9 {
-      background: var(--text);
-      color: var(--white);
-      padding: 120px 0;
-      text-align: center;
-    }
-
-    .hero-h9 h1 {
-      font-size: 72px;
-      line-height: 1.05;
-      margin-bottom: 32px;
-      max-width: 900px;
-      margin-left: auto;
-      margin-right: auto;
-      letter-spacing: -0.03em;
-    }
-
-    .hero-h9 .tagline {
-      font-size: 24px;
-      opacity: 0.8;
-      margin-bottom: 48px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.5;
-    }
-
-    .hero-h9-buttons {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .hero-h9 .btn-primary {
-      background: var(--white);
-      color: var(--text);
-      padding: 18px 40px;
-      border-radius: 0;
-      font-weight: 700;
-      font-size: 18px;
-      text-decoration: none;
-      transition: all var(--transition-duration, 0.2s) ease;
-    }
-
-    .hero-h9 .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    }
-
-    .hero-h9 .btn-secondary {
-      background: transparent;
-      color: var(--white);
-      border: 2px solid var(--white);
-      padding: 16px 36px;
-      border-radius: 0;
-      font-weight: 600;
-      font-size: 18px;
-      text-decoration: none;
-      transition: all var(--transition-duration, 0.2s) ease;
-    }
-
-    .hero-h9 .btn-secondary:hover {
-      background: rgba(255,255,255,0.1);
+      transform: translateY(-1px);
     }
 
     @media (max-width: 900px) {
-      .hero-h9 { padding: 80px 0; }
-      .hero-h9 h1 { font-size: 44px; }
-      .hero-h9 .tagline { font-size: 20px; }
+      .nav-n1-links { display: none; }
+    }
+  
+
+    .hero-h12 {
+      position: relative;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      background: var(--background);
+      overflow: hidden;
     }
 
-    @media (max-width: 480px) {
-      .hero-h9 h1 { font-size: 36px; }
+    .hero-h12-shapes {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .hero-h12-shape {
+      position: absolute;
+      background: var(--primary);
+      opacity: 0.1;
+    }
+
+    .hero-h12-shape-1 {
+      width: 400px;
+      height: 400px;
+      top: -100px;
+      right: -100px;
+      border-radius: 50%;
+    }
+
+    .hero-h12-shape-2 {
+      width: 300px;
+      height: 300px;
+      bottom: -50px;
+      left: 10%;
+      clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+      background: var(--secondary);
+    }
+
+    .hero-h12-shape-3 {
+      width: 200px;
+      height: 200px;
+      top: 30%;
+      right: 20%;
+      clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+      background: var(--accent);
+    }
+
+    .hero-h12-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+    }
+
+    .hero-h12 h1 {
+      font-size: 56px;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      color: var(--text);
+    }
+
+    .hero-h12 .tagline {
+      font-size: 20px;
+      color: var(--muted);
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .hero-h12-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-h12 .btn-primary {
+      background: var(--primary);
+      color: var(--white);
+      padding: 16px 32px;
+      border-radius: 0;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all var(--transition-duration, 0.2s) ease;
+    }
+
+    .hero-h12 .btn-primary:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+    }
+
+    .hero-h12 .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      padding: 14px 28px;
+      border-radius: 0;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all var(--transition-duration, 0.2s) ease;
+    }
+
+    .hero-h12 .trust-badges {
+      display: flex;
+      gap: 24px;
+      margin-top: 48px;
+      flex-wrap: wrap;
+    }
+
+    .hero-h12 .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 900px) {
+      .hero-h12 h1 { font-size: 40px; }
+      .hero-h12-shape-1 { width: 250px; height: 250px; }
+      .hero-h12-shape-2 { width: 200px; height: 200px; }
+      .hero-h12-shape-3 { display: none; }
     }
   
 
@@ -592,25 +628,31 @@
 </head>
 <body>
   
-    <div class="nav-n7-wrapper">
-      <header class="nav-n7">
-        <a href="#" class="nav-n7-logo">Photographer Co</a>
-        <nav class="nav-n7-links">
+    <header class="nav-n1">
+      <div class="container nav-n1-content">
+        <a href="#" class="nav-n1-logo">Photographer Co</a>
+        <nav class="nav-n1-links">
           <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
         </nav>
         
-      </header>
-    </div>
+      </div>
+    </header>
   
 
-    <section class="dna-slide-in hero-h9 dna-animate">
-      <div class="container">
+    <section class="dna-scale-in hero-h12 dna-animate">
+      <div class="hero-h12-shapes">
+        <div class="hero-h12-shape hero-h12-shape-1"></div>
+        <div class="hero-h12-shape hero-h12-shape-2"></div>
+        <div class="hero-h12-shape hero-h12-shape-3"></div>
+      </div>
+      <div class="container hero-h12-content">
         <h1>Photographer Co</h1>
         <p class="tagline">Trusted Photographer services you can count on</p>
-        <div class="hero-h9-buttons">
+        <div class="hero-h12-buttons">
           
           
         </div>
+        
       </div>
     </section>
   
@@ -623,7 +665,7 @@
       </section>
     
 
-    <section class="dna-slide-in" id="services" class="services-l3 services-bg-gray dna-animate">
+    <section class="dna-scale-in" id="services" class="services-l3 services-bg-gray dna-animate">
       <div class="container">
         <div class="section-header">
           <h2>Services</h2>
@@ -684,13 +726,53 @@
       </section>
     
 
-    <section class="contact" style="background: var(--primary); color: var(--white); padding: 60px 0; text-align: center;">
-      <div class="container">
-        <h2 style="color: var(--white); margin-bottom: 16px;">Get in Touch</h2>
-        <p style="opacity: 0.9; margin-bottom: 32px; font-size: 18px;">Contact us today for a free consultation</p>
-        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-          <a href="tel:555-1234" class="btn btn-white btn-lg">📞 Call 555-1234</a>
-          <a href="#contact" class="btn btn-secondary btn-lg" style="color: var(--white); border-color: var(--white);">Send Message</a>
+    <section id="contact" class="contact">
+      <div class="container contact-content">
+        <div class="contact-info">
+          <h2>Get in Touch</h2>
+          <p>We&#039;d love to hear from you. Reach out today!</p>
+          <div class="contact-details">
+            
+              <div class="contact-item">
+                <div class="contact-item-icon">📞</div>
+                <div class="contact-item-content">
+                  <strong>Call Us</strong>
+                  <a href="tel:555-1234">555-1234</a>
+                </div>
+              </div>
+            
+            
+            
+            
+          </div>
+        </div>
+        <div class="contact-form-wrapper">
+          <h3>Send Us a Message</h3>
+          <form action="#" method="POST">
+            
+    <div class="form-row">
+      <div class="form-group">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" required placeholder="John Smith">
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" required placeholder="(555) 123-4567">
+      </div>
+    </div>
+  
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" placeholder="john@example.com">
+    </div>
+  
+    <div class="form-group">
+      <label for="message">Message</label>
+      <textarea id="message" name="message" placeholder="How can we help you?"></textarea>
+    </div>
+  
+            <button type="submit" class="submit-btn">Send Message</button>
+          </form>
         </div>
       </div>
     </section>
@@ -727,9 +809,9 @@
   
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
   <script>
-    // Lenis Smooth Scroll - Smooth Feel
+    // Lenis Smooth Scroll - Luxurious Feel
     const lenis = new Lenis({
-      duration: 1.0,
+      duration: 1.4,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       smoothWheel: true,

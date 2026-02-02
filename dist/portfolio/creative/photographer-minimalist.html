@@ -200,80 +200,62 @@
     }
   
 
-    .hero-h9 {
-      background: var(--text);
-      color: var(--white);
-      padding: 120px 0;
+    .hero-h3 {
+      background: var(--gray-50);
+      padding: 80px 0;
       text-align: center;
     }
 
-    .hero-h9 h1 {
-      font-size: 72px;
-      line-height: 1.05;
-      margin-bottom: 32px;
-      max-width: 900px;
+    .hero-h3 h1 {
+      font-size: 44px;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: var(--text);
+      max-width: 800px;
       margin-left: auto;
       margin-right: auto;
-      letter-spacing: -0.03em;
     }
 
-    .hero-h9 .tagline {
-      font-size: 24px;
-      opacity: 0.8;
-      margin-bottom: 48px;
+    .hero-h3 .tagline {
+      font-size: 20px;
+      color: var(--muted);
+      margin-bottom: 32px;
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
-      line-height: 1.5;
     }
 
-    .hero-h9-buttons {
+    .hero-h3-buttons {
       display: flex;
-      gap: 20px;
+      gap: 16px;
       justify-content: center;
       flex-wrap: wrap;
     }
 
-    .hero-h9 .btn-primary {
-      background: var(--white);
-      color: var(--text);
-      padding: 18px 40px;
-      border-radius: 4px;
-      font-weight: 700;
-      font-size: 18px;
-      text-decoration: none;
-      transition: all var(--transition-duration, 0.2s) ease;
-    }
-
-    .hero-h9 .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    }
-
-    .hero-h9 .btn-secondary {
-      background: transparent;
+    .hero-h3 .btn-primary {
+      background: var(--primary);
       color: var(--white);
-      border: 2px solid var(--white);
-      padding: 16px 36px;
+      padding: 14px 28px;
       border-radius: 4px;
       font-weight: 600;
-      font-size: 18px;
       text-decoration: none;
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .hero-h9 .btn-secondary:hover {
-      background: rgba(255,255,255,0.1);
+    .hero-h3 .btn-secondary {
+      background: var(--white);
+      color: var(--text);
+      padding: 14px 28px;
+      border-radius: 4px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--gray-200);
+      transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    @media (max-width: 900px) {
-      .hero-h9 { padding: 80px 0; }
-      .hero-h9 h1 { font-size: 44px; }
-      .hero-h9 .tagline { font-size: 20px; }
-    }
-
-    @media (max-width: 480px) {
-      .hero-h9 h1 { font-size: 36px; }
+    @media (max-width: 768px) {
+      .hero-h3 h1 { font-size: 32px; }
+      .hero-h3 .tagline { font-size: 18px; }
     }
   
 
@@ -507,11 +489,11 @@
     </header>
   
 
-    <section class="dna-fade-in hero-h9 dna-animate">
+    <section class="dna-fade-in hero-h3 dna-animate">
       <div class="container">
         <h1>Photographer Co</h1>
         <p class="tagline">Trusted Photographer services you can count on</p>
-        <div class="hero-h9-buttons">
+        <div class="hero-h3-buttons">
           
           
         </div>
