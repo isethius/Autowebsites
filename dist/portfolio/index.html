@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Portfolio Gallery - 144 Sites</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #0a0a0a; color: #fff; padding: 40px; }
+    h1 { margin-bottom: 10px; }
+    .stats { color: #888; margin-bottom: 30px; }
+    .category { margin-bottom: 40px; }
+    .category h2 { color: #7bd3ff; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+    .card { background: #1a1a1a; border-radius: 12px; overflow: hidden; transition: transform 0.2s; }
+    .card:hover { transform: translateY(-4px); }
+    .card a { display: block; padding: 20px; text-decoration: none; color: #fff; }
+    .card .industry { font-weight: 600; font-size: 18px; text-transform: capitalize; }
+    .card .vibe { color: #888; font-size: 14px; margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <h1>Portfolio Gallery</h1>
+  <p class="stats">144 unique sites across 18 industries × 8 vibes</p>
+  
+  <div class="category">
+    <h2>🔧 Service (Blue Collar)</h2>
+    <div class="grid" id="service"></div>
+  </div>
+  
+  <div class="category">
+    <h2>💼 Professional (White Collar)</h2>
+    <div class="grid" id="pro"></div>
+  </div>
+  
+  <div class="category">
+    <h2>🏥 Health & Wellness</h2>
+    <div class="grid" id="health"></div>
+  </div>
+  
+  <div class="category">
+    <h2>🎨 Creative & Visual</h2>
+    <div class="grid" id="creative"></div>
+  </div>
+
+  <script>
+    fetch('manifest.json')
+      .then(r => r.json())
+      .then(data => {
+        const byCategory = { service: [], pro: [], health: [], creative: [] };
+        data.forEach(item => {
+          const cat = item.html.includes('/service/') ? 'service' 
+                    : item.html.includes('/pro/') ? 'pro'
+                    : item.html.includes('/health/') ? 'health' 
+                    : 'creative';
+          byCategory[cat].push(item);
+        });
+        
+        Object.entries(byCategory).forEach(([cat, items]) => {
+          const container = document.getElementById(cat);
+          items.sort((a,b) => a.industry.localeCompare(b.industry) || a.vibe.localeCompare(b.vibe));
+          items.forEach(item => {
+            const path = item.html.replace('dist/portfolio/', '');
+            container.innerHTML += `
+              <div class="card">
+                <a href="${path}" target="_blank">
+                  <div class="industry">${item.industry}</div>
+                  <div class="vibe">${item.vibe}</div>
+                </a>
+              </div>`;
+          });
+        });
+      });
+  </script>
+</body>
+</html>
