@@ -1,0 +1,1154 @@
+[
+  {
+    "industry": "accountant",
+    "vibe": "executive",
+    "html": "dist/portfolio/pro/accountant-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:44:14.201Z"
+  },
+  {
+    "industry": "accountant",
+    "vibe": "maverick",
+    "html": "dist/portfolio/pro/accountant-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:44:14.201Z"
+  },
+  {
+    "industry": "accountant",
+    "vibe": "artisan",
+    "html": "dist/portfolio/pro/accountant-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:44:14.201Z"
+  },
+  {
+    "industry": "accountant",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/pro/accountant-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:44:14.201Z"
+  },
+  {
+    "industry": "accountant",
+    "vibe": "bold",
+    "html": "dist/portfolio/pro/accountant-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:44:14.201Z"
+  },
+  {
+    "industry": "accountant",
+    "vibe": "classic",
+    "html": "dist/portfolio/pro/accountant-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:44:14.201Z"
+  },
+  {
+    "industry": "accountant",
+    "vibe": "modern",
+    "html": "dist/portfolio/pro/accountant-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:44:14.201Z"
+  },
+  {
+    "industry": "accountant",
+    "vibe": "playful",
+    "html": "dist/portfolio/pro/accountant-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:44:14.201Z"
+  },
+  {
+    "industry": "cafe",
+    "vibe": "executive",
+    "html": "dist/portfolio/creative/cafe-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:00:29.306Z"
+  },
+  {
+    "industry": "cafe",
+    "vibe": "maverick",
+    "html": "dist/portfolio/creative/cafe-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:00:29.306Z"
+  },
+  {
+    "industry": "cafe",
+    "vibe": "artisan",
+    "html": "dist/portfolio/creative/cafe-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:00:29.306Z"
+  },
+  {
+    "industry": "cafe",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/creative/cafe-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:00:29.306Z"
+  },
+  {
+    "industry": "cafe",
+    "vibe": "bold",
+    "html": "dist/portfolio/creative/cafe-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:00:29.306Z"
+  },
+  {
+    "industry": "cafe",
+    "vibe": "classic",
+    "html": "dist/portfolio/creative/cafe-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:00:29.306Z"
+  },
+  {
+    "industry": "cafe",
+    "vibe": "modern",
+    "html": "dist/portfolio/creative/cafe-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:00:29.306Z"
+  },
+  {
+    "industry": "cafe",
+    "vibe": "playful",
+    "html": "dist/portfolio/creative/cafe-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:00:29.306Z"
+  },
+  {
+    "industry": "chiropractor",
+    "vibe": "executive",
+    "html": "dist/portfolio/health/chiropractor-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:51:03.721Z"
+  },
+  {
+    "industry": "chiropractor",
+    "vibe": "maverick",
+    "html": "dist/portfolio/health/chiropractor-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:51:03.721Z"
+  },
+  {
+    "industry": "chiropractor",
+    "vibe": "artisan",
+    "html": "dist/portfolio/health/chiropractor-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:51:03.721Z"
+  },
+  {
+    "industry": "chiropractor",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/health/chiropractor-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:51:03.721Z"
+  },
+  {
+    "industry": "chiropractor",
+    "vibe": "bold",
+    "html": "dist/portfolio/health/chiropractor-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:51:03.721Z"
+  },
+  {
+    "industry": "chiropractor",
+    "vibe": "classic",
+    "html": "dist/portfolio/health/chiropractor-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:51:03.721Z"
+  },
+  {
+    "industry": "chiropractor",
+    "vibe": "modern",
+    "html": "dist/portfolio/health/chiropractor-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:51:03.721Z"
+  },
+  {
+    "industry": "chiropractor",
+    "vibe": "playful",
+    "html": "dist/portfolio/health/chiropractor-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:51:03.721Z"
+  },
+  {
+    "industry": "consultant",
+    "vibe": "executive",
+    "html": "dist/portfolio/pro/consultant-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:11:06.144Z"
+  },
+  {
+    "industry": "consultant",
+    "vibe": "maverick",
+    "html": "dist/portfolio/pro/consultant-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:11:06.144Z"
+  },
+  {
+    "industry": "consultant",
+    "vibe": "artisan",
+    "html": "dist/portfolio/pro/consultant-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:11:06.144Z"
+  },
+  {
+    "industry": "consultant",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/pro/consultant-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:11:06.144Z"
+  },
+  {
+    "industry": "consultant",
+    "vibe": "bold",
+    "html": "dist/portfolio/pro/consultant-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:11:06.144Z"
+  },
+  {
+    "industry": "consultant",
+    "vibe": "classic",
+    "html": "dist/portfolio/pro/consultant-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:11:06.144Z"
+  },
+  {
+    "industry": "consultant",
+    "vibe": "modern",
+    "html": "dist/portfolio/pro/consultant-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:11:06.144Z"
+  },
+  {
+    "industry": "consultant",
+    "vibe": "playful",
+    "html": "dist/portfolio/pro/consultant-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:11:06.144Z"
+  },
+  {
+    "industry": "dentist",
+    "vibe": "executive",
+    "html": "dist/portfolio/health/dentist-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:54.823Z"
+  },
+  {
+    "industry": "dentist",
+    "vibe": "maverick",
+    "html": "dist/portfolio/health/dentist-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:54.823Z"
+  },
+  {
+    "industry": "dentist",
+    "vibe": "artisan",
+    "html": "dist/portfolio/health/dentist-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:54.823Z"
+  },
+  {
+    "industry": "dentist",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/health/dentist-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:54.823Z"
+  },
+  {
+    "industry": "dentist",
+    "vibe": "bold",
+    "html": "dist/portfolio/health/dentist-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:54.823Z"
+  },
+  {
+    "industry": "dentist",
+    "vibe": "classic",
+    "html": "dist/portfolio/health/dentist-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:54.823Z"
+  },
+  {
+    "industry": "dentist",
+    "vibe": "modern",
+    "html": "dist/portfolio/health/dentist-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:54.823Z"
+  },
+  {
+    "industry": "dentist",
+    "vibe": "playful",
+    "html": "dist/portfolio/health/dentist-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:54.823Z"
+  },
+  {
+    "industry": "electrician",
+    "vibe": "executive",
+    "html": "dist/portfolio/service/electrician-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:43:26.046Z"
+  },
+  {
+    "industry": "electrician",
+    "vibe": "maverick",
+    "html": "dist/portfolio/service/electrician-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:43:26.046Z"
+  },
+  {
+    "industry": "electrician",
+    "vibe": "artisan",
+    "html": "dist/portfolio/service/electrician-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:43:26.046Z"
+  },
+  {
+    "industry": "electrician",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/service/electrician-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:43:26.046Z"
+  },
+  {
+    "industry": "electrician",
+    "vibe": "bold",
+    "html": "dist/portfolio/service/electrician-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:43:26.046Z"
+  },
+  {
+    "industry": "electrician",
+    "vibe": "classic",
+    "html": "dist/portfolio/service/electrician-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:43:26.046Z"
+  },
+  {
+    "industry": "electrician",
+    "vibe": "modern",
+    "html": "dist/portfolio/service/electrician-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:43:26.046Z"
+  },
+  {
+    "industry": "electrician",
+    "vibe": "playful",
+    "html": "dist/portfolio/service/electrician-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:43:26.046Z"
+  },
+  {
+    "industry": "gym",
+    "vibe": "executive",
+    "html": "dist/portfolio/health/gym-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:10.030Z"
+  },
+  {
+    "industry": "gym",
+    "vibe": "maverick",
+    "html": "dist/portfolio/health/gym-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:10.030Z"
+  },
+  {
+    "industry": "gym",
+    "vibe": "artisan",
+    "html": "dist/portfolio/health/gym-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:10.030Z"
+  },
+  {
+    "industry": "gym",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/health/gym-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:10.030Z"
+  },
+  {
+    "industry": "gym",
+    "vibe": "bold",
+    "html": "dist/portfolio/health/gym-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:10.030Z"
+  },
+  {
+    "industry": "gym",
+    "vibe": "classic",
+    "html": "dist/portfolio/health/gym-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:10.030Z"
+  },
+  {
+    "industry": "gym",
+    "vibe": "modern",
+    "html": "dist/portfolio/health/gym-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:10.030Z"
+  },
+  {
+    "industry": "gym",
+    "vibe": "playful",
+    "html": "dist/portfolio/health/gym-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:10.030Z"
+  },
+  {
+    "industry": "hvac",
+    "vibe": "executive",
+    "html": "dist/portfolio/service/hvac-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:58:06.571Z"
+  },
+  {
+    "industry": "hvac",
+    "vibe": "maverick",
+    "html": "dist/portfolio/service/hvac-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:58:06.571Z"
+  },
+  {
+    "industry": "hvac",
+    "vibe": "artisan",
+    "html": "dist/portfolio/service/hvac-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:58:06.571Z"
+  },
+  {
+    "industry": "hvac",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/service/hvac-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:58:06.571Z"
+  },
+  {
+    "industry": "hvac",
+    "vibe": "bold",
+    "html": "dist/portfolio/service/hvac-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:58:06.571Z"
+  },
+  {
+    "industry": "hvac",
+    "vibe": "classic",
+    "html": "dist/portfolio/service/hvac-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:58:06.571Z"
+  },
+  {
+    "industry": "hvac",
+    "vibe": "modern",
+    "html": "dist/portfolio/service/hvac-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:58:06.571Z"
+  },
+  {
+    "industry": "hvac",
+    "vibe": "playful",
+    "html": "dist/portfolio/service/hvac-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:58:06.571Z"
+  },
+  {
+    "industry": "landscaper",
+    "vibe": "executive",
+    "html": "dist/portfolio/service/landscaper-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:41:04.872Z"
+  },
+  {
+    "industry": "landscaper",
+    "vibe": "maverick",
+    "html": "dist/portfolio/service/landscaper-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:41:04.872Z"
+  },
+  {
+    "industry": "landscaper",
+    "vibe": "artisan",
+    "html": "dist/portfolio/service/landscaper-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:41:04.872Z"
+  },
+  {
+    "industry": "landscaper",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/service/landscaper-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:41:04.872Z"
+  },
+  {
+    "industry": "landscaper",
+    "vibe": "bold",
+    "html": "dist/portfolio/service/landscaper-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:41:04.872Z"
+  },
+  {
+    "industry": "landscaper",
+    "vibe": "classic",
+    "html": "dist/portfolio/service/landscaper-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:41:04.872Z"
+  },
+  {
+    "industry": "landscaper",
+    "vibe": "modern",
+    "html": "dist/portfolio/service/landscaper-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:41:04.872Z"
+  },
+  {
+    "industry": "landscaper",
+    "vibe": "playful",
+    "html": "dist/portfolio/service/landscaper-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:41:04.872Z"
+  },
+  {
+    "industry": "lawyer",
+    "vibe": "executive",
+    "html": "dist/portfolio/pro/lawyer-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:15:51.289Z"
+  },
+  {
+    "industry": "lawyer",
+    "vibe": "maverick",
+    "html": "dist/portfolio/pro/lawyer-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:15:51.289Z"
+  },
+  {
+    "industry": "lawyer",
+    "vibe": "artisan",
+    "html": "dist/portfolio/pro/lawyer-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:15:51.289Z"
+  },
+  {
+    "industry": "lawyer",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/pro/lawyer-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:15:51.289Z"
+  },
+  {
+    "industry": "lawyer",
+    "vibe": "bold",
+    "html": "dist/portfolio/pro/lawyer-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:15:51.289Z"
+  },
+  {
+    "industry": "lawyer",
+    "vibe": "classic",
+    "html": "dist/portfolio/pro/lawyer-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:15:51.289Z"
+  },
+  {
+    "industry": "lawyer",
+    "vibe": "modern",
+    "html": "dist/portfolio/pro/lawyer-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:15:51.289Z"
+  },
+  {
+    "industry": "lawyer",
+    "vibe": "playful",
+    "html": "dist/portfolio/pro/lawyer-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:15:51.289Z"
+  },
+  {
+    "industry": "photographer",
+    "vibe": "executive",
+    "html": "dist/portfolio/creative/photographer-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:15:46.852Z"
+  },
+  {
+    "industry": "photographer",
+    "vibe": "maverick",
+    "html": "dist/portfolio/creative/photographer-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:15:46.852Z"
+  },
+  {
+    "industry": "photographer",
+    "vibe": "artisan",
+    "html": "dist/portfolio/creative/photographer-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:15:46.852Z"
+  },
+  {
+    "industry": "photographer",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/creative/photographer-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:15:46.852Z"
+  },
+  {
+    "industry": "photographer",
+    "vibe": "bold",
+    "html": "dist/portfolio/creative/photographer-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:15:46.852Z"
+  },
+  {
+    "industry": "photographer",
+    "vibe": "classic",
+    "html": "dist/portfolio/creative/photographer-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:15:46.852Z"
+  },
+  {
+    "industry": "photographer",
+    "vibe": "modern",
+    "html": "dist/portfolio/creative/photographer-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:15:46.852Z"
+  },
+  {
+    "industry": "photographer",
+    "vibe": "playful",
+    "html": "dist/portfolio/creative/photographer-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:15:46.852Z"
+  },
+  {
+    "industry": "plumber",
+    "vibe": "executive",
+    "html": "dist/portfolio/service/plumber-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:49.779Z"
+  },
+  {
+    "industry": "plumber",
+    "vibe": "maverick",
+    "html": "dist/portfolio/service/plumber-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:49.779Z"
+  },
+  {
+    "industry": "plumber",
+    "vibe": "artisan",
+    "html": "dist/portfolio/service/plumber-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:49.779Z"
+  },
+  {
+    "industry": "plumber",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/service/plumber-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:49.779Z"
+  },
+  {
+    "industry": "plumber",
+    "vibe": "bold",
+    "html": "dist/portfolio/service/plumber-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:49.779Z"
+  },
+  {
+    "industry": "plumber",
+    "vibe": "classic",
+    "html": "dist/portfolio/service/plumber-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:49.779Z"
+  },
+  {
+    "industry": "plumber",
+    "vibe": "modern",
+    "html": "dist/portfolio/service/plumber-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:49.779Z"
+  },
+  {
+    "industry": "plumber",
+    "vibe": "playful",
+    "html": "dist/portfolio/service/plumber-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:49.779Z"
+  },
+  {
+    "industry": "realtor",
+    "vibe": "executive",
+    "html": "dist/portfolio/pro/realtor-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:10:59.216Z"
+  },
+  {
+    "industry": "realtor",
+    "vibe": "maverick",
+    "html": "dist/portfolio/pro/realtor-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:10:59.216Z"
+  },
+  {
+    "industry": "realtor",
+    "vibe": "artisan",
+    "html": "dist/portfolio/pro/realtor-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:10:59.216Z"
+  },
+  {
+    "industry": "realtor",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/pro/realtor-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:10:59.216Z"
+  },
+  {
+    "industry": "realtor",
+    "vibe": "bold",
+    "html": "dist/portfolio/pro/realtor-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:10:59.216Z"
+  },
+  {
+    "industry": "realtor",
+    "vibe": "classic",
+    "html": "dist/portfolio/pro/realtor-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:10:59.216Z"
+  },
+  {
+    "industry": "realtor",
+    "vibe": "modern",
+    "html": "dist/portfolio/pro/realtor-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:10:59.216Z"
+  },
+  {
+    "industry": "realtor",
+    "vibe": "playful",
+    "html": "dist/portfolio/pro/realtor-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:10:59.216Z"
+  },
+  {
+    "industry": "restaurant",
+    "vibe": "executive",
+    "html": "dist/portfolio/creative/restaurant-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:11:04.381Z"
+  },
+  {
+    "industry": "restaurant",
+    "vibe": "maverick",
+    "html": "dist/portfolio/creative/restaurant-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:11:04.381Z"
+  },
+  {
+    "industry": "restaurant",
+    "vibe": "artisan",
+    "html": "dist/portfolio/creative/restaurant-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:11:04.381Z"
+  },
+  {
+    "industry": "restaurant",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/creative/restaurant-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:11:04.381Z"
+  },
+  {
+    "industry": "restaurant",
+    "vibe": "bold",
+    "html": "dist/portfolio/creative/restaurant-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:11:04.381Z"
+  },
+  {
+    "industry": "restaurant",
+    "vibe": "classic",
+    "html": "dist/portfolio/creative/restaurant-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:11:04.381Z"
+  },
+  {
+    "industry": "restaurant",
+    "vibe": "modern",
+    "html": "dist/portfolio/creative/restaurant-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:11:04.381Z"
+  },
+  {
+    "industry": "restaurant",
+    "vibe": "playful",
+    "html": "dist/portfolio/creative/restaurant-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:11:04.381Z"
+  },
+  {
+    "industry": "roofer",
+    "vibe": "executive",
+    "html": "dist/portfolio/service/roofer-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:06.574Z"
+  },
+  {
+    "industry": "roofer",
+    "vibe": "maverick",
+    "html": "dist/portfolio/service/roofer-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:06.574Z"
+  },
+  {
+    "industry": "roofer",
+    "vibe": "artisan",
+    "html": "dist/portfolio/service/roofer-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:06.574Z"
+  },
+  {
+    "industry": "roofer",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/service/roofer-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:06.574Z"
+  },
+  {
+    "industry": "roofer",
+    "vibe": "bold",
+    "html": "dist/portfolio/service/roofer-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:06.574Z"
+  },
+  {
+    "industry": "roofer",
+    "vibe": "classic",
+    "html": "dist/portfolio/service/roofer-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:06.574Z"
+  },
+  {
+    "industry": "roofer",
+    "vibe": "modern",
+    "html": "dist/portfolio/service/roofer-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:06.574Z"
+  },
+  {
+    "industry": "roofer",
+    "vibe": "playful",
+    "html": "dist/portfolio/service/roofer-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:42:06.574Z"
+  },
+  {
+    "industry": "spa",
+    "vibe": "executive",
+    "html": "dist/portfolio/health/spa-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:23.972Z"
+  },
+  {
+    "industry": "spa",
+    "vibe": "maverick",
+    "html": "dist/portfolio/health/spa-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:23.972Z"
+  },
+  {
+    "industry": "spa",
+    "vibe": "artisan",
+    "html": "dist/portfolio/health/spa-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:23.972Z"
+  },
+  {
+    "industry": "spa",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/health/spa-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:23.972Z"
+  },
+  {
+    "industry": "spa",
+    "vibe": "bold",
+    "html": "dist/portfolio/health/spa-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:23.972Z"
+  },
+  {
+    "industry": "spa",
+    "vibe": "classic",
+    "html": "dist/portfolio/health/spa-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:23.972Z"
+  },
+  {
+    "industry": "spa",
+    "vibe": "modern",
+    "html": "dist/portfolio/health/spa-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:23.972Z"
+  },
+  {
+    "industry": "spa",
+    "vibe": "playful",
+    "html": "dist/portfolio/health/spa-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:23.972Z"
+  },
+  {
+    "industry": "studio",
+    "vibe": "executive",
+    "html": "dist/portfolio/creative/studio-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:58.849Z"
+  },
+  {
+    "industry": "studio",
+    "vibe": "maverick",
+    "html": "dist/portfolio/creative/studio-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:58.849Z"
+  },
+  {
+    "industry": "studio",
+    "vibe": "artisan",
+    "html": "dist/portfolio/creative/studio-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:58.849Z"
+  },
+  {
+    "industry": "studio",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/creative/studio-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:58.849Z"
+  },
+  {
+    "industry": "studio",
+    "vibe": "bold",
+    "html": "dist/portfolio/creative/studio-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:58.849Z"
+  },
+  {
+    "industry": "studio",
+    "vibe": "classic",
+    "html": "dist/portfolio/creative/studio-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:58.849Z"
+  },
+  {
+    "industry": "studio",
+    "vibe": "modern",
+    "html": "dist/portfolio/creative/studio-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:58.849Z"
+  },
+  {
+    "industry": "studio",
+    "vibe": "playful",
+    "html": "dist/portfolio/creative/studio-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:57:58.849Z"
+  },
+  {
+    "industry": "therapist",
+    "vibe": "executive",
+    "html": "dist/portfolio/health/therapist-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:09.978Z"
+  },
+  {
+    "industry": "therapist",
+    "vibe": "maverick",
+    "html": "dist/portfolio/health/therapist-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:09.978Z"
+  },
+  {
+    "industry": "therapist",
+    "vibe": "artisan",
+    "html": "dist/portfolio/health/therapist-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:09.978Z"
+  },
+  {
+    "industry": "therapist",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/health/therapist-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:09.978Z"
+  },
+  {
+    "industry": "therapist",
+    "vibe": "bold",
+    "html": "dist/portfolio/health/therapist-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:09.978Z"
+  },
+  {
+    "industry": "therapist",
+    "vibe": "classic",
+    "html": "dist/portfolio/health/therapist-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:09.978Z"
+  },
+  {
+    "industry": "therapist",
+    "vibe": "modern",
+    "html": "dist/portfolio/health/therapist-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:09.978Z"
+  },
+  {
+    "industry": "therapist",
+    "vibe": "playful",
+    "html": "dist/portfolio/health/therapist-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-02T23:50:09.978Z"
+  }
+]
