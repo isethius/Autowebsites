@@ -11,3 +11,4 @@ tmp/
 
 # Supabase temp files
 supabase/.temp/
+dist/
