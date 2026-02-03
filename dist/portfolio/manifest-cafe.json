@@ -1,0 +1,66 @@
+[
+  {
+    "industry": "cafe",
+    "vibe": "executive",
+    "html": "dist/portfolio/creative/cafe-executive.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:00:29.306Z"
+  },
+  {
+    "industry": "cafe",
+    "vibe": "maverick",
+    "html": "dist/portfolio/creative/cafe-maverick.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:00:29.306Z"
+  },
+  {
+    "industry": "cafe",
+    "vibe": "artisan",
+    "html": "dist/portfolio/creative/cafe-artisan.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:00:29.306Z"
+  },
+  {
+    "industry": "cafe",
+    "vibe": "minimalist",
+    "html": "dist/portfolio/creative/cafe-minimalist.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:00:29.306Z"
+  },
+  {
+    "industry": "cafe",
+    "vibe": "bold",
+    "html": "dist/portfolio/creative/cafe-bold.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:00:29.306Z"
+  },
+  {
+    "industry": "cafe",
+    "vibe": "classic",
+    "html": "dist/portfolio/creative/cafe-classic.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:00:29.306Z"
+  },
+  {
+    "industry": "cafe",
+    "vibe": "modern",
+    "html": "dist/portfolio/creative/cafe-modern.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:00:29.306Z"
+  },
+  {
+    "industry": "cafe",
+    "vibe": "playful",
+    "html": "dist/portfolio/creative/cafe-playful.html",
+    "desktop": null,
+    "mobile": null,
+    "generatedAt": "2026-02-03T01:00:29.306Z"
+  }
+]
