@@ -14,32 +14,65 @@ vi.mock('@anthropic-ai/sdk', () => ({
             text: JSON.stringify({
               businessName: 'Test Business',
               industry: 'plumbers',
+              industryConfidence: 88,
+              businessType: 'local',
+              targetAudience: 'Homeowners needing plumbing help',
               overallScore: 6,
-              scores: {
-                design: 5,
-                mobile: 6,
-                performance: 7,
-                seo: 6,
-                content: 5,
-              },
               issues: [
                 {
+                  category: 'design',
+                  severity: 'major',
                   title: 'Outdated Design',
                   description: 'The website looks dated',
-                  severity: 'high',
-                  category: 'design',
+                  businessImpact: 'Reduces trust and call volume',
+                  fixDifficulty: 'medium',
                 },
               ],
+              strengths: ['Clear service list'],
               recommendations: [
                 {
+                  priority: 2,
                   title: 'Modern Redesign',
                   description: 'Modernize the design',
-                  impact: 'High visibility improvement',
-                  priority: 'high',
-                  estimatedCost: '$2,000 - $5,000',
+                  expectedOutcome: 'Higher trust and conversion',
+                  timeframe: 'short-term',
                 },
               ],
-              keySellingPoints: ['Local business needs better web presence'],
+              estimatedImpact: {
+                currentMonthlyVisitors: '1,500',
+                potentialIncrease: '20-30%',
+                estimatedRevenueLoss: '$2,000/month',
+              },
+              talkingPoints: ['Update design to improve trust'],
+              visualStyle: {
+                colorSchemes: ['light'],
+                dominantColors: ['#ffffff', '#0a4ea1'],
+                typography: {
+                  primaryFonts: ['Inter'],
+                  secondaryFonts: ['Georgia'],
+                  style: 'mixed',
+                  notes: ['Primary fonts: Inter, Georgia'],
+                },
+                layoutPatterns: ['hero', 'card-grid'],
+                designTraits: ['rounded', 'shadow'],
+              },
+              vibe: {
+                currentVibe: {
+                  id: 'trustworthy',
+                  name: 'Trustworthy',
+                  confidence: 70,
+                  rationale: 'Clean palette and reassuring layout',
+                },
+                recommendedVibes: [
+                  {
+                    id: 'friendly',
+                    name: 'Friendly',
+                    fit: 65,
+                    rationale: 'Softer tone could improve approachability',
+                    adjustments: ['Use warmer palette accents'],
+                  },
+                ],
+              },
             }),
           },
         ],
@@ -106,10 +139,13 @@ describe('Website Analyzer', () => {
     expect(analysis).toHaveProperty('businessName');
     expect(analysis).toHaveProperty('industry');
     expect(analysis).toHaveProperty('overallScore');
-    expect(analysis).toHaveProperty('scores');
     expect(analysis).toHaveProperty('issues');
+    expect(analysis).toHaveProperty('strengths');
     expect(analysis).toHaveProperty('recommendations');
-    expect(analysis).toHaveProperty('keySellingPoints');
+    expect(analysis).toHaveProperty('estimatedImpact');
+    expect(analysis).toHaveProperty('talkingPoints');
+    expect(analysis).toHaveProperty('visualStyle');
+    expect(analysis).toHaveProperty('vibe');
 
     expect(analysis.overallScore).toBeGreaterThanOrEqual(0);
     expect(analysis.overallScore).toBeLessThanOrEqual(10);

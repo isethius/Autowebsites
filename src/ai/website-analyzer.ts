@@ -365,7 +365,7 @@ Keep it friendly, non-technical, and focused on business impact.`;
     aiStyle: Partial<VisualStyleAnalysis> | undefined,
     detected: VisualStyleAnalysis
   ): VisualStyleAnalysis {
-    const mergedTypography = aiStyle?.typography || {};
+    const mergedTypography: Partial<VisualStyleAnalysis['typography']> = aiStyle?.typography || {};
 
     return {
       colorSchemes: this.mergeList(aiStyle?.colorSchemes, detected.colorSchemes),
