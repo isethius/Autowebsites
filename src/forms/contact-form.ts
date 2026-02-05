@@ -563,7 +563,7 @@ function resolveFormAction(config: ResolvedBaseConfig): string {
   }
 
   if (config.provider === 'netlify') {
-    return config.action || '/';
+    return config.action || '';
   }
 
   if (config.provider === 'email') {

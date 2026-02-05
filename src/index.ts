@@ -150,6 +150,7 @@ export { SequenceEngine } from './email/sequence-engine';
 export { EmailAnalytics } from './email/analytics';
 export { UnsubscribeHandler } from './email/unsubscribe';
 export * from './analytics/analytics';
+export * from './forms/contact-form';
 
 // Export utilities
 export { config, features } from './utils/config';
