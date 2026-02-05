@@ -212,14 +212,14 @@ export function generateParallaxScript(options: ParallaxScriptOptions = {}): str
 
     const collectLayers = () => {
       const results = [];
-      const addLayer = (element, overrides) => {
-        if (!(element instanceof HTMLElement)) return;
-        applyClassName(element);
-        const speed = resolveSpeed(element, overrides && overrides.speed);
-        const offset = resolveOffset(element, overrides && overrides.offset);
-        const baseTransform = getBaseTransform(element);
-        results.push({ element, speed, offset, baseTransform, last: null });
-      };
+    const addLayer = (element, overrides) => {
+      if (!(element instanceof HTMLElement)) return;
+      const baseTransform = getBaseTransform(element);
+      applyClassName(element);
+      const speed = resolveSpeed(element, overrides && overrides.speed);
+      const offset = resolveOffset(element, overrides && overrides.offset);
+      results.push({ element, speed, offset, baseTransform, last: null });
+    };
 
       if (Array.isArray(config.layers) && config.layers.length > 0) {
         config.layers.forEach((layerDef) => {
