@@ -358,7 +358,12 @@ class AssetRegistry {
 
     result = await replaceAsync(result, /<link\b[^>]*>/gi, async (match) => {
       const href = getAttribute(match, 'href');
-      if (!href || shouldIgnoreUrl(href) || !isRemoteUrl(href)) {
+      if (!href || shouldIgnoreUrl(href)) {
+        return match;
+      }
+      const { base: hrefBase, fragment } = splitUrlFragment(href);
+      const normalizedHref = normalizeRemoteUrl(hrefBase);
+      if (!isRemoteUrl(normalizedHref)) {
         return match;
       }
 
@@ -383,13 +388,13 @@ class AssetRegistry {
           typeHint = 'other';
         }
         const outputPath = await this.ensureExternalAsset(
-          normalizeRemoteUrl(href),
-          derivePathFromUrl(normalizeRemoteUrl(href), this.options.assetsDir, typeHint || guessAssetTypeFromUrl(href)),
-          typeHint || guessAssetTypeFromUrl(href)
+          normalizedHref,
+          derivePathFromUrl(normalizedHref, this.options.assetsDir, typeHint || guessAssetTypeFromUrl(normalizedHref)),
+          typeHint || guessAssetTypeFromUrl(normalizedHref)
         ).then(asset => asset?.outputPath);
 
         if (!outputPath) return match;
-        const relative = relativeAssetPath(pagePath, outputPath);
+        const relative = relativeAssetPath(pagePath, outputPath) + fragment;
         let updated = setAttribute(match, 'href', relative);
         updated = removeAttribute(updated, 'integrity');
         updated = removeAttribute(updated, 'crossorigin');
@@ -401,18 +406,23 @@ class AssetRegistry {
 
     result = await replaceAsync(result, /<script\b[^>]*>/gi, async (match) => {
       const src = getAttribute(match, 'src');
-      if (!src || shouldIgnoreUrl(src) || !isRemoteUrl(src)) {
+      if (!src || shouldIgnoreUrl(src)) {
+        return match;
+      }
+      const { base: srcBase, fragment } = splitUrlFragment(src);
+      const normalizedSrc = normalizeRemoteUrl(srcBase);
+      if (!isRemoteUrl(normalizedSrc)) {
         return match;
       }
 
       const outputPath = await this.ensureExternalAsset(
-        normalizeRemoteUrl(src),
-        derivePathFromUrl(normalizeRemoteUrl(src), this.options.assetsDir, 'js'),
+        normalizedSrc,
+        derivePathFromUrl(normalizedSrc, this.options.assetsDir, 'js'),
         'js'
       ).then(asset => asset?.outputPath);
 
       if (!outputPath) return match;
-      const relative = relativeAssetPath(pagePath, outputPath);
+      const relative = relativeAssetPath(pagePath, outputPath) + fragment;
       let updated = setAttribute(match, 'src', relative);
       updated = removeAttribute(updated, 'integrity');
       updated = removeAttribute(updated, 'crossorigin');
@@ -423,15 +433,20 @@ class AssetRegistry {
       let updated = match;
 
       const src = getAttribute(match, 'src');
-      if (src && !shouldIgnoreUrl(src) && isRemoteUrl(src)) {
+      if (src && !shouldIgnoreUrl(src)) {
+        const { base: srcBase, fragment } = splitUrlFragment(src);
+        const normalizedSrc = normalizeRemoteUrl(srcBase);
+        if (!isRemoteUrl(normalizedSrc)) {
+          return updated;
+        }
         const outputPath = await this.ensureExternalAsset(
-          normalizeRemoteUrl(src),
-          derivePathFromUrl(normalizeRemoteUrl(src), this.options.assetsDir, guessAssetTypeFromUrl(src)),
-          guessAssetTypeFromUrl(src)
+          normalizedSrc,
+          derivePathFromUrl(normalizedSrc, this.options.assetsDir, guessAssetTypeFromUrl(normalizedSrc)),
+          guessAssetTypeFromUrl(normalizedSrc)
         ).then(asset => asset?.outputPath);
 
         if (outputPath) {
-          const relative = relativeAssetPath(pagePath, outputPath);
+          const relative = relativeAssetPath(pagePath, outputPath) + fragment;
           updated = setAttribute(updated, 'src', relative);
           updated = removeAttribute(updated, 'integrity');
           updated = removeAttribute(updated, 'crossorigin');
@@ -439,15 +454,20 @@ class AssetRegistry {
       }
 
       const poster = getAttribute(match, 'poster');
-      if (poster && !shouldIgnoreUrl(poster) && isRemoteUrl(poster)) {
+      if (poster && !shouldIgnoreUrl(poster)) {
+        const { base: posterBase, fragment } = splitUrlFragment(poster);
+        const normalizedPoster = normalizeRemoteUrl(posterBase);
+        if (!isRemoteUrl(normalizedPoster)) {
+          return updated;
+        }
         const outputPath = await this.ensureExternalAsset(
-          normalizeRemoteUrl(poster),
-          derivePathFromUrl(normalizeRemoteUrl(poster), this.options.assetsDir, 'image'),
+          normalizedPoster,
+          derivePathFromUrl(normalizedPoster, this.options.assetsDir, 'image'),
           'image'
         ).then(asset => asset?.outputPath);
 
         if (outputPath) {
-          const relative = relativeAssetPath(pagePath, outputPath);
+          const relative = relativeAssetPath(pagePath, outputPath) + fragment;
           updated = setAttribute(updated, 'poster', relative);
           updated = removeAttribute(updated, 'integrity');
           updated = removeAttribute(updated, 'crossorigin');
@@ -475,15 +495,21 @@ class AssetRegistry {
       const url = segments[0];
       const descriptor = segments.slice(1).join(' ');
 
-      if (shouldIgnoreUrl(url) || !isRemoteUrl(url)) {
+      if (shouldIgnoreUrl(url)) {
+        rewrittenParts.push(entry);
+        continue;
+      }
+      const { base: urlBase, fragment } = splitUrlFragment(url);
+      const normalizedUrl = normalizeRemoteUrl(urlBase);
+      if (!isRemoteUrl(normalizedUrl)) {
         rewrittenParts.push(entry);
         continue;
       }
 
       const outputPath = await this.ensureExternalAsset(
-        normalizeRemoteUrl(url),
-        derivePathFromUrl(normalizeRemoteUrl(url), this.options.assetsDir, guessAssetTypeFromUrl(url)),
-        guessAssetTypeFromUrl(url)
+        normalizedUrl,
+        derivePathFromUrl(normalizedUrl, this.options.assetsDir, guessAssetTypeFromUrl(normalizedUrl)),
+        guessAssetTypeFromUrl(normalizedUrl)
       ).then(asset => asset?.outputPath);
 
       if (!outputPath) {
@@ -491,7 +517,7 @@ class AssetRegistry {
         continue;
       }
 
-      const relative = relativeAssetPath(pagePath, outputPath);
+      const relative = relativeAssetPath(pagePath, outputPath) + fragment;
       rewrittenParts.push(descriptor ? `${relative} ${descriptor}` : relative);
     }
 
@@ -592,10 +618,11 @@ class AssetRegistry {
       if (!resolvedUrl) {
         return match;
       }
+      const { base: resolvedBase, fragment } = splitUrlFragment(resolvedUrl);
 
       const outputPath = await this.ensureExternalAsset(
-        resolvedUrl,
-        derivePathFromUrl(resolvedUrl, this.options.assetsDir, 'css'),
+        resolvedBase,
+        derivePathFromUrl(resolvedBase, this.options.assetsDir, 'css'),
         'css'
       ).then(asset => asset?.outputPath);
 
@@ -603,7 +630,7 @@ class AssetRegistry {
         return match;
       }
 
-      const relative = relativeAssetPath(context.ownerPath, outputPath);
+      const relative = relativeAssetPath(context.ownerPath, outputPath) + fragment;
       return `@import url("${relative}");`;
     });
 
@@ -617,18 +644,19 @@ class AssetRegistry {
       if (!resolvedUrl) {
         return match;
       }
+      const { base: resolvedBase, fragment } = splitUrlFragment(resolvedUrl);
 
       const outputPath = await this.ensureExternalAsset(
-        resolvedUrl,
-        derivePathFromUrl(resolvedUrl, this.options.assetsDir, guessAssetTypeFromUrl(resolvedUrl)),
-        guessAssetTypeFromUrl(resolvedUrl)
+        resolvedBase,
+        derivePathFromUrl(resolvedBase, this.options.assetsDir, guessAssetTypeFromUrl(resolvedBase)),
+        guessAssetTypeFromUrl(resolvedBase)
       ).then(asset => asset?.outputPath);
 
       if (!outputPath) {
         return match;
       }
 
-      const relative = relativeAssetPath(context.ownerPath, outputPath);
+      const relative = relativeAssetPath(context.ownerPath, outputPath) + fragment;
       return `url("${relative}")`;
     });
 
