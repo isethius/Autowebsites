@@ -347,7 +347,7 @@ export function getCTASet(industry?: IndustryType | string, vibe?: string): CTAS
  */
 export function getCTAs(query: CTAQuery): string[] {
   const ctaSet = buildCTASet(query.industry, query.vibe);
-  if (query.context) {
+  if (query.context && CTA_CONTEXTS.includes(query.context)) {
     return [...ctaSet[query.context]];
   }
   return flattenCTASet(ctaSet);

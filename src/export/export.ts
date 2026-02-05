@@ -328,13 +328,14 @@ class AssetRegistry {
     }
 
     // URL source
-    const url = normalizeRemoteUrl(String(asset.source));
-    if (!isRemoteUrl(url)) {
-      this.warnings.push(`Asset URL is not remote: ${url}`);
+    const rawUrl = normalizeRemoteUrl(String(asset.source));
+    const { base: urlBase } = splitUrlFragment(rawUrl);
+    if (!isRemoteUrl(urlBase)) {
+      this.warnings.push(`Asset URL is not remote: ${rawUrl}`);
       return null;
     }
     const outputPath = normalizeZipPath(
-      asset.path || derivePathFromUrl(url, this.options.assetsDir, asset.type)
+      asset.path || derivePathFromUrl(urlBase, this.options.assetsDir, asset.type)
     );
 
     if (pagePaths.has(outputPath)) {
@@ -342,7 +343,7 @@ class AssetRegistry {
       return null;
     }
 
-    return this.ensureExternalAsset(url, outputPath, asset.type);
+    return this.ensureExternalAsset(urlBase, outputPath, asset.type);
   }
 
   async rewriteHtml(html: string, pagePath: string): Promise<string> {
@@ -507,41 +508,42 @@ class AssetRegistry {
     }
 
     const normalizedUrl = normalizeRemoteUrl(url);
-    if (!isRemoteUrl(normalizedUrl)) {
+    const baseUrl = stripUrlFragment(normalizedUrl);
+    if (!isRemoteUrl(baseUrl)) {
       return null;
     }
 
-    const cachedPath = this.sourceToPath.get(normalizedUrl);
+    const cachedPath = this.sourceToPath.get(baseUrl);
     if (cachedPath && this.assetsByPath.has(cachedPath)) {
       return this.assetsByPath.get(cachedPath)!;
     }
 
-    if (this.inFlightSources.has(normalizedUrl)) {
+    if (this.inFlightSources.has(baseUrl)) {
       if (cachedPath) {
         return this.assetsByPath.get(cachedPath) || null;
       }
       return null;
     }
 
-    this.inFlightSources.add(normalizedUrl);
+    this.inFlightSources.add(baseUrl);
 
     try {
-      const response = await fetchWithTimeout(normalizedUrl, this.options.externalAssetTimeoutMs);
+      const response = await fetchWithTimeout(baseUrl, this.options.externalAssetTimeoutMs);
       if (!response.ok) {
-        this.warnings.push(`Failed to fetch asset (${response.status}): ${normalizedUrl}`);
+        this.warnings.push(`Failed to fetch asset (${response.status}): ${baseUrl}`);
         return null;
       }
 
       const contentType = response.headers.get('content-type') || undefined;
       let buffer: Buffer = Buffer.from(await response.arrayBuffer());
-      const type = typeHint || guessAssetTypeFromUrl(normalizedUrl) || guessAssetTypeFromContentType(contentType) || 'other';
+      const type = typeHint || guessAssetTypeFromUrl(baseUrl) || guessAssetTypeFromContentType(contentType) || 'other';
 
-      let finalOutputPath = normalizeZipPath(outputPath || derivePathFromUrl(normalizedUrl, this.options.assetsDir, type));
+      let finalOutputPath = normalizeZipPath(outputPath || derivePathFromUrl(baseUrl, this.options.assetsDir, type));
 
       if (type === 'css') {
         const cssText = buffer.toString('utf-8');
         const rewrittenCss = await this.rewriteCss(cssText, {
-          baseUrl: normalizedUrl,
+          baseUrl: baseUrl,
           ownerPath: finalOutputPath,
         });
         const finalCss = this.options.minify.css ? minifyCss(rewrittenCss) : rewrittenCss;
@@ -558,20 +560,20 @@ class AssetRegistry {
         outputPath: finalOutputPath,
         content: buffer,
         type,
-        sourceKey: normalizedUrl,
+        sourceKey: baseUrl,
         mediaType: contentType,
       };
 
-      this.sourceToPath.set(normalizedUrl, finalOutputPath);
+      this.sourceToPath.set(baseUrl, finalOutputPath);
       this.assetsByPath.set(finalOutputPath, resolved);
 
       return resolved;
     } catch (error: any) {
       const message = error?.message || 'Unknown fetch error';
-      this.warnings.push(`Failed to fetch asset: ${normalizedUrl} (${message})`);
+      this.warnings.push(`Failed to fetch asset: ${baseUrl} (${message})`);
       return null;
     } finally {
-      this.inFlightSources.delete(normalizedUrl);
+      this.inFlightSources.delete(baseUrl);
     }
   }
 
@@ -680,10 +682,6 @@ function normalizeRemoteUrl(url: string): string {
   if (trimmed.startsWith('//')) {
     return `https:${trimmed}`;
   }
-
-  if (trimmed.includes('#')) {
-    return trimmed.split('#')[0];
-  }
   return trimmed;
 }
 
@@ -701,6 +699,18 @@ function shouldIgnoreUrl(url: string): boolean {
     || trimmed.startsWith('javascript:')
     || trimmed.startsWith('#')
   );
+}
+
+function splitUrlFragment(url: string): { base: string; fragment: string } {
+  const hashIndex = url.indexOf('#');
+  if (hashIndex === -1) {
+    return { base: url, fragment: '' };
+  }
+  return { base: url.slice(0, hashIndex), fragment: url.slice(hashIndex) };
+}
+
+function stripUrlFragment(url: string): string {
+  return splitUrlFragment(url).base;
 }
 
 function resolveCssUrl(url: string, baseUrl?: string): string | null {

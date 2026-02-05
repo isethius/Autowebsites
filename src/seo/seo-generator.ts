@@ -674,7 +674,7 @@ function buildAddress(address?: SeoAddress): Record<string, string> | undefined 
   return Object.keys(data).length > 0 ? { '@type': 'PostalAddress', ...data } : undefined;
 }
 
-function buildGeo(geo?: SeoGeo): Record<string, number> | undefined {
+function buildGeo(geo?: SeoGeo): Record<string, number | string> | undefined {
   if (!geo) return undefined;
   if (typeof geo.latitude !== 'number' || typeof geo.longitude !== 'number') return undefined;
   return {
@@ -744,11 +744,13 @@ function resolveRobots(page: SeoPageContent, options: SeoOptions): string | unde
     return pageRobots.trim() || undefined;
   }
 
-  if (typeof options.robots === 'string') {
+  const pageRobotsObject = pageRobots && typeof pageRobots === 'object' ? pageRobots : undefined;
+
+  if (!pageRobotsObject && typeof options.robots === 'string') {
     return options.robots.trim() || undefined;
   }
 
-  const robotsConfig = (pageRobots && typeof pageRobots === 'object' ? pageRobots : undefined)
+  const robotsConfig = pageRobotsObject
     || (options.robots && typeof options.robots === 'object' ? options.robots : undefined);
 
   const hasDirectives = !!robotsConfig || page.noIndex || page.noFollow || options.includeRobots;
