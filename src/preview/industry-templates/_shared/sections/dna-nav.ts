@@ -53,16 +53,16 @@ export function generateDNANav(config: NavConfig): SectionOutput {
 
 /**
  * N1: Fixed Top Bar - Standard sticky navigation
+ * PHYSICS REFACTOR: Uses CSS variables with fallbacks, global .btn classes
  */
 function generateNavN1Fixed(config: NavConfig): SectionOutput {
   const { businessName, dna, links = DEFAULT_LINKS, ctaText, ctaHref, phone } = config;
-  const design = DESIGN_VARIANTS[dna.design] || DESIGN_VARIANTS.D1;
 
   const css = `
     .nav-n1 {
       background: var(--white);
-      padding: 16px 0;
-      border-bottom: 1px solid var(--gray-200);
+      padding: var(--nav-padding, 16px) 0;
+      border-bottom: var(--border-width, 1px) solid var(--border-color, var(--gray-200));
       position: sticky;
       top: 0;
       z-index: 100;
@@ -75,7 +75,7 @@ function generateNavN1Fixed(config: NavConfig): SectionOutput {
     }
 
     .nav-n1-logo {
-      font-size: 24px;
+      font-size: var(--text-h4, 24px);
       font-weight: 800;
       color: var(--primary);
       text-decoration: none;
@@ -83,14 +83,14 @@ function generateNavN1Fixed(config: NavConfig): SectionOutput {
 
     .nav-n1-links {
       display: flex;
-      gap: 32px;
+      gap: var(--gap-lg, 32px);
     }
 
     .nav-n1-links a {
       color: var(--text);
       text-decoration: none;
       font-weight: 500;
-      font-size: 15px;
+      font-size: var(--text-sm, 15px);
       transition: color var(--transition-duration, 0.2s) ease;
     }
 
@@ -98,19 +98,9 @@ function generateNavN1Fixed(config: NavConfig): SectionOutput {
       color: var(--primary);
     }
 
-    .nav-n1-cta {
-      background: var(--primary);
-      color: var(--white);
-      padding: 12px 24px;
-      border-radius: ${design.borderRadius};
+    /* Nav CTA uses global .btn styles */
+    .nav-n1 .btn {
       text-decoration: none;
-      font-weight: 600;
-      transition: all var(--transition-duration, 0.2s) ease;
-    }
-
-    .nav-n1-cta:hover {
-      background: var(--secondary);
-      transform: translateY(-1px);
     }
 
     @media (max-width: 900px) {
@@ -125,7 +115,7 @@ function generateNavN1Fixed(config: NavConfig): SectionOutput {
         <nav class="nav-n1-links">
           ${links.map(link => `<a href="${link.href}">${escapeHtml(link.text)}</a>`).join('')}
         </nav>
-        ${ctaText ? `<a href="${ctaHref || '#contact'}" class="nav-n1-cta">${escapeHtml(ctaText)}</a>` : ''}
+        ${ctaText ? `<a href="${ctaHref || '#contact'}" class="btn btn-primary">${escapeHtml(ctaText)}</a>` : ''}
       </div>
     </header>
   `;
@@ -135,10 +125,10 @@ function generateNavN1Fixed(config: NavConfig): SectionOutput {
 
 /**
  * N2: Transparent Header - See-through nav over hero
+ * PHYSICS REFACTOR: Uses CSS variables with fallbacks, global .btn classes
  */
 function generateNavN2Transparent(config: NavConfig): SectionOutput {
   const { businessName, dna, links = DEFAULT_LINKS, ctaText, ctaHref } = config;
-  const design = DESIGN_VARIANTS[dna.design] || DESIGN_VARIANTS.D1;
 
   const css = `
     .nav-n2 {
@@ -146,7 +136,7 @@ function generateNavN2Transparent(config: NavConfig): SectionOutput {
       top: 0;
       left: 0;
       right: 0;
-      padding: 20px 0;
+      padding: var(--nav-padding, 20px) 0;
       z-index: 100;
     }
 
@@ -157,7 +147,7 @@ function generateNavN2Transparent(config: NavConfig): SectionOutput {
     }
 
     .nav-n2-logo {
-      font-size: 24px;
+      font-size: var(--text-h4, 24px);
       font-weight: 800;
       color: var(--white);
       text-decoration: none;
@@ -165,14 +155,14 @@ function generateNavN2Transparent(config: NavConfig): SectionOutput {
 
     .nav-n2-links {
       display: flex;
-      gap: 32px;
+      gap: var(--gap-lg, 32px);
     }
 
     .nav-n2-links a {
       color: rgba(255,255,255,0.9);
       text-decoration: none;
       font-weight: 500;
-      font-size: 15px;
+      font-size: var(--text-sm, 15px);
       transition: color var(--transition-duration, 0.2s) ease;
     }
 
@@ -180,19 +170,16 @@ function generateNavN2Transparent(config: NavConfig): SectionOutput {
       color: var(--white);
     }
 
-    .nav-n2-cta {
+    /* Nav CTA uses global .btn styles with white variant */
+    .nav-n2 .btn-white {
       background: var(--white);
       color: var(--primary);
-      padding: 12px 24px;
-      border-radius: ${design.borderRadius};
       text-decoration: none;
-      font-weight: 600;
-      transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .nav-n2-cta:hover {
+    .nav-n2 .btn-white:hover {
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      box-shadow: var(--shadow-card, 0 4px 12px rgba(0,0,0,0.15));
     }
 
     @media (max-width: 900px) {
@@ -207,7 +194,7 @@ function generateNavN2Transparent(config: NavConfig): SectionOutput {
         <nav class="nav-n2-links">
           ${links.map(link => `<a href="${link.href}">${escapeHtml(link.text)}</a>`).join('')}
         </nav>
-        ${ctaText ? `<a href="${ctaHref || '#contact'}" class="nav-n2-cta">${escapeHtml(ctaText)}</a>` : ''}
+        ${ctaText ? `<a href="${ctaHref || '#contact'}" class="btn btn-white">${escapeHtml(ctaText)}</a>` : ''}
       </div>
     </header>
   `;
@@ -217,10 +204,10 @@ function generateNavN2Transparent(config: NavConfig): SectionOutput {
 
 /**
  * N4: Sidebar Nav - Vertical side navigation (special layout)
+ * PHYSICS REFACTOR: Uses CSS variables with fallbacks, global .btn classes
  */
 function generateNavN4Sidebar(config: NavConfig): SectionOutput {
   const { businessName, dna, links = DEFAULT_LINKS, ctaText, ctaHref, phone } = config;
-  const design = DESIGN_VARIANTS[dna.design] || DESIGN_VARIANTS.D1;
 
   const css = `
     .nav-n4 {
@@ -230,25 +217,25 @@ function generateNavN4Sidebar(config: NavConfig): SectionOutput {
       bottom: 0;
       width: 280px;
       background: var(--white);
-      border-right: 1px solid var(--gray-200);
-      padding: 40px 30px;
+      border-right: var(--border-width, 1px) solid var(--border-color, var(--gray-200));
+      padding: var(--card-padding, 40px) var(--gap-md, 30px);
       display: flex;
       flex-direction: column;
       z-index: 100;
     }
 
     .nav-n4-logo {
-      font-size: 22px;
+      font-size: var(--text-h4, 22px);
       font-weight: 800;
       color: var(--primary);
       text-decoration: none;
-      margin-bottom: 48px;
+      margin-bottom: var(--gap-xl, 48px);
     }
 
     .nav-n4-links {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: var(--gap-xs, 8px);
       flex: 1;
     }
 
@@ -256,9 +243,9 @@ function generateNavN4Sidebar(config: NavConfig): SectionOutput {
       color: var(--text);
       text-decoration: none;
       font-weight: 500;
-      font-size: 16px;
-      padding: 12px 16px;
-      border-radius: ${design.borderRadius};
+      font-size: var(--text-body, 16px);
+      padding: var(--gap-xs, 12px) var(--gap-sm, 16px);
+      border-radius: var(--radius, 8px);
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
@@ -269,31 +256,23 @@ function generateNavN4Sidebar(config: NavConfig): SectionOutput {
 
     .nav-n4-footer {
       margin-top: auto;
-      padding-top: 24px;
-      border-top: 1px solid var(--gray-200);
+      padding-top: var(--gap-md, 24px);
+      border-top: var(--border-width, 1px) solid var(--border-color, var(--gray-200));
     }
 
-    .nav-n4-cta {
+    /* Nav CTA uses global .btn styles */
+    .nav-n4-footer .btn {
       display: block;
-      background: var(--primary);
-      color: var(--white);
-      padding: 14px 20px;
-      border-radius: ${design.borderRadius};
-      text-decoration: none;
-      font-weight: 600;
+      width: 100%;
       text-align: center;
-      transition: all var(--transition-duration, 0.2s) ease;
-    }
-
-    .nav-n4-cta:hover {
-      background: var(--secondary);
+      text-decoration: none;
     }
 
     .nav-n4-phone {
       display: block;
-      margin-top: 16px;
+      margin-top: var(--gap-sm, 16px);
       color: var(--muted);
-      font-size: 14px;
+      font-size: var(--text-sm, 14px);
       text-align: center;
     }
 
@@ -319,7 +298,7 @@ function generateNavN4Sidebar(config: NavConfig): SectionOutput {
         ${links.map(link => `<a href="${link.href}">${escapeHtml(link.text)}</a>`).join('')}
       </nav>
       <div class="nav-n4-footer">
-        ${ctaText ? `<a href="${ctaHref || '#contact'}" class="nav-n4-cta">${escapeHtml(ctaText)}</a>` : ''}
+        ${ctaText ? `<a href="${ctaHref || '#contact'}" class="btn btn-primary">${escapeHtml(ctaText)}</a>` : ''}
         ${phone ? `<a href="tel:${phone}" class="nav-n4-phone">${phone}</a>` : ''}
       </div>
     </aside>
@@ -330,6 +309,7 @@ function generateNavN4Sidebar(config: NavConfig): SectionOutput {
 
 /**
  * N7: Floating Nav - Rounded floating bar
+ * PHYSICS REFACTOR: Uses CSS variables with fallbacks, global .btn classes
  */
 function generateNavN7Floating(config: NavConfig): SectionOutput {
   const { businessName, dna, links = DEFAULT_LINKS, ctaText, ctaHref } = config;
@@ -337,28 +317,28 @@ function generateNavN7Floating(config: NavConfig): SectionOutput {
   const css = `
     .nav-n7-wrapper {
       position: fixed;
-      top: 20px;
+      top: var(--gap-sm, 20px);
       left: 50%;
       transform: translateX(-50%);
       z-index: 100;
       width: 100%;
       max-width: 900px;
-      padding: 0 20px;
+      padding: 0 var(--gap-sm, 20px);
     }
 
     .nav-n7 {
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(10px);
-      border-radius: 9999px;
-      padding: 12px 12px 12px 24px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+      background: var(--bg-surface, rgba(255,255,255,0.95));
+      backdrop-filter: var(--backdrop, blur(10px));
+      border-radius: var(--radius-pill, 9999px);
+      padding: var(--gap-xs, 12px) var(--gap-xs, 12px) var(--gap-xs, 12px) var(--gap-md, 24px);
+      box-shadow: var(--shadow-card, 0 4px 24px rgba(0,0,0,0.1));
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .nav-n7-logo {
-      font-size: 20px;
+      font-size: var(--text-lg, 20px);
       font-weight: 800;
       color: var(--primary);
       text-decoration: none;
@@ -366,14 +346,14 @@ function generateNavN7Floating(config: NavConfig): SectionOutput {
 
     .nav-n7-links {
       display: flex;
-      gap: 24px;
+      gap: var(--gap-md, 24px);
     }
 
     .nav-n7-links a {
       color: var(--text);
       text-decoration: none;
       font-weight: 500;
-      font-size: 14px;
+      font-size: var(--text-sm, 14px);
       transition: color var(--transition-duration, 0.2s) ease;
     }
 
@@ -381,25 +361,15 @@ function generateNavN7Floating(config: NavConfig): SectionOutput {
       color: var(--primary);
     }
 
-    .nav-n7-cta {
-      background: var(--primary);
-      color: var(--white);
-      padding: 10px 20px;
-      border-radius: 9999px;
+    /* Nav CTA uses global .btn with pill variant */
+    .nav-n7 .btn {
+      border-radius: var(--radius-pill, 9999px);
       text-decoration: none;
-      font-weight: 600;
-      font-size: 14px;
-      transition: all var(--transition-duration, 0.2s) ease;
-    }
-
-    .nav-n7-cta:hover {
-      background: var(--secondary);
-      transform: scale(1.02);
     }
 
     @media (max-width: 768px) {
       .nav-n7-links { display: none; }
-      .nav-n7 { padding: 10px 10px 10px 20px; }
+      .nav-n7 { padding: var(--gap-xs, 10px) var(--gap-xs, 10px) var(--gap-xs, 10px) var(--gap-sm, 20px); }
     }
   `;
 
@@ -410,7 +380,7 @@ function generateNavN7Floating(config: NavConfig): SectionOutput {
         <nav class="nav-n7-links">
           ${links.map(link => `<a href="${link.href}">${escapeHtml(link.text)}</a>`).join('')}
         </nav>
-        ${ctaText ? `<a href="${ctaHref || '#contact'}" class="nav-n7-cta">${escapeHtml(ctaText)}</a>` : ''}
+        ${ctaText ? `<a href="${ctaHref || '#contact'}" class="btn btn-primary">${escapeHtml(ctaText)}</a>` : ''}
       </header>
     </div>
   `;
@@ -420,10 +390,10 @@ function generateNavN7Floating(config: NavConfig): SectionOutput {
 
 /**
  * N9: Minimal Links - Sparse top-right links
+ * PHYSICS REFACTOR: Uses CSS variables with fallbacks, global .btn classes
  */
 function generateNavN9Minimal(config: NavConfig): SectionOutput {
   const { businessName, dna, links = DEFAULT_LINKS, ctaText, ctaHref } = config;
-  const design = DESIGN_VARIANTS[dna.design] || DESIGN_VARIANTS.D1;
 
   const css = `
     .nav-n9 {
@@ -431,7 +401,7 @@ function generateNavN9Minimal(config: NavConfig): SectionOutput {
       top: 0;
       left: 0;
       right: 0;
-      padding: 24px 0;
+      padding: var(--gap-md, 24px) 0;
       z-index: 100;
     }
 
@@ -442,7 +412,7 @@ function generateNavN9Minimal(config: NavConfig): SectionOutput {
     }
 
     .nav-n9-logo {
-      font-size: 22px;
+      font-size: var(--text-h4, 22px);
       font-weight: 800;
       color: var(--text);
       text-decoration: none;
@@ -451,19 +421,19 @@ function generateNavN9Minimal(config: NavConfig): SectionOutput {
     .nav-n9-right {
       display: flex;
       align-items: center;
-      gap: 32px;
+      gap: var(--gap-lg, 32px);
     }
 
     .nav-n9-links {
       display: flex;
-      gap: 24px;
+      gap: var(--gap-md, 24px);
     }
 
     .nav-n9-links a {
       color: var(--muted);
       text-decoration: none;
       font-weight: 500;
-      font-size: 14px;
+      font-size: var(--text-sm, 14px);
       transition: color var(--transition-duration, 0.2s) ease;
     }
 
@@ -471,18 +441,14 @@ function generateNavN9Minimal(config: NavConfig): SectionOutput {
       color: var(--text);
     }
 
-    .nav-n9-cta {
+    /* Nav CTA uses global .btn with dark variant */
+    .nav-n9 .btn-dark {
       background: var(--text);
       color: var(--white);
-      padding: 10px 20px;
-      border-radius: ${design.borderRadius};
       text-decoration: none;
-      font-weight: 600;
-      font-size: 14px;
-      transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .nav-n9-cta:hover {
+    .nav-n9 .btn-dark:hover {
       opacity: 0.9;
     }
 
@@ -499,7 +465,7 @@ function generateNavN9Minimal(config: NavConfig): SectionOutput {
           <nav class="nav-n9-links">
             ${links.slice(0, 3).map(link => `<a href="${link.href}">${escapeHtml(link.text)}</a>`).join('')}
           </nav>
-          ${ctaText ? `<a href="${ctaHref || '#contact'}" class="nav-n9-cta">${escapeHtml(ctaText)}</a>` : ''}
+          ${ctaText ? `<a href="${ctaHref || '#contact'}" class="btn btn-dark">${escapeHtml(ctaText)}</a>` : ''}
         </div>
       </div>
     </header>

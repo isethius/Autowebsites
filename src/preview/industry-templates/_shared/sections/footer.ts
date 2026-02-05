@@ -22,21 +22,22 @@ export interface FooterConfig {
 
 /**
  * Generate footer CSS
+ * PHYSICS REFACTOR: Uses CSS variables with fallbacks
  */
 export function generateFooterCSS(): string {
   return `
     footer {
       background: var(--gray-800);
       color: var(--white);
-      padding: 60px 0 30px;
+      padding: var(--footer-spacing, 60px) 0 var(--gap-md, 30px);
     }
 
     .footer-content {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 40px;
+      margin-bottom: var(--gap-lg, 40px);
       flex-wrap: wrap;
-      gap: 40px;
+      gap: var(--gap-lg, 40px);
     }
 
     .footer-brand {
@@ -44,31 +45,31 @@ export function generateFooterCSS(): string {
     }
 
     .footer-brand h3 {
-      font-size: 24px;
+      font-size: var(--text-h4, 24px);
       font-weight: 800;
-      margin-bottom: 12px;
+      margin-bottom: var(--gap-xs, 12px);
     }
 
     .footer-brand p {
       color: var(--gray-400);
-      font-size: 14px;
+      font-size: var(--text-sm, 14px);
       line-height: 1.6;
     }
 
     .footer-license {
-      margin-top: 16px;
-      font-size: 13px;
+      margin-top: var(--gap-sm, 16px);
+      font-size: var(--text-sm, 13px);
       color: var(--gray-400);
     }
 
     .footer-links {
       display: flex;
-      gap: 40px;
+      gap: var(--gap-lg, 40px);
     }
 
     .footer-links a {
       color: var(--gray-400);
-      font-size: 14px;
+      font-size: var(--text-sm, 14px);
       transition: color 0.2s;
     }
 
@@ -79,15 +80,15 @@ export function generateFooterCSS(): string {
     .footer-contact {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: var(--gap-xs, 12px);
     }
 
     .footer-contact a {
       color: var(--gray-400);
-      font-size: 14px;
+      font-size: var(--text-sm, 14px);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: var(--gap-xs, 8px);
       transition: color 0.2s;
     }
 
@@ -97,19 +98,19 @@ export function generateFooterCSS(): string {
 
     .footer-social {
       display: flex;
-      gap: 16px;
-      margin-top: 20px;
+      gap: var(--gap-sm, 16px);
+      margin-top: var(--gap-sm, 20px);
     }
 
     .footer-social a {
-      width: 40px;
-      height: 40px;
+      width: var(--avatar-size, 40px);
+      height: var(--avatar-size, 40px);
       background: var(--gray-700);
-      border-radius: 8px;
+      border-radius: var(--radius-sm, 8px);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size: var(--text-lg, 18px);
       transition: background 0.2s;
     }
 
@@ -118,14 +119,14 @@ export function generateFooterCSS(): string {
     }
 
     .footer-bottom {
-      padding-top: 30px;
-      border-top: 1px solid var(--gray-700);
+      padding-top: var(--gap-md, 30px);
+      border-top: var(--border-width, 1px) solid var(--gray-700);
       display: flex;
       justify-content: space-between;
       color: var(--gray-400);
-      font-size: 13px;
+      font-size: var(--text-sm, 13px);
       flex-wrap: wrap;
-      gap: 16px;
+      gap: var(--gap-sm, 16px);
     }
 
     .footer-bottom a {
@@ -143,7 +144,7 @@ export function generateFooterCSS(): string {
 
       .footer-links {
         flex-wrap: wrap;
-        gap: 20px;
+        gap: var(--gap-sm, 20px);
       }
 
       .footer-bottom {

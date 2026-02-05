@@ -30,13 +30,16 @@ export { SectionOutput };
 
 /**
  * Generate hero CSS
+ *
+ * PHYSICS REFACTOR: Uses CSS variables with fallbacks.
+ * Button classes (.hero-cta-primary/secondary) removed - use global .btn classes instead.
  */
 export function generateHeroCSS(): string {
   return `
     .hero {
       background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       color: var(--white);
-      padding: 80px 0;
+      padding: var(--section-spacing, 80px) 0;
       position: relative;
       overflow: hidden;
     }
@@ -48,79 +51,64 @@ export function generateHeroCSS(): string {
     .hero-content {
       display: grid;
       grid-template-columns: 1.2fr 1fr;
-      gap: 60px;
+      gap: var(--gap-xl, 60px);
       align-items: center;
     }
 
     .hero-text h1 {
-      font-size: 48px;
+      font-size: var(--text-h1, 48px);
       font-weight: 800;
       line-height: 1.1;
-      margin-bottom: 20px;
+      margin-bottom: var(--gap-sm, 20px);
     }
 
     .hero-text p {
-      font-size: 20px;
+      font-size: var(--text-lg, 20px);
       opacity: 0.9;
-      margin-bottom: 32px;
+      margin-bottom: var(--gap-md, 32px);
       line-height: 1.6;
     }
 
     .hero-buttons {
       display: flex;
-      gap: 16px;
+      gap: var(--gap-sm, 16px);
       flex-wrap: wrap;
     }
 
-    .hero-cta-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+    /* Hero-specific button overrides for white-on-gradient look */
+    .hero .btn-primary {
       background: var(--white);
       color: var(--primary);
-      padding: 16px 32px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 18px;
-      transition: all 0.2s ease;
+      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
-    .hero-cta-primary:hover {
-      transform: translateY(-2px);
+    .hero .btn-primary:hover {
+      transform: var(--hover-transform, translateY(-2px));
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
 
-    .hero-cta-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+    .hero .btn-secondary {
       background: transparent;
       color: var(--white);
       border: 2px solid var(--white);
-      padding: 14px 28px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.2s ease;
     }
 
-    .hero-cta-secondary:hover {
+    .hero .btn-secondary:hover {
       background: rgba(255, 255, 255, 0.1);
     }
 
     .trust-badges {
       display: flex;
-      gap: 32px;
-      margin-top: 40px;
+      gap: var(--gap-md, 32px);
+      margin-top: var(--gap-lg, 40px);
       flex-wrap: wrap;
     }
 
     .trust-badge {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 14px;
+      gap: var(--gap-xs, 8px);
+      font-size: var(--text-sm, 14px);
       font-weight: 500;
     }
 
@@ -128,7 +116,7 @@ export function generateHeroCSS(): string {
       width: 32px;
       height: 32px;
       background: rgba(255, 255, 255, 0.2);
-      border-radius: 50%;
+      border-radius: var(--radius-pill, 50%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -136,12 +124,12 @@ export function generateHeroCSS(): string {
 
     .hero-image {
       background: rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
+      border-radius: var(--radius, 12px);
       height: 400px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 48px;
+      font-size: var(--text-h1, 48px);
     }
 
     @media (max-width: 900px) {
@@ -150,11 +138,11 @@ export function generateHeroCSS(): string {
       }
 
       .hero-text h1 {
-        font-size: 32px;
+        font-size: var(--text-h2, 32px);
       }
 
       .hero-text p {
-        font-size: 18px;
+        font-size: var(--text-body, 18px);
       }
 
       .hero-image {
@@ -170,6 +158,7 @@ export function generateHeroCSS(): string {
 
 /**
  * Standard gradient hero
+ * Uses global .btn classes for styling consistency
  */
 export function generateHeroGradient(config: HeroConfig): string {
   const { headline, tagline, primaryCTA, secondaryCTA, phone, trustBadges } = config;
@@ -181,9 +170,9 @@ export function generateHeroGradient(config: HeroConfig): string {
           <h1>${escapeHtml(headline)}</h1>
           <p>${escapeHtml(tagline)}</p>
           <div class="hero-buttons">
-            ${phone ? `<a href="tel:${phone}" class="hero-cta-primary">📞 Call Now: ${phone}</a>` : ''}
-            ${primaryCTA && !phone ? `<a href="${primaryCTA.href}" class="hero-cta-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
-            ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="hero-cta-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
+            ${phone ? `<a href="tel:${phone}" class="btn btn-primary">📞 Call Now: ${phone}</a>` : ''}
+            ${primaryCTA && !phone ? `<a href="${primaryCTA.href}" class="btn btn-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
+            ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn btn-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
           </div>
           ${trustBadges?.length ? `
           <div class="trust-badges">
@@ -206,6 +195,7 @@ export function generateHeroGradient(config: HeroConfig): string {
 
 /**
  * Split-screen hero (image left, text right)
+ * Uses global .btn classes for styling consistency
  */
 export function generateHeroSplit(config: HeroConfig): string {
   const { headline, tagline, primaryCTA, secondaryCTA, trustBadges } = config;
@@ -220,8 +210,8 @@ export function generateHeroSplit(config: HeroConfig): string {
           <h1>${escapeHtml(headline)}</h1>
           <p>${escapeHtml(tagline)}</p>
           <div class="hero-buttons">
-            ${primaryCTA ? `<a href="${primaryCTA.href}" class="hero-cta-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
-            ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="hero-cta-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
+            ${primaryCTA ? `<a href="${primaryCTA.href}" class="btn btn-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
+            ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn btn-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
           </div>
           ${trustBadges?.length ? `
           <div class="trust-badges">
@@ -241,6 +231,7 @@ export function generateHeroSplit(config: HeroConfig): string {
 
 /**
  * Centered text hero (no image)
+ * Uses global .btn classes for styling consistency
  */
 export function generateHeroCentered(config: HeroConfig): string {
   const { headline, tagline, primaryCTA, secondaryCTA, trustBadges } = config;
@@ -249,11 +240,11 @@ export function generateHeroCentered(config: HeroConfig): string {
     <section class="hero">
       <div class="container" style="text-align: center; max-width: 800px;">
         <div class="hero-text" style="max-width: 100%;">
-          <h1 style="font-size: 52px;">${escapeHtml(headline)}</h1>
-          <p style="font-size: 22px; max-width: 600px; margin: 0 auto 32px;">${escapeHtml(tagline)}</p>
+          <h1>${escapeHtml(headline)}</h1>
+          <p style="max-width: 600px; margin: 0 auto var(--gap-md, 32px);">${escapeHtml(tagline)}</p>
           <div class="hero-buttons" style="justify-content: center;">
-            ${primaryCTA ? `<a href="${primaryCTA.href}" class="hero-cta-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
-            ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="hero-cta-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
+            ${primaryCTA ? `<a href="${primaryCTA.href}" class="btn btn-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
+            ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn btn-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
           </div>
           ${trustBadges?.length ? `
           <div class="trust-badges" style="justify-content: center;">
@@ -323,16 +314,16 @@ export function generateDNAHero(config: DNAHeroConfig): SectionOutput {
 
 /**
  * H1: Full-Width Impact - Full-screen centered, gradient overlay
+ * PHYSICS REFACTOR: Uses CSS variables with fallbacks, global .btn classes
  */
 function generateHeroH1FullWidth(config: DNAHeroConfig): SectionOutput {
   const { headline, tagline, primaryCTA, secondaryCTA, phone, trustBadges, dna } = config;
-  const design = DESIGN_VARIANTS[dna.design] || DESIGN_VARIANTS.D1;
 
   const css = `
     .hero-h1 {
       background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       color: var(--white);
-      padding: 100px 0;
+      padding: var(--section-spacing, 100px) 0;
       min-height: 70vh;
       display: flex;
       align-items: center;
@@ -341,75 +332,63 @@ function generateHeroH1FullWidth(config: DNAHeroConfig): SectionOutput {
     .hero-h1-content {
       display: grid;
       grid-template-columns: 1.2fr 1fr;
-      gap: 60px;
+      gap: var(--gap-xl, 60px);
       align-items: center;
     }
 
     .hero-h1 h1 {
-      font-size: 56px;
+      font-size: var(--text-h1, 56px);
       line-height: 1.1;
-      margin-bottom: 24px;
+      margin-bottom: var(--gap-md, 24px);
     }
 
     .hero-h1 .tagline {
-      font-size: 22px;
+      font-size: var(--text-lg, 22px);
       opacity: 0.9;
-      margin-bottom: 36px;
+      margin-bottom: var(--gap-lg, 36px);
       line-height: 1.6;
     }
 
     .hero-h1-buttons {
       display: flex;
-      gap: 16px;
+      gap: var(--gap-sm, 16px);
       flex-wrap: wrap;
     }
 
-    .hero-h1 .hero-cta-primary {
+    /* Hero-specific button overrides for white-on-gradient look */
+    .hero-h1 .btn-primary {
       background: var(--white);
       color: var(--primary);
-      padding: 18px 36px;
-      border-radius: ${design.borderRadius};
-      font-weight: 700;
-      font-size: 18px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all var(--transition-duration, 0.2s) ease;
+      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
-    .hero-h1 .hero-cta-primary:hover {
-      transform: translateY(-3px);
+    .hero-h1 .btn-primary:hover {
+      transform: var(--hover-transform, translateY(-3px));
       box-shadow: 0 12px 30px rgba(0,0,0,0.2);
     }
 
-    .hero-h1 .hero-cta-secondary {
+    .hero-h1 .btn-secondary {
       background: transparent;
       color: var(--white);
       border: 2px solid var(--white);
-      padding: 16px 32px;
-      border-radius: ${design.borderRadius};
-      font-weight: 600;
-      text-decoration: none;
-      transition: all var(--transition-duration, 0.2s) ease;
     }
 
-    .hero-h1 .hero-cta-secondary:hover {
+    .hero-h1 .btn-secondary:hover {
       background: rgba(255,255,255,0.1);
     }
 
     .hero-h1 .trust-badges {
       display: flex;
-      gap: 32px;
-      margin-top: 48px;
+      gap: var(--gap-md, 32px);
+      margin-top: var(--gap-lg, 48px);
       flex-wrap: wrap;
     }
 
     .hero-h1 .trust-badge {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: 15px;
+      gap: var(--gap-xs, 10px);
+      font-size: var(--text-sm, 15px);
       font-weight: 500;
     }
 
@@ -417,7 +396,7 @@ function generateHeroH1FullWidth(config: DNAHeroConfig): SectionOutput {
       width: 36px;
       height: 36px;
       background: rgba(255,255,255,0.2);
-      border-radius: 50%;
+      border-radius: var(--radius-pill, 50%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -425,7 +404,7 @@ function generateHeroH1FullWidth(config: DNAHeroConfig): SectionOutput {
 
     .hero-h1-image {
       background: rgba(255,255,255,0.1);
-      border-radius: ${design.borderRadius};
+      border-radius: var(--radius, 12px);
       height: 450px;
       display: flex;
       align-items: center;
@@ -435,7 +414,7 @@ function generateHeroH1FullWidth(config: DNAHeroConfig): SectionOutput {
 
     @media (max-width: 900px) {
       .hero-h1-content { grid-template-columns: 1fr; }
-      .hero-h1 h1 { font-size: 40px; }
+      .hero-h1 h1 { font-size: var(--text-h2, 40px); }
       .hero-h1-image { display: none; }
       .hero-h1 .trust-badges { justify-content: center; }
     }
@@ -448,9 +427,9 @@ function generateHeroH1FullWidth(config: DNAHeroConfig): SectionOutput {
           <h1>${escapeHtml(headline)}</h1>
           <p class="tagline">${escapeHtml(tagline)}</p>
           <div class="hero-h1-buttons">
-            ${phone ? `<a href="tel:${phone}" class="hero-cta-primary">Call Now: ${phone}</a>` : ''}
-            ${primaryCTA && !phone ? `<a href="${primaryCTA.href}" class="hero-cta-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
-            ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="hero-cta-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
+            ${phone ? `<a href="tel:${phone}" class="btn btn-primary">Call Now: ${phone}</a>` : ''}
+            ${primaryCTA && !phone ? `<a href="${primaryCTA.href}" class="btn btn-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
+            ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn btn-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
           </div>
           ${trustBadges?.length ? `
           <div class="trust-badges">
@@ -475,10 +454,10 @@ function generateHeroH1FullWidth(config: DNAHeroConfig): SectionOutput {
 
 /**
  * H2: Split Screen - Two-column with image on one side
+ * PHYSICS REFACTOR: Uses CSS variables with fallbacks, global .btn classes
  */
 function generateHeroH2Split(config: DNAHeroConfig): SectionOutput {
   const { headline, tagline, primaryCTA, secondaryCTA, trustBadges, dna } = config;
-  const design = DESIGN_VARIANTS[dna.design] || DESIGN_VARIANTS.D1;
 
   const css = `
     .hero-h2 {
@@ -500,81 +479,50 @@ function generateHeroH2Split(config: DNAHeroConfig): SectionOutput {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 60px 80px;
+      padding: var(--gap-xl, 60px) var(--section-spacing, 80px);
       background: var(--background);
     }
 
     .hero-h2 h1 {
-      font-size: 48px;
+      font-size: var(--text-h1, 48px);
       line-height: 1.15;
-      margin-bottom: 24px;
+      margin-bottom: var(--gap-md, 24px);
       color: var(--text);
     }
 
     .hero-h2 .tagline {
-      font-size: 20px;
+      font-size: var(--text-lg, 20px);
       color: var(--muted);
-      margin-bottom: 36px;
+      margin-bottom: var(--gap-lg, 36px);
       line-height: 1.6;
     }
 
     .hero-h2-buttons {
       display: flex;
-      gap: 16px;
+      gap: var(--gap-sm, 16px);
       flex-wrap: wrap;
-    }
-
-    .hero-h2 .btn-primary {
-      background: var(--primary);
-      color: var(--white);
-      padding: 16px 32px;
-      border-radius: ${design.borderRadius};
-      font-weight: 600;
-      text-decoration: none;
-      transition: all var(--transition-duration, 0.2s) ease;
-    }
-
-    .hero-h2 .btn-primary:hover {
-      background: var(--secondary);
-      transform: translateY(-2px);
-    }
-
-    .hero-h2 .btn-secondary {
-      background: transparent;
-      color: var(--primary);
-      border: 2px solid var(--primary);
-      padding: 14px 28px;
-      border-radius: ${design.borderRadius};
-      font-weight: 600;
-      text-decoration: none;
-      transition: all var(--transition-duration, 0.2s) ease;
-    }
-
-    .hero-h2 .btn-secondary:hover {
-      background: var(--primary);
-      color: var(--white);
     }
 
     .hero-h2 .trust-badges {
       display: flex;
-      gap: 24px;
-      margin-top: 40px;
+      gap: var(--gap-md, 24px);
+      margin-top: var(--gap-lg, 40px);
       flex-wrap: wrap;
     }
 
     .hero-h2 .trust-badge {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 14px;
+      gap: var(--gap-xs, 8px);
+      font-size: var(--text-sm, 14px);
       color: var(--muted);
     }
 
     @media (max-width: 900px) {
       .hero-h2 { grid-template-columns: 1fr; }
       .hero-h2-image { min-height: 300px; order: -1; }
-      .hero-h2-content { padding: 40px 20px; }
-      .hero-h2 h1 { font-size: 36px; }
+      .hero-h2-content { padding: var(--gap-lg, 40px) var(--gap-sm, 20px); }
+      .hero-h2 h1 { font-size: var(--text-h2, 36px); }
     }
   `;
 
@@ -587,8 +535,8 @@ function generateHeroH2Split(config: DNAHeroConfig): SectionOutput {
         <h1>${escapeHtml(headline)}</h1>
         <p class="tagline">${escapeHtml(tagline)}</p>
         <div class="hero-h2-buttons">
-          ${primaryCTA ? `<a href="${primaryCTA.href}" class="btn-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
-          ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
+          ${primaryCTA ? `<a href="${primaryCTA.href}" class="btn btn-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
+          ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn btn-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
         </div>
         ${trustBadges?.length ? `
         <div class="trust-badges">
@@ -609,22 +557,22 @@ function generateHeroH2Split(config: DNAHeroConfig): SectionOutput {
 
 /**
  * H3: Minimal Header - Compact hero with subtle background
+ * PHYSICS REFACTOR: Uses CSS variables with fallbacks, global .btn classes
  */
 function generateHeroH3Minimal(config: DNAHeroConfig): SectionOutput {
   const { headline, tagline, primaryCTA, secondaryCTA, dna } = config;
-  const design = DESIGN_VARIANTS[dna.design] || DESIGN_VARIANTS.D1;
 
   const css = `
     .hero-h3 {
       background: var(--gray-50);
-      padding: 80px 0;
+      padding: var(--section-spacing, 80px) 0;
       text-align: center;
     }
 
     .hero-h3 h1 {
-      font-size: 44px;
+      font-size: var(--text-h1, 44px);
       line-height: 1.2;
-      margin-bottom: 20px;
+      margin-bottom: var(--gap-sm, 20px);
       color: var(--text);
       max-width: 800px;
       margin-left: auto;
@@ -632,9 +580,9 @@ function generateHeroH3Minimal(config: DNAHeroConfig): SectionOutput {
     }
 
     .hero-h3 .tagline {
-      font-size: 20px;
+      font-size: var(--text-lg, 20px);
       color: var(--muted);
-      margin-bottom: 32px;
+      margin-bottom: var(--gap-md, 32px);
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
@@ -642,35 +590,14 @@ function generateHeroH3Minimal(config: DNAHeroConfig): SectionOutput {
 
     .hero-h3-buttons {
       display: flex;
-      gap: 16px;
+      gap: var(--gap-sm, 16px);
       justify-content: center;
       flex-wrap: wrap;
     }
 
-    .hero-h3 .btn-primary {
-      background: var(--primary);
-      color: var(--white);
-      padding: 14px 28px;
-      border-radius: ${design.borderRadius};
-      font-weight: 600;
-      text-decoration: none;
-      transition: all var(--transition-duration, 0.2s) ease;
-    }
-
-    .hero-h3 .btn-secondary {
-      background: var(--white);
-      color: var(--text);
-      padding: 14px 28px;
-      border-radius: ${design.borderRadius};
-      font-weight: 600;
-      text-decoration: none;
-      border: 1px solid var(--gray-200);
-      transition: all var(--transition-duration, 0.2s) ease;
-    }
-
     @media (max-width: 768px) {
-      .hero-h3 h1 { font-size: 32px; }
-      .hero-h3 .tagline { font-size: 18px; }
+      .hero-h3 h1 { font-size: var(--text-h2, 32px); }
+      .hero-h3 .tagline { font-size: var(--text-body, 18px); }
     }
   `;
 
@@ -680,8 +607,8 @@ function generateHeroH3Minimal(config: DNAHeroConfig): SectionOutput {
         <h1>${escapeHtml(headline)}</h1>
         <p class="tagline">${escapeHtml(tagline)}</p>
         <div class="hero-h3-buttons">
-          ${primaryCTA ? `<a href="${primaryCTA.href}" class="btn-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
-          ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
+          ${primaryCTA ? `<a href="${primaryCTA.href}" class="btn btn-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
+          ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn btn-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
         </div>
       </div>
     </section>
@@ -692,10 +619,10 @@ function generateHeroH3Minimal(config: DNAHeroConfig): SectionOutput {
 
 /**
  * H8: Asymmetric Split - Uneven split with overlapping elements
+ * PHYSICS REFACTOR: Uses CSS variables with fallbacks, global .btn classes
  */
 function generateHeroH8Asymmetric(config: DNAHeroConfig): SectionOutput {
   const { headline, tagline, primaryCTA, secondaryCTA, trustBadges, dna } = config;
-  const design = DESIGN_VARIANTS[dna.design] || DESIGN_VARIANTS.D1;
 
   const css = `
     .hero-h8 {
@@ -726,62 +653,41 @@ function generateHeroH8Asymmetric(config: DNAHeroConfig): SectionOutput {
     }
 
     .hero-h8-text {
-      padding-right: 60px;
+      padding-right: var(--gap-xl, 60px);
     }
 
     .hero-h8 h1 {
-      font-size: 52px;
+      font-size: var(--text-h1, 52px);
       line-height: 1.1;
-      margin-bottom: 24px;
+      margin-bottom: var(--gap-md, 24px);
       color: var(--text);
     }
 
     .hero-h8 .tagline {
-      font-size: 20px;
+      font-size: var(--text-lg, 20px);
       color: var(--muted);
-      margin-bottom: 36px;
+      margin-bottom: var(--gap-lg, 36px);
       line-height: 1.6;
     }
 
     .hero-h8-buttons {
       display: flex;
-      gap: 16px;
+      gap: var(--gap-sm, 16px);
       flex-wrap: wrap;
-    }
-
-    .hero-h8 .btn-primary {
-      background: var(--primary);
-      color: var(--white);
-      padding: 16px 32px;
-      border-radius: ${design.borderRadius};
-      font-weight: 600;
-      text-decoration: none;
-      transition: all var(--transition-duration, 0.2s) ease;
-    }
-
-    .hero-h8 .btn-secondary {
-      background: transparent;
-      color: var(--primary);
-      border: 2px solid var(--primary);
-      padding: 14px 28px;
-      border-radius: ${design.borderRadius};
-      font-weight: 600;
-      text-decoration: none;
-      transition: all var(--transition-duration, 0.2s) ease;
     }
 
     .hero-h8 .trust-badges {
       display: flex;
-      gap: 24px;
-      margin-top: 40px;
+      gap: var(--gap-md, 24px);
+      margin-top: var(--gap-lg, 40px);
       flex-wrap: wrap;
     }
 
     .hero-h8 .trust-badge {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 14px;
+      gap: var(--gap-xs, 8px);
+      font-size: var(--text-sm, 14px);
       color: var(--muted);
     }
 
@@ -798,7 +704,7 @@ function generateHeroH8Asymmetric(config: DNAHeroConfig): SectionOutput {
       .hero-h8-content { grid-template-columns: 1fr; }
       .hero-h8-text { padding: 0; text-align: center; }
       .hero-h8-visual { display: none; }
-      .hero-h8 h1 { font-size: 36px; }
+      .hero-h8 h1 { font-size: var(--text-h2, 36px); }
       .hero-h8-buttons { justify-content: center; }
       .hero-h8 .trust-badges { justify-content: center; }
     }
@@ -812,8 +718,8 @@ function generateHeroH8Asymmetric(config: DNAHeroConfig): SectionOutput {
           <h1>${escapeHtml(headline)}</h1>
           <p class="tagline">${escapeHtml(tagline)}</p>
           <div class="hero-h8-buttons">
-            ${primaryCTA ? `<a href="${primaryCTA.href}" class="btn-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
-            ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
+            ${primaryCTA ? `<a href="${primaryCTA.href}" class="btn btn-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
+            ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn btn-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
           </div>
           ${trustBadges?.length ? `
           <div class="trust-badges">
@@ -838,23 +744,23 @@ function generateHeroH8Asymmetric(config: DNAHeroConfig): SectionOutput {
 
 /**
  * H9: Text Only - Bold typography, no images
+ * PHYSICS REFACTOR: Uses CSS variables with fallbacks, global .btn classes
  */
 function generateHeroH9TextOnly(config: DNAHeroConfig): SectionOutput {
   const { headline, tagline, primaryCTA, secondaryCTA, dna } = config;
-  const design = DESIGN_VARIANTS[dna.design] || DESIGN_VARIANTS.D1;
 
   const css = `
     .hero-h9 {
       background: var(--text);
       color: var(--white);
-      padding: 120px 0;
+      padding: calc(var(--section-spacing, 80px) * 1.5) 0;
       text-align: center;
     }
 
     .hero-h9 h1 {
-      font-size: 72px;
+      font-size: var(--text-h1, 72px);
       line-height: 1.05;
-      margin-bottom: 32px;
+      margin-bottom: var(--gap-md, 32px);
       max-width: 900px;
       margin-left: auto;
       margin-right: auto;
@@ -862,9 +768,9 @@ function generateHeroH9TextOnly(config: DNAHeroConfig): SectionOutput {
     }
 
     .hero-h9 .tagline {
-      font-size: 24px;
+      font-size: var(--text-lg, 24px);
       opacity: 0.8;
-      margin-bottom: 48px;
+      margin-bottom: var(--gap-lg, 48px);
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
@@ -873,24 +779,20 @@ function generateHeroH9TextOnly(config: DNAHeroConfig): SectionOutput {
 
     .hero-h9-buttons {
       display: flex;
-      gap: 20px;
+      gap: var(--gap-sm, 20px);
       justify-content: center;
       flex-wrap: wrap;
     }
 
+    /* Hero-specific button overrides for white-on-dark look */
     .hero-h9 .btn-primary {
       background: var(--white);
       color: var(--text);
-      padding: 18px 40px;
-      border-radius: ${design.borderRadius};
-      font-weight: 700;
-      font-size: 18px;
-      text-decoration: none;
-      transition: all var(--transition-duration, 0.2s) ease;
+      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
     .hero-h9 .btn-primary:hover {
-      transform: translateY(-3px);
+      transform: var(--hover-transform, translateY(-3px));
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 
@@ -898,12 +800,6 @@ function generateHeroH9TextOnly(config: DNAHeroConfig): SectionOutput {
       background: transparent;
       color: var(--white);
       border: 2px solid var(--white);
-      padding: 16px 36px;
-      border-radius: ${design.borderRadius};
-      font-weight: 600;
-      font-size: 18px;
-      text-decoration: none;
-      transition: all var(--transition-duration, 0.2s) ease;
     }
 
     .hero-h9 .btn-secondary:hover {
@@ -911,13 +807,13 @@ function generateHeroH9TextOnly(config: DNAHeroConfig): SectionOutput {
     }
 
     @media (max-width: 900px) {
-      .hero-h9 { padding: 80px 0; }
-      .hero-h9 h1 { font-size: 44px; }
-      .hero-h9 .tagline { font-size: 20px; }
+      .hero-h9 { padding: var(--section-spacing, 80px) 0; }
+      .hero-h9 h1 { font-size: var(--text-h2, 44px); }
+      .hero-h9 .tagline { font-size: var(--text-lg, 20px); }
     }
 
     @media (max-width: 480px) {
-      .hero-h9 h1 { font-size: 36px; }
+      .hero-h9 h1 { font-size: var(--text-h2, 36px); }
     }
   `;
 
@@ -927,8 +823,8 @@ function generateHeroH9TextOnly(config: DNAHeroConfig): SectionOutput {
         <h1>${escapeHtml(headline)}</h1>
         <p class="tagline">${escapeHtml(tagline)}</p>
         <div class="hero-h9-buttons">
-          ${primaryCTA ? `<a href="${primaryCTA.href}" class="btn-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
-          ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
+          ${primaryCTA ? `<a href="${primaryCTA.href}" class="btn btn-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
+          ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn btn-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
         </div>
       </div>
     </section>
@@ -939,10 +835,10 @@ function generateHeroH9TextOnly(config: DNAHeroConfig): SectionOutput {
 
 /**
  * H12: Geometric Shapes - Abstract geometric patterns with clip-paths
+ * PHYSICS REFACTOR: Uses CSS variables with fallbacks, global .btn classes
  */
 function generateHeroH12Geometric(config: DNAHeroConfig): SectionOutput {
   const { headline, tagline, primaryCTA, secondaryCTA, trustBadges, dna } = config;
-  const design = DESIGN_VARIANTS[dna.design] || DESIGN_VARIANTS.D1;
 
   const css = `
     .hero-h12 {
@@ -971,7 +867,7 @@ function generateHeroH12Geometric(config: DNAHeroConfig): SectionOutput {
       height: 400px;
       top: -100px;
       right: -100px;
-      border-radius: 50%;
+      border-radius: var(--radius-pill, 50%);
     }
 
     .hero-h12-shape-2 {
@@ -999,68 +895,42 @@ function generateHeroH12Geometric(config: DNAHeroConfig): SectionOutput {
     }
 
     .hero-h12 h1 {
-      font-size: 56px;
+      font-size: var(--text-h1, 56px);
       line-height: 1.1;
-      margin-bottom: 24px;
+      margin-bottom: var(--gap-md, 24px);
       color: var(--text);
     }
 
     .hero-h12 .tagline {
-      font-size: 20px;
+      font-size: var(--text-lg, 20px);
       color: var(--muted);
-      margin-bottom: 40px;
+      margin-bottom: var(--gap-lg, 40px);
       line-height: 1.6;
     }
 
     .hero-h12-buttons {
       display: flex;
-      gap: 16px;
+      gap: var(--gap-sm, 16px);
       flex-wrap: wrap;
-    }
-
-    .hero-h12 .btn-primary {
-      background: var(--primary);
-      color: var(--white);
-      padding: 16px 32px;
-      border-radius: ${design.borderRadius};
-      font-weight: 600;
-      text-decoration: none;
-      transition: all var(--transition-duration, 0.2s) ease;
-    }
-
-    .hero-h12 .btn-primary:hover {
-      background: var(--secondary);
-      transform: translateY(-2px);
-    }
-
-    .hero-h12 .btn-secondary {
-      background: transparent;
-      color: var(--primary);
-      border: 2px solid var(--primary);
-      padding: 14px 28px;
-      border-radius: ${design.borderRadius};
-      font-weight: 600;
-      text-decoration: none;
-      transition: all var(--transition-duration, 0.2s) ease;
     }
 
     .hero-h12 .trust-badges {
       display: flex;
-      gap: 24px;
-      margin-top: 48px;
+      gap: var(--gap-md, 24px);
+      margin-top: var(--gap-lg, 48px);
       flex-wrap: wrap;
     }
 
     .hero-h12 .trust-badge {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 14px;
+      gap: var(--gap-xs, 8px);
+      font-size: var(--text-sm, 14px);
       color: var(--muted);
     }
 
     @media (max-width: 900px) {
-      .hero-h12 h1 { font-size: 40px; }
+      .hero-h12 h1 { font-size: var(--text-h2, 40px); }
       .hero-h12-shape-1 { width: 250px; height: 250px; }
       .hero-h12-shape-2 { width: 200px; height: 200px; }
       .hero-h12-shape-3 { display: none; }
@@ -1078,8 +948,8 @@ function generateHeroH12Geometric(config: DNAHeroConfig): SectionOutput {
         <h1>${escapeHtml(headline)}</h1>
         <p class="tagline">${escapeHtml(tagline)}</p>
         <div class="hero-h12-buttons">
-          ${primaryCTA ? `<a href="${primaryCTA.href}" class="btn-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
-          ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
+          ${primaryCTA ? `<a href="${primaryCTA.href}" class="btn btn-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
+          ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn btn-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
         </div>
         ${trustBadges?.length ? `
         <div class="trust-badges">

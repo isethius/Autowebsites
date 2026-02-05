@@ -6,6 +6,11 @@
  *
  * This is the "Grid Packer" that intelligently lays out services, features,
  * and other list-based content.
+ *
+ * VIBE INTEGRATION:
+ * The resolver now supports vibe-based chaos levels, ensuring that layout
+ * asymmetry matches the overall site aesthetic (e.g., maverick = high chaos,
+ * executive = perfect grids).
  */
 
 import { DNACode, LAYOUT_VARIANTS } from '../variance-planner';
@@ -17,6 +22,36 @@ import {
   type GridPattern,
   type LayoutType,
 } from './harmony/grid-patterns';
+
+/**
+ * Vibe-to-Chaos mapping for layout decisions
+ *
+ * This ensures grids inside sections match the overall site personality:
+ * - maverick: High asymmetry, broken grids
+ * - executive: Perfect, aligned grids
+ * - creative: Moderate asymmetry
+ * - minimal: Near-perfect alignment
+ */
+const VIBE_CHAOS_MAP: Record<string, number> = {
+  maverick: 0.8,     // High asymmetry, broken grids
+  executive: 0,       // Perfect alignment
+  creative: 0.6,      // Moderate asymmetry
+  bold: 0.5,          // Medium chaos
+  minimal: 0.1,       // Near-perfect
+  friendly: 0.3,      // Slight variation
+  elegant: 0.2,       // Refined, subtle
+  trustworthy: 0.1,   // Stable, predictable
+};
+
+/**
+ * Get the chaos level for a given vibe ID
+ *
+ * @param vibeId - The vibe identifier (maverick, executive, etc.)
+ * @returns Chaos level 0-1 appropriate for the vibe
+ */
+export function getChaosForVibe(vibeId: string): number {
+  return VIBE_CHAOS_MAP[vibeId] ?? 0.3;
+}
 
 /**
  * Layout configuration output
@@ -155,19 +190,43 @@ function getChaosFromDNA(dna: DNACode): number {
 }
 
 /**
+ * Options for layout resolution
+ */
+export interface LayoutResolveOptions {
+  /** Override chaos level */
+  chaos?: number;
+  /** Vibe ID for chaos calculation */
+  vibeId?: string;
+}
+
+/**
  * Resolve the best layout for services/features
  *
  * @param items - Array of items to lay out (or just count)
  * @param dna - DNA code for layout hints
- * @param chaos - Override chaos level (optional)
+ * @param options - Layout options including chaos override and vibe
  */
 export function resolveServiceLayout<T extends LayoutItem>(
   items: T[] | number,
   dna: DNACode,
-  chaos?: number
+  options?: number | LayoutResolveOptions
 ): LayoutConfig {
   const count = typeof items === 'number' ? items : items.length;
-  const actualChaos = chaos ?? getChaosFromDNA(dna);
+
+  // Handle backwards-compatible chaos parameter
+  let chaos: number | undefined;
+  let vibeId: string | undefined;
+
+  if (typeof options === 'number') {
+    // Old signature: resolveServiceLayout(items, dna, chaos)
+    chaos = options;
+  } else if (options) {
+    chaos = options.chaos;
+    vibeId = options.vibeId;
+  }
+
+  // Determine actual chaos: explicit chaos > vibe chaos > DNA chaos
+  const actualChaos = chaos ?? (vibeId ? getChaosForVibe(vibeId) : getChaosFromDNA(dna));
   const layoutCode = dna.layout || 'L3';
   const layoutType = DNA_TO_LAYOUT[layoutCode] || 'equal';
 

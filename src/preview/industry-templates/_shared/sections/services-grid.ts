@@ -26,11 +26,12 @@ export { SectionOutput };
 
 /**
  * Generate services grid CSS
+ * PHYSICS REFACTOR: Uses CSS variables with fallbacks
  */
 export function generateServicesCSS(): string {
   return `
     .services {
-      padding: 80px 0;
+      padding: var(--section-spacing, 80px) 0;
       background: var(--gray-50);
     }
 
@@ -51,55 +52,56 @@ export function generateServicesCSS(): string {
     .services-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
+      gap: var(--gap-md, 24px);
     }
 
     .service-card {
-      background: var(--white);
-      border-radius: 12px;
-      padding: 32px;
-      transition: all 0.2s ease;
-      border: 1px solid var(--gray-200);
+      background: var(--bg-surface, var(--white));
+      border-radius: var(--radius, 12px);
+      padding: var(--card-padding, 32px);
+      transition: all var(--transition-duration, 0.2s) ease;
+      border: var(--border-width, 1px) solid var(--border-color, var(--gray-200));
+      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
     .service-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+      transform: var(--hover-transform, translateY(-4px));
+      box-shadow: var(--hover-shadow, 0 12px 40px rgba(0,0,0,0.1));
     }
 
     .service-icon {
-      width: 56px;
-      height: 56px;
+      width: var(--icon-size, 56px);
+      height: var(--icon-size, 56px);
       background: var(--primary);
-      border-radius: 12px;
+      border-radius: var(--radius, 12px);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 20px;
-      font-size: 24px;
+      margin-bottom: var(--gap-sm, 20px);
+      font-size: var(--text-h4, 24px);
     }
 
     .service-card h3 {
-      font-size: 20px;
+      font-size: var(--text-lg, 20px);
       font-weight: 700;
-      margin-bottom: 12px;
+      margin-bottom: var(--gap-xs, 12px);
       color: var(--text);
     }
 
     .service-card p {
       color: var(--muted);
-      font-size: 15px;
+      font-size: var(--text-sm, 15px);
       line-height: 1.6;
     }
 
     .service-card .service-price {
-      margin-top: 16px;
+      margin-top: var(--gap-sm, 16px);
       font-weight: 600;
       color: var(--primary);
     }
 
     .service-card .service-duration {
-      font-size: 13px;
+      font-size: var(--text-sm, 13px);
       color: var(--muted);
     }
   `;
@@ -292,6 +294,7 @@ export function generateDNAServices(config: DNAServicesConfig): SectionOutput {
 
 /**
  * L3: Card Grid - Uniform card-based layout
+ * PHYSICS REFACTOR: Uses CSS variables with fallbacks
  */
 function generateServicesL3Cards(config: DNAServicesConfig): SectionOutput {
   const {
@@ -302,14 +305,13 @@ function generateServicesL3Cards(config: DNAServicesConfig): SectionOutput {
     sectionId = 'services',
     background = 'gray',
   } = config;
-  const design = DESIGN_VARIANTS[dna.design] || DESIGN_VARIANTS.D1;
 
   const bgClass = background === 'white' ? 'services-bg-white' :
                   background === 'primary' ? 'services-bg-primary' : 'services-bg-gray';
 
   const css = `
     .services-l3 {
-      padding: 80px 0;
+      padding: var(--section-spacing, 80px) 0;
     }
 
     .services-bg-gray { background: var(--gray-50); }
@@ -319,19 +321,19 @@ function generateServicesL3Cards(config: DNAServicesConfig): SectionOutput {
     .services-l3-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
+      gap: var(--gap-md, 24px);
     }
 
     .services-l3-card {
-      background: var(--white);
-      border-radius: ${design.borderRadius};
-      padding: 32px;
+      background: var(--bg-surface, var(--white));
+      border-radius: var(--radius, 12px);
+      padding: var(--card-padding, 32px);
       transition: all var(--transition-duration, 0.2s) ease;
-      box-shadow: ${design.shadow};
+      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
     .services-bg-gray .services-l3-card {
-      border: 1px solid var(--gray-200);
+      border: var(--border-width, 1px) solid var(--border-color, var(--gray-200));
     }
 
     .services-l3-card:hover {
@@ -340,26 +342,26 @@ function generateServicesL3Cards(config: DNAServicesConfig): SectionOutput {
     }
 
     .services-l3-icon {
-      width: 56px;
-      height: 56px;
+      width: var(--icon-size, 56px);
+      height: var(--icon-size, 56px);
       background: var(--primary);
-      border-radius: ${design.borderRadius};
+      border-radius: var(--radius, 12px);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 20px;
-      font-size: 24px;
+      margin-bottom: var(--gap-sm, 20px);
+      font-size: var(--text-h4, 24px);
     }
 
     .services-l3-card h3 {
-      font-size: 20px;
-      margin-bottom: 12px;
+      font-size: var(--text-lg, 20px);
+      margin-bottom: var(--gap-xs, 12px);
       color: var(--text);
     }
 
     .services-l3-card p {
       color: var(--muted);
-      font-size: 15px;
+      font-size: var(--text-sm, 15px);
       line-height: 1.6;
     }
   `;
@@ -391,6 +393,7 @@ function generateServicesL3Cards(config: DNAServicesConfig): SectionOutput {
 
 /**
  * L5: Single Column - Clean single-column flow
+ * PHYSICS REFACTOR: Uses CSS variables with fallbacks
  */
 function generateServicesL5SingleColumn(config: DNAServicesConfig): SectionOutput {
   const {
@@ -400,11 +403,10 @@ function generateServicesL5SingleColumn(config: DNAServicesConfig): SectionOutpu
     dna,
     sectionId = 'services',
   } = config;
-  const design = DESIGN_VARIANTS[dna.design] || DESIGN_VARIANTS.D1;
 
   const css = `
     .services-l5 {
-      padding: 80px 0;
+      padding: var(--section-spacing, 80px) 0;
       background: var(--white);
     }
 
@@ -413,32 +415,32 @@ function generateServicesL5SingleColumn(config: DNAServicesConfig): SectionOutpu
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: var(--gap-md, 24px);
     }
 
     .services-l5-item {
       display: flex;
-      gap: 24px;
-      padding: 32px;
+      gap: var(--gap-md, 24px);
+      padding: var(--card-padding, 32px);
       background: var(--gray-50);
-      border-radius: ${design.borderRadius};
+      border-radius: var(--radius, 12px);
       transition: all var(--transition-duration, 0.2s) ease;
     }
 
     .services-l5-item:hover {
       background: var(--white);
-      box-shadow: ${design.shadow};
+      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
     .services-l5-icon {
-      width: 64px;
-      height: 64px;
+      width: calc(var(--icon-size, 56px) + 8px);
+      height: calc(var(--icon-size, 56px) + 8px);
       background: var(--primary);
-      border-radius: ${design.borderRadius};
+      border-radius: var(--radius, 12px);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
+      font-size: var(--text-h3, 28px);
       flex-shrink: 0;
     }
 
@@ -447,14 +449,14 @@ function generateServicesL5SingleColumn(config: DNAServicesConfig): SectionOutpu
     }
 
     .services-l5-item h3 {
-      font-size: 22px;
-      margin-bottom: 8px;
+      font-size: var(--text-h3, 22px);
+      margin-bottom: var(--gap-xs, 8px);
       color: var(--text);
     }
 
     .services-l5-item p {
       color: var(--muted);
-      font-size: 16px;
+      font-size: var(--text-body, 16px);
       line-height: 1.6;
     }
 
@@ -496,6 +498,7 @@ function generateServicesL5SingleColumn(config: DNAServicesConfig): SectionOutpu
 
 /**
  * L9: Timeline - Vertical timeline layout
+ * PHYSICS REFACTOR: Uses CSS variables with fallbacks
  */
 function generateServicesL9Timeline(config: DNAServicesConfig): SectionOutput {
   const {
@@ -505,11 +508,10 @@ function generateServicesL9Timeline(config: DNAServicesConfig): SectionOutput {
     dna,
     sectionId = 'services',
   } = config;
-  const design = DESIGN_VARIANTS[dna.design] || DESIGN_VARIANTS.D1;
 
   const css = `
     .services-l9 {
-      padding: 80px 0;
+      padding: var(--section-spacing, 80px) 0;
       background: var(--gray-50);
     }
 
@@ -532,20 +534,20 @@ function generateServicesL9Timeline(config: DNAServicesConfig): SectionOutput {
 
     .services-l9-item {
       display: flex;
-      gap: 32px;
-      padding: 24px 0;
+      gap: var(--gap-md, 32px);
+      padding: var(--gap-md, 24px) 0;
       position: relative;
     }
 
     .services-l9-marker {
-      width: 64px;
-      height: 64px;
+      width: calc(var(--icon-size, 56px) + 8px);
+      height: calc(var(--icon-size, 56px) + 8px);
       background: var(--primary);
-      border-radius: 50%;
+      border-radius: var(--radius-pill, 50%);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
+      font-size: var(--text-h4, 24px);
       flex-shrink: 0;
       position: relative;
       z-index: 2;
@@ -553,28 +555,28 @@ function generateServicesL9Timeline(config: DNAServicesConfig): SectionOutput {
 
     .services-l9-content {
       flex: 1;
-      background: var(--white);
-      border-radius: ${design.borderRadius};
-      padding: 24px;
-      box-shadow: ${design.shadow};
+      background: var(--bg-surface, var(--white));
+      border-radius: var(--radius, 12px);
+      padding: var(--gap-md, 24px);
+      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
     .services-l9-item h3 {
-      font-size: 20px;
-      margin-bottom: 8px;
+      font-size: var(--text-lg, 20px);
+      margin-bottom: var(--gap-xs, 8px);
       color: var(--text);
     }
 
     .services-l9-item p {
       color: var(--muted);
-      font-size: 15px;
+      font-size: var(--text-sm, 15px);
       line-height: 1.6;
     }
 
     @media (max-width: 640px) {
       .services-l9-timeline::before { left: 20px; }
-      .services-l9-marker { width: 40px; height: 40px; font-size: 16px; }
-      .services-l9-item { gap: 16px; }
+      .services-l9-marker { width: 40px; height: 40px; font-size: var(--text-body, 16px); }
+      .services-l9-item { gap: var(--gap-sm, 16px); }
     }
   `;
 
@@ -607,6 +609,7 @@ function generateServicesL9Timeline(config: DNAServicesConfig): SectionOutput {
 
 /**
  * L10: Bento Box - Mixed-size tile grid
+ * PHYSICS REFACTOR: Uses CSS variables with fallbacks
  */
 function generateServicesL10Bento(config: DNAServicesConfig): SectionOutput {
   const {
@@ -616,11 +619,10 @@ function generateServicesL10Bento(config: DNAServicesConfig): SectionOutput {
     dna,
     sectionId = 'services',
   } = config;
-  const design = DESIGN_VARIANTS[dna.design] || DESIGN_VARIANTS.D1;
 
   const css = `
     .services-l10 {
-      padding: 80px 0;
+      padding: var(--section-spacing, 80px) 0;
       background: var(--white);
     }
 
@@ -628,13 +630,13 @@ function generateServicesL10Bento(config: DNAServicesConfig): SectionOutput {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       grid-auto-rows: 200px;
-      gap: 16px;
+      gap: var(--gap-sm, 16px);
     }
 
     .services-l10-card {
       background: var(--gray-50);
-      border-radius: ${design.borderRadius};
-      padding: 28px;
+      border-radius: var(--radius, 12px);
+      padding: var(--gap-md, 28px);
       display: flex;
       flex-direction: column;
       transition: all var(--transition-duration, 0.2s) ease;
@@ -662,30 +664,30 @@ function generateServicesL10Bento(config: DNAServicesConfig): SectionOutput {
     }
 
     .services-l10-icon {
-      font-size: 32px;
+      font-size: var(--text-h2, 32px);
       margin-bottom: auto;
     }
 
     .services-l10-card h3 {
-      font-size: 18px;
-      margin-bottom: 8px;
+      font-size: var(--text-body, 18px);
+      margin-bottom: var(--gap-xs, 8px);
       color: var(--text);
-      margin-top: 16px;
+      margin-top: var(--gap-sm, 16px);
     }
 
     .services-l10-card p {
       color: var(--muted);
-      font-size: 14px;
+      font-size: var(--text-sm, 14px);
       line-height: 1.5;
     }
 
     /* Large card gets bigger typography */
     .services-l10-card:nth-child(1) h3 {
-      font-size: 24px;
+      font-size: var(--text-h3, 24px);
     }
 
     .services-l10-card:nth-child(1) p {
-      font-size: 16px;
+      font-size: var(--text-body, 16px);
     }
 
     @media (max-width: 900px) {

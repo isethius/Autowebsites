@@ -23,54 +23,55 @@ export interface ContactConfig {
 
 /**
  * Generate contact section CSS
+ * PHYSICS REFACTOR: Uses CSS variables with fallbacks, global .btn classes
  */
 export function generateContactCSS(): string {
   return `
     .contact {
-      padding: 80px 0;
+      padding: var(--section-spacing, 80px) 0;
       background: var(--white);
     }
 
     .contact-content {
       display: grid;
       grid-template-columns: 1fr 1.2fr;
-      gap: 60px;
+      gap: var(--gap-xl, 60px);
     }
 
     .contact-info h2 {
-      font-size: 36px;
+      font-size: var(--text-h2, 36px);
       font-weight: 800;
-      margin-bottom: 20px;
+      margin-bottom: var(--gap-sm, 20px);
     }
 
     .contact-info > p {
       color: var(--muted);
-      margin-bottom: 32px;
-      font-size: 16px;
+      margin-bottom: var(--gap-md, 32px);
+      font-size: var(--text-body, 16px);
       line-height: 1.6;
     }
 
     .contact-details {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: var(--gap-sm, 20px);
     }
 
     .contact-item {
       display: flex;
       align-items: flex-start;
-      gap: 16px;
+      gap: var(--gap-sm, 16px);
     }
 
     .contact-item-icon {
-      width: 48px;
-      height: 48px;
+      width: var(--avatar-size, 48px);
+      height: var(--avatar-size, 48px);
       background: var(--gray-100);
-      border-radius: 10px;
+      border-radius: var(--radius-sm, 10px);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: var(--text-lg, 20px);
       flex-shrink: 0;
     }
 
@@ -80,14 +81,14 @@ export function generateContactCSS(): string {
 
     .contact-item-content strong {
       display: block;
-      margin-bottom: 4px;
-      font-size: 14px;
+      margin-bottom: var(--gap-xs, 4px);
+      font-size: var(--text-sm, 14px);
     }
 
     .contact-item-content a,
     .contact-item-content span {
       color: var(--muted);
-      font-size: 15px;
+      font-size: var(--text-sm, 15px);
     }
 
     .contact-item-content a:hover {
@@ -96,31 +97,39 @@ export function generateContactCSS(): string {
 
     .contact-form-wrapper {
       background: var(--gray-50);
-      border-radius: 12px;
-      padding: 40px;
+      border-radius: var(--radius, 12px);
+      padding: var(--card-padding, 40px);
     }
 
     .contact-form-wrapper h3 {
-      font-size: 20px;
+      font-size: var(--text-lg, 20px);
       font-weight: 700;
-      margin-bottom: 24px;
+      margin-bottom: var(--gap-md, 24px);
     }
 
-    .submit-btn {
+    /* Form inputs */
+    .contact-form-wrapper input,
+    .contact-form-wrapper textarea,
+    .contact-form-wrapper select {
       width: 100%;
-      background: var(--primary);
-      color: var(--white);
-      padding: 16px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.2s;
+      padding: var(--btn-padding-sm, 12px 16px);
+      border: var(--border-width, 1px) solid var(--border-color, var(--gray-300));
+      border-radius: var(--radius-sm, 8px);
+      font-size: var(--text-body, 16px);
+      margin-bottom: var(--gap-sm, 16px);
+      transition: border-color 0.2s ease;
     }
 
-    .submit-btn:hover {
-      background: var(--secondary);
+    .contact-form-wrapper input:focus,
+    .contact-form-wrapper textarea:focus,
+    .contact-form-wrapper select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    /* Use global .btn instead of custom .submit-btn */
+    .contact-form-wrapper .btn {
+      width: 100%;
     }
 
     @media (max-width: 900px) {

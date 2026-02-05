@@ -3,6 +3,11 @@
  *
  * Generates CSS variables and styles from DNA codes.
  * This connects the DNA system to actual visual output.
+ *
+ * KEY INTEGRATION POINTS:
+ * - Skins: Design-code (D1-D12) based CSS variable overrides
+ * - Contract: Standardized CSS variable names (prevents typos)
+ * - Font Loader: Dynamic Google Fonts based on typography (T1-T4)
  */
 
 import { ColorPalette } from '../../../../overnight/types';
@@ -17,10 +22,16 @@ import {
   HOVER_VARIANTS,
 } from '../../../../themes/variance-planner';
 import { hexToHSL } from '../../../../themes/engine/harmony/color-math';
+import { getSkin, getSkinOverrides, generateSkinCSS } from '../../../../themes/skins';
+import { generateContractCSS, CSS_VARIABLE_DEFAULTS } from '../../../../themes/skins/contract';
 
 export interface DNAStyleOutput {
   css: string;
   fontImports: string;
+  /** Google Fonts URL for dynamic loading */
+  fontsUrl: string;
+  /** Preconnect links for Google Fonts (should be in <head>) */
+  fontPreconnect: string;
 }
 
 /**
@@ -39,31 +50,85 @@ export function getDefaultDNA(): DNACode {
 }
 
 /**
+ * Typography configuration for each T code
+ */
+const TYPOGRAPHY_CONFIG: Record<string, {
+  url: string;
+  headingFont: string;
+  bodyFont: string;
+}> = {
+  T1: {
+    url: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap',
+    headingFont: 'Inter',
+    bodyFont: 'Inter',
+  },
+  T2: {
+    url: 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600&display=swap',
+    headingFont: 'Playfair Display',
+    bodyFont: 'Source Sans Pro',
+  },
+  T3: {
+    url: 'https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap',
+    headingFont: 'Space Mono',
+    bodyFont: 'IBM Plex Sans',
+  },
+  T4: {
+    url: 'https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap',
+    headingFont: 'Nunito',
+    bodyFont: 'Nunito',
+  },
+};
+
+/**
+ * Generate Google Fonts URL for typography variant
+ */
+export function getGoogleFontsUrl(typography: string): string {
+  return TYPOGRAPHY_CONFIG[typography]?.url || TYPOGRAPHY_CONFIG.T1.url;
+}
+
+/**
+ * Generate Google Fonts preconnect links (improves loading performance)
+ */
+export function getGoogleFontsPreconnect(): string {
+  return `<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>`;
+}
+
+/**
  * Generate Google Fonts import for typography variant
+ * @deprecated Use getGoogleFontsUrl() instead
  */
 export function generateFontImports(typography: string): string {
-  const fonts: Record<string, string> = {
-    T1: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap",
-    T2: "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600&display=swap",
-    T3: "https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap",
-    T4: "https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap",
-  };
-  return fonts[typography] || fonts.T1;
+  return getGoogleFontsUrl(typography);
 }
 
 /**
  * Generate CSS variables from DNA and palette
+ *
+ * This function integrates:
+ * 1. Color palette variables
+ * 2. Skin-based design overrides (D1-D12)
+ * 3. Contract-defined CSS variables with clamp() typography
+ * 4. Global button styles (.btn, .btn-primary, .btn-secondary)
+ * 5. Motion/animation styles
  */
 export function generateDNAStyles(dna: DNACode, palette: ColorPalette): DNAStyleOutput {
   const design = DESIGN_VARIANTS[dna.design] || DESIGN_VARIANTS.D1;
-  const typography = TYPOGRAPHY_VARIANTS[dna.typography || 'T1'] || TYPOGRAPHY_VARIANTS.T1;
+  const typographyCode = dna.typography || 'T1';
+  const typography = TYPOGRAPHY_VARIANTS[typographyCode] || TYPOGRAPHY_VARIANTS.T1;
   const motion = MOTION_VARIANTS[dna.motion || 'M1'] || MOTION_VARIANTS.M1;
 
-  const fontImports = generateFontImports(dna.typography || 'T1');
+  // Get Google Fonts URL and preconnect
+  const fontsUrl = getGoogleFontsUrl(typographyCode);
+  const fontPreconnect = getGoogleFontsPreconnect();
+  const fontImports = fontsUrl; // For backwards compatibility
+
+  // Get typography config for font names
+  const typoConfig = TYPOGRAPHY_CONFIG[typographyCode] || TYPOGRAPHY_CONFIG.T1;
 
   // Build font family strings
-  const headingFontStack = `'${typography.headingFont}', -apple-system, BlinkMacSystemFont, sans-serif`;
-  const bodyFontStack = `'${typography.bodyFont}', -apple-system, BlinkMacSystemFont, sans-serif`;
+  const headingFontStack = `'${typoConfig.headingFont}', -apple-system, BlinkMacSystemFont, sans-serif`;
+  const bodyFontStack = `'${typoConfig.bodyFont}', -apple-system, BlinkMacSystemFont, sans-serif`;
 
   // Build motion CSS
   const transitionDuration = motion.duration;
@@ -71,9 +136,13 @@ export function generateDNAStyles(dna: DNACode, palette: ColorPalette): DNAStyle
   const hoverBoxShadow = getHoverBoxShadow(motion.hover, design.style);
   const entranceAnimation = getEntranceAnimation(motion.entrance, motion.intensity);
 
+  // Get skin variables and overrides for this design code
+  const skin = getSkin(dna.design);
+  const skinOverrides = getSkinOverrides(dna.design);
+
   const css = `
     :root {
-      /* Color Palette */
+      /* ========== COLOR PALETTE ========== */
       --primary: ${palette.primary};
       --secondary: ${palette.secondary};
       --accent: ${palette.accent};
@@ -101,28 +170,79 @@ export function generateDNAStyles(dna: DNACode, palette: ColorPalette): DNAStyle
       --error: #ef4444;
       --emergency: #dc2626;
 
-      /* Design DNA (D1-D12) */
-      --border-radius: ${design.borderRadius};
-      --border-radius-sm: ${getSmallRadius(design.borderRadius)};
-      --border-radius-lg: ${getLargeRadius(design.borderRadius)};
-      --box-shadow: ${design.shadow};
-      --design-style: '${design.style}';
+      /* ========== TYPOGRAPHY (clamp() ONLY here, not in components!) ========== */
+      --text-h1: clamp(36px, 5vw, 56px);
+      --text-h2: clamp(28px, 4vw, 40px);
+      --text-h3: clamp(22px, 3vw, 28px);
+      --text-h4: clamp(18px, 2.5vw, 24px);
+      --text-body: clamp(16px, 1.5vw, 18px);
+      --text-lg: 20px;
+      --text-sm: 14px;
 
-      /* Typography DNA (T1-T4) */
+      /* Font Families */
       --font-heading: ${headingFontStack};
       --font-body: ${bodyFontStack};
       --heading-weight: ${typography.headingWeight};
       --letter-spacing: ${typography.letterSpacing};
 
-      /* Motion DNA (M1-M3) */
+      /* ========== SPACING SCALE ========== */
+      --section-spacing: ${skin['--section-spacing'] || '80px'};
+      --card-padding: ${skin['--card-padding'] || '32px'};
+      --btn-padding: ${skin['--btn-padding'] || '16px 32px'};
+      --btn-padding-sm: ${skin['--btn-padding-sm'] || '12px 24px'};
+      --nav-padding: ${skin['--nav-padding'] || '16px 0'};
+      --footer-spacing: ${skin['--footer-spacing'] || '60px 0 30px'};
+
+      /* Gap Scale */
+      --gap-xs: ${skin['--gap-xs'] || '8px'};
+      --gap-sm: ${skin['--gap-sm'] || '16px'};
+      --gap-md: ${skin['--gap-md'] || '24px'};
+      --gap-lg: ${skin['--gap-lg'] || '40px'};
+      --gap-xl: ${skin['--gap-xl'] || '60px'};
+
+      /* ========== RADIUS SCALE (from Skin) ========== */
+      --radius: ${skin['--radius'] || '12px'};
+      --radius-sm: ${skin['--radius-sm'] || '8px'};
+      --radius-lg: ${skin['--radius-lg'] || '16px'};
+      --radius-pill: ${skin['--radius-pill'] || '9999px'};
+
+      /* Legacy support */
+      --border-radius: var(--radius);
+      --border-radius-sm: var(--radius-sm);
+      --border-radius-lg: var(--radius-lg);
+
+      /* ========== SHADOWS & EFFECTS (from Skin) ========== */
+      --shadow-card: ${skin['--shadow-card'] || '0 4px 20px rgba(0,0,0,0.08)'};
+      --backdrop: ${skin['--backdrop'] || 'none'};
+      --bg-surface: ${skin['--bg-surface'] || 'var(--background)'};
+
+      /* Legacy support */
+      --box-shadow: var(--shadow-card);
+
+      /* ========== BORDERS (from Skin) ========== */
+      --border-width: ${skin['--border-width'] || '0'};
+      --border-color: ${skin['--border-color'] || 'transparent'};
+
+      /* ========== SIZES ========== */
+      --icon-size: ${skin['--icon-size'] || '56px'};
+      --avatar-size: ${skin['--avatar-size'] || '48px'};
+
+      /* ========== TRANSFORMS (from Skin) ========== */
+      --btn-text-transform: ${skin['--btn-text-transform'] || 'none'};
+
+      /* ========== MOTION DNA (M1-M3) ========== */
       --transition-duration: ${transitionDuration};
       --hover-transform: ${hoverTransform};
       --hover-shadow: ${hoverBoxShadow};
+
+      /* Design Style Tag (for debugging) */
+      --design-style: '${design.style}';
     }
 
-    /* Base Typography */
+    /* ========== BASE TYPOGRAPHY ========== */
     body {
       font-family: var(--font-body);
+      font-size: var(--text-body, 16px);
       line-height: 1.6;
       color: var(--text);
       background: var(--background);
@@ -137,37 +257,104 @@ export function generateDNAStyles(dna: DNACode, palette: ColorPalette): DNAStyle
       line-height: 1.2;
     }
 
-    /* DNA-Aware Card Styles */
+    h1 { font-size: var(--text-h1, 48px); }
+    h2 { font-size: var(--text-h2, 36px); }
+    h3 { font-size: var(--text-h3, 28px); }
+    h4 { font-size: var(--text-h4, 24px); }
+
+    /* ========== GLOBAL BUTTON STYLES ========== */
+    /* Components should use .btn .btn-primary instead of custom button classes */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--gap-xs, 8px);
+      padding: var(--btn-padding, 16px 32px);
+      font-family: var(--font-body);
+      font-size: var(--text-body, 16px);
+      font-weight: 600;
+      text-transform: var(--btn-text-transform, none);
+      text-decoration: none;
+      border: var(--border-width, 0) solid var(--border-color, transparent);
+      border-radius: var(--radius, 12px);
+      cursor: pointer;
+      transition: all var(--transition-duration, 0.2s) ease;
+    }
+
+    .btn-sm {
+      padding: var(--btn-padding-sm, 12px 24px);
+      font-size: var(--text-sm, 14px);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--white);
+      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
+    }
+
+    .btn-primary:hover {
+      transform: var(--hover-transform, translateY(-2px));
+      box-shadow: var(--hover-shadow, 0 8px 30px rgba(0,0,0,0.12));
+      opacity: 0.95;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary);
+      color: var(--white);
+      transform: var(--hover-transform, translateY(-2px));
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: none;
+    }
+
+    .btn-ghost:hover {
+      background: var(--gray-100);
+    }
+
+    /* ========== DNA-AWARE CARD STYLES ========== */
     .dna-card {
-      background: var(--white);
-      border-radius: var(--border-radius);
-      box-shadow: var(--box-shadow);
-      transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+      background: var(--bg-surface, var(--white));
+      border-radius: var(--radius, 12px);
+      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
+      border: var(--border-width, 0) solid var(--border-color, transparent);
+      transition: transform var(--transition-duration, 0.2s) ease, box-shadow var(--transition-duration, 0.2s) ease;
     }
 
     .dna-card:hover {
-      transform: var(--hover-transform);
-      box-shadow: var(--hover-shadow);
+      transform: var(--hover-transform, translateY(-2px));
+      box-shadow: var(--hover-shadow, 0 8px 30px rgba(0,0,0,0.12));
     }
 
-    /* DNA-Aware Button Styles */
+    /* ========== DNA-AWARE BUTTON STYLES (legacy) ========== */
     .dna-btn {
-      border-radius: var(--border-radius-sm);
-      transition: all var(--transition-duration) ease;
+      border-radius: var(--radius-sm, 8px);
+      transition: all var(--transition-duration, 0.2s) ease;
     }
 
     .dna-btn:hover {
-      transform: var(--hover-transform);
+      transform: var(--hover-transform, translateY(-2px));
     }
 
-    /* Entrance Animations */
+    /* ========== ENTRANCE ANIMATIONS ========== */
     ${entranceAnimation}
 
-    /* Design-Specific Overrides */
+    /* ========== SKIN OVERRIDES ========== */
+    ${skinOverrides}
+
+    /* ========== DESIGN-SPECIFIC OVERRIDES ========== */
     ${getDesignOverrides(design.style)}
   `;
 
-  return { css, fontImports };
+  return { css, fontImports, fontsUrl, fontPreconnect };
 }
 
 /**

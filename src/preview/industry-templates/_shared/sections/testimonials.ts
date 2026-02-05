@@ -19,11 +19,12 @@ export interface TestimonialsConfig {
 
 /**
  * Generate testimonials CSS
+ * PHYSICS REFACTOR: Uses CSS variables with fallbacks
  */
 export function generateTestimonialsCSS(): string {
   return `
     .testimonials {
-      padding: 80px 0;
+      padding: var(--section-spacing, 80px) 0;
       background: var(--gray-50);
     }
 
@@ -34,34 +35,35 @@ export function generateTestimonialsCSS(): string {
     .testimonials-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+      gap: var(--gap-md, 24px);
     }
 
     .testimonial-card {
-      background: var(--white);
-      border-radius: 12px;
-      padding: 32px;
-      border: 1px solid var(--gray-200);
+      background: var(--bg-surface, var(--white));
+      border-radius: var(--radius, 12px);
+      padding: var(--card-padding, 32px);
+      border: var(--border-width, 1px) solid var(--border-color, var(--gray-200));
+      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
     .testimonial-stars {
       color: #fbbf24;
-      font-size: 20px;
-      margin-bottom: 16px;
+      font-size: var(--text-lg, 20px);
+      margin-bottom: var(--gap-sm, 16px);
       letter-spacing: 2px;
     }
 
     .testimonial-text {
-      font-size: 15px;
+      font-size: var(--text-sm, 15px);
       color: var(--muted);
-      margin-bottom: 20px;
+      margin-bottom: var(--gap-sm, 20px);
       font-style: italic;
       line-height: 1.7;
     }
 
     .testimonial-text::before {
       content: '"';
-      font-size: 24px;
+      font-size: var(--text-h3, 24px);
       color: var(--primary);
       opacity: 0.3;
     }
@@ -69,20 +71,20 @@ export function generateTestimonialsCSS(): string {
     .testimonial-author {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: var(--gap-xs, 12px);
     }
 
     .testimonial-avatar {
-      width: 48px;
-      height: 48px;
+      width: var(--avatar-size, 48px);
+      height: var(--avatar-size, 48px);
       background: var(--primary);
-      border-radius: 50%;
+      border-radius: var(--radius-pill, 50%);
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--white);
       font-weight: 600;
-      font-size: 18px;
+      font-size: var(--text-body, 18px);
     }
 
     .testimonial-author-info {
@@ -91,12 +93,12 @@ export function generateTestimonialsCSS(): string {
 
     .testimonial-author-name {
       font-weight: 600;
-      font-size: 15px;
+      font-size: var(--text-sm, 15px);
       color: var(--text);
     }
 
     .testimonial-author-location {
-      font-size: 13px;
+      font-size: var(--text-sm, 13px);
       color: var(--muted);
     }
 

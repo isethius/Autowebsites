@@ -29,7 +29,13 @@ import {
 } from './section-registry';
 import { resolveServiceLayout, generateLayoutCSS } from './layout-resolver';
 import { getContentTone, generateTonePrompt } from './content-tone';
-import { generateEntranceAnimationClasses } from '../../preview/industry-templates/_shared/styles/dna-styles';
+import {
+  generateEntranceAnimationClasses,
+  generateDNAStyles,
+  getGoogleFontsUrl,
+  getGoogleFontsPreconnect,
+} from '../../preview/industry-templates/_shared/styles/dna-styles';
+import { getSkin, getSkinOverrides, generateSkinCSS } from '../skins';
 
 /**
  * Content for building a website
@@ -93,39 +99,45 @@ export interface BuildOptions {
   inlineStyles?: boolean;
   /** Include Google Fonts (default: true) */
   includeFonts?: boolean;
+  /** Vibe ID for Director Cut transformations (maverick, executive, creative, etc.) */
+  vibe?: string;
 }
 
 /**
  * Build a complete website from content and options
  *
  * @param content - The business content to render
- * @param options - Build options including DNA, palette, etc.
+ * @param options - Build options including DNA, palette, vibe, etc.
  * @returns Complete HTML document
  */
 export function buildWebsite(content: SiteContent, options: BuildOptions = {}): string {
-  // 1. Get or generate DNA
+  // 1. Get vibe for industry (used for DNA generation and Director Cut)
+  const vibe = getVibeForIndustry(content.industry);
+  const vibeId = options.vibe || vibe.id;
+
+  // 2. Get or generate DNA
   const dna = options.dna || generateDNAForIndustry(content.industry);
 
-  // 2. Get or generate palette
+  // 3. Get or generate palette
   const palette = options.palette || generatePaletteForIndustry(
     content.industry,
     options.primaryColor,
     options.paletteMood
   );
 
-  // 3. Get industry blueprint
+  // 4. Get industry blueprint
   const blueprint = getBlueprintForIndustry(content.industry);
   if (!blueprint) {
     console.warn(`No blueprint found for industry '${content.industry}', using service-business`);
   }
 
-  // 4. Get chaos level
-  const chaos = options.chaos ?? dna.chaos ?? 0.3;
+  // 5. Get chaos level (can be overridden by vibe)
+  const chaos = options.chaos ?? dna.chaos ?? vibe.chaos ?? 0.3;
 
-  // 5. Build sections
-  const sectionOutputs = buildSections(content, blueprint, dna, palette, chaos);
+  // 6. Build sections with Director Cut transformations
+  const sectionOutputs = buildSections(content, blueprint, dna, palette, chaos, vibeId);
 
-  // 6. Assemble document
+  // 7. Assemble document
   return assembleDocument({
     content,
     dna,
@@ -188,6 +200,152 @@ function generatePaletteForIndustry(
 }
 
 /**
+ * Director Cut - Vibe-based section transformations
+ *
+ * The "Director" makes opinionated decisions about section ordering,
+ * hero styles, and which sections to include based on the vibe.
+ *
+ * This ensures sites feel intentionally designed rather than randomly assembled.
+ */
+export interface DirectorCutOptions {
+  /** The vibe ID (maverick, executive, creative, etc.) */
+  vibeId?: string;
+  /** Force a specific hero variant */
+  heroVariant?: string;
+  /** Maximum number of sections (excluding nav/footer) */
+  maxSections?: number;
+}
+
+/**
+ * Apply Director Cut transformations to blueprint sections
+ *
+ * @param sections - Original blueprint sections
+ * @param vibeId - The vibe ID to apply
+ * @returns Transformed sections array
+ */
+export function getDirectorCut(
+  sections: BlueprintSection[],
+  vibeId?: string
+): BlueprintSection[] {
+  if (!vibeId) return sections;
+
+  // Clone sections to avoid mutation
+  let transformed = [...sections];
+
+  switch (vibeId) {
+    case 'maverick':
+      // Maverick: Bold, disruptive - remove stats, move testimonials early
+      transformed = transformed.filter(s => s.category !== 'stats');
+      // Force hero to centered style
+      transformed = transformed.map(s =>
+        s.category === 'hero' ? { ...s, config: { ...s.config, variant: 'hero-centered' } } : s
+      );
+      // Move testimonials to position 2 (after hero)
+      const testimonialsIndex = transformed.findIndex(s => s.category === 'testimonials');
+      if (testimonialsIndex > 2) {
+        const [testimonials] = transformed.splice(testimonialsIndex, 1);
+        transformed.splice(2, 0, testimonials);
+      }
+      break;
+
+    case 'executive':
+      // Executive: Professional, trustworthy - ensure stats, force hero-split
+      transformed = transformed.map(s =>
+        s.category === 'hero' ? { ...s, config: { ...s.config, variant: 'hero-split' } } : s
+      );
+      // Ensure stats section is present and at position 2
+      const hasStats = transformed.some(s => s.category === 'stats');
+      if (!hasStats) {
+        transformed.splice(2, 0, {
+          category: 'stats',
+          required: false,
+          title: 'By the Numbers',
+        });
+      }
+      break;
+
+    case 'creative':
+      // Creative: Artistic, expressive - gradient/video hero, floating nav
+      transformed = transformed.map(s => {
+        if (s.category === 'hero') {
+          return { ...s, config: { ...s.config, variant: 'hero-gradient' } };
+        }
+        if (s.category === 'nav') {
+          return { ...s, config: { ...s.config, variant: 'nav-floating' } };
+        }
+        return s;
+      });
+      break;
+
+    case 'minimal':
+      // Minimal: Clean, focused - remove stats, max 4 sections
+      transformed = transformed.filter(s => s.category !== 'stats');
+      transformed = transformed.map(s =>
+        s.category === 'hero' ? { ...s, config: { ...s.config, variant: 'hero-minimal' } } : s
+      );
+      // Keep nav, hero, contact, footer + max 2 other sections
+      const coreSections = transformed.filter(s =>
+        ['nav', 'hero', 'contact', 'footer'].includes(s.category)
+      );
+      const otherSections = transformed.filter(s =>
+        !['nav', 'hero', 'contact', 'footer'].includes(s.category)
+      );
+      transformed = [
+        ...coreSections.slice(0, 2), // nav, hero
+        ...otherSections.slice(0, 2), // max 2 middle sections
+        ...coreSections.slice(2), // contact, footer
+      ];
+      break;
+
+    case 'bold':
+      // Bold: Strong, impactful - full-width hero, emphasize services
+      transformed = transformed.map(s =>
+        s.category === 'hero' ? { ...s, config: { ...s.config, variant: 'hero-full-width' } } : s
+      );
+      break;
+
+    case 'elegant':
+      // Elegant: Sophisticated - split hero, refined spacing
+      transformed = transformed.map(s =>
+        s.category === 'hero' ? { ...s, config: { ...s.config, variant: 'hero-split' } } : s
+      );
+      break;
+
+    case 'friendly':
+      // Friendly: Warm, approachable - standard hero with warm tones
+      // No major structural changes, let the colors do the work
+      break;
+
+    case 'trustworthy':
+      // Trustworthy: Reliable - ensure testimonials and stats
+      const hasTrustStats = transformed.some(s => s.category === 'stats');
+      const hasTestimonials = transformed.some(s => s.category === 'testimonials');
+
+      if (!hasTrustStats) {
+        transformed.splice(2, 0, {
+          category: 'stats',
+          required: false,
+          title: 'Our Track Record',
+        });
+      }
+      if (!hasTestimonials) {
+        // Add before contact
+        const contactIndex = transformed.findIndex(s => s.category === 'contact');
+        if (contactIndex !== -1) {
+          transformed.splice(contactIndex, 0, {
+            category: 'testimonials',
+            required: false,
+            title: 'What Our Clients Say',
+          });
+        }
+      }
+      break;
+  }
+
+  return transformed;
+}
+
+/**
  * Build all sections based on blueprint
  */
 function buildSections(
@@ -195,12 +353,18 @@ function buildSections(
   blueprint: Blueprint | undefined,
   dna: DNACode,
   palette: ColorPalette,
-  chaos: number
+  chaos: number,
+  vibeId?: string
 ): SectionOutput[] {
   const sections: SectionOutput[] = [];
 
   // Use blueprint sections or default set
-  const sectionDefs = blueprint?.sections || getDefaultSections();
+  let sectionDefs = blueprint?.sections || getDefaultSections();
+
+  // Apply Director Cut transformations based on vibe
+  if (vibeId) {
+    sectionDefs = getDirectorCut(sectionDefs, vibeId);
+  }
 
   for (const sectionDef of sectionDefs) {
     // Skip optional sections if content is missing
@@ -415,13 +579,16 @@ function assembleDocument(params: {
   // Combine all HTML
   const allHTML = sections.map(s => s.html).join('\n');
 
-  // Generate base styles
+  // Generate DNA-integrated styles (includes skins, typography, buttons)
+  const dnaStyleOutput = generateDNAStyles(dna, palette);
+
+  // Generate base styles (reset + entrance animations)
   const baseStyles = generateBaseStyles(dna, palette);
 
-  // Font imports
-  const fontImport = options.includeFonts !== false
-    ? getFontImport(dna.typography || 'T1')
-    : '';
+  // Font preconnect and import (CRITICAL for FOUC prevention)
+  const includeFonts = options.includeFonts !== false;
+  const fontPreconnect = includeFonts ? getGoogleFontsPreconnect() : '';
+  const fontUrl = includeFonts ? getGoogleFontsUrl(dna.typography || 'T1') : '';
 
   // Lenis script for smooth scrolling (M2/M3 motion only)
   const lenisScript = generateLenisScript(dna.motion || 'M1');
@@ -433,9 +600,11 @@ function assembleDocument(params: {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${content.businessName}</title>
   <meta name="description" content="${content.description || content.tagline || ''}">
-  ${fontImport ? `<link href="${fontImport}" rel="stylesheet">` : ''}
+  ${fontPreconnect}
+  ${fontUrl ? `<link href="${fontUrl}" rel="stylesheet">` : ''}
   <style>
     ${baseStyles}
+    ${dnaStyleOutput.css}
     ${allCSS}
   </style>
 </head>
