@@ -7,7 +7,7 @@ This folder contains generated HTML samples for every supported vibe. Each file 
 1. From the repo root, run:
 
 ```bash
-node --import tsx tmp/generate-vibe-samples.ts
+npx tsx scripts/generate-vibe-samples.ts
 ```
 
 2. The script writes HTML files into `samples/` using the pattern `<industry>-<vibe>.html` and prints the DNA selection in the console.
