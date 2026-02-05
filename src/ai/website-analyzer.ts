@@ -365,16 +365,16 @@ Keep it friendly, non-technical, and focused on business impact.`;
     aiStyle: Partial<VisualStyleAnalysis> | undefined,
     detected: VisualStyleAnalysis
   ): VisualStyleAnalysis {
-    const mergedTypography: Partial<VisualStyleAnalysis['typography']> = aiStyle?.typography || {};
+    const aiTypography: Partial<VisualStyleAnalysis['typography']> | undefined = aiStyle?.typography;
 
     return {
       colorSchemes: this.mergeList(aiStyle?.colorSchemes, detected.colorSchemes),
       dominantColors: this.mergeList(aiStyle?.dominantColors, detected.dominantColors),
       typography: {
-        primaryFonts: this.mergeList(mergedTypography.primaryFonts, detected.typography.primaryFonts),
-        secondaryFonts: this.mergeList(mergedTypography.secondaryFonts, detected.typography.secondaryFonts),
-        style: mergedTypography.style ?? detected.typography.style,
-        notes: this.mergeList(mergedTypography.notes, detected.typography.notes),
+        primaryFonts: this.mergeList(aiTypography?.primaryFonts, detected.typography.primaryFonts),
+        secondaryFonts: this.mergeList(aiTypography?.secondaryFonts, detected.typography.secondaryFonts),
+        style: aiTypography?.style ?? detected.typography.style,
+        notes: this.mergeList(aiTypography?.notes, detected.typography.notes),
       },
       layoutPatterns: this.mergeList(aiStyle?.layoutPatterns, detected.layoutPatterns),
       designTraits: this.mergeList(aiStyle?.designTraits, detected.designTraits),

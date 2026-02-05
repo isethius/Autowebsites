@@ -205,16 +205,12 @@ export function generateTextureOverlayCSS(options: TextureOverlayCSSOptions = {}
   } = options;
 
   const overlay = resolveTextureOverlay(overlayOptions);
-  const baseRule = position === 'absolute'
-    ? `
+
+  return `
     .${className} {
       position: relative;
     }
-`
-    : '';
 
-  return `
-    ${baseRule}
     .${className}::before {
       content: '';
       position: ${position};
