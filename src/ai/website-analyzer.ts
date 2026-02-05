@@ -224,7 +224,7 @@ Be specific to THIS business - reference their actual content, services, and ind
     // Validate and enhance with industry template
     const validatedIndustry = this.validateIndustry(analysis.industry);
     const template = getIndustryTemplate(validatedIndustry);
-    const fallbackVibe = getVibeForIndustry(validatedIndustry);
+    const fallbackVibe = getVibeForIndustry(this.normalizeIndustryForVibe(validatedIndustry));
 
     const visualStyle = this.mergeStyleSignals(analysis.visualStyle, detectedStyle);
     const vibe = this.mergeVibeAnalysis(analysis.vibe, visualStyle, fallbackVibe.id as VibeId);
@@ -532,6 +532,29 @@ Keep it friendly, non-technical, and focused on business impact.`;
       result.push(item);
     }
     return result;
+  }
+
+  private normalizeIndustryForVibe(industry: IndustryType): string {
+    const mappings: Record<IndustryType, string> = {
+      plumbers: 'plumber',
+      lawyers: 'lawyer',
+      restaurants: 'restaurant',
+      dentists: 'dentist',
+      contractors: 'contractor',
+      hvac: 'hvac',
+      salons: 'salon',
+      doctors: 'doctor',
+      accountants: 'accountant',
+      realtors: 'realtor',
+      'auto-repair': 'auto-repair',
+      fitness: 'gym',
+      cleaning: 'cleaning',
+      landscaping: 'landscaping',
+      photography: 'photographer',
+      other: 'other',
+    };
+
+    return mappings[industry] || industry;
   }
 
   private extractCssText(html: string): string {
