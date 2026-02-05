@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Remix Studio UI</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Spline+Sans:wght@400;500;600&display=swap');
+
+      :root {
+        color-scheme: light dark;
+        --bg: #f4f2ee;
+        --bg-2: #efe9e2;
+        --panel: #ffffff;
+        --panel-2: #f7f5f1;
+        --ink: #1a1918;
+        --muted: #5f5b57;
+        --border: #e0dbd3;
+        --accent: #ff6a3d;
+        --accent-2: #2fc4b4;
+        --accent-3: #f7c64d;
+        --shadow: 0 24px 50px rgba(30, 20, 10, 0.12);
+        --radius-lg: 22px;
+        --radius-md: 16px;
+        --radius-sm: 12px;
+        --gap: 18px;
+        --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+        --font-body: 'Spline Sans', system-ui, -apple-system, sans-serif;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0f1012;
+          --bg-2: #141519;
+          --panel: #16181d;
+          --panel-2: #121317;
+          --ink: #f3f3f2;
+          --muted: #b6b1aa;
+          --border: #262a33;
+          --accent: #ff8a5b;
+          --accent-2: #27d2bb;
+          --accent-3: #f4c55f;
+          --shadow: 0 28px 60px rgba(0, 0, 0, 0.35);
+        }
+      }
+
+      [data-theme='light'] {
+        --bg: #f4f2ee;
+        --bg-2: #efe9e2;
+        --panel: #ffffff;
+        --panel-2: #f7f5f1;
+        --ink: #1a1918;
+        --muted: #5f5b57;
+        --border: #e0dbd3;
+        --accent: #ff6a3d;
+        --accent-2: #2fc4b4;
+        --accent-3: #f7c64d;
+        --shadow: 0 24px 50px rgba(30, 20, 10, 0.12);
+      }
+
+      [data-theme='dark'] {
+        --bg: #0f1012;
+        --bg-2: #141519;
+        --panel: #16181d;
+        --panel-2: #121317;
+        --ink: #f3f3f2;
+        --muted: #b6b1aa;
+        --border: #262a33;
+        --accent: #ff8a5b;
+        --accent-2: #27d2bb;
+        --accent-3: #f4c55f;
+        --shadow: 0 28px 60px rgba(0, 0, 0, 0.35);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font-body);
+        background: radial-gradient(circle at top left, rgba(255, 106, 61, 0.18), transparent 45%),
+          radial-gradient(circle at 20% 80%, rgba(47, 196, 180, 0.18), transparent 50%),
+          linear-gradient(135deg, var(--bg), var(--bg-2));
+        color: var(--ink);
+        min-height: 100vh;
+      }
+
+      body::before,
+      body::after {
+        content: '';
+        position: fixed;
+        inset: auto auto 10% -10%;
+        width: 340px;
+        height: 340px;
+        background: radial-gradient(circle, rgba(247, 198, 77, 0.35), transparent 70%);
+        filter: blur(10px);
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      body::after {
+        inset: 8% -10% auto auto;
+        width: 260px;
+        height: 260px;
+        background: radial-gradient(circle, rgba(255, 138, 91, 0.35), transparent 70%);
+      }
+
+      .app {
+        position: relative;
+        z-index: 1;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 28px 24px 36px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-family: var(--font-display);
+      }
+
+      .brand-mark {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        background: conic-gradient(from 120deg, var(--accent), var(--accent-2), var(--accent-3), var(--accent));
+        display: grid;
+        place-items: center;
+        color: #101010;
+        font-weight: 700;
+        box-shadow: var(--shadow);
+      }
+
+      .brand h1 {
+        margin: 0;
+        font-size: 20px;
+        letter-spacing: 0.4px;
+      }
+
+      .brand span {
+        display: block;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .top-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .search {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        min-width: 240px;
+      }
+
+      .search input {
+        border: none;
+        background: transparent;
+        outline: none;
+        color: var(--ink);
+        width: 100%;
+        font-size: 14px;
+      }
+
+      .status {
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(47, 196, 180, 0.16);
+        color: var(--ink);
+        font-size: 12px;
+        font-weight: 600;
+        border: 1px solid rgba(47, 196, 180, 0.4);
+      }
+
+      .button {
+        border: none;
+        padding: 10px 16px;
+        border-radius: 999px;
+        font-weight: 600;
+        background: var(--panel);
+        color: var(--ink);
+        border: 1px solid var(--border);
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow);
+      }
+
+      .button.primary {
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #0c0c0c;
+        border: none;
+      }
+
+      .theme-toggle {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        border-radius: 999px;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        font-weight: 600;
+        font-size: 12px;
+        cursor: pointer;
+      }
+
+      .theme-toggle::after {
+        content: attr(data-mode);
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        font-size: 10px;
+        color: var(--muted);
+      }
+
+      .workspace {
+        display: grid;
+        grid-template-columns: minmax(260px, 1.1fr) minmax(320px, 1.7fr) minmax(260px, 1.1fr);
+        gap: var(--gap);
+      }
+
+      .panel {
+        background: var(--panel);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+
+      .panel-header {
+        padding: 18px 20px 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .panel-title {
+        font-family: var(--font-display);
+        font-weight: 600;
+        margin: 0;
+        font-size: 16px;
+      }
+
+      .panel-subtitle {
+        margin: 4px 0 0;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .panel-body {
+        padding: 0 20px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .input-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      label {
+        font-size: 12px;
+        color: var(--muted);
+        letter-spacing: 0.3px;
+      }
+
+      input,
+      select,
+      textarea {
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        background: var(--panel-2);
+        color: var(--ink);
+        padding: 10px 12px;
+        font-size: 14px;
+        font-family: var(--font-body);
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+
+      .vibe-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .vibe-chip {
+        padding: 6px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        font-size: 12px;
+        background: var(--panel);
+        cursor: pointer;
+      }
+
+      .vibe-chip.active {
+        background: rgba(255, 106, 61, 0.2);
+        border-color: rgba(255, 106, 61, 0.5);
+        font-weight: 600;
+      }
+
+      .hint {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .preview-panel {
+        min-height: 560px;
+      }
+
+      .preview-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px 18px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .preview-toolbar .pill {
+        padding: 6px 12px;
+        background: rgba(255, 106, 61, 0.14);
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .preview-frame {
+        background: var(--panel-2);
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border);
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .preview-window {
+        border-radius: 14px;
+        background: #0f0f12;
+        color: #fff;
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .preview-window .bar {
+        display: flex;
+        gap: 8px;
+      }
+
+      .preview-window .bar span {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #f56f4c;
+      }
+
+      .preview-window .bar span:nth-child(2) {
+        background: #f5c15f;
+      }
+
+      .preview-window .bar span:nth-child(3) {
+        background: #27d2bb;
+      }
+
+      .preview-hero {
+        background: linear-gradient(135deg, rgba(255, 106, 61, 0.9), rgba(47, 196, 180, 0.9));
+        border-radius: 16px;
+        padding: 20px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .preview-hero h3 {
+        margin: 0;
+        font-family: var(--font-display);
+        font-size: 20px;
+      }
+
+      .preview-hero p {
+        margin: 0;
+        font-size: 13px;
+      }
+
+      .preview-badges {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .preview-badges span {
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(15, 15, 18, 0.2);
+        font-size: 11px;
+      }
+
+      .preview-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .preview-card {
+        background: rgba(15, 15, 18, 0.2);
+        border-radius: 12px;
+        padding: 12px;
+        font-size: 12px;
+      }
+
+      .component-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .component-card {
+        padding: 14px;
+        border-radius: var(--radius-md);
+        background: var(--panel-2);
+        border: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-height: 110px;
+      }
+
+      .component-card h4 {
+        margin: 0;
+        font-family: var(--font-display);
+        font-size: 14px;
+      }
+
+      .component-card p {
+        margin: 0;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .component-card .tag {
+        align-self: flex-start;
+        padding: 4px 8px;
+        border-radius: 999px;
+        background: rgba(47, 196, 180, 0.2);
+        font-size: 10px;
+        font-weight: 600;
+      }
+
+      .export-options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .export-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 10px 12px;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        background: var(--panel-2);
+        font-size: 13px;
+      }
+
+      .export-footer {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 4px 0;
+      }
+
+      .timeline {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .timeline .chip {
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        font-size: 11px;
+        background: var(--panel-2);
+      }
+
+      .right-stack {
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap);
+      }
+
+      @media (max-width: 1200px) {
+        .workspace {
+          grid-template-columns: minmax(260px, 1fr) minmax(320px, 1.5fr);
+        }
+
+        .right-stack {
+          grid-column: 1 / -1;
+          flex-direction: row;
+          flex-wrap: wrap;
+        }
+
+        .right-stack > .panel {
+          flex: 1 1 320px;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .topbar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .workspace {
+          grid-template-columns: 1fr;
+        }
+
+        .preview-panel {
+          order: -1;
+        }
+
+        .input-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">RMX</div>
+          <div>
+            <h1>Remix Studio</h1>
+            <span>Live mixing for auto-generated sites</span>
+          </div>
+        </div>
+        <div class="top-actions">
+          <div class="search">
+            <span>CMD</span>
+            <input type="text" placeholder="Search blocks, brands, or scenes" />
+          </div>
+          <span class="status">Autosave: On</span>
+          <button class="theme-toggle" id="themeToggle" type="button" data-mode="auto">Theme</button>
+          <button class="button">Share</button>
+          <button class="button primary">Render Remix</button>
+        </div>
+      </header>
+
+      <div class="workspace">
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Input Form</h2>
+              <p class="panel-subtitle">Industry, vibe, and business details.</p>
+            </div>
+            <button class="button">Load Preset</button>
+          </div>
+          <div class="panel-body">
+            <div class="input-grid">
+              <div class="field">
+                <label for="industry">Industry</label>
+                <select id="industry">
+                  <option>Fitness Studio</option>
+                  <option>Restaurant</option>
+                  <option>Law Firm</option>
+                  <option>Real Estate</option>
+                  <option>Therapy</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="output">Output Style</label>
+                <select id="output">
+                  <option>Launch-ready site</option>
+                  <option>Portfolio sample</option>
+                  <option>Director Cut</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="business">Business Name</label>
+                <input id="business" type="text" value="Pulse + Flow Studio" />
+              </div>
+              <div class="field">
+                <label for="location">Location</label>
+                <input id="location" type="text" value="Austin, TX" />
+              </div>
+              <div class="field">
+                <label for="tagline">Tagline</label>
+                <input id="tagline" type="text" value="Movement, music, and momentum." />
+              </div>
+              <div class="field">
+                <label for="contact">Contact</label>
+                <input id="contact" type="text" value="hello@pulseflow.studio" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Vibe Mix</label>
+              <div class="vibe-row">
+                <span class="vibe-chip active">Electric</span>
+                <span class="vibe-chip">Minimal</span>
+                <span class="vibe-chip">Moody</span>
+                <span class="vibe-chip">Boutique</span>
+                <span class="vibe-chip">Bold</span>
+                <span class="vibe-chip">Editorial</span>
+                <span class="vibe-chip">Zen</span>
+                <span class="vibe-chip">Ritual</span>
+              </div>
+              <span class="hint">Blend vibes to remap typography, color, and layout intensity.</span>
+            </div>
+
+            <div class="field">
+              <label for="services">Core Services</label>
+              <textarea id="services">Power yoga, reformer Pilates, strength flow, recovery labs.</textarea>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="field">
+              <label>Quick Scenes</label>
+              <div class="timeline">
+                <span class="chip">Hero cut</span>
+                <span class="chip">Service reels</span>
+                <span class="chip">Testimonial loop</span>
+                <span class="chip">CTA close</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel preview-panel">
+          <div class="preview-toolbar">
+            <div>
+              <strong>Live Preview</strong>
+              <div class="hint">Remix output, auto-updated.</div>
+            </div>
+            <div class="pill">1080p | Desktop</div>
+          </div>
+          <div class="panel-body">
+            <div class="preview-frame">
+              <div class="preview-window">
+                <div class="bar"><span></span><span></span><span></span></div>
+                <div class="preview-hero">
+                  <h3>Pulse + Flow</h3>
+                  <p>Live sessions where movement syncs with your energy.</p>
+                  <div class="preview-badges">
+                    <span>New client offer</span>
+                    <span>Trainer-led playlists</span>
+                    <span>Sunrise sessions</span>
+                  </div>
+                </div>
+                <div class="preview-grid">
+                  <div class="preview-card">Service grid with 3D cards</div>
+                  <div class="preview-card">Before/after slider</div>
+                  <div class="preview-card">Member story highlight</div>
+                  <div class="preview-card">Calendar + booking</div>
+                </div>
+              </div>
+              <div class="hint">Preview shows the active remix scene stack.</div>
+            </div>
+          </div>
+        </section>
+
+        <div class="right-stack">
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Component Library</h2>
+                <p class="panel-subtitle">Drag blocks into the mix.</p>
+              </div>
+              <button class="button">Filter</button>
+            </div>
+            <div class="panel-body">
+              <div class="component-grid">
+                <div class="component-card">
+                  <span class="tag">Hero</span>
+                  <h4>Split Hero</h4>
+                  <p>Bold type, video overlay, CTA stack.</p>
+                </div>
+                <div class="component-card">
+                  <span class="tag">Services</span>
+                  <h4>Loop Cards</h4>
+                  <p>Carousel + hover reveal.</p>
+                </div>
+                <div class="component-card">
+                  <span class="tag">Social</span>
+                  <h4>Testimonial Grid</h4>
+                  <p>Quotes with motion avatars.</p>
+                </div>
+                <div class="component-card">
+                  <span class="tag">CTA</span>
+                  <h4>Drop-in Banner</h4>
+                  <p>High-contrast announcement.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <h2 class="panel-title">Export Options</h2>
+                <p class="panel-subtitle">Ship to your target.</p>
+              </div>
+              <button class="button">Preset</button>
+            </div>
+            <div class="panel-body">
+              <div class="export-options">
+                <div class="export-row">
+                  <span>Static HTML bundle</span>
+                  <input type="checkbox" checked />
+                </div>
+                <div class="export-row">
+                  <span>Remix JSON manifest</span>
+                  <input type="checkbox" checked />
+                </div>
+                <div class="export-row">
+                  <span>Brand kit assets</span>
+                  <input type="checkbox" />
+                </div>
+                <div class="export-row">
+                  <span>Client preview link</span>
+                  <input type="checkbox" checked />
+                </div>
+              </div>
+              <div class="divider"></div>
+              <div class="export-footer">
+                <button class="button">Download Zip</button>
+                <button class="button primary">Publish Remix</button>
+              </div>
+              <span class="hint">Exports include typography, palette, and content map.</span>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var root = document.documentElement;
+        var toggle = document.getElementById('themeToggle');
+        if (!toggle) {
+          return;
+        }
+        var modes = ['auto', 'light', 'dark'];
+        var stored = 'auto';
+        try {
+          stored = window.localStorage.getItem('studio-theme') || 'auto';
+        } catch (err) {
+          stored = 'auto';
+        }
+        var mode = stored;
+        var apply = function () {
+          if (mode === 'auto') {
+            root.removeAttribute('data-theme');
+          } else {
+            root.setAttribute('data-theme', mode);
+          }
+          toggle.setAttribute('data-mode', mode);
+        };
+        toggle.addEventListener('click', function () {
+          mode = modes[(modes.indexOf(mode) + 1) % modes.length];
+          try {
+            window.localStorage.setItem('studio-theme', mode);
+          } catch (err) {
+            /* no-op */
+          }
+          apply();
+        });
+        apply();
+      })();
+    </script>
+  </body>
+</html>
