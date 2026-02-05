@@ -842,8 +842,8 @@ function minifyHtml(html: string, options: Required<MinifyOptions>): string {
   if (options.js) {
     result = result.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gi, (match, js) => {
       const openingTag = match.split('>')[0] + '>';
-      const type = getAttribute(openingTag, 'type');
-      if (type && !type.includes('javascript')) {
+      const type = (getAttribute(openingTag, 'type') || '').toLowerCase();
+      if (type && !(type.includes('javascript') || type.includes('ecmascript') || type.includes('module'))) {
         return match;
       }
       return match.replace(js, minifyJs(js));
@@ -851,25 +851,60 @@ function minifyHtml(html: string, options: Required<MinifyOptions>): string {
   }
 
   result = result.replace(/<!--[\s\S]*?-->/g, '');
-  result = result.replace(/>\s+</g, '><');
-  result = result.replace(/\s{2,}/g, ' ');
   return result.trim();
 }
 
+function stripCssComments(css: string): string {
+  let output = '';
+  let inSingleQuote = false;
+  let inDoubleQuote = false;
+
+  for (let i = 0; i < css.length; i += 1) {
+    const char = css[i];
+    const next = css[i + 1];
+
+    if (!inSingleQuote && !inDoubleQuote && char === '/' && next === '*') {
+      i += 1;
+      while (i < css.length) {
+        if (css[i] === '*' && css[i + 1] === '/') {
+          i += 1;
+          break;
+        }
+        i += 1;
+      }
+      continue;
+    }
+
+    if (char === "'" && !inDoubleQuote && !isEscaped(css, i)) {
+      inSingleQuote = !inSingleQuote;
+    } else if (char === '"' && !inSingleQuote && !isEscaped(css, i)) {
+      inDoubleQuote = !inDoubleQuote;
+    }
+
+    output += char;
+  }
+
+  return output;
+}
+
 function minifyCss(css: string): string {
-  return css
-    .replace(/\/\*[\s\S]*?\*\//g, '')
-    .replace(/\s+/g, ' ')
-    .replace(/\s*([:;{},])\s*/g, '$1')
-    .replace(/;}/g, '}')
+  return stripCssComments(css)
+    .replace(/[ \t]+$/gm, '')
     .trim();
 }
 
 function minifyJs(js: string): string {
   return js
-    .replace(/\/\*[\s\S]*?\*\//g, '')
-    .replace(/\s+/g, ' ')
+    .replace(/[ \t]+$/gm, '')
     .trim();
+}
+
+function isEscaped(value: string, index: number): boolean {
+  let backslashCount = 0;
+  for (let i = index - 1; i >= 0 && value[i] === '\\\\'; i -= 1) {
+    backslashCount += 1;
+  }
+  return backslashCount % 2 === 1;
 }
 
 async function optimizeImage(
@@ -900,13 +935,13 @@ async function optimizeImage(
 }
 
 function getAttribute(tag: string, name: string): string | null {
-  const regex = new RegExp(`${name}\\s*=\\s*("([^"]*)"|'([^']*)'|([^\\s>]+))`, 'i');
+  const regex = new RegExp(`(?:^|\\s)${name}\\s*=\\s*("([^"]*)"|'([^']*)'|([^\\s>]+))`, 'i');
   const match = tag.match(regex);
   return match ? (match[2] || match[3] || match[4] || null) : null;
 }
 
 function setAttribute(tag: string, name: string, value: string): string {
-  const regex = new RegExp(`(${name}\\s*=\\s*)("[^"]*"|'[^']*'|[^\\s>]+)`, 'i');
+  const regex = new RegExp(`(\\s${name}\\s*=\\s*)("[^"]*"|'[^']*'|[^\\s>]+)`, 'i');
   if (regex.test(tag)) {
     return tag.replace(regex, `$1"${value}"`);
   }
@@ -914,7 +949,7 @@ function setAttribute(tag: string, name: string, value: string): string {
 }
 
 function removeAttribute(tag: string, name: string): string {
-  const regex = new RegExp(`\\s*${name}\\s*=\\s*("[^"]*"|'[^']*'|[^\\s>]+)`, 'i');
+  const regex = new RegExp(`\\s${name}\\s*=\\s*("[^"]*"|'[^']*'|[^\\s>]+)`, 'i');
   return tag.replace(regex, '');
 }
 
