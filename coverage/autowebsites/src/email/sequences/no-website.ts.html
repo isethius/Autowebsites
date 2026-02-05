@@ -1,0 +1,1174 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for autowebsites/src/email/sequences/no-website.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">autowebsites/src/email/sequences</a> no-website.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>0/197</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>1/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>0/197</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a>
+<a name='L221'></a><a href='#L221'>221</a>
+<a name='L222'></a><a href='#L222'>222</a>
+<a name='L223'></a><a href='#L223'>223</a>
+<a name='L224'></a><a href='#L224'>224</a>
+<a name='L225'></a><a href='#L225'>225</a>
+<a name='L226'></a><a href='#L226'>226</a>
+<a name='L227'></a><a href='#L227'>227</a>
+<a name='L228'></a><a href='#L228'>228</a>
+<a name='L229'></a><a href='#L229'>229</a>
+<a name='L230'></a><a href='#L230'>230</a>
+<a name='L231'></a><a href='#L231'>231</a>
+<a name='L232'></a><a href='#L232'>232</a>
+<a name='L233'></a><a href='#L233'>233</a>
+<a name='L234'></a><a href='#L234'>234</a>
+<a name='L235'></a><a href='#L235'>235</a>
+<a name='L236'></a><a href='#L236'>236</a>
+<a name='L237'></a><a href='#L237'>237</a>
+<a name='L238'></a><a href='#L238'>238</a>
+<a name='L239'></a><a href='#L239'>239</a>
+<a name='L240'></a><a href='#L240'>240</a>
+<a name='L241'></a><a href='#L241'>241</a>
+<a name='L242'></a><a href='#L242'>242</a>
+<a name='L243'></a><a href='#L243'>243</a>
+<a name='L244'></a><a href='#L244'>244</a>
+<a name='L245'></a><a href='#L245'>245</a>
+<a name='L246'></a><a href='#L246'>246</a>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a>
+<a name='L249'></a><a href='#L249'>249</a>
+<a name='L250'></a><a href='#L250'>250</a>
+<a name='L251'></a><a href='#L251'>251</a>
+<a name='L252'></a><a href='#L252'>252</a>
+<a name='L253'></a><a href='#L253'>253</a>
+<a name='L254'></a><a href='#L254'>254</a>
+<a name='L255'></a><a href='#L255'>255</a>
+<a name='L256'></a><a href='#L256'>256</a>
+<a name='L257'></a><a href='#L257'>257</a>
+<a name='L258'></a><a href='#L258'>258</a>
+<a name='L259'></a><a href='#L259'>259</a>
+<a name='L260'></a><a href='#L260'>260</a>
+<a name='L261'></a><a href='#L261'>261</a>
+<a name='L262'></a><a href='#L262'>262</a>
+<a name='L263'></a><a href='#L263'>263</a>
+<a name='L264'></a><a href='#L264'>264</a>
+<a name='L265'></a><a href='#L265'>265</a>
+<a name='L266'></a><a href='#L266'>266</a>
+<a name='L267'></a><a href='#L267'>267</a>
+<a name='L268'></a><a href='#L268'>268</a>
+<a name='L269'></a><a href='#L269'>269</a>
+<a name='L270'></a><a href='#L270'>270</a>
+<a name='L271'></a><a href='#L271'>271</a>
+<a name='L272'></a><a href='#L272'>272</a>
+<a name='L273'></a><a href='#L273'>273</a>
+<a name='L274'></a><a href='#L274'>274</a>
+<a name='L275'></a><a href='#L275'>275</a>
+<a name='L276'></a><a href='#L276'>276</a>
+<a name='L277'></a><a href='#L277'>277</a>
+<a name='L278'></a><a href='#L278'>278</a>
+<a name='L279'></a><a href='#L279'>279</a>
+<a name='L280'></a><a href='#L280'>280</a>
+<a name='L281'></a><a href='#L281'>281</a>
+<a name='L282'></a><a href='#L282'>282</a>
+<a name='L283'></a><a href='#L283'>283</a>
+<a name='L284'></a><a href='#L284'>284</a>
+<a name='L285'></a><a href='#L285'>285</a>
+<a name='L286'></a><a href='#L286'>286</a>
+<a name='L287'></a><a href='#L287'>287</a>
+<a name='L288'></a><a href='#L288'>288</a>
+<a name='L289'></a><a href='#L289'>289</a>
+<a name='L290'></a><a href='#L290'>290</a>
+<a name='L291'></a><a href='#L291'>291</a>
+<a name='L292'></a><a href='#L292'>292</a>
+<a name='L293'></a><a href='#L293'>293</a>
+<a name='L294'></a><a href='#L294'>294</a>
+<a name='L295'></a><a href='#L295'>295</a>
+<a name='L296'></a><a href='#L296'>296</a>
+<a name='L297'></a><a href='#L297'>297</a>
+<a name='L298'></a><a href='#L298'>298</a>
+<a name='L299'></a><a href='#L299'>299</a>
+<a name='L300'></a><a href='#L300'>300</a>
+<a name='L301'></a><a href='#L301'>301</a>
+<a name='L302'></a><a href='#L302'>302</a>
+<a name='L303'></a><a href='#L303'>303</a>
+<a name='L304'></a><a href='#L304'>304</a>
+<a name='L305'></a><a href='#L305'>305</a>
+<a name='L306'></a><a href='#L306'>306</a>
+<a name='L307'></a><a href='#L307'>307</a>
+<a name='L308'></a><a href='#L308'>308</a>
+<a name='L309'></a><a href='#L309'>309</a>
+<a name='L310'></a><a href='#L310'>310</a>
+<a name='L311'></a><a href='#L311'>311</a>
+<a name='L312'></a><a href='#L312'>312</a>
+<a name='L313'></a><a href='#L313'>313</a>
+<a name='L314'></a><a href='#L314'>314</a>
+<a name='L315'></a><a href='#L315'>315</a>
+<a name='L316'></a><a href='#L316'>316</a>
+<a name='L317'></a><a href='#L317'>317</a>
+<a name='L318'></a><a href='#L318'>318</a>
+<a name='L319'></a><a href='#L319'>319</a>
+<a name='L320'></a><a href='#L320'>320</a>
+<a name='L321'></a><a href='#L321'>321</a>
+<a name='L322'></a><a href='#L322'>322</a>
+<a name='L323'></a><a href='#L323'>323</a>
+<a name='L324'></a><a href='#L324'>324</a>
+<a name='L325'></a><a href='#L325'>325</a>
+<a name='L326'></a><a href='#L326'>326</a>
+<a name='L327'></a><a href='#L327'>327</a>
+<a name='L328'></a><a href='#L328'>328</a>
+<a name='L329'></a><a href='#L329'>329</a>
+<a name='L330'></a><a href='#L330'>330</a>
+<a name='L331'></a><a href='#L331'>331</a>
+<a name='L332'></a><a href='#L332'>332</a>
+<a name='L333'></a><a href='#L333'>333</a>
+<a name='L334'></a><a href='#L334'>334</a>
+<a name='L335'></a><a href='#L335'>335</a>
+<a name='L336'></a><a href='#L336'>336</a>
+<a name='L337'></a><a href='#L337'>337</a>
+<a name='L338'></a><a href='#L338'>338</a>
+<a name='L339'></a><a href='#L339'>339</a>
+<a name='L340'></a><a href='#L340'>340</a>
+<a name='L341'></a><a href='#L341'>341</a>
+<a name='L342'></a><a href='#L342'>342</a>
+<a name='L343'></a><a href='#L343'>343</a>
+<a name='L344'></a><a href='#L344'>344</a>
+<a name='L345'></a><a href='#L345'>345</a>
+<a name='L346'></a><a href='#L346'>346</a>
+<a name='L347'></a><a href='#L347'>347</a>
+<a name='L348'></a><a href='#L348'>348</a>
+<a name='L349'></a><a href='#L349'>349</a>
+<a name='L350'></a><a href='#L350'>350</a>
+<a name='L351'></a><a href='#L351'>351</a>
+<a name='L352'></a><a href='#L352'>352</a>
+<a name='L353'></a><a href='#L353'>353</a>
+<a name='L354'></a><a href='#L354'>354</a>
+<a name='L355'></a><a href='#L355'>355</a>
+<a name='L356'></a><a href='#L356'>356</a>
+<a name='L357'></a><a href='#L357'>357</a>
+<a name='L358'></a><a href='#L358'>358</a>
+<a name='L359'></a><a href='#L359'>359</a>
+<a name='L360'></a><a href='#L360'>360</a>
+<a name='L361'></a><a href='#L361'>361</a>
+<a name='L362'></a><a href='#L362'>362</a>
+<a name='L363'></a><a href='#L363'>363</a>
+<a name='L364'></a><a href='#L364'>364</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * No Website Email Sequence
+ *
+ * A 4-step email sequence for businesses that don't have a website at all.
+ * These are the easiest leads - they already know they need a website.
+ *
+ * Sequence:
+ *   1. Day 0: Discovery - "I couldn't find your website"
+ *   2. Day 3: Value - Why they're losing customers without one
+ *   3. Day 7: Preview - Show them what they could have
+ *   4. Day 14: Closer - Final offer with urgency
+ */
+&nbsp;
+import { SequenceStep } from '../sequence-engine';
+&nbsp;
+/**
+ * No Website sequence definition
+ */
+<span class="cstat-no" title="statement not covered" >export const NO_WEBSITE_SEQUENCE: {</span>
+  name: string;
+  description: string;
+  steps: SequenceStep[];
+<span class="cstat-no" title="statement not covered" >} = {</span>
+<span class="cstat-no" title="statement not covered" >  name: 'No Website Outreach',</span>
+<span class="cstat-no" title="statement not covered" >  description: 'Optimized 4-step sequence for businesses without a website. Focuses on the opportunities they\'re missing and makes getting online feel easy.',</span>
+<span class="cstat-no" title="statement not covered" >  steps: [</span>
+    // Step 1: The Discovery (Day 0)
+<span class="cstat-no" title="statement not covered" >    {</span>
+<span class="cstat-no" title="statement not covered" >      delay_days: 0,</span>
+<span class="cstat-no" title="statement not covered" >      subject: "I couldn't find {{business_name}}'s website",</span>
+<span class="cstat-no" title="statement not covered" >      template: 'no_website_discovery',</span>
+<span class="cstat-no" title="statement not covered" >      condition: 'always',</span>
+<span class="cstat-no" title="statement not covered" >      custom_variables: {</span>
+<span class="cstat-no" title="statement not covered" >        email_type: 'discovery',</span>
+<span class="cstat-no" title="statement not covered" >        hook_type: 'missing_website',</span>
+<span class="cstat-no" title="statement not covered" >      },</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+    // Step 2: The Value (Day 3)
+<span class="cstat-no" title="statement not covered" >    {</span>
+<span class="cstat-no" title="statement not covered" >      delay_days: 3,</span>
+<span class="cstat-no" title="statement not covered" >      subject: '97% of customers search online first',</span>
+<span class="cstat-no" title="statement not covered" >      template: 'no_website_value',</span>
+<span class="cstat-no" title="statement not covered" >      condition: 'not_opened',</span>
+<span class="cstat-no" title="statement not covered" >      custom_variables: {</span>
+<span class="cstat-no" title="statement not covered" >        email_type: 'value',</span>
+<span class="cstat-no" title="statement not covered" >        hook_type: 'statistics',</span>
+<span class="cstat-no" title="statement not covered" >      },</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+    // Step 3: The Preview (Day 7)
+<span class="cstat-no" title="statement not covered" >    {</span>
+<span class="cstat-no" title="statement not covered" >      delay_days: 7,</span>
+<span class="cstat-no" title="statement not covered" >      subject: 'I built something for {{business_name}}',</span>
+<span class="cstat-no" title="statement not covered" >      template: 'no_website_preview',</span>
+<span class="cstat-no" title="statement not covered" >      condition: 'not_replied',</span>
+<span class="cstat-no" title="statement not covered" >      custom_variables: {</span>
+<span class="cstat-no" title="statement not covered" >        email_type: 'preview',</span>
+<span class="cstat-no" title="statement not covered" >        hook_type: 'mockup',</span>
+<span class="cstat-no" title="statement not covered" >      },</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+    // Step 4: The Closer (Day 14)
+<span class="cstat-no" title="statement not covered" >    {</span>
+<span class="cstat-no" title="statement not covered" >      delay_days: 14,</span>
+<span class="cstat-no" title="statement not covered" >      subject: 'Quick question before I move on',</span>
+<span class="cstat-no" title="statement not covered" >      template: 'no_website_closer',</span>
+<span class="cstat-no" title="statement not covered" >      condition: 'not_replied',</span>
+<span class="cstat-no" title="statement not covered" >      custom_variables: {</span>
+<span class="cstat-no" title="statement not covered" >        email_type: 'closer',</span>
+<span class="cstat-no" title="statement not covered" >        hook_type: 'urgency',</span>
+<span class="cstat-no" title="statement not covered" >      },</span>
+<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >  ],</span>
+<span class="cstat-no" title="statement not covered" >};</span>
+&nbsp;
+/**
+ * Email templates for businesses without websites
+ */
+<span class="cstat-no" title="statement not covered" >export const NO_WEBSITE_TEMPLATES = {</span>
+<span class="cstat-no" title="statement not covered" >  no_website_discovery: {</span>
+<span class="cstat-no" title="statement not covered" >    name: 'No Website - Discovery',</span>
+<span class="cstat-no" title="statement not covered" >    subject: "I couldn't find {{business_name}}'s website",</span>
+<span class="cstat-no" title="statement not covered" >    body: `Hi {{contact_name}},</span>
+&nbsp;
+I was looking for {{industry_display}} in {{city}} and came across {{business_name}} — great reviews on Google!
+&nbsp;
+But when I tried to learn more, I couldn't find a website for you.
+&nbsp;
+I'm not sure if that's intentional, but I wanted to reach out because I help local businesses like yours get online quickly and affordably.
+&nbsp;
+Here's the thing: {{stat_hook}}
+&nbsp;
+A simple website doesn't have to be complicated or expensive. It just needs to:
+• Show up when people search for "{{industry_display}} near me"
+• Display your services and contact info clearly
+• Make it easy for customers to reach you
+&nbsp;
+Would you be open to a quick chat about getting {{business_name}} online? I can show you exactly what it would look like — no cost, no pressure.
+&nbsp;
+Best,
+{{sender_name}}
+{{sender_company}}`,
+<span class="cstat-no" title="statement not covered" >  },</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  no_website_value: {</span>
+<span class="cstat-no" title="statement not covered" >    name: 'No Website - Value',</span>
+<span class="cstat-no" title="statement not covered" >    subject: '97% of customers search online first',</span>
+<span class="cstat-no" title="statement not covered" >    body: `Hi {{contact_name}},</span>
+&nbsp;
+Quick follow-up on my note about {{business_name}}.
+&nbsp;
+I wanted to share some numbers that might surprise you:
+&nbsp;
+• 97% of consumers search online for local businesses
+• 75% judge a company's credibility based on their website
+• 88% of people who search for a local business call or visit within 24 hours
+• Businesses without websites lose an estimated 70% of potential customers
+&nbsp;
+Right now, when someone searches for "{{industry_display}} in {{city}}", your competitors with websites are getting those calls — not you.
+&nbsp;
+The good news? Getting online is easier than you think. I can have a professional website for {{business_name}} ready in 48 hours.
+&nbsp;
+Want me to show you what it could look like?
+&nbsp;
+{{sender_name}}`,
+<span class="cstat-no" title="statement not covered" >  },</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  no_website_preview: {</span>
+<span class="cstat-no" title="statement not covered" >    name: 'No Website - Preview',</span>
+<span class="cstat-no" title="statement not covered" >    subject: 'I built something for {{business_name}}',</span>
+<span class="cstat-no" title="statement not covered" >    body: `Hi {{contact_name}},</span>
+&nbsp;
+I know you're busy running your business, so I went ahead and created something for you.
+&nbsp;
+I put together a preview of what a website for {{business_name}} could look like:
+{{preview_url}}
+&nbsp;
+This includes:
+• Professional design that matches your business
+• Mobile-friendly (looks great on phones)
+• Easy-to-find contact information
+• Service descriptions for {{industry_display}}
+• Google Maps integration showing your location
+• Click-to-call button for instant contact
+&nbsp;
+No strings attached — I just wanted to show you what's possible.
+&nbsp;
+If you like it, we can have it live this week.
+If not, no worries — I hope it at least gives you some ideas.
+&nbsp;
+{{sender_name}}
+&nbsp;
+P.S. Every day without a website is another day your competitors are getting the calls that could be going to you.`,
+<span class="cstat-no" title="statement not covered" >  },</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  no_website_closer: {</span>
+<span class="cstat-no" title="statement not covered" >    name: 'No Website - Closer',</span>
+<span class="cstat-no" title="statement not covered" >    subject: 'Quick question before I move on',</span>
+<span class="cstat-no" title="statement not covered" >    body: `Hi {{contact_name}},</span>
+&nbsp;
+This will be my last email about this.
+&nbsp;
+I've been reaching out because I genuinely think {{business_name}} would benefit from having an online presence. But I also respect your time and don't want to be a pest.
+&nbsp;
+Before I move on, I wanted to ask: Is there a specific reason you haven't set up a website yet?
+&nbsp;
+Common concerns I hear:
+• "It's too expensive" — I have packages starting at {{starter_price}}
+• "It's too complicated" — I handle everything, you just review and approve
+• "I don't have time" — Takes less than an hour of your time total
+• "I get enough business from referrals" — A website helps referrals find you too
+&nbsp;
+If any of those resonate, I'm happy to address them. If not, no hard feelings.
+&nbsp;
+The preview I made is still available if you want to take a look:
+{{preview_url}}
+&nbsp;
+Either way, I wish you all the best with {{business_name}}.
+&nbsp;
+{{sender_name}}
+{{sender_company}}`,
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >};</span>
+&nbsp;
+/**
+ * Industry-specific statistics for the stat_hook variable
+ */
+<span class="cstat-no" title="statement not covered" >export const INDUSTRY_STATS: Record&lt;string, string&gt; = {</span>
+  // Service businesses
+<span class="cstat-no" title="statement not covered" >  plumbers: '85% of people looking for a plumber start with a Google search — and they usually call the first business with a website they find.',</span>
+<span class="cstat-no" title="statement not covered" >  hvac: '70% of HVAC emergencies start with a mobile search. Without a website, you\'re invisible when people need you most.',</span>
+<span class="cstat-no" title="statement not covered" >  electricians: '82% of homeowners research electricians online before calling. No website means no consideration.',</span>
+<span class="cstat-no" title="statement not covered" >  contractors: '85% of homeowners research contractors online before hiring. A website is often the difference between getting the job and being passed over.',</span>
+<span class="cstat-no" title="statement not covered" >  cleaning: '75% of people looking for cleaning services search online first. Without a website, they can\'t find you.',</span>
+<span class="cstat-no" title="statement not covered" >  landscaping: '73% of homeowners research landscaping services online. Your competitors with websites are getting these leads.',</span>
+&nbsp;
+  // Professional services
+<span class="cstat-no" title="statement not covered" >  lawyers: '96% of people seeking legal advice use a search engine. Without a website, you\'re missing almost every potential client.',</span>
+<span class="cstat-no" title="statement not covered" >  accountants: '67% of small businesses search online when looking for an accountant. No website means they\'ll never find you.',</span>
+<span class="cstat-no" title="statement not covered" >  dentists: '77% of patients research dentists online before booking. Without a website, you\'re losing patients to competitors.',</span>
+<span class="cstat-no" title="statement not covered" >  doctors: '77% of patients research doctors online before making an appointment. A website builds trust before they walk in.',</span>
+&nbsp;
+  // Retail &amp; food
+<span class="cstat-no" title="statement not covered" >  restaurants: '90% of diners research restaurants online before visiting. Without a website or menu online, you\'re losing hungry customers.',</span>
+<span class="cstat-no" title="statement not covered" >  salons: '70% of salon clients search online before booking. A website lets them see your work and book appointments.',</span>
+<span class="cstat-no" title="statement not covered" >  fitness: '81% of gym members researched online before joining. Without a website, they\'ll join your competitor instead.',</span>
+&nbsp;
+  // Default
+<span class="cstat-no" title="statement not covered" >  other: '97% of consumers search online before making a purchase or hiring a service. Without a website, they can\'t find you.',</span>
+<span class="cstat-no" title="statement not covered" >};</span>
+&nbsp;
+/**
+ * Generate personalized email content for No Website sequence
+ */
+<span class="cstat-no" title="statement not covered" >export function generateNoWebsiteEmail(</span>
+<span class="cstat-no" title="statement not covered" >  step: number,</span>
+<span class="cstat-no" title="statement not covered" >  leadData: {</span>
+    business_name: string;
+    contact_name?: string;
+    city?: string;
+    industry?: string;
+    preview_url?: string;
+  },
+<span class="cstat-no" title="statement not covered" >  senderData: {</span>
+    sender_name: string;
+    sender_company: string;
+    starter_price?: string;
+  }
+<span class="cstat-no" title="statement not covered" >): { subject: string; body: string } {</span>
+<span class="cstat-no" title="statement not covered" >  const templates = Object.values(NO_WEBSITE_TEMPLATES);</span>
+<span class="cstat-no" title="statement not covered" >  const template = templates[step];</span>
+<span class="cstat-no" title="statement not covered" >  if (!template) {</span>
+<span class="cstat-no" title="statement not covered" >    throw new Error(`Invalid step: ${step}. Must be 0-3.`);</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  let subject = template.subject;</span>
+<span class="cstat-no" title="statement not covered" >  let body = template.body;</span>
+&nbsp;
+  // Get industry display name
+<span class="cstat-no" title="statement not covered" >  const industryDisplayNames: Record&lt;string, string&gt; = {</span>
+<span class="cstat-no" title="statement not covered" >    plumbers: 'plumbers',</span>
+<span class="cstat-no" title="statement not covered" >    hvac: 'HVAC services',</span>
+<span class="cstat-no" title="statement not covered" >    electricians: 'electricians',</span>
+<span class="cstat-no" title="statement not covered" >    contractors: 'contractors',</span>
+<span class="cstat-no" title="statement not covered" >    cleaning: 'cleaning services',</span>
+<span class="cstat-no" title="statement not covered" >    landscaping: 'landscaping services',</span>
+<span class="cstat-no" title="statement not covered" >    lawyers: 'lawyers',</span>
+<span class="cstat-no" title="statement not covered" >    accountants: 'accountants',</span>
+<span class="cstat-no" title="statement not covered" >    dentists: 'dentists',</span>
+<span class="cstat-no" title="statement not covered" >    doctors: 'medical practices',</span>
+<span class="cstat-no" title="statement not covered" >    restaurants: 'restaurants',</span>
+<span class="cstat-no" title="statement not covered" >    salons: 'salons',</span>
+<span class="cstat-no" title="statement not covered" >    fitness: 'gyms',</span>
+<span class="cstat-no" title="statement not covered" >    realtors: 'real estate agents',</span>
+<span class="cstat-no" title="statement not covered" >    'auto-repair': 'auto repair shops',</span>
+<span class="cstat-no" title="statement not covered" >    photography: 'photographers',</span>
+<span class="cstat-no" title="statement not covered" >    other: 'local businesses',</span>
+<span class="cstat-no" title="statement not covered" >  };</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  const industry = leadData.industry || 'other';</span>
+<span class="cstat-no" title="statement not covered" >  const industryDisplay = industryDisplayNames[industry] || industryDisplayNames.other;</span>
+<span class="cstat-no" title="statement not covered" >  const statHook = INDUSTRY_STATS[industry] || INDUSTRY_STATS.other;</span>
+&nbsp;
+  // Replace variables
+<span class="cstat-no" title="statement not covered" >  const variables: Record&lt;string, string&gt; = {</span>
+<span class="cstat-no" title="statement not covered" >    business_name: leadData.business_name,</span>
+<span class="cstat-no" title="statement not covered" >    contact_name: leadData.contact_name || 'there',</span>
+<span class="cstat-no" title="statement not covered" >    city: leadData.city || 'your area',</span>
+<span class="cstat-no" title="statement not covered" >    industry_display: industryDisplay,</span>
+<span class="cstat-no" title="statement not covered" >    preview_url: leadData.preview_url || '[Preview will be available soon]',</span>
+<span class="cstat-no" title="statement not covered" >    stat_hook: statHook,</span>
+<span class="cstat-no" title="statement not covered" >    sender_name: senderData.sender_name,</span>
+<span class="cstat-no" title="statement not covered" >    sender_company: senderData.sender_company,</span>
+<span class="cstat-no" title="statement not covered" >    starter_price: '$' + (senderData.starter_price || '1,500'),</span>
+<span class="cstat-no" title="statement not covered" >  };</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  for (const [key, value] of Object.entries(variables)) {</span>
+<span class="cstat-no" title="statement not covered" >    const regex = new RegExp(`{{${key}}}`, 'g');</span>
+<span class="cstat-no" title="statement not covered" >    subject = subject.replace(regex, value);</span>
+<span class="cstat-no" title="statement not covered" >    body = body.replace(regex, value);</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return { subject, body };</span>
+<span class="cstat-no" title="statement not covered" >}</span>
+&nbsp;
+/**
+ * Check if a business appears to have no website
+ */
+<span class="cstat-no" title="statement not covered" >export function hasNoWebsite(business: {</span>
+  url?: string;
+  website_url?: string;
+  website?: string;
+<span class="cstat-no" title="statement not covered" >}): boolean {</span>
+<span class="cstat-no" title="statement not covered" >  const url = business.url || business.website_url || business.website || '';</span>
+&nbsp;
+  // No URL at all
+<span class="cstat-no" title="statement not covered" >  if (!url || url.trim() === '') return true;</span>
+&nbsp;
+  // Check for placeholder/default URLs
+<span class="cstat-no" title="statement not covered" >  const noWebsiteIndicators = [</span>
+<span class="cstat-no" title="statement not covered" >    'facebook.com',</span>
+<span class="cstat-no" title="statement not covered" >    'yelp.com',</span>
+<span class="cstat-no" title="statement not covered" >    'yellowpages.com',</span>
+<span class="cstat-no" title="statement not covered" >    'google.com/maps',</span>
+<span class="cstat-no" title="statement not covered" >    'google.com/business',</span>
+<span class="cstat-no" title="statement not covered" >    'linkedin.com',</span>
+<span class="cstat-no" title="statement not covered" >    'instagram.com',</span>
+<span class="cstat-no" title="statement not covered" >    'twitter.com',</span>
+<span class="cstat-no" title="statement not covered" >    'nextdoor.com',</span>
+<span class="cstat-no" title="statement not covered" >    'thumbtack.com',</span>
+<span class="cstat-no" title="statement not covered" >    'angi.com',</span>
+<span class="cstat-no" title="statement not covered" >    'homeadvisor.com',</span>
+<span class="cstat-no" title="statement not covered" >    'bbb.org',</span>
+<span class="cstat-no" title="statement not covered" >  ];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  const lowerUrl = url.toLowerCase();</span>
+<span class="cstat-no" title="statement not covered" >  return noWebsiteIndicators.some(indicator =&gt; lowerUrl.includes(indicator));</span>
+<span class="cstat-no" title="statement not covered" >}</span>
+&nbsp;
+// CLI entry point for testing
+<span class="cstat-no" title="statement not covered" >if (require.main === module) {</span>
+<span class="cstat-no" title="statement not covered" >  console.log(`\n📧 No Website Email Sequence\n`);</span>
+<span class="cstat-no" title="statement not covered" >  console.log(`Name: ${NO_WEBSITE_SEQUENCE.name}`);</span>
+<span class="cstat-no" title="statement not covered" >  console.log(`Description: ${NO_WEBSITE_SEQUENCE.description}`);</span>
+<span class="cstat-no" title="statement not covered" >  console.log(`\nSteps:`);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  for (let i = 0; i &lt; NO_WEBSITE_SEQUENCE.steps.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >    const step = NO_WEBSITE_SEQUENCE.steps[i];</span>
+<span class="cstat-no" title="statement not covered" >    console.log(`\n  Step ${i + 1} (Day ${step.delay_days}):`);</span>
+<span class="cstat-no" title="statement not covered" >    console.log(`    Subject: ${step.subject}`);</span>
+<span class="cstat-no" title="statement not covered" >    console.log(`    Template: ${step.template}`);</span>
+<span class="cstat-no" title="statement not covered" >    console.log(`    Condition: ${step.condition || 'always'}`);</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+&nbsp;
+  // Generate sample email
+<span class="cstat-no" title="statement not covered" >  console.log(`\n\n📝 Sample Email (Step 1 - Plumber):\n`);</span>
+<span class="cstat-no" title="statement not covered" >  const sample = generateNoWebsiteEmail(0, {</span>
+<span class="cstat-no" title="statement not covered" >    business_name: "Mike's Plumbing",</span>
+<span class="cstat-no" title="statement not covered" >    contact_name: 'Mike',</span>
+<span class="cstat-no" title="statement not covered" >    city: 'Austin',</span>
+<span class="cstat-no" title="statement not covered" >    industry: 'plumbers',</span>
+<span class="cstat-no" title="statement not covered" >  }, {</span>
+<span class="cstat-no" title="statement not covered" >    sender_name: 'Alex',</span>
+<span class="cstat-no" title="statement not covered" >    sender_company: 'AutoWebsites Pro',</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  console.log(`Subject: ${sample.subject}`);</span>
+<span class="cstat-no" title="statement not covered" >  console.log(`\n${sample.body}`);</span>
+&nbsp;
+  // Test hasNoWebsite function
+<span class="cstat-no" title="statement not covered" >  console.log(`\n\n🔍 Website Detection Test:\n`);</span>
+<span class="cstat-no" title="statement not covered" >  const testCases = [</span>
+<span class="cstat-no" title="statement not covered" >    { url: '', expected: true },</span>
+<span class="cstat-no" title="statement not covered" >    { url: 'https://facebook.com/mikesplumbing', expected: true },</span>
+<span class="cstat-no" title="statement not covered" >    { url: 'https://yelp.com/biz/mikes-plumbing', expected: true },</span>
+<span class="cstat-no" title="statement not covered" >    { url: 'https://mikesplumbing.com', expected: false },</span>
+<span class="cstat-no" title="statement not covered" >    { url: 'https://www.mikesplumbing.com', expected: false },</span>
+<span class="cstat-no" title="statement not covered" >  ];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  for (const test of testCases) {</span>
+<span class="cstat-no" title="statement not covered" >    const result = hasNoWebsite({ url: test.url });</span>
+<span class="cstat-no" title="statement not covered" >    const status = result === test.expected ? '✓' : '✗';</span>
+<span class="cstat-no" title="statement not covered" >    console.log(`  ${status} "${test.url || '(empty)'}" -&gt; hasNoWebsite: ${result}`);</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >}</span>
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-02-05T01:25:33.548Z
+            </div>
+        <script src="../../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../../sorter.js"></script>
+        <script src="../../../../block-navigation.js"></script>
+    </body>
+</html>
+    

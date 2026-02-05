@@ -339,11 +339,14 @@ export class MediaFetcher {
       return [];
     }
 
-    return results
-      .map(result => ({
+    return results.flatMap(result => {
+      const url = result.urls?.regular || result.urls?.full || result.urls?.raw;
+      if (!url) return [];
+
+      const image: StockImage = {
         id: result.id,
         provider: 'unsplash',
-        url: result.urls?.regular || result.urls?.full || result.urls?.raw,
+        url,
         thumbUrl: result.urls?.thumb || result.urls?.small,
         width: result.width,
         height: result.height,
@@ -352,8 +355,10 @@ export class MediaFetcher {
         photographerUrl: result.user?.links?.html,
         sourceUrl: result.links?.html,
         downloadUrl: result.links?.download || result.links?.download_location,
-      }))
-      .filter((image): image is StockImage => Boolean(image.url));
+      };
+
+      return [image];
+    });
   }
 
   private async fetchFromPexels(query: string, count: number, orientation: ImageOrientation): Promise<StockImage[]> {
@@ -390,11 +395,14 @@ export class MediaFetcher {
       return [];
     }
 
-    return results
-      .map(photo => ({
+    return results.flatMap(photo => {
+      const url = photo.src?.large || photo.src?.original;
+      if (!url) return [];
+
+      const image: StockImage = {
         id: String(photo.id),
         provider: 'pexels',
-        url: photo.src?.large || photo.src?.original,
+        url,
         thumbUrl: photo.src?.medium || photo.src?.small,
         width: photo.width,
         height: photo.height,
@@ -403,8 +411,10 @@ export class MediaFetcher {
         photographerUrl: photo.photographer_url,
         sourceUrl: photo.url,
         downloadUrl: photo.src?.original,
-      }))
-      .filter((image): image is StockImage => Boolean(image.url));
+      };
+
+      return [image];
+    });
   }
 
   private dedupeImages(images: StockImage[]): StockImage[] {
@@ -427,8 +437,8 @@ function normalizeKey(value: string): string {
     .trim()
     .toLowerCase()
     .replace(/&/g, 'and')
-    .replace(/[^a-z0-9\\s-]/g, '')
-    .replace(/\\s+/g, '-');
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-');
 }
 
 function mapUnsplashOrientation(orientation: ImageOrientation): string {
