@@ -244,7 +244,7 @@ export function isRedisRateLimiting(): boolean {
 // The target must be a function so that typeof returns 'function' for Express middleware
 function createLazyLimiter(getter: () => RateLimitRequestHandler): RateLimitRequestHandler {
   // Use a dummy function as target so typeof returns 'function'
-  const dummyFn = function() {} as RateLimitRequestHandler;
+  const dummyFn = (() => {}) as unknown as RateLimitRequestHandler;
   return new Proxy(dummyFn, {
     apply: (_target, thisArg, args) => {
       const limiter = getter();
