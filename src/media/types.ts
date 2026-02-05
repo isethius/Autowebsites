@@ -87,3 +87,46 @@ export interface ThemeGridResult {
   themeCount: number;
   themeNames: string[];
 }
+
+export type StockProvider = 'unsplash' | 'pexels';
+
+export type MediaProviderPreference = StockProvider | 'auto' | 'mixed';
+
+export type ImageOrientation = 'landscape' | 'portrait' | 'square';
+
+export interface StockImage {
+  id: string;
+  provider: StockProvider;
+  url: string;
+  thumbUrl?: string;
+  width?: number;
+  height?: number;
+  description?: string;
+  photographer?: string;
+  photographerUrl?: string;
+  sourceUrl?: string;
+  downloadUrl?: string;
+}
+
+export interface MediaFetchOptions {
+  industry: string;
+  vibe?: string;
+  count?: number;
+  orientation?: ImageOrientation;
+  provider?: MediaProviderPreference;
+  keywords?: string[];
+}
+
+export interface MediaFetchResult {
+  query: string;
+  provider: StockProvider | 'mixed';
+  images: StockImage[];
+  warnings: string[];
+}
+
+export interface MediaFetcherConfig {
+  unsplashAccessKey?: string;
+  pexelsApiKey?: string;
+  defaultProvider?: MediaProviderPreference;
+  timeoutMs?: number;
+}

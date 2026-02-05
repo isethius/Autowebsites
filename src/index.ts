@@ -141,11 +141,15 @@ export { PitchGenerator, PitchEmail } from './ai/pitch-generator';
 export { ObjectionHandler } from './ai/objection-handler';
 export { getIndustryTemplate, INDUSTRIES, IndustryType } from './ai/industry-templates';
 
+// Export copy
+export * from './copy/vibe-copy-engine';
+
 // Export email
 export { EmailComposer } from './email/composer';
 export { SequenceEngine } from './email/sequence-engine';
 export { EmailAnalytics } from './email/analytics';
 export { UnsubscribeHandler } from './email/unsubscribe';
+export * from './analytics/analytics';
 
 // Export utilities
 export { config, features } from './utils/config';
