@@ -155,7 +155,7 @@ export function createLivePreview(options: LivePreviewOptions): LivePreviewContr
   const classPrefix = options.classPrefix || 'preview-viewport';
   const styleTarget = options.styleTarget || ':root';
   const styleElementId = options.styleElementId || DEFAULT_STYLE_ELEMENT_ID;
-  const variablePrefix = options.variablePrefix ?? '--';
+  const variablePrefix = options.variablePrefix === undefined ? '--' : options.variablePrefix;
   const allowMessaging = options.allowMessaging !== false;
   const messageType = options.messageType || DEFAULT_MESSAGE_TYPE;
   const messageTargetOrigin = options.messageTargetOrigin || '*';
@@ -242,9 +242,14 @@ export function createLivePreview(options: LivePreviewOptions): LivePreviewContr
   }
 
   function applyStylesToDocument(doc: Document): boolean {
-    const target = styleTarget === ':root'
-      ? doc.documentElement
-      : (doc.querySelector(styleTarget) as HTMLElement | null) || doc.documentElement;
+    let target = doc.documentElement;
+    if (styleTarget !== ':root') {
+      try {
+        target = (doc.querySelector(styleTarget) as HTMLElement | null) || doc.documentElement;
+      } catch {
+        target = doc.documentElement;
+      }
+    }
 
     const nextKeys = new Set(Object.keys(styleState.variables));
     appliedVariables.forEach((key) => {

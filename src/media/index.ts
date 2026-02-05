@@ -7,6 +7,7 @@ export * from './types';
 export * from './storage';
 export * from './before-after-generator';
 export * from './media-generator';
+export * from './media-fetcher';
 export * from './video-generator';
 export * from './theme-grid';
 
@@ -14,5 +15,6 @@ export * from './theme-grid';
 export { MediaStorage, createMediaStorage } from './storage';
 export { BeforeAfterGenerator, createBeforeAfterGenerator } from './before-after-generator';
 export { MediaGenerator, createMediaGenerator } from './media-generator';
+export { MediaFetcher, createMediaFetcher } from './media-fetcher';
 export { VideoGenerator, createVideoGenerator } from './video-generator';
 export { ThemeGridGenerator, createThemeGridGenerator, generateThemeGrid } from './theme-grid';

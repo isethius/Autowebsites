@@ -109,7 +109,7 @@ export function generateAnalyticsSnippets(config: AnalyticsConfig): AnalyticsSni
   }
 
   if (config.plausible) {
-    const plausibleSnippet = generatePlausibleSnippet(config.plausible);
+    const plausibleSnippet = generatePlausibleSnippet(config.plausible, config.nonce);
     if (plausibleSnippet) head.push(plausibleSnippet);
   }
 
@@ -164,7 +164,7 @@ export function generateGa4Snippet(ga4: GA4Config, config: AnalyticsConfig = {})
   gtag('config', '${escapeJsString(measurementId)}'${configArgs});
 </script>`;
 
-  const tagScript = `<script async src="https://www.googletagmanager.com/gtag/js?id=${escapeAttribute(measurementId)}"></script>`;
+  const tagScript = `<script async${nonceAttr} src="https://www.googletagmanager.com/gtag/js?id=${escapeAttribute(measurementId)}"></script>`;
 
   if (inlineConsent) {
     return [
@@ -182,7 +182,7 @@ export function generateGa4Snippet(ga4: GA4Config, config: AnalyticsConfig = {})
   ].join('\n');
 }
 
-export function generatePlausibleSnippet(plausible: PlausibleConfig): string {
+export function generatePlausibleSnippet(plausible: PlausibleConfig, nonce?: string): string {
   const domain = (plausible.domain || '').trim();
   if (!domain) return '';
 
@@ -191,6 +191,10 @@ export function generatePlausibleSnippet(plausible: PlausibleConfig): string {
     'data-domain': domain,
     src: plausible.scriptUrl || DEFAULT_PLAUSIBLE_SCRIPT,
   };
+
+  if (nonce) {
+    attrs.nonce = nonce;
+  }
 
   if (plausible.scriptAttributes) {
     for (const [key, value] of Object.entries(plausible.scriptAttributes)) {
@@ -378,8 +382,13 @@ export function generateAnalyticsEventBindings(events: AnalyticsEventConfig[], n
 
   lines.push('    if (!evt.selector) return;');
   lines.push('    onReady(function(){');
-  lines.push('      var elements = document.querySelectorAll(evt.selector);');
-  lines.push('      if (!elements.length) return;');
+  lines.push('      var elements;');
+  lines.push('      try {');
+  lines.push('        elements = document.querySelectorAll(evt.selector);');
+  lines.push('      } catch (err) {');
+  lines.push('        return;');
+  lines.push('      }');
+  lines.push('      if (!elements || !elements.length) return;');
   lines.push('      elements.forEach(function(el){');
   lines.push('        var handler = function(){');
   lines.push('          fire();');
