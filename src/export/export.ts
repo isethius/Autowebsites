@@ -262,14 +262,23 @@ class AssetRegistry {
         return null;
       }
 
-      const content = Buffer.isBuffer(asset.source)
+      let content: Buffer = Buffer.isBuffer(asset.source)
         ? asset.source
         : Buffer.from(String(asset.source));
+
+      const type = asset.type || guessAssetTypeFromPath(outputPath) || 'other';
+      if (type === 'css' && this.options.minify.css) {
+        content = Buffer.from(minifyCss(content.toString('utf-8')));
+      } else if (type === 'js' && this.options.minify.js) {
+        content = Buffer.from(minifyJs(content.toString('utf-8')));
+      } else if (type === 'image' && this.options.optimize.images) {
+        content = await optimizeImage(content, outputPath, this.options.optimize);
+      }
 
       const resolved: ResolvedAsset = {
         outputPath,
         content,
-        type: asset.type || guessAssetTypeFromPath(outputPath) || 'other',
+        type,
         mediaType: asset.mediaType,
       };
 
@@ -295,7 +304,7 @@ class AssetRegistry {
         return null;
       }
 
-      let content = fs.readFileSync(filePath);
+      let content: Buffer = fs.readFileSync(filePath);
       const type = asset.type || guessAssetTypeFromPath(outputPath) || 'other';
 
       if (type === 'css' && this.options.minify.css) {
@@ -357,8 +366,21 @@ class AssetRegistry {
         return this.options.resolveExternalAssets ? '' : match;
       }
 
-      if (!rel || rel.includes('stylesheet') || rel.includes('icon') || rel.includes('manifest') || rel.includes('preload')) {
-        const typeHint = rel.includes('stylesheet') || rel.includes('preload') ? 'css' : undefined;
+      if (rel.includes('stylesheet') || rel.includes('icon') || rel.includes('manifest') || rel.includes('preload') || rel.includes('apple-touch-icon')) {
+        const asValue = (getAttribute(match, 'as') || '').toLowerCase();
+        let typeHint: AssetType | undefined;
+        if (rel.includes('stylesheet')) {
+          typeHint = 'css';
+        } else if (rel.includes('preload')) {
+          if (asValue.includes('style')) typeHint = 'css';
+          else if (asValue.includes('script')) typeHint = 'js';
+          else if (asValue.includes('font')) typeHint = 'font';
+          else if (asValue.includes('image')) typeHint = 'image';
+        } else if (rel.includes('icon') || rel.includes('apple-touch-icon')) {
+          typeHint = 'image';
+        } else if (rel.includes('manifest')) {
+          typeHint = 'other';
+        }
         const outputPath = await this.ensureExternalAsset(
           normalizeRemoteUrl(href),
           derivePathFromUrl(normalizeRemoteUrl(href), this.options.assetsDir, typeHint || guessAssetTypeFromUrl(href)),
@@ -367,7 +389,10 @@ class AssetRegistry {
 
         if (!outputPath) return match;
         const relative = relativeAssetPath(pagePath, outputPath);
-        return setAttribute(match, 'href', relative);
+        let updated = setAttribute(match, 'href', relative);
+        updated = removeAttribute(updated, 'integrity');
+        updated = removeAttribute(updated, 'crossorigin');
+        return updated;
       }
 
       return match;
@@ -387,7 +412,10 @@ class AssetRegistry {
 
       if (!outputPath) return match;
       const relative = relativeAssetPath(pagePath, outputPath);
-      return setAttribute(match, 'src', relative);
+      let updated = setAttribute(match, 'src', relative);
+      updated = removeAttribute(updated, 'integrity');
+      updated = removeAttribute(updated, 'crossorigin');
+      return updated;
     });
 
     result = await replaceAsync(result, /<(img|source|video|audio)\b[^>]*>/gi, async (match) => {
@@ -404,6 +432,8 @@ class AssetRegistry {
         if (outputPath) {
           const relative = relativeAssetPath(pagePath, outputPath);
           updated = setAttribute(updated, 'src', relative);
+          updated = removeAttribute(updated, 'integrity');
+          updated = removeAttribute(updated, 'crossorigin');
         }
       }
 
@@ -418,6 +448,8 @@ class AssetRegistry {
         if (outputPath) {
           const relative = relativeAssetPath(pagePath, outputPath);
           updated = setAttribute(updated, 'poster', relative);
+          updated = removeAttribute(updated, 'integrity');
+          updated = removeAttribute(updated, 'crossorigin');
         }
       }
 
@@ -501,7 +533,7 @@ class AssetRegistry {
       }
 
       const contentType = response.headers.get('content-type') || undefined;
-      let buffer = Buffer.from(await response.arrayBuffer());
+      let buffer: Buffer = Buffer.from(await response.arrayBuffer());
       const type = typeHint || guessAssetTypeFromUrl(normalizedUrl) || guessAssetTypeFromContentType(contentType) || 'other';
 
       let finalOutputPath = normalizeZipPath(outputPath || derivePathFromUrl(normalizedUrl, this.options.assetsDir, type));
@@ -644,11 +676,11 @@ function relativeAssetPath(fromPath: string, toPath: string): string {
 }
 
 function normalizeRemoteUrl(url: string): string {
-  if (url.startsWith('//')) {
-    return `https:${url}`;
+  const trimmed = url.trim();
+  if (trimmed.startsWith('//')) {
+    return `https:${trimmed}`;
   }
 
-  const trimmed = url.trim();
   if (trimmed.includes('#')) {
     return trimmed.split('#')[0];
   }
@@ -656,7 +688,8 @@ function normalizeRemoteUrl(url: string): string {
 }
 
 function isRemoteUrl(url: string): boolean {
-  return /^https?:\/\//i.test(url) || /^\/\//.test(url);
+  const trimmed = url.trim();
+  return /^https?:\/\//i.test(trimmed) || /^\/\//.test(trimmed);
 }
 
 function shouldIgnoreUrl(url: string): boolean {
@@ -770,7 +803,8 @@ function minifyHtml(html: string, options: Required<MinifyOptions>): string {
 
   if (options.js) {
     result = result.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gi, (match, js) => {
-      const type = getAttribute(match, 'type');
+      const openingTag = match.split('>')[0] + '>';
+      const type = getAttribute(openingTag, 'type');
       if (type && !type.includes('javascript')) {
         return match;
       }
@@ -839,6 +873,11 @@ function setAttribute(tag: string, name: string, value: string): string {
     return tag.replace(regex, `$1"${value}"`);
   }
   return tag.replace(/>$/, ` ${name}="${value}">`);
+}
+
+function removeAttribute(tag: string, name: string): string {
+  const regex = new RegExp(`\\s*${name}\\s*=\\s*("[^"]*"|'[^']*'|[^\\s>]+)`, 'i');
+  return tag.replace(regex, '');
 }
 
 async function replaceAsync(

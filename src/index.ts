@@ -143,6 +143,7 @@ export { getIndustryTemplate, INDUSTRIES, IndustryType } from './ai/industry-tem
 
 // Export copy
 export * from './copy/vibe-copy-engine';
+export * from './copy/cta-library';
 
 // Export email
 export { EmailComposer } from './email/composer';
@@ -150,6 +151,7 @@ export { SequenceEngine } from './email/sequence-engine';
 export { EmailAnalytics } from './email/analytics';
 export { UnsubscribeHandler } from './email/unsubscribe';
 export * from './analytics/analytics';
+export * from './seo/seo-generator';
 export * from './forms/contact-form';
 
 // Export utilities
@@ -158,6 +160,7 @@ export { logger } from './utils/logger';
 export { runHealthChecks, quickHealthCheck, getSystemInfo } from './utils/health';
 export * from './utils/error-handler';
 export * from './utils/validation';
+export * from './export/export';
 
 // CLI entry point
 if (require.main === module) {

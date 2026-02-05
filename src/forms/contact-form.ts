@@ -71,7 +71,7 @@ export interface EmailProviderConfig {
 export type ContactFormConfig = ContactFormBaseConfig &
   (FormspreeProviderConfig | NetlifyProviderConfig | EmailProviderConfig);
 
-export interface ContactFormRuntimeConfig extends ContactFormConfig {
+export type ContactFormRuntimeConfig = ContactFormConfig & {
   selector?: string;
   statusSelector?: string;
   statusPlacement?: 'before' | 'after' | 'inside';
@@ -84,7 +84,7 @@ export interface ContactFormRuntimeConfig extends ContactFormConfig {
   onError?: (result: ContactFormSubmissionResult, form: HTMLFormElement) => void;
   onSpam?: (result: ContactFormSubmissionResult, form: HTMLFormElement) => void;
   onValidationError?: (result: ContactFormSubmissionResult, form: HTMLFormElement) => void;
-}
+};
 
 export interface ContactFormMarkupParts {
   attributes: string;
@@ -135,14 +135,14 @@ interface ResolvedHoneypotConfig {
   autocomplete: string;
 }
 
-interface ResolvedBaseConfig extends ContactFormConfig {
+type ResolvedBaseConfig = ContactFormConfig & {
   method: 'POST' | 'GET';
   useAjax: boolean;
   honeypot: ResolvedHoneypotConfig;
   formName?: string;
-}
+};
 
-interface ResolvedRuntimeConfig extends ContactFormRuntimeConfig {
+type ResolvedRuntimeConfig = ContactFormRuntimeConfig & {
   method: 'POST' | 'GET';
   useAjax: boolean;
   honeypot: ResolvedHoneypotConfig;
@@ -158,7 +158,7 @@ interface ResolvedRuntimeConfig extends ContactFormRuntimeConfig {
   spamMessage: string;
   validationMessage: string;
   pendingMessage: string;
-}
+};
 
 const DEFAULT_MESSAGES = {
   success: 'Thanks! Your message has been sent.',
@@ -333,7 +333,7 @@ export async function submitContactForm(form: HTMLFormElement, config: ContactFo
     if (resolved.showFieldErrors) {
       applyFieldErrors(form, validation.errors);
     }
-    setStatus(form, resolved, 'error', resolved.validationMessage);
+    setStatus(form, resolved, 'validation', resolved.validationMessage);
     const result: ContactFormSubmissionResult = {
       ok: false,
       status: 'validation',
@@ -487,12 +487,9 @@ function resolveBaseConfig(config: ContactFormConfig): ResolvedBaseConfig {
   const useAjax = typeof config.useAjax === 'boolean' ? config.useAjax : config.provider !== 'email';
   const honeypot = resolveHoneypotConfig(config);
 
-  let formName = config.provider === 'netlify'
-    ? (config.formName || DEFAULT_NETLIFY_FORM_NAME)
-    : config.formName;
-
-  if (formName) {
-    formName = formName.trim() || DEFAULT_NETLIFY_FORM_NAME;
+  let formName: string | undefined;
+  if (config.provider === 'netlify') {
+    formName = (config.formName || DEFAULT_NETLIFY_FORM_NAME).trim() || DEFAULT_NETLIFY_FORM_NAME;
   }
 
   return {
@@ -609,7 +606,7 @@ function extractFormValues(form: HTMLFormElement, config: ResolvedBaseConfig): R
 }
 
 function resolveFieldConfigs(form: HTMLFormElement, config: ResolvedBaseConfig): ContactFormField[] {
-  const overrides = new Map((config.fields || []).map(field => [field.name, field]));
+  const overrides = new Map<string, ContactFormField>((config.fields || []).map(field => [field.name, field]));
   const elements = Array.from(form.elements)
     .filter((el): el is HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement =>
       el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el instanceof HTMLSelectElement)
@@ -682,7 +679,7 @@ function ensureHoneypotField(form: HTMLFormElement, config: ResolvedRuntimeConfi
   const input = document.createElement('input');
   input.type = 'text';
   input.name = config.honeypot.fieldName;
-  input.autocomplete = config.honeypot.autocomplete;
+  input.setAttribute('autocomplete', config.honeypot.autocomplete);
   input.tabIndex = -1;
 
   label.appendChild(input);
@@ -875,7 +872,7 @@ async function submitViaNetlify(form: HTMLFormElement, config: ResolvedRuntimeCo
   }
 }
 
-function submitViaEmail(values: Record<string, string>, config: ResolvedRuntimeConfig): ContactFormSubmissionResult {
+function submitViaEmail(values: Record<string, string>, config: ResolvedRuntimeConfig & EmailProviderConfig): ContactFormSubmissionResult {
   if (!config.emailTo || !config.emailTo.trim()) {
     return { ok: false, status: 'error', message: 'Email recipient is missing.' };
   }

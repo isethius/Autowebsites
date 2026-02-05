@@ -75,6 +75,7 @@
     "googleapis": "^144.0.0",
     "helmet": "^7.2.0",
     "jsonwebtoken": "^9.0.2",
+    "jszip": "^3.10.1",
     "mjml": "^4.15.3",
     "node-cron": "^4.2.1",
     "pdfkit": "^0.15.0",
