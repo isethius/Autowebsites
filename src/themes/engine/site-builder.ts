@@ -256,6 +256,238 @@ export interface DirectorCutOptions {
   maxSections?: number;
 }
 
+const DIRECTOR_BASE_SECTION_ORDER: Array<BlueprintSection['category']> = [
+  'nav',
+  'hero',
+  'services',
+  'features',
+  'gallery',
+  'stats',
+  'about',
+  'team',
+  'testimonials',
+  'faq',
+  'pricing',
+  'cta',
+  'contact',
+  'footer',
+];
+
+const DIRECTOR_SECTION_ORDERS: Record<string, Array<BlueprintSection['category']>> = {
+  executive: [
+    'nav',
+    'hero',
+    'stats',
+    'about',
+    'services',
+    'team',
+    'testimonials',
+    'faq',
+    'cta',
+    'contact',
+    'footer',
+  ],
+  maverick: [
+    'nav',
+    'hero',
+    'testimonials',
+    'gallery',
+    'services',
+    'stats',
+    'about',
+    'faq',
+    'pricing',
+    'cta',
+    'contact',
+    'footer',
+  ],
+  creative: [
+    'nav',
+    'hero',
+    'gallery',
+    'testimonials',
+    'about',
+    'services',
+    'features',
+    'pricing',
+    'cta',
+    'contact',
+    'footer',
+  ],
+  minimal: [
+    'nav',
+    'hero',
+    'about',
+    'services',
+    'testimonials',
+    'contact',
+    'footer',
+  ],
+  minimalist: [
+    'nav',
+    'hero',
+    'about',
+    'services',
+    'testimonials',
+    'contact',
+    'footer',
+  ],
+  bold: [
+    'nav',
+    'hero',
+    'services',
+    'features',
+    'stats',
+    'testimonials',
+    'about',
+    'faq',
+    'pricing',
+    'cta',
+    'contact',
+    'footer',
+  ],
+  elegant: [
+    'nav',
+    'hero',
+    'about',
+    'services',
+    'team',
+    'testimonials',
+    'gallery',
+    'pricing',
+    'cta',
+    'contact',
+    'footer',
+  ],
+  friendly: [
+    'nav',
+    'hero',
+    'services',
+    'features',
+    'about',
+    'testimonials',
+    'faq',
+    'cta',
+    'contact',
+    'footer',
+  ],
+  trustworthy: [
+    'nav',
+    'hero',
+    'services',
+    'stats',
+    'testimonials',
+    'features',
+    'about',
+    'faq',
+    'cta',
+    'contact',
+    'footer',
+  ],
+  classic: [
+    'nav',
+    'hero',
+    'about',
+    'services',
+    'team',
+    'testimonials',
+    'faq',
+    'cta',
+    'contact',
+    'footer',
+  ],
+  artisan: [
+    'nav',
+    'hero',
+    'about',
+    'gallery',
+    'services',
+    'testimonials',
+    'pricing',
+    'cta',
+    'contact',
+    'footer',
+  ],
+  modern: [
+    'nav',
+    'hero',
+    'services',
+    'gallery',
+    'features',
+    'testimonials',
+    'about',
+    'pricing',
+    'cta',
+    'contact',
+    'footer',
+  ],
+  playful: [
+    'nav',
+    'hero',
+    'services',
+    'gallery',
+    'features',
+    'testimonials',
+    'about',
+    'pricing',
+    'cta',
+    'contact',
+    'footer',
+  ],
+};
+
+function buildSectionOrder(priority: Array<BlueprintSection['category']>): Array<BlueprintSection['category']> {
+  const seen = new Set(priority);
+  let order = [...priority];
+
+  for (const category of DIRECTOR_BASE_SECTION_ORDER) {
+    if (!seen.has(category)) {
+      order.push(category);
+      seen.add(category);
+    }
+  }
+
+  const tail: Array<BlueprintSection['category']> = [];
+  if (order.includes('contact')) {
+    tail.push('contact');
+  }
+  if (order.includes('footer')) {
+    tail.push('footer');
+  }
+
+  if (tail.length > 0) {
+    order = order.filter(category => !tail.includes(category));
+    order = [...order, ...tail];
+  }
+
+  return order;
+}
+
+function forceSectionOrder(
+  sections: BlueprintSection[],
+  vibeId?: string
+): BlueprintSection[] {
+  if (!vibeId) return sections;
+
+  const priority = DIRECTOR_SECTION_ORDERS[vibeId];
+  if (!priority) return sections;
+
+  const order = buildSectionOrder(priority);
+  const orderIndex = new Map<string, number>();
+  order.forEach((category, index) => {
+    orderIndex.set(category, index);
+  });
+
+  return sections
+    .map((section, index) => ({
+      section,
+      index,
+      order: orderIndex.get(section.category) ?? Number.MAX_SAFE_INTEGER,
+    }))
+    .sort((a, b) => (a.order - b.order) || (a.index - b.index))
+    .map(({ section }) => section);
+}
+
 /**
  * Apply Director Cut transformations to blueprint sections
  *
@@ -280,12 +512,6 @@ export function getDirectorCut(
       transformed = transformed.map(s =>
         s.category === 'hero' ? { ...s, config: { ...s.config, variant: 'hero-h9-text-only' } } : s
       );
-      // Move testimonials to position 2 (after hero)
-      const testimonialsIndex = transformed.findIndex(s => s.category === 'testimonials');
-      if (testimonialsIndex > 2) {
-        const [testimonials] = transformed.splice(testimonialsIndex, 1);
-        transformed.splice(2, 0, testimonials);
-      }
       break;
 
     case 'executive':
@@ -318,23 +544,12 @@ export function getDirectorCut(
       break;
 
     case 'minimal':
+    case 'minimalist':
       // Minimal: Clean, focused - remove stats, max 4 sections
       transformed = transformed.filter(s => s.category !== 'stats');
       transformed = transformed.map(s =>
         s.category === 'hero' ? { ...s, config: { ...s.config, variant: 'hero-h3-minimal' } } : s
       );
-      // Keep nav, hero, contact, footer + max 2 other sections
-      const coreSections = transformed.filter(s =>
-        ['nav', 'hero', 'contact', 'footer'].includes(s.category)
-      );
-      const otherSections = transformed.filter(s =>
-        !['nav', 'hero', 'contact', 'footer'].includes(s.category)
-      );
-      transformed = [
-        ...coreSections.slice(0, 2), // nav, hero
-        ...otherSections.slice(0, 2), // max 2 middle sections
-        ...coreSections.slice(2), // contact, footer
-      ];
       break;
 
     case 'bold':
@@ -382,7 +597,24 @@ export function getDirectorCut(
       break;
   }
 
-  return transformed;
+  let ordered = forceSectionOrder(transformed, vibeId);
+
+  if (vibeId === 'minimal' || vibeId === 'minimalist') {
+    // Keep nav, hero, contact, footer + max 2 other sections (in Director order)
+    const coreSections = ordered.filter(s =>
+      ['nav', 'hero', 'contact', 'footer'].includes(s.category)
+    );
+    const otherSections = ordered.filter(s =>
+      !['nav', 'hero', 'contact', 'footer'].includes(s.category)
+    );
+    ordered = [
+      ...coreSections.slice(0, 2),
+      ...otherSections.slice(0, 2),
+      ...coreSections.slice(2),
+    ];
+  }
+
+  return ordered;
 }
 
 /**

@@ -61,7 +61,7 @@ function generateNavN1Fixed(config: NavConfig): SectionOutput {
   const css = `
     .nav-n1 {
       background: var(--white, #ffffff);
-      padding: var(--nav-padding, 16px) 0;
+      padding: var(--nav-padding, 24px 0);
       border-bottom: var(--border-width, 1px) solid var(--border-color, var(--gray-200, #e5e7eb));
       position: sticky;
       top: 0;
@@ -136,7 +136,7 @@ function generateNavN2Transparent(config: NavConfig): SectionOutput {
       top: 0;
       left: 0;
       right: 0;
-      padding: var(--nav-padding, 20px) 0;
+      padding: var(--nav-padding, 24px 0);
       z-index: 100;
     }
 

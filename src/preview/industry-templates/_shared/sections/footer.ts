@@ -29,7 +29,7 @@ export function generateFooterCSS(): string {
     footer {
       background: var(--gray-800, #1f2937);
       color: var(--white, #ffffff);
-      padding: var(--footer-spacing, 60px) 0 var(--gap-md, 30px);
+      padding: var(--footer-spacing, 100px 0 40px);
     }
 
     .footer-content {
@@ -41,7 +41,7 @@ export function generateFooterCSS(): string {
     }
 
     .footer-brand {
-      max-width: calc(var(--section-spacing, 80px) * 4.375);
+      max-width: calc(var(--section-spacing, 140px) * 4.375);
     }
 
     .footer-brand h3 {
@@ -143,7 +143,7 @@ export function generateFooterCSS(): string {
     }
 
     .footer-minimal {
-      padding: calc(var(--footer-spacing, 60px) * 0.6667) 0;
+      padding: calc(var(--section-spacing, 140px) * 0.5) 0;
       text-align: center;
     }
 

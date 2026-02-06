@@ -163,12 +163,12 @@ export const CSS_VARIABLE_DEFAULTS: Record<CSSVariable, string> = {
   '--border-color': 'transparent',
 
   // Section Spacing
-  '--section-spacing': '80px',
-  '--card-padding': '32px',
+  '--section-spacing': '140px',
+  '--card-padding': '40px',
   '--btn-padding': '16px 32px',
   '--btn-padding-sm': '12px 24px',
-  '--nav-padding': '16px 0',
-  '--footer-spacing': '60px 0 30px',
+  '--nav-padding': '24px 0',
+  '--footer-spacing': '100px 0 40px',
 
   // Gap Scale
   '--gap-xs': '8px',
@@ -257,12 +257,12 @@ export function generateContractCSS(): string {
   --emergency: #dc2626;
 
   /* Spacing Scale */
-  --section-spacing: 80px;
-  --card-padding: 32px;
+  --section-spacing: 140px;
+  --card-padding: 40px;
   --btn-padding: 16px 32px;
   --btn-padding-sm: 12px 24px;
-  --nav-padding: 16px 0;
-  --footer-spacing: 60px 0 30px;
+  --nav-padding: 24px 0;
+  --footer-spacing: 100px 0 40px;
 
   /* Gap Scale */
   --gap-xs: 8px;

@@ -186,12 +186,12 @@ export function generateDNAStyles(dna: DNACode, palette: ColorPalette): DNAStyle
       --letter-spacing: ${typography.letterSpacing};
 
       /* ========== SPACING SCALE ========== */
-      --section-spacing: ${skin['--section-spacing'] || '80px'};
-      --card-padding: ${skin['--card-padding'] || '32px'};
+      --section-spacing: ${skin['--section-spacing'] || '140px'};
+      --card-padding: ${skin['--card-padding'] || '40px'};
       --btn-padding: ${skin['--btn-padding'] || '16px 32px'};
       --btn-padding-sm: ${skin['--btn-padding-sm'] || '12px 24px'};
-      --nav-padding: ${skin['--nav-padding'] || '16px 0'};
-      --footer-spacing: ${skin['--footer-spacing'] || '60px 0 30px'};
+      --nav-padding: ${skin['--nav-padding'] || '24px 0'};
+      --footer-spacing: ${skin['--footer-spacing'] || '100px 0 40px'};
 
       /* Gap Scale */
       --gap-xs: ${skin['--gap-xs'] || '8px'};

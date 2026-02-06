@@ -286,7 +286,7 @@ function generateEmergencyBarCSS(): string {
       display: flex;
       align-items: center;
       gap: 8px;
-      background: var(--white);
+      background: var(--bg-surface, var(--white, #ffffff));
       color: var(--emergency);
       padding: 8px 20px;
       border-radius: var(--border-radius, 6px);
@@ -339,7 +339,7 @@ function generateWhyUsCSS(dna: DNACode): string {
   return `
     .why-us {
       padding: 80px 0;
-      background: var(--white);
+      background: var(--background, #ffffff);
     }
 
     .why-us-grid {
@@ -351,7 +351,7 @@ function generateWhyUsCSS(dna: DNACode): string {
     .why-card {
       text-align: center;
       padding: 32px 16px;
-      background: var(--gray-50);
+      background: var(--bg-surface, var(--gray-50, #f9fafb));
       border-radius: var(--border-radius);
     }
 
@@ -424,7 +424,7 @@ function generateServiceAreasCSS(dna: DNACode): string {
     }
 
     .area-tag {
-      background: rgba(255,255,255,0.15);
+      background: var(--bg-surface, rgba(255,255,255,0.15));
       padding: 12px 24px;
       border-radius: var(--border-radius);
       font-weight: 500;
@@ -466,7 +466,7 @@ function generateReviewsCSS(dna: DNACode): string {
   return `
     .reviews {
       padding: 80px 0;
-      background: var(--gray-50);
+      background: var(--background, #ffffff);
     }
 
     .reviews-grid {
@@ -476,14 +476,15 @@ function generateReviewsCSS(dna: DNACode): string {
     }
 
     .review-card {
-      background: var(--white);
+      background: var(--bg-surface, var(--white, #ffffff));
       border-radius: var(--border-radius);
       padding: 32px;
-      box-shadow: var(--box-shadow);
+      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
+      border: var(--border-width, 0) solid var(--border-color, transparent);
     }
 
     .review-stars {
-      color: #fbbf24;
+      color: var(--accent, #fbbf24);
       font-size: 20px;
       margin-bottom: 16px;
     }
@@ -590,7 +591,7 @@ function generateContactCSS(dna: DNACode, palette: ColorPalette): string {
   return `
     .contact {
       padding: 80px 0;
-      background: var(--white);
+      background: var(--background, #ffffff);
     }
 
     .contact-content {
@@ -633,9 +634,11 @@ function generateContactCSS(dna: DNACode, palette: ColorPalette): string {
     }
 
     .contact-form {
-      background: var(--gray-50);
+      background: var(--bg-surface, var(--gray-50, #f9fafb));
       border-radius: var(--border-radius-lg, 16px);
       padding: 40px;
+      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
+      border: var(--border-width, 0) solid var(--border-color, transparent);
     }
 
     .form-row {
@@ -660,11 +663,12 @@ function generateContactCSS(dna: DNACode, palette: ColorPalette): string {
     .form-group select {
       width: 100%;
       padding: 14px 16px;
-      border: 1px solid var(--gray-200);
+      border: var(--border-width, 1px) solid var(--border-color, var(--gray-200, #e5e7eb));
       border-radius: var(--border-radius-sm, 6px);
       font-size: 15px;
       font-family: inherit;
       transition: border-color 0.2s;
+      background: var(--bg-surface, var(--white, #ffffff));
     }
 
     .form-group input:focus,

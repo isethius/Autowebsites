@@ -28,12 +28,12 @@ export const brutalistSkin: SkinVariables = {
   '--border-color': '#000',
 
   // More spacing for impact
-  '--section-spacing': '100px',
-  '--card-padding': '32px',
+  '--section-spacing': '140px',
+  '--card-padding': '40px',
   '--btn-padding': '16px 32px',
   '--btn-padding-sm': '12px 24px',
-  '--nav-padding': '16px 0',
-  '--footer-spacing': '80px 0 40px',
+  '--nav-padding': '24px 0',
+  '--footer-spacing': '100px 0 40px',
 
   // Gaps
   '--gap-xs': '8px',

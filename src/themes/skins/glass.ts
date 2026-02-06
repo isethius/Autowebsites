@@ -28,12 +28,12 @@ export const glassSkin: SkinVariables = {
   '--border-color': 'rgba(255, 255, 255, 0.3)',
 
   // Standard spacing
-  '--section-spacing': '80px',
-  '--card-padding': '32px',
+  '--section-spacing': '140px',
+  '--card-padding': '40px',
   '--btn-padding': '14px 28px',
   '--btn-padding-sm': '10px 20px',
-  '--nav-padding': '12px 0',
-  '--footer-spacing': '60px 0 30px',
+  '--nav-padding': '24px 0',
+  '--footer-spacing': '100px 0 40px',
 
   // Gaps
   '--gap-xs': '8px',

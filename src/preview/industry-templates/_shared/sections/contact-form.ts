@@ -29,7 +29,7 @@ export function generateContactCSS(): string {
   return `
     .contact {
       padding: var(--section-spacing, 80px) 0;
-      background: var(--white);
+      background: var(--background, #ffffff);
     }
 
     .contact-content {
@@ -66,7 +66,7 @@ export function generateContactCSS(): string {
     .contact-item-icon {
       width: var(--avatar-size, 48px);
       height: var(--avatar-size, 48px);
-      background: var(--gray-100);
+      background: var(--bg-surface, var(--gray-100, #f3f4f6));
       border-radius: var(--radius-sm, 10px);
       display: flex;
       align-items: center;
@@ -96,9 +96,11 @@ export function generateContactCSS(): string {
     }
 
     .contact-form-wrapper {
-      background: var(--gray-50);
+      background: var(--bg-surface, var(--gray-50, #f9fafb));
       border-radius: var(--radius, 12px);
       padding: var(--card-padding, 40px);
+      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
+      border: var(--border-width, 0) solid var(--border-color, transparent);
     }
 
     .contact-form-wrapper h3 {

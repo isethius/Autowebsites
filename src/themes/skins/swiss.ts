@@ -28,12 +28,12 @@ export const swissSkin: SkinVariables = {
   '--border-color': '#000',
 
   // Generous vertical rhythm
-  '--section-spacing': '120px',
+  '--section-spacing': '140px',
   '--card-padding': '40px',
   '--btn-padding': '16px 40px',
   '--btn-padding-sm': '12px 28px',
-  '--nav-padding': '20px 0',
-  '--footer-spacing': '80px 0 40px',
+  '--nav-padding': '24px 0',
+  '--footer-spacing': '100px 0 40px',
 
   // Precise gaps based on grid
   '--gap-xs': '8px',
