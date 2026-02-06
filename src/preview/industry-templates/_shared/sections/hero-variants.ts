@@ -301,6 +301,14 @@ export function generateDNAHero(config: DNAHeroConfig): SectionOutput {
       return generateHeroH2Split(config);
     case 'H3':
       return generateHeroH3Minimal(config);
+    case 'H4':
+      return generateHeroH4Video(config);
+    case 'H5':
+      return generateHeroH5GradientOverlay(config);
+    case 'H6':
+      return generateHeroH6Animated(config);
+    case 'H7':
+      return generateHeroH7Carousel(config);
     case 'H8':
       return generateHeroH8Asymmetric(config);
     case 'H9':
@@ -961,6 +969,390 @@ function generateHeroH12Geometric(config: DNAHeroConfig): SectionOutput {
           `).join('')}
         </div>
         ` : ''}
+      </div>
+    </section>
+  `;
+
+  return { html, css };
+}
+
+/**
+ * H4: Video Background Hero
+ * Simulated video background with animated gradient shimmer
+ */
+function generateHeroH4Video(config: DNAHeroConfig): SectionOutput {
+  const { headline, tagline, primaryCTA, secondaryCTA } = config;
+
+  const css = `
+    .hero-h4 {
+      position: relative;
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero-h4-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    }
+    .hero-h4-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+    }
+    .hero-h4-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+      animation: hero-h4-shimmer 3s ease-in-out infinite;
+    }
+    @keyframes hero-h4-shimmer {
+      0%, 100% { transform: translateX(-100%); }
+      50% { transform: translateX(100%); }
+    }
+    .hero-h4-content {
+      position: relative;
+      z-index: 2;
+      color: var(--white);
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .hero-h4 h1 {
+      font-size: var(--text-h1, 60px);
+      line-height: 1.1;
+      margin-bottom: var(--gap-md, 24px);
+      text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+    .hero-h4 .tagline {
+      font-size: var(--text-lg, 22px);
+      opacity: 0.9;
+      margin-bottom: var(--gap-lg, 40px);
+    }
+    .hero-h4-buttons {
+      display: flex;
+      gap: var(--gap-sm, 16px);
+      justify-content: center;
+    }
+    .hero-h4 .btn-primary {
+      background: var(--white);
+      color: var(--primary);
+    }
+    .hero-h4 .btn-secondary {
+      background: transparent;
+      color: var(--white);
+      border: 2px solid var(--white);
+    }
+    @media (max-width: 768px) {
+      .hero-h4 h1 { font-size: var(--text-h2, 40px); }
+    }
+  `;
+
+  const html = `
+    <section class="hero-h4 dna-animate">
+      <div class="hero-h4-bg"></div>
+      <div class="container hero-h4-content">
+        <h1>${escapeHtml(headline)}</h1>
+        <p class="tagline">${escapeHtml(tagline)}</p>
+        <div class="hero-h4-buttons">
+          ${primaryCTA ? `<a href="${primaryCTA.href}" class="btn btn-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
+          ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn btn-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
+        </div>
+      </div>
+    </section>
+  `;
+
+  return { html, css };
+}
+
+/**
+ * H5: Gradient Overlay Hero
+ * Two-column with gradient mask overlay and frosted visual panel
+ */
+function generateHeroH5GradientOverlay(config: DNAHeroConfig): SectionOutput {
+  const { headline, tagline, primaryCTA, secondaryCTA, trustBadges } = config;
+
+  const css = `
+    .hero-h5 {
+      position: relative;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+    }
+    .hero-h5-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        var(--primary) 0%,
+        transparent 50%,
+        var(--secondary) 100%
+      );
+    }
+    .hero-h5-content {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--gap-xl, 60px);
+      align-items: center;
+    }
+    .hero-h5-text {
+      color: var(--white);
+    }
+    .hero-h5 h1 {
+      font-size: var(--text-h1, 52px);
+      line-height: 1.1;
+      margin-bottom: var(--gap-md, 24px);
+    }
+    .hero-h5 .tagline {
+      font-size: var(--text-lg, 20px);
+      opacity: 0.9;
+      margin-bottom: var(--gap-lg, 36px);
+    }
+    .hero-h5-buttons {
+      display: flex;
+      gap: var(--gap-sm, 16px);
+    }
+    .hero-h5 .btn-primary {
+      background: var(--white);
+      color: var(--primary);
+    }
+    .hero-h5 .btn-secondary {
+      color: var(--white);
+      border: 2px solid var(--white);
+    }
+    .hero-h5-visual {
+      aspect-ratio: 4/3;
+      background: rgba(255,255,255,0.1);
+      border-radius: var(--radius, 16px);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+    }
+    .hero-h5 .trust-badges {
+      display: flex;
+      gap: var(--gap-md, 24px);
+      margin-top: var(--gap-lg, 40px);
+      color: var(--white);
+    }
+    @media (max-width: 900px) {
+      .hero-h5-content { grid-template-columns: 1fr; }
+      .hero-h5-visual { display: none; }
+      .hero-h5 h1 { font-size: var(--text-h2, 40px); }
+    }
+  `;
+
+  const html = `
+    <section class="hero-h5 dna-animate">
+      <div class="hero-h5-bg"></div>
+      <div class="container hero-h5-content">
+        <div class="hero-h5-text">
+          <h1>${escapeHtml(headline)}</h1>
+          <p class="tagline">${escapeHtml(tagline)}</p>
+          <div class="hero-h5-buttons">
+            ${primaryCTA ? `<a href="${primaryCTA.href}" class="btn btn-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
+            ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn btn-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
+          </div>
+          ${trustBadges?.length ? `
+          <div class="trust-badges">
+            ${trustBadges.map(badge => `<span>✓ ${escapeHtml(badge)}</span>`).join('')}
+          </div>
+          ` : ''}
+        </div>
+        <div class="hero-h5-visual">📸</div>
+      </div>
+    </section>
+  `;
+
+  return { html, css };
+}
+
+/**
+ * H6: Animated/Particles Background Hero
+ * Dark background with floating particle circles
+ */
+function generateHeroH6Animated(config: DNAHeroConfig): SectionOutput {
+  const { headline, tagline, primaryCTA, secondaryCTA } = config;
+
+  const css = `
+    .hero-h6 {
+      position: relative;
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      background: var(--text);
+      overflow: hidden;
+    }
+    .hero-h6-particles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .hero-h6-particle {
+      position: absolute;
+      background: var(--primary);
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: hero-h6-float 8s ease-in-out infinite;
+    }
+    .hero-h6-particle:nth-child(1) { width: 80px; height: 80px; top: 20%; left: 10%; animation-delay: 0s; }
+    .hero-h6-particle:nth-child(2) { width: 120px; height: 120px; top: 60%; right: 15%; animation-delay: 2s; }
+    .hero-h6-particle:nth-child(3) { width: 60px; height: 60px; bottom: 20%; left: 30%; animation-delay: 4s; }
+    .hero-h6-particle:nth-child(4) { width: 100px; height: 100px; top: 10%; right: 30%; animation-delay: 1s; background: var(--secondary); }
+    .hero-h6-particle:nth-child(5) { width: 40px; height: 40px; bottom: 30%; right: 40%; animation-delay: 3s; background: var(--accent); }
+    @keyframes hero-h6-float {
+      0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
+      50% { transform: translateY(-30px) scale(1.1); opacity: 0.5; }
+    }
+    .hero-h6-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+      color: var(--white);
+    }
+    .hero-h6 h1 {
+      font-size: var(--text-h1, 64px);
+      line-height: 1.05;
+      margin-bottom: var(--gap-md, 28px);
+    }
+    .hero-h6 .tagline {
+      font-size: var(--text-lg, 22px);
+      opacity: 0.8;
+      margin-bottom: var(--gap-lg, 44px);
+    }
+    .hero-h6-buttons {
+      display: flex;
+      gap: var(--gap-sm, 16px);
+      justify-content: center;
+    }
+    .hero-h6 .btn-primary {
+      background: var(--primary);
+      color: var(--white);
+    }
+    .hero-h6 .btn-secondary {
+      color: var(--white);
+      border: 2px solid var(--white);
+    }
+    @media (max-width: 768px) {
+      .hero-h6 h1 { font-size: var(--text-h2, 40px); }
+    }
+  `;
+
+  const html = `
+    <section class="hero-h6 dna-animate">
+      <div class="hero-h6-particles">
+        <div class="hero-h6-particle"></div>
+        <div class="hero-h6-particle"></div>
+        <div class="hero-h6-particle"></div>
+        <div class="hero-h6-particle"></div>
+        <div class="hero-h6-particle"></div>
+      </div>
+      <div class="container hero-h6-content">
+        <h1>${escapeHtml(headline)}</h1>
+        <p class="tagline">${escapeHtml(tagline)}</p>
+        <div class="hero-h6-buttons">
+          ${primaryCTA ? `<a href="${primaryCTA.href}" class="btn btn-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
+          ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn btn-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
+        </div>
+      </div>
+    </section>
+  `;
+
+  return { html, css };
+}
+
+/**
+ * H7: Carousel/Slider Hero
+ * Centered content with decorative navigation dots
+ */
+function generateHeroH7Carousel(config: DNAHeroConfig): SectionOutput {
+  const { headline, tagline, primaryCTA, secondaryCTA } = config;
+
+  const css = `
+    .hero-h7 {
+      position: relative;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      overflow: hidden;
+    }
+    .hero-h7-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+      color: var(--white);
+    }
+    .hero-h7 h1 {
+      font-size: var(--text-h1, 56px);
+      line-height: 1.1;
+      margin-bottom: var(--gap-md, 24px);
+    }
+    .hero-h7 .tagline {
+      font-size: var(--text-lg, 20px);
+      opacity: 0.9;
+      margin-bottom: var(--gap-lg, 40px);
+    }
+    .hero-h7-buttons {
+      display: flex;
+      gap: var(--gap-sm, 16px);
+      justify-content: center;
+    }
+    .hero-h7-dots {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 3;
+    }
+    .hero-h7-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+    }
+    .hero-h7-dot.active {
+      background: var(--white);
+    }
+    .hero-h7 .btn-primary {
+      background: var(--white);
+      color: var(--primary);
+    }
+    .hero-h7 .btn-secondary {
+      color: var(--white);
+      border: 2px solid var(--white);
+    }
+    @media (max-width: 768px) {
+      .hero-h7 h1 { font-size: var(--text-h2, 40px); }
+    }
+  `;
+
+  const html = `
+    <section class="hero-h7 dna-animate">
+      <div class="container hero-h7-content">
+        <h1>${escapeHtml(headline)}</h1>
+        <p class="tagline">${escapeHtml(tagline)}</p>
+        <div class="hero-h7-buttons">
+          ${primaryCTA ? `<a href="${primaryCTA.href}" class="btn btn-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
+          ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn btn-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
+        </div>
+      </div>
+      <div class="hero-h7-dots">
+        <div class="hero-h7-dot active"></div>
+        <div class="hero-h7-dot"></div>
+        <div class="hero-h7-dot"></div>
       </div>
     </section>
   `;

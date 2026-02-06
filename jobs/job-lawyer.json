@@ -1,0 +1,16 @@
+{
+  "industry": "lawyer",
+  "blueprint": "professional-services",
+  "vibes": [
+    "executive",
+    "maverick",
+    "artisan",
+    "minimalist",
+    "bold",
+    "classic",
+    "modern",
+    "playful"
+  ],
+  "outputDir": "dist/portfolio/pro/",
+  "sampleContent": {}
+}

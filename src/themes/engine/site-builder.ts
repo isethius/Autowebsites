@@ -20,7 +20,7 @@ import { DNACode } from '../variance-planner';
 import { ColorPalette } from '../../overnight/types';
 import { getBlueprintForIndustry, Blueprint, BlueprintSection } from '../blueprints';
 import { getVibeForIndustry, generateConstrainedDNA } from './harmony/constraints';
-import { generatePalette, type PaletteMood } from './harmony/color-math';
+import { generatePalette, hexToHSL, hslToHex, type PaletteMood } from './harmony/color-math';
 import {
   findBestVariant,
   getSectionVariants,
@@ -35,7 +35,32 @@ import {
   getGoogleFontsUrl,
   getGoogleFontsPreconnect,
 } from '../../preview/industry-templates/_shared/styles/dna-styles';
-import { getSkin, getSkinOverrides, generateSkinCSS } from '../skins';
+import { getSkin, getSkinOverrides, generateSkinCSS, getCompleteSkinCSS } from '../skins';
+import { generateScrollRevealCSS, generateScrollRevealScript } from '../../effects/scroll-reveal';
+import { generateParallaxCSS, generateParallaxScript } from '../../effects/parallax';
+import { generateTextureOverlayCSS, getTextureOverlayForVibe } from '../../effects/texture-overlays';
+import { generateSeoTags, type SeoConfig } from '../../seo/seo-generator';
+import { generateVibeCopy, type VibeCopyContext } from '../../copy/vibe-copy-engine';
+
+/**
+ * Vibe color modifiers applied to industry base colors.
+ * Uses hue rotation and saturation adjustment for distinct palettes per vibe.
+ */
+const VIBE_COLOR_MODIFIERS: Record<string, { hueShift: number; satMult: number; lightShift: number }> = {
+  maverick: { hueShift: 180, satMult: 1.3, lightShift: -5 },
+  executive: { hueShift: 0, satMult: 0.7, lightShift: 5 },
+  artisan: { hueShift: 30, satMult: 0.9, lightShift: 0 },
+  bold: { hueShift: -20, satMult: 1.2, lightShift: -10 },
+  playful: { hueShift: 60, satMult: 1.1, lightShift: 10 },
+  elegant: { hueShift: -10, satMult: 0.8, lightShift: 10 },
+  minimal: { hueShift: 0, satMult: 0.5, lightShift: 20 },
+  creative: { hueShift: 45, satMult: 1.15, lightShift: 0 },
+  friendly: { hueShift: 20, satMult: 1.0, lightShift: 5 },
+  trustworthy: { hueShift: 0, satMult: 0.9, lightShift: 0 },
+  modern: { hueShift: -15, satMult: 0.85, lightShift: 0 },
+  classic: { hueShift: 10, satMult: 0.75, lightShift: 5 },
+  minimalist: { hueShift: 0, satMult: 0.4, lightShift: 30 },
+};
 
 /**
  * Content for building a website
@@ -122,7 +147,8 @@ export function buildWebsite(content: SiteContent, options: BuildOptions = {}): 
   const palette = options.palette || generatePaletteForIndustry(
     content.industry,
     options.primaryColor,
-    options.paletteMood
+    options.paletteMood,
+    vibeId
   );
 
   // 4. Get industry blueprint
@@ -161,7 +187,8 @@ export function generateDNAForIndustry(industry: string): DNACode {
 function generatePaletteForIndustry(
   industry: string,
   primaryColor?: string,
-  mood?: PaletteMood
+  mood?: PaletteMood,
+  vibeId?: string
 ): ColorPalette {
   // Default primary colors by industry
   const industryColors: Record<string, string> = {
@@ -183,7 +210,20 @@ function generatePaletteForIndustry(
     photographer: '#18181b',
   };
 
-  const color = primaryColor || industryColors[industry] || '#1e5a8a';
+  let color = primaryColor || industryColors[industry] || '#1e5a8a';
+
+  // Apply vibe color modification for visual distinction
+  if (vibeId && VIBE_COLOR_MODIFIERS[vibeId]) {
+    const mod = VIBE_COLOR_MODIFIERS[vibeId];
+    const hsl = hexToHSL(color);
+    const modified = {
+      h: (hsl.h + mod.hueShift + 360) % 360,
+      s: Math.max(0, Math.min(100, hsl.s * mod.satMult)),
+      l: Math.max(10, Math.min(90, hsl.l + mod.lightShift)),
+    };
+    color = hslToHex(modified);
+  }
+
   const paletteMood = mood || (industry === 'photographer' ? 'monochrome' : 'muted');
 
   const generated = generatePalette(color, paletteMood);
@@ -236,9 +276,9 @@ export function getDirectorCut(
     case 'maverick':
       // Maverick: Bold, disruptive - remove stats, move testimonials early
       transformed = transformed.filter(s => s.category !== 'stats');
-      // Force hero to centered style
+      // Force hero to text-only style
       transformed = transformed.map(s =>
-        s.category === 'hero' ? { ...s, config: { ...s.config, variant: 'hero-centered' } } : s
+        s.category === 'hero' ? { ...s, config: { ...s.config, variant: 'hero-h9-text-only' } } : s
       );
       // Move testimonials to position 2 (after hero)
       const testimonialsIndex = transformed.findIndex(s => s.category === 'testimonials');
@@ -251,7 +291,7 @@ export function getDirectorCut(
     case 'executive':
       // Executive: Professional, trustworthy - ensure stats, force hero-split
       transformed = transformed.map(s =>
-        s.category === 'hero' ? { ...s, config: { ...s.config, variant: 'hero-split' } } : s
+        s.category === 'hero' ? { ...s, config: { ...s.config, variant: 'hero-h2-split' } } : s
       );
       // Ensure stats section is present and at position 2
       const hasStats = transformed.some(s => s.category === 'stats');
@@ -265,13 +305,13 @@ export function getDirectorCut(
       break;
 
     case 'creative':
-      // Creative: Artistic, expressive - gradient/video hero, floating nav
+      // Creative: Artistic, expressive - full-width hero, floating nav
       transformed = transformed.map(s => {
         if (s.category === 'hero') {
-          return { ...s, config: { ...s.config, variant: 'hero-gradient' } };
+          return { ...s, config: { ...s.config, variant: 'hero-h1-full-width' } };
         }
         if (s.category === 'nav') {
-          return { ...s, config: { ...s.config, variant: 'nav-floating' } };
+          return { ...s, config: { ...s.config, variant: 'nav-n7-floating' } };
         }
         return s;
       });
@@ -281,7 +321,7 @@ export function getDirectorCut(
       // Minimal: Clean, focused - remove stats, max 4 sections
       transformed = transformed.filter(s => s.category !== 'stats');
       transformed = transformed.map(s =>
-        s.category === 'hero' ? { ...s, config: { ...s.config, variant: 'hero-minimal' } } : s
+        s.category === 'hero' ? { ...s, config: { ...s.config, variant: 'hero-h3-minimal' } } : s
       );
       // Keep nav, hero, contact, footer + max 2 other sections
       const coreSections = transformed.filter(s =>
@@ -300,14 +340,14 @@ export function getDirectorCut(
     case 'bold':
       // Bold: Strong, impactful - full-width hero, emphasize services
       transformed = transformed.map(s =>
-        s.category === 'hero' ? { ...s, config: { ...s.config, variant: 'hero-full-width' } } : s
+        s.category === 'hero' ? { ...s, config: { ...s.config, variant: 'hero-h1-full-width' } } : s
       );
       break;
 
     case 'elegant':
       // Elegant: Sophisticated - split hero, refined spacing
       transformed = transformed.map(s =>
-        s.category === 'hero' ? { ...s, config: { ...s.config, variant: 'hero-split' } } : s
+        s.category === 'hero' ? { ...s, config: { ...s.config, variant: 'hero-h2-split' } } : s
       );
       break;
 
@@ -572,6 +612,9 @@ function assembleDocument(params: {
   options: BuildOptions;
 }): string {
   const { content, dna, palette, sections, options } = params;
+  const vibeId = options.vibe || getVibeForIndustry(content.industry).id;
+  const chaos = options.chaos ?? dna.chaos ?? 0.3;
+  const motion = dna.motion || 'M1';
 
   // Combine all CSS
   const allCSS = sections.map(s => s.css).join('\n');
@@ -585,32 +628,69 @@ function assembleDocument(params: {
   // Generate base styles (reset + entrance animations)
   const baseStyles = generateBaseStyles(dna, palette);
 
+  // Complete skin CSS based on design code
+  const skinCSS = getCompleteSkinCSS(dna.design || 'D1');
+
+  // Effects CSS - scroll reveal for M2/M3, parallax for high chaos, texture for all
+  const scrollRevealCSS = (motion === 'M2' || motion === 'M3')
+    ? generateScrollRevealCSS({ effect: 'slide', duration: motion === 'M3' ? 800 : 600 })
+    : '';
+  const parallaxCSS = chaos > 0.5 ? generateParallaxCSS() : '';
+  const textureCSS = generateTextureOverlayCSS({ vibeId, className: 'page-texture' });
+
   // Font preconnect and import (CRITICAL for FOUC prevention)
   const includeFonts = options.includeFonts !== false;
   const fontPreconnect = includeFonts ? getGoogleFontsPreconnect() : '';
   const fontUrl = includeFonts ? getGoogleFontsUrl(dna.typography || 'T1') : '';
 
+  // SEO meta tags
+  const seoConfig: SeoConfig = {
+    business: {
+      name: content.businessName,
+      description: content.description || content.tagline,
+      phone: content.contact.phone,
+      email: content.contact.email,
+      address: content.contact.city && content.contact.state ? {
+        city: content.contact.city,
+        state: content.contact.state,
+      } : undefined,
+    },
+    industry: content.industry,
+  };
+  const seoSnippets = generateSeoTags(seoConfig);
+
   // Lenis script for smooth scrolling (M2/M3 motion only)
-  const lenisScript = generateLenisScript(dna.motion || 'M1');
+  const lenisScript = generateLenisScript(motion);
+
+  // Effects scripts - scroll reveal for M2/M3, parallax for high chaos
+  const scrollRevealScript = (motion === 'M2' || motion === 'M3')
+    ? generateScrollRevealScript({ effect: 'slide', duration: motion === 'M3' ? 800 : 600 })
+    : '';
+  const parallaxScript = chaos > 0.5 ? generateParallaxScript() : '';
 
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${content.businessName}</title>
-  <meta name="description" content="${content.description || content.tagline || ''}">
+  ${seoSnippets.head}
   ${fontPreconnect}
   ${fontUrl ? `<link href="${fontUrl}" rel="stylesheet">` : ''}
   <style>
     ${baseStyles}
+    ${skinCSS}
     ${dnaStyleOutput.css}
+    ${scrollRevealCSS}
+    ${parallaxCSS}
+    ${textureCSS}
     ${allCSS}
   </style>
 </head>
-<body>
+<body class="page-texture">
   ${allHTML}
   ${lenisScript}
+  ${scrollRevealScript}
+  ${parallaxScript}
 </body>
 </html>`;
 }

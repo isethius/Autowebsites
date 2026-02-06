@@ -231,6 +231,94 @@ const heroVariants: SectionVariant[] = [
       return withAnimation(generateDNAHero(heroConfig), config.dna.motion || 'M1');
     },
   },
+  {
+    id: 'hero-h4-video',
+    name: 'Video Background',
+    category: 'hero',
+    description: 'Hero with video/animated background overlay',
+    dnaMatch: { hero: 'H4' },
+    chaosRange: [0.4, 0.9],
+    priority: 1,
+    render: (config: SectionConfig): SectionOutput => {
+      const heroConfig: DNAHeroConfig = {
+        headline: config.content.headline as string || 'Welcome',
+        tagline: config.content.tagline as string || '',
+        trustBadges: config.content.trustBadges as string[],
+        primaryCTA: config.content.primaryCTA as { text: string; href: string },
+        secondaryCTA: config.content.secondaryCTA as { text: string; href: string },
+        palette: config.palette as ColorPalette,
+        dna: { ...config.dna, hero: 'H4' },
+        businessName: config.content.businessName as string,
+      };
+      return withAnimation(generateDNAHero(heroConfig), config.dna.motion || 'M1');
+    },
+  },
+  {
+    id: 'hero-h5-gradient-overlay',
+    name: 'Gradient Overlay',
+    category: 'hero',
+    description: 'Image with gradient mask overlay',
+    dnaMatch: { hero: 'H5' },
+    chaosRange: [0.3, 0.7],
+    priority: 1,
+    render: (config: SectionConfig): SectionOutput => {
+      const heroConfig: DNAHeroConfig = {
+        headline: config.content.headline as string || 'Welcome',
+        tagline: config.content.tagline as string || '',
+        trustBadges: config.content.trustBadges as string[],
+        primaryCTA: config.content.primaryCTA as { text: string; href: string },
+        secondaryCTA: config.content.secondaryCTA as { text: string; href: string },
+        palette: config.palette as ColorPalette,
+        dna: { ...config.dna, hero: 'H5' },
+        businessName: config.content.businessName as string,
+      };
+      return withAnimation(generateDNAHero(heroConfig), config.dna.motion || 'M1');
+    },
+  },
+  {
+    id: 'hero-h6-animated',
+    name: 'Animated Background',
+    category: 'hero',
+    description: 'CSS animation background with particles effect',
+    dnaMatch: { hero: 'H6' },
+    chaosRange: [0.5, 1.0],
+    priority: 1,
+    render: (config: SectionConfig): SectionOutput => {
+      const heroConfig: DNAHeroConfig = {
+        headline: config.content.headline as string || 'Welcome',
+        tagline: config.content.tagline as string || '',
+        trustBadges: config.content.trustBadges as string[],
+        primaryCTA: config.content.primaryCTA as { text: string; href: string },
+        secondaryCTA: config.content.secondaryCTA as { text: string; href: string },
+        palette: config.palette as ColorPalette,
+        dna: { ...config.dna, hero: 'H6' },
+        businessName: config.content.businessName as string,
+      };
+      return withAnimation(generateDNAHero(heroConfig), config.dna.motion || 'M1');
+    },
+  },
+  {
+    id: 'hero-h7-carousel',
+    name: 'Carousel Slider',
+    category: 'hero',
+    description: 'Multiple slides with navigation',
+    dnaMatch: { hero: 'H7' },
+    chaosRange: [0.3, 0.8],
+    priority: 1,
+    render: (config: SectionConfig): SectionOutput => {
+      const heroConfig: DNAHeroConfig = {
+        headline: config.content.headline as string || 'Welcome',
+        tagline: config.content.tagline as string || '',
+        trustBadges: config.content.trustBadges as string[],
+        primaryCTA: config.content.primaryCTA as { text: string; href: string },
+        secondaryCTA: config.content.secondaryCTA as { text: string; href: string },
+        palette: config.palette as ColorPalette,
+        dna: { ...config.dna, hero: 'H7' },
+        businessName: config.content.businessName as string,
+      };
+      return withAnimation(generateDNAHero(heroConfig), config.dna.motion || 'M1');
+    },
+  },
 ];
 
 // =============================================================================
