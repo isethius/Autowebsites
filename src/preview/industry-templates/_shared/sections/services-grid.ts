@@ -56,17 +56,7 @@ export function generateServicesCSS(): string {
     }
 
     .service-card {
-      background: var(--bg-surface, var(--white, #ffffff));
-      border-radius: var(--radius, 12px);
       padding: var(--card-padding, 32px);
-      transition: all var(--transition-duration, 0.2s) ease;
-      border: var(--border-width, 1px) solid var(--border-color, var(--gray-200, #e5e7eb));
-      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
-    }
-
-    .service-card:hover {
-      transform: var(--hover-transform, translateY(-4px));
-      box-shadow: var(--hover-shadow, 0 12px 40px rgba(0,0,0,0.1));
     }
 
     .service-icon {
@@ -385,20 +375,7 @@ function generateServicesL3Cards(config: DNAServicesConfig): SectionOutput {
     }
 
     .services-l3-card {
-      background: var(--bg-surface, var(--white, #ffffff));
-      border-radius: var(--radius, 12px);
       padding: var(--card-padding, 32px);
-      transition: all var(--transition-duration, 0.2s) ease;
-      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
-    }
-
-    .services-bg-gray .services-l3-card {
-      border: var(--border-width, 1px) solid var(--border-color, var(--gray-200, #e5e7eb));
-    }
-
-    .services-l3-card:hover {
-      transform: var(--hover-transform, translateY(-4px));
-      box-shadow: var(--hover-shadow, 0 12px 40px rgba(0,0,0,0.1));
     }
 
     .services-l3-icon {
@@ -482,14 +459,6 @@ function generateServicesL5SingleColumn(config: DNAServicesConfig): SectionOutpu
       display: flex;
       gap: var(--gap-md, 24px);
       padding: var(--card-padding, 32px);
-      background: var(--gray-50, #f9fafb);
-      border-radius: var(--radius, 12px);
-      transition: all var(--transition-duration, 0.2s) ease;
-    }
-
-    .services-l5-item:hover {
-      background: var(--white, #ffffff);
-      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
     .services-l5-icon {
@@ -538,7 +507,7 @@ function generateServicesL5SingleColumn(config: DNAServicesConfig): SectionOutpu
         </div>
         <div class="services-l5-list">
           ${services.map(service => `
-            <div class="services-l5-item">
+            <div class="services-l5-item dna-card card">
               <div class="services-l5-icon">
                 ${service.icon || getServiceIcon(service.name)}
               </div>
@@ -615,10 +584,7 @@ function generateServicesL9Timeline(config: DNAServicesConfig): SectionOutput {
 
     .services-l9-content {
       flex: 1;
-      background: var(--bg-surface, var(--white, #ffffff));
-      border-radius: var(--radius, 12px);
       padding: var(--gap-md, 24px);
-      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
     .services-l9-item h3 {
@@ -698,22 +664,9 @@ function generateServicesL10Bento(config: DNAServicesConfig): SectionOutput {
     }
 
     .services-l10-card {
-      background: var(--gray-50, #f9fafb);
-      border-radius: var(--radius, 12px);
       padding: var(--gap-md, 28px);
       display: flex;
       flex-direction: column;
-      transition: all var(--transition-duration, 0.2s) ease;
-    }
-
-    .services-l10-card:hover {
-      background: var(--primary, #1e5a8a);
-      color: var(--white, #ffffff);
-    }
-
-    .services-l10-card:hover h3,
-    .services-l10-card:hover p {
-      color: inherit;
     }
 
     /* First card is large */
@@ -789,7 +742,7 @@ function generateServicesL10Bento(config: DNAServicesConfig): SectionOutput {
         </div>
         <div class="services-l10-grid">
           ${services.map(service => `
-            <div class="services-l10-card card">
+            <div class="services-l10-card dna-card card">
               <div class="services-l10-icon">
                 ${service.icon || getServiceIcon(service.name)}
               </div>

@@ -63,6 +63,8 @@ function generateNavN1Fixed(config: NavConfig): SectionOutput {
       background: var(--bg-surface, var(--white, #ffffff));
       padding: var(--nav-padding, 24px 0);
       border-bottom: var(--border-width, 1px) solid var(--border-color, var(--gray-200, #e5e7eb));
+      backdrop-filter: var(--backdrop, none);
+      -webkit-backdrop-filter: var(--backdrop, none);
       position: sticky;
       top: 0;
       z-index: 100;
@@ -219,6 +221,8 @@ function generateNavN4Sidebar(config: NavConfig): SectionOutput {
       background: var(--bg-surface, var(--white, #ffffff));
       border-right: var(--border-width, 1px) solid var(--border-color, var(--gray-200, #e5e7eb));
       padding: var(--card-padding, 40px) var(--gap-md, 30px);
+      backdrop-filter: var(--backdrop, none);
+      -webkit-backdrop-filter: var(--backdrop, none);
       display: flex;
       flex-direction: column;
       z-index: 100;

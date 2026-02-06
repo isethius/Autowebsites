@@ -40,7 +40,7 @@ function renderStats(stats: StatItem[], variant: 'grid' | 'cards'): string {
   const items = stats.map((stat) => {
     const description = stat.description ? `<p>${escapeHtml(stat.description)}</p>` : '';
     return `
-      <div class="stat-item ${variant === 'cards' ? 'stat-card card' : ''}">
+      <div class="stat-item ${variant === 'cards' ? 'stat-card dna-card card' : ''}">
         <div class="stat-value">${escapeHtml(stat.value)}</div>
         <div class="stat-label">${escapeHtml(stat.label)}</div>
         ${description}
@@ -96,11 +96,7 @@ export function generateStatsCSS(): string {
     }
 
     .stat-card {
-      background: var(--bg-surface, var(--white, #ffffff));
-      border: var(--border-width, 1px) solid var(--border-color, var(--gray-200, #e5e7eb));
-      border-radius: var(--radius-lg, 16px);
       padding: var(--gap-md, 24px);
-      box-shadow: var(--shadow-card, 0 10px 24px rgba(0,0,0,0.06));
     }
 
     .stat-value {

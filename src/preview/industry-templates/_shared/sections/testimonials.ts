@@ -39,11 +39,7 @@ export function generateTestimonialsCSS(): string {
     }
 
     .testimonial-card {
-      background: var(--bg-surface, var(--white, #ffffff));
-      border-radius: var(--radius, 12px);
       padding: var(--card-padding, 32px);
-      border: var(--border-width, 1px) solid var(--border-color, var(--gray-200, #e5e7eb));
-      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
     .testimonial-stars {
