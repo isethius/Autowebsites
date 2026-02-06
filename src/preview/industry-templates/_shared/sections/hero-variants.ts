@@ -37,15 +37,15 @@ export { SectionOutput };
 export function generateHeroCSS(): string {
   return `
     .hero {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: var(--white);
+      background: linear-gradient(135deg, var(--primary, #1e5a8a) 0%, var(--secondary, #1e40af) 100%);
+      color: var(--white, #ffffff);
       padding: var(--section-spacing, 80px) 0;
       position: relative;
       overflow: hidden;
     }
 
     .hero-solid {
-      background: var(--primary);
+      background: var(--primary, #1e5a8a);
     }
 
     .hero-content {
@@ -53,6 +53,10 @@ export function generateHeroCSS(): string {
       grid-template-columns: 1.2fr 1fr;
       gap: var(--gap-xl, 60px);
       align-items: center;
+    }
+
+    .hero-split .hero-content {
+      grid-template-columns: 1fr 1.2fr;
     }
 
     .hero-text h1 {
@@ -77,20 +81,20 @@ export function generateHeroCSS(): string {
 
     /* Hero-specific button overrides for white-on-gradient look */
     .hero .btn-primary {
-      background: var(--white);
-      color: var(--primary);
+      background: var(--white, #ffffff);
+      color: var(--primary, #1e5a8a);
       box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
     .hero .btn-primary:hover {
       transform: var(--hover-transform, translateY(-2px));
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      box-shadow: var(--hover-shadow, 0 8px 20px rgba(0, 0, 0, 0.2));
     }
 
     .hero .btn-secondary {
       background: transparent;
-      color: var(--white);
-      border: 2px solid var(--white);
+      color: var(--white, #ffffff);
+      border: var(--border-width, 2px) solid var(--white, #ffffff);
     }
 
     .hero .btn-secondary:hover {
@@ -113,8 +117,8 @@ export function generateHeroCSS(): string {
     }
 
     .trust-icon {
-      width: 32px;
-      height: 32px;
+      width: calc(var(--icon-size, 56px) * 0.5714);
+      height: calc(var(--icon-size, 56px) * 0.5714);
       background: rgba(255, 255, 255, 0.2);
       border-radius: var(--radius-pill, 50%);
       display: flex;
@@ -125,11 +129,56 @@ export function generateHeroCSS(): string {
     .hero-image {
       background: rgba(255, 255, 255, 0.1);
       border-radius: var(--radius, 12px);
-      height: 400px;
+      height: calc(var(--section-spacing, 80px) * 5);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: var(--text-h1, 48px);
+    }
+
+    .hero-centered .container {
+      text-align: center;
+      max-width: calc(var(--section-spacing, 80px) * 10);
+    }
+
+    .hero-centered .hero-text {
+      max-width: 100%;
+    }
+
+    .hero-centered .hero-text p {
+      max-width: calc(var(--section-spacing, 80px) * 7.5);
+      margin: 0 auto var(--gap-md, 32px);
+    }
+
+    .hero-centered .hero-buttons {
+      justify-content: center;
+    }
+
+    .hero-centered .trust-badges {
+      justify-content: center;
+    }
+
+    .hero-minimal {
+      padding: calc(var(--section-spacing, 80px) * 0.75) 0;
+      background: var(--gray-50, #f9fafb);
+      text-align: center;
+    }
+
+    .hero-minimal h1 {
+      color: var(--text, #111827);
+      font-size: var(--text-h1, 44px);
+      margin-bottom: var(--gap-sm, 16px);
+    }
+
+    .hero-minimal p {
+      color: var(--muted, #6b7280);
+      font-size: var(--text-lg, 20px);
+      max-width: calc(var(--section-spacing, 80px) * 7.5);
+      margin: 0 auto calc(var(--gap-md, 24px) * 1.1667);
+    }
+
+    .hero-minimal .hero-buttons {
+      justify-content: center;
     }
 
     @media (max-width: 900px) {
@@ -202,7 +251,7 @@ export function generateHeroSplit(config: HeroConfig): string {
 
   return `
     <section class="hero hero-split">
-      <div class="container hero-content" style="grid-template-columns: 1fr 1.2fr;">
+      <div class="container hero-content">
         <div class="hero-image">
           📸
         </div>
@@ -237,17 +286,17 @@ export function generateHeroCentered(config: HeroConfig): string {
   const { headline, tagline, primaryCTA, secondaryCTA, trustBadges } = config;
 
   return `
-    <section class="hero">
-      <div class="container" style="text-align: center; max-width: 800px;">
-        <div class="hero-text" style="max-width: 100%;">
+    <section class="hero hero-centered">
+      <div class="container">
+        <div class="hero-text">
           <h1>${escapeHtml(headline)}</h1>
-          <p style="max-width: 600px; margin: 0 auto var(--gap-md, 32px);">${escapeHtml(tagline)}</p>
-          <div class="hero-buttons" style="justify-content: center;">
+          <p>${escapeHtml(tagline)}</p>
+          <div class="hero-buttons">
             ${primaryCTA ? `<a href="${primaryCTA.href}" class="btn btn-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
             ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn btn-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
           </div>
           ${trustBadges?.length ? `
-          <div class="trust-badges" style="justify-content: center;">
+          <div class="trust-badges">
             ${trustBadges.map(badge => `
               <div class="trust-badge">
                 <div class="trust-icon">✓</div>
@@ -269,13 +318,13 @@ export function generateHeroMinimal(config: HeroConfig): string {
   const { headline, tagline, primaryCTA, secondaryCTA } = config;
 
   return `
-    <section class="hero" style="padding: 60px 0; background: var(--gray-50);">
-      <div class="container" style="text-align: center;">
-        <h1 style="color: var(--text); font-size: 44px; margin-bottom: 16px;">${escapeHtml(headline)}</h1>
-        <p style="color: var(--muted); font-size: 20px; max-width: 600px; margin: 0 auto 28px;">${escapeHtml(tagline)}</p>
-        <div class="hero-buttons" style="justify-content: center;">
-          ${primaryCTA ? `<a href="${primaryCTA.href}" class="btn btn-primary btn-lg">${escapeHtml(primaryCTA.text)}</a>` : ''}
-          ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn btn-secondary btn-lg">${escapeHtml(secondaryCTA.text)}</a>` : ''}
+    <section class="hero hero-minimal">
+      <div class="container">
+        <h1>${escapeHtml(headline)}</h1>
+        <p>${escapeHtml(tagline)}</p>
+        <div class="hero-buttons">
+          ${primaryCTA ? `<a href="${primaryCTA.href}" class="btn btn-primary">${escapeHtml(primaryCTA.text)}</a>` : ''}
+          ${secondaryCTA ? `<a href="${secondaryCTA.href}" class="btn btn-secondary">${escapeHtml(secondaryCTA.text)}</a>` : ''}
         </div>
       </div>
     </section>
@@ -329,8 +378,8 @@ function generateHeroH1FullWidth(config: DNAHeroConfig): SectionOutput {
 
   const css = `
     .hero-h1 {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: var(--white);
+      background: linear-gradient(135deg, var(--primary, #1e5a8a) 0%, var(--secondary, #1e40af) 100%);
+      color: var(--white, #ffffff);
       padding: var(--section-spacing, 100px) 0;
       min-height: 70vh;
       display: flex;
@@ -365,20 +414,20 @@ function generateHeroH1FullWidth(config: DNAHeroConfig): SectionOutput {
 
     /* Hero-specific button overrides for white-on-gradient look */
     .hero-h1 .btn-primary {
-      background: var(--white);
-      color: var(--primary);
+      background: var(--white, #ffffff);
+      color: var(--primary, #1e5a8a);
       box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
     .hero-h1 .btn-primary:hover {
       transform: var(--hover-transform, translateY(-3px));
-      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      box-shadow: var(--hover-shadow, 0 12px 30px rgba(0,0,0,0.2));
     }
 
     .hero-h1 .btn-secondary {
       background: transparent;
-      color: var(--white);
-      border: 2px solid var(--white);
+      color: var(--white, #ffffff);
+      border: 2px solid var(--white, #ffffff);
     }
 
     .hero-h1 .btn-secondary:hover {
@@ -401,8 +450,8 @@ function generateHeroH1FullWidth(config: DNAHeroConfig): SectionOutput {
     }
 
     .hero-h1 .trust-icon {
-      width: 36px;
-      height: 36px;
+      width: calc(var(--icon-size, 56px) * 0.6429);
+      height: calc(var(--icon-size, 56px) * 0.6429);
       background: rgba(255,255,255,0.2);
       border-radius: var(--radius-pill, 50%);
       display: flex;
@@ -413,11 +462,11 @@ function generateHeroH1FullWidth(config: DNAHeroConfig): SectionOutput {
     .hero-h1-image {
       background: rgba(255,255,255,0.1);
       border-radius: var(--radius, 12px);
-      height: 450px;
+      height: calc(var(--section-spacing, 80px) * 5.625);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 64px;
+      font-size: calc(var(--text-h1, 48px) * 1.3333);
     }
 
     @media (max-width: 900px) {
@@ -475,12 +524,12 @@ function generateHeroH2Split(config: DNAHeroConfig): SectionOutput {
     }
 
     .hero-h2-image {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      background: linear-gradient(135deg, var(--primary, #1e5a8a) 0%, var(--secondary, #1e40af) 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 80px;
-      color: var(--white);
+      font-size: calc(var(--text-h1, 48px) * 1.6667);
+      color: var(--white, #ffffff);
     }
 
     .hero-h2-content {
@@ -488,19 +537,19 @@ function generateHeroH2Split(config: DNAHeroConfig): SectionOutput {
       flex-direction: column;
       justify-content: center;
       padding: var(--gap-xl, 60px) var(--section-spacing, 80px);
-      background: var(--background);
+      background: var(--background, #ffffff);
     }
 
     .hero-h2 h1 {
       font-size: var(--text-h1, 48px);
       line-height: 1.15;
       margin-bottom: var(--gap-md, 24px);
-      color: var(--text);
+      color: var(--text, #111827);
     }
 
     .hero-h2 .tagline {
       font-size: var(--text-lg, 20px);
-      color: var(--muted);
+      color: var(--muted, #6b7280);
       margin-bottom: var(--gap-lg, 36px);
       line-height: 1.6;
     }
@@ -523,12 +572,12 @@ function generateHeroH2Split(config: DNAHeroConfig): SectionOutput {
       align-items: center;
       gap: var(--gap-xs, 8px);
       font-size: var(--text-sm, 14px);
-      color: var(--muted);
+      color: var(--muted, #6b7280);
     }
 
     @media (max-width: 900px) {
       .hero-h2 { grid-template-columns: 1fr; }
-      .hero-h2-image { min-height: 300px; order: -1; }
+      .hero-h2-image { min-height: calc(var(--section-spacing, 80px) * 3.75); order: -1; }
       .hero-h2-content { padding: var(--gap-lg, 40px) var(--gap-sm, 20px); }
       .hero-h2 h1 { font-size: var(--text-h2, 36px); }
     }
@@ -572,7 +621,7 @@ function generateHeroH3Minimal(config: DNAHeroConfig): SectionOutput {
 
   const css = `
     .hero-h3 {
-      background: var(--gray-50);
+      background: var(--gray-50, #f9fafb);
       padding: var(--section-spacing, 80px) 0;
       text-align: center;
     }
@@ -581,17 +630,17 @@ function generateHeroH3Minimal(config: DNAHeroConfig): SectionOutput {
       font-size: var(--text-h1, 44px);
       line-height: 1.2;
       margin-bottom: var(--gap-sm, 20px);
-      color: var(--text);
-      max-width: 800px;
+      color: var(--text, #111827);
+      max-width: calc(var(--section-spacing, 80px) * 10);
       margin-left: auto;
       margin-right: auto;
     }
 
     .hero-h3 .tagline {
       font-size: var(--text-lg, 20px);
-      color: var(--muted);
+      color: var(--muted, #6b7280);
       margin-bottom: var(--gap-md, 32px);
-      max-width: 600px;
+      max-width: calc(var(--section-spacing, 80px) * 7.5);
       margin-left: auto;
       margin-right: auto;
     }
@@ -647,7 +696,7 @@ function generateHeroH8Asymmetric(config: DNAHeroConfig): SectionOutput {
       top: 0;
       width: 55%;
       height: 100%;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      background: linear-gradient(135deg, var(--primary, #1e5a8a) 0%, var(--secondary, #1e40af) 100%);
       clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
     }
 
@@ -668,12 +717,12 @@ function generateHeroH8Asymmetric(config: DNAHeroConfig): SectionOutput {
       font-size: var(--text-h1, 52px);
       line-height: 1.1;
       margin-bottom: var(--gap-md, 24px);
-      color: var(--text);
+      color: var(--text, #111827);
     }
 
     .hero-h8 .tagline {
       font-size: var(--text-lg, 20px);
-      color: var(--muted);
+      color: var(--muted, #6b7280);
       margin-bottom: var(--gap-lg, 36px);
       line-height: 1.6;
     }
@@ -696,15 +745,15 @@ function generateHeroH8Asymmetric(config: DNAHeroConfig): SectionOutput {
       align-items: center;
       gap: var(--gap-xs, 8px);
       font-size: var(--text-sm, 14px);
-      color: var(--muted);
+      color: var(--muted, #6b7280);
     }
 
     .hero-h8-visual {
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--white);
-      font-size: 80px;
+      color: var(--white, #ffffff);
+      font-size: calc(var(--text-h1, 48px) * 1.6667);
     }
 
     @media (max-width: 900px) {
@@ -759,8 +808,8 @@ function generateHeroH9TextOnly(config: DNAHeroConfig): SectionOutput {
 
   const css = `
     .hero-h9 {
-      background: var(--text);
-      color: var(--white);
+      background: var(--text, #111827);
+      color: var(--white, #ffffff);
       padding: calc(var(--section-spacing, 80px) * 1.5) 0;
       text-align: center;
     }
@@ -769,7 +818,7 @@ function generateHeroH9TextOnly(config: DNAHeroConfig): SectionOutput {
       font-size: var(--text-h1, 72px);
       line-height: 1.05;
       margin-bottom: var(--gap-md, 32px);
-      max-width: 900px;
+      max-width: calc(var(--section-spacing, 80px) * 11.25);
       margin-left: auto;
       margin-right: auto;
       letter-spacing: -0.03em;
@@ -779,7 +828,7 @@ function generateHeroH9TextOnly(config: DNAHeroConfig): SectionOutput {
       font-size: var(--text-lg, 24px);
       opacity: 0.8;
       margin-bottom: var(--gap-lg, 48px);
-      max-width: 600px;
+      max-width: calc(var(--section-spacing, 80px) * 7.5);
       margin-left: auto;
       margin-right: auto;
       line-height: 1.5;
@@ -794,20 +843,20 @@ function generateHeroH9TextOnly(config: DNAHeroConfig): SectionOutput {
 
     /* Hero-specific button overrides for white-on-dark look */
     .hero-h9 .btn-primary {
-      background: var(--white);
-      color: var(--text);
+      background: var(--white, #ffffff);
+      color: var(--text, #111827);
       box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
     .hero-h9 .btn-primary:hover {
       transform: var(--hover-transform, translateY(-3px));
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      box-shadow: var(--hover-shadow, 0 10px 30px rgba(0,0,0,0.3));
     }
 
     .hero-h9 .btn-secondary {
       background: transparent;
-      color: var(--white);
-      border: 2px solid var(--white);
+      color: var(--white, #ffffff);
+      border: 2px solid var(--white, #ffffff);
     }
 
     .hero-h9 .btn-secondary:hover {
@@ -854,7 +903,7 @@ function generateHeroH12Geometric(config: DNAHeroConfig): SectionOutput {
       min-height: 80vh;
       display: flex;
       align-items: center;
-      background: var(--background);
+      background: var(--background, #ffffff);
       overflow: hidden;
     }
 
@@ -866,52 +915,52 @@ function generateHeroH12Geometric(config: DNAHeroConfig): SectionOutput {
 
     .hero-h12-shape {
       position: absolute;
-      background: var(--primary);
+      background: var(--primary, #1e5a8a);
       opacity: 0.1;
     }
 
     .hero-h12-shape-1 {
-      width: 400px;
-      height: 400px;
-      top: -100px;
-      right: -100px;
+      width: calc(var(--section-spacing, 80px) * 5);
+      height: calc(var(--section-spacing, 80px) * 5);
+      top: calc(var(--section-spacing, 80px) * -1.25);
+      right: calc(var(--section-spacing, 80px) * -1.25);
       border-radius: var(--radius-pill, 50%);
     }
 
     .hero-h12-shape-2 {
-      width: 300px;
-      height: 300px;
-      bottom: -50px;
+      width: calc(var(--section-spacing, 80px) * 3.75);
+      height: calc(var(--section-spacing, 80px) * 3.75);
+      bottom: calc(var(--section-spacing, 80px) * -0.625);
       left: 10%;
       clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
-      background: var(--secondary);
+      background: var(--secondary, #1e40af);
     }
 
     .hero-h12-shape-3 {
-      width: 200px;
-      height: 200px;
+      width: calc(var(--section-spacing, 80px) * 2.5);
+      height: calc(var(--section-spacing, 80px) * 2.5);
       top: 30%;
       right: 20%;
       clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
-      background: var(--accent);
+      background: var(--accent, #14b8a6);
     }
 
     .hero-h12-content {
       position: relative;
       z-index: 2;
-      max-width: 700px;
+      max-width: calc(var(--section-spacing, 80px) * 8.75);
     }
 
     .hero-h12 h1 {
       font-size: var(--text-h1, 56px);
       line-height: 1.1;
       margin-bottom: var(--gap-md, 24px);
-      color: var(--text);
+      color: var(--text, #111827);
     }
 
     .hero-h12 .tagline {
       font-size: var(--text-lg, 20px);
-      color: var(--muted);
+      color: var(--muted, #6b7280);
       margin-bottom: var(--gap-lg, 40px);
       line-height: 1.6;
     }
@@ -934,13 +983,13 @@ function generateHeroH12Geometric(config: DNAHeroConfig): SectionOutput {
       align-items: center;
       gap: var(--gap-xs, 8px);
       font-size: var(--text-sm, 14px);
-      color: var(--muted);
+      color: var(--muted, #6b7280);
     }
 
     @media (max-width: 900px) {
       .hero-h12 h1 { font-size: var(--text-h2, 40px); }
-      .hero-h12-shape-1 { width: 250px; height: 250px; }
-      .hero-h12-shape-2 { width: 200px; height: 200px; }
+      .hero-h12-shape-1 { width: calc(var(--section-spacing, 80px) * 3.125); height: calc(var(--section-spacing, 80px) * 3.125); }
+      .hero-h12-shape-2 { width: calc(var(--section-spacing, 80px) * 2.5); height: calc(var(--section-spacing, 80px) * 2.5); }
       .hero-h12-shape-3 { display: none; }
     }
   `;
@@ -994,7 +1043,7 @@ function generateHeroH4Video(config: DNAHeroConfig): SectionOutput {
     .hero-h4-bg {
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      background: linear-gradient(135deg, var(--primary, #1e5a8a) 0%, var(--secondary, #1e40af) 100%);
     }
     .hero-h4-bg::after {
       content: '';
@@ -1016,16 +1065,16 @@ function generateHeroH4Video(config: DNAHeroConfig): SectionOutput {
     .hero-h4-content {
       position: relative;
       z-index: 2;
-      color: var(--white);
+      color: var(--white, #ffffff);
       text-align: center;
-      max-width: 900px;
+      max-width: calc(var(--section-spacing, 80px) * 11.25);
       margin: 0 auto;
     }
     .hero-h4 h1 {
       font-size: var(--text-h1, 60px);
       line-height: 1.1;
       margin-bottom: var(--gap-md, 24px);
-      text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+      text-shadow: 0 calc(var(--gap-xs, 8px) / 4) calc(var(--gap-lg, 40px) / 2) rgba(0,0,0,0.3);
     }
     .hero-h4 .tagline {
       font-size: var(--text-lg, 22px);
@@ -1038,13 +1087,13 @@ function generateHeroH4Video(config: DNAHeroConfig): SectionOutput {
       justify-content: center;
     }
     .hero-h4 .btn-primary {
-      background: var(--white);
-      color: var(--primary);
+      background: var(--white, #ffffff);
+      color: var(--primary, #1e5a8a);
     }
     .hero-h4 .btn-secondary {
       background: transparent;
-      color: var(--white);
-      border: 2px solid var(--white);
+      color: var(--white, #ffffff);
+      border: 2px solid var(--white, #ffffff);
     }
     @media (max-width: 768px) {
       .hero-h4 h1 { font-size: var(--text-h2, 40px); }
@@ -1087,9 +1136,9 @@ function generateHeroH5GradientOverlay(config: DNAHeroConfig): SectionOutput {
       inset: 0;
       background: linear-gradient(
         135deg,
-        var(--primary) 0%,
+        var(--primary, #1e5a8a) 0%,
         transparent 50%,
-        var(--secondary) 100%
+        var(--secondary, #1e40af) 100%
       );
     }
     .hero-h5-content {
@@ -1101,7 +1150,7 @@ function generateHeroH5GradientOverlay(config: DNAHeroConfig): SectionOutput {
       align-items: center;
     }
     .hero-h5-text {
-      color: var(--white);
+      color: var(--white, #ffffff);
     }
     .hero-h5 h1 {
       font-size: var(--text-h1, 52px);
@@ -1118,28 +1167,28 @@ function generateHeroH5GradientOverlay(config: DNAHeroConfig): SectionOutput {
       gap: var(--gap-sm, 16px);
     }
     .hero-h5 .btn-primary {
-      background: var(--white);
-      color: var(--primary);
+      background: var(--white, #ffffff);
+      color: var(--primary, #1e5a8a);
     }
     .hero-h5 .btn-secondary {
-      color: var(--white);
-      border: 2px solid var(--white);
+      color: var(--white, #ffffff);
+      border: 2px solid var(--white, #ffffff);
     }
     .hero-h5-visual {
       aspect-ratio: 4/3;
       background: rgba(255,255,255,0.1);
       border-radius: var(--radius, 16px);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(calc(var(--gap-xs, 8px) * 1.25));
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 64px;
+      font-size: calc(var(--text-h1, 48px) * 1.3333);
     }
     .hero-h5 .trust-badges {
       display: flex;
       gap: var(--gap-md, 24px);
       margin-top: var(--gap-lg, 40px);
-      color: var(--white);
+      color: var(--white, #ffffff);
     }
     @media (max-width: 900px) {
       .hero-h5-content { grid-template-columns: 1fr; }
@@ -1186,7 +1235,7 @@ function generateHeroH6Animated(config: DNAHeroConfig): SectionOutput {
       min-height: 85vh;
       display: flex;
       align-items: center;
-      background: var(--text);
+      background: var(--text, #111827);
       overflow: hidden;
     }
     .hero-h6-particles {
@@ -1196,27 +1245,27 @@ function generateHeroH6Animated(config: DNAHeroConfig): SectionOutput {
     }
     .hero-h6-particle {
       position: absolute;
-      background: var(--primary);
+      background: var(--primary, #1e5a8a);
       border-radius: 50%;
       opacity: 0.3;
       animation: hero-h6-float 8s ease-in-out infinite;
     }
-    .hero-h6-particle:nth-child(1) { width: 80px; height: 80px; top: 20%; left: 10%; animation-delay: 0s; }
-    .hero-h6-particle:nth-child(2) { width: 120px; height: 120px; top: 60%; right: 15%; animation-delay: 2s; }
-    .hero-h6-particle:nth-child(3) { width: 60px; height: 60px; bottom: 20%; left: 30%; animation-delay: 4s; }
-    .hero-h6-particle:nth-child(4) { width: 100px; height: 100px; top: 10%; right: 30%; animation-delay: 1s; background: var(--secondary); }
-    .hero-h6-particle:nth-child(5) { width: 40px; height: 40px; bottom: 30%; right: 40%; animation-delay: 3s; background: var(--accent); }
+    .hero-h6-particle:nth-child(1) { width: calc(var(--icon-size, 56px) * 1.4286); height: calc(var(--icon-size, 56px) * 1.4286); top: 20%; left: 10%; animation-delay: 0s; }
+    .hero-h6-particle:nth-child(2) { width: calc(var(--icon-size, 56px) * 2.1429); height: calc(var(--icon-size, 56px) * 2.1429); top: 60%; right: 15%; animation-delay: 2s; }
+    .hero-h6-particle:nth-child(3) { width: calc(var(--icon-size, 56px) * 1.0714); height: calc(var(--icon-size, 56px) * 1.0714); bottom: 20%; left: 30%; animation-delay: 4s; }
+    .hero-h6-particle:nth-child(4) { width: calc(var(--icon-size, 56px) * 1.7857); height: calc(var(--icon-size, 56px) * 1.7857); top: 10%; right: 30%; animation-delay: 1s; background: var(--secondary, #1e40af); }
+    .hero-h6-particle:nth-child(5) { width: calc(var(--icon-size, 56px) * 0.7143); height: calc(var(--icon-size, 56px) * 0.7143); bottom: 30%; right: 40%; animation-delay: 3s; background: var(--accent, #14b8a6); }
     @keyframes hero-h6-float {
       0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
-      50% { transform: translateY(-30px) scale(1.1); opacity: 0.5; }
+      50% { transform: translateY(calc(var(--gap-lg, 40px) * -0.75)) scale(1.1); opacity: 0.5; }
     }
     .hero-h6-content {
       position: relative;
       z-index: 2;
       text-align: center;
-      max-width: 800px;
+      max-width: calc(var(--section-spacing, 80px) * 10);
       margin: 0 auto;
-      color: var(--white);
+      color: var(--white, #ffffff);
     }
     .hero-h6 h1 {
       font-size: var(--text-h1, 64px);
@@ -1234,12 +1283,12 @@ function generateHeroH6Animated(config: DNAHeroConfig): SectionOutput {
       justify-content: center;
     }
     .hero-h6 .btn-primary {
-      background: var(--primary);
-      color: var(--white);
+      background: var(--primary, #1e5a8a);
+      color: var(--white, #ffffff);
     }
     .hero-h6 .btn-secondary {
-      color: var(--white);
-      border: 2px solid var(--white);
+      color: var(--white, #ffffff);
+      border: 2px solid var(--white, #ffffff);
     }
     @media (max-width: 768px) {
       .hero-h6 h1 { font-size: var(--text-h2, 40px); }
@@ -1282,16 +1331,16 @@ function generateHeroH7Carousel(config: DNAHeroConfig): SectionOutput {
       min-height: 80vh;
       display: flex;
       align-items: center;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      background: linear-gradient(135deg, var(--primary, #1e5a8a) 0%, var(--secondary, #1e40af) 100%);
       overflow: hidden;
     }
     .hero-h7-content {
       position: relative;
       z-index: 2;
       text-align: center;
-      max-width: 900px;
+      max-width: calc(var(--section-spacing, 80px) * 11.25);
       margin: 0 auto;
-      color: var(--white);
+      color: var(--white, #ffffff);
     }
     .hero-h7 h1 {
       font-size: var(--text-h1, 56px);
@@ -1310,29 +1359,29 @@ function generateHeroH7Carousel(config: DNAHeroConfig): SectionOutput {
     }
     .hero-h7-dots {
       position: absolute;
-      bottom: 40px;
+      bottom: var(--gap-lg, 40px);
       left: 50%;
       transform: translateX(-50%);
       display: flex;
-      gap: 12px;
+      gap: calc(var(--gap-xs, 8px) * 1.5);
       z-index: 3;
     }
     .hero-h7-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
+      width: calc(var(--gap-xs, 8px) * 1.5);
+      height: calc(var(--gap-xs, 8px) * 1.5);
+      border-radius: var(--radius-pill, 9999px);
       background: rgba(255,255,255,0.4);
     }
     .hero-h7-dot.active {
-      background: var(--white);
+      background: var(--white, #ffffff);
     }
     .hero-h7 .btn-primary {
-      background: var(--white);
-      color: var(--primary);
+      background: var(--white, #ffffff);
+      color: var(--primary, #1e5a8a);
     }
     .hero-h7 .btn-secondary {
-      color: var(--white);
-      border: 2px solid var(--white);
+      color: var(--white, #ffffff);
+      border: 2px solid var(--white, #ffffff);
     }
     @media (max-width: 768px) {
       .hero-h7 h1 { font-size: var(--text-h2, 40px); }

@@ -372,6 +372,11 @@ async function createScreenshotter(enabled: boolean) {
         try {
           await page.setViewport({ width: 1440, height: 900 });
           await page.goto(fileUrl, { waitUntil: 'load', timeout: 30000 });
+          await page.evaluate(async () => {
+            if (document.fonts?.ready) {
+              await document.fonts.ready;
+            }
+          });
           desktop = path.join(outputDir, `${baseName}-desktop.jpg`);
           await page.screenshot({ path: desktop, fullPage: true, type: 'jpeg', quality: 82 });
         } catch (error: any) {
@@ -382,6 +387,11 @@ async function createScreenshotter(enabled: boolean) {
         try {
           await page.setViewport({ width: 390, height: 844 });
           await page.goto(fileUrl, { waitUntil: 'load', timeout: 30000 });
+          await page.evaluate(async () => {
+            if (document.fonts?.ready) {
+              await document.fonts.ready;
+            }
+          });
           mobile = path.join(outputDir, `${baseName}-mobile.jpg`);
           await page.screenshot({ path: mobile, fullPage: true, type: 'jpeg', quality: 82 });
         } catch (error: any) {

@@ -27,8 +27,8 @@ export interface FooterConfig {
 export function generateFooterCSS(): string {
   return `
     footer {
-      background: var(--gray-800);
-      color: var(--white);
+      background: var(--gray-800, #1f2937);
+      color: var(--white, #ffffff);
       padding: var(--footer-spacing, 60px) 0 var(--gap-md, 30px);
     }
 
@@ -41,7 +41,7 @@ export function generateFooterCSS(): string {
     }
 
     .footer-brand {
-      max-width: 350px;
+      max-width: calc(var(--section-spacing, 80px) * 4.375);
     }
 
     .footer-brand h3 {
@@ -51,7 +51,7 @@ export function generateFooterCSS(): string {
     }
 
     .footer-brand p {
-      color: var(--gray-400);
+      color: var(--gray-400, #9ca3af);
       font-size: var(--text-sm, 14px);
       line-height: 1.6;
     }
@@ -59,7 +59,7 @@ export function generateFooterCSS(): string {
     .footer-license {
       margin-top: var(--gap-sm, 16px);
       font-size: var(--text-sm, 13px);
-      color: var(--gray-400);
+      color: var(--gray-400, #9ca3af);
     }
 
     .footer-links {
@@ -68,13 +68,13 @@ export function generateFooterCSS(): string {
     }
 
     .footer-links a {
-      color: var(--gray-400);
+      color: var(--gray-400, #9ca3af);
       font-size: var(--text-sm, 14px);
       transition: color 0.2s;
     }
 
     .footer-links a:hover {
-      color: var(--white);
+      color: var(--white, #ffffff);
     }
 
     .footer-contact {
@@ -84,7 +84,7 @@ export function generateFooterCSS(): string {
     }
 
     .footer-contact a {
-      color: var(--gray-400);
+      color: var(--gray-400, #9ca3af);
       font-size: var(--text-sm, 14px);
       display: flex;
       align-items: center;
@@ -93,7 +93,12 @@ export function generateFooterCSS(): string {
     }
 
     .footer-contact a:hover {
-      color: var(--white);
+      color: var(--white, #ffffff);
+    }
+
+    .footer-location {
+      color: var(--gray-400, #9ca3af);
+      font-size: var(--text-sm, 14px);
     }
 
     .footer-social {
@@ -105,7 +110,7 @@ export function generateFooterCSS(): string {
     .footer-social a {
       width: var(--avatar-size, 40px);
       height: var(--avatar-size, 40px);
-      background: var(--gray-700);
+      background: var(--gray-700, #374151);
       border-radius: var(--radius-sm, 8px);
       display: flex;
       align-items: center;
@@ -115,26 +120,58 @@ export function generateFooterCSS(): string {
     }
 
     .footer-social a:hover {
-      background: var(--primary);
+      background: var(--primary, #1e5a8a);
     }
 
     .footer-bottom {
       padding-top: var(--gap-md, 30px);
-      border-top: var(--border-width, 1px) solid var(--gray-700);
+      border-top: var(--border-width, 1px) solid var(--gray-700, #374151);
       display: flex;
       justify-content: space-between;
-      color: var(--gray-400);
+      color: var(--gray-400, #9ca3af);
       font-size: var(--text-sm, 13px);
       flex-wrap: wrap;
       gap: var(--gap-sm, 16px);
     }
 
     .footer-bottom a {
-      color: var(--accent);
+      color: var(--accent, #14b8a6);
     }
 
     .footer-bottom a:hover {
-      color: var(--white);
+      color: var(--white, #ffffff);
+    }
+
+    .footer-minimal {
+      padding: calc(var(--footer-spacing, 60px) * 0.6667) 0;
+      text-align: center;
+    }
+
+    .footer-minimal-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: var(--gap-sm, 16px);
+      margin-bottom: calc(var(--gap-md, 24px) * 0.8333);
+    }
+
+    .footer-minimal-bottom {
+      justify-content: center;
+      border: none;
+      padding-top: 0;
+      text-align: center;
+    }
+
+    .footer-compact {
+      background: var(--gray-800, #1f2937);
+      color: var(--gray-400, #9ca3af);
+      padding: var(--gap-md, 24px) 0;
+      text-align: center;
+      font-size: var(--text-sm, 13px);
+    }
+
+    .footer-compact a {
+      color: var(--accent, #14b8a6);
     }
 
     @media (max-width: 768px) {
@@ -224,7 +261,7 @@ export function generateFooter(config: FooterConfig): string {
           <div class="footer-contact">
             ${phone ? `<a href="tel:${phone}">📞 ${phone}</a>` : ''}
             ${email ? `<a href="mailto:${email}">✉️ ${email}</a>` : ''}
-            ${location ? `<span style="color: var(--gray-400); font-size: 14px;">📍 ${escapeHtml(location)}</span>` : ''}
+            ${location ? `<span class="footer-location">📍 ${escapeHtml(location)}</span>` : ''}
           </div>
         </div>
 
@@ -244,15 +281,15 @@ export function generateMinimalFooter(config: FooterConfig): string {
   const { businessName, phone, email, showBranding = true } = config;
 
   return `
-    <footer style="padding: 40px 0;">
-      <div class="container" style="text-align: center;">
-        <div style="margin-bottom: 20px;">
-          ${phone ? `<a href="tel:${phone}" style="margin: 0 16px;">📞 ${phone}</a>` : ''}
-          ${email ? `<a href="mailto:${email}" style="margin: 0 16px;">✉️ ${email}</a>` : ''}
+    <footer class="footer-minimal">
+      <div class="container">
+        <div class="footer-minimal-links">
+          ${phone ? `<a href="tel:${phone}">📞 ${phone}</a>` : ''}
+          ${email ? `<a href="mailto:${email}">✉️ ${email}</a>` : ''}
         </div>
-        <div class="footer-bottom" style="justify-content: center; border: none; padding-top: 0;">
+        <div class="footer-bottom footer-minimal-bottom">
           <span>&copy; ${new Date().getFullYear()} ${escapeHtml(businessName)}</span>
-          ${showBranding ? `<span style="margin-left: 24px;">Website by <a href="https://showcasedesigns.com">Showcase Designs</a></span>` : ''}
+          ${showBranding ? `<span>Website by <a href="https://showcasedesigns.com">Showcase Designs</a></span>` : ''}
         </div>
       </div>
     </footer>
@@ -264,10 +301,10 @@ export function generateMinimalFooter(config: FooterConfig): string {
  */
 export function generateCompactFooter(businessName: string, showBranding: boolean = true): string {
   return `
-    <footer style="background: var(--gray-800); color: var(--gray-400); padding: 24px 0; text-align: center; font-size: 13px;">
+    <footer class="footer-compact">
       <div class="container">
         <span>&copy; ${new Date().getFullYear()} ${escapeHtml(businessName)}. All rights reserved.</span>
-        ${showBranding ? ` · <a href="https://showcasedesigns.com" style="color: var(--accent);">Website by Showcase Designs</a>` : ''}
+        ${showBranding ? ` · <a href="https://showcasedesigns.com">Website by Showcase Designs</a>` : ''}
       </div>
     </footer>
   `;

@@ -203,21 +203,22 @@ export function generateDNAStyles(dna: DNACode, palette: ColorPalette): DNAStyle
       /* ========== RADIUS SCALE (from Skin) ========== */
       --radius: ${skin['--radius'] || '12px'};
       --radius-sm: ${skin['--radius-sm'] || '8px'};
+      --radius-md: ${skin['--radius'] || '12px'};
       --radius-lg: ${skin['--radius-lg'] || '16px'};
       --radius-pill: ${skin['--radius-pill'] || '9999px'};
 
       /* Legacy support */
-      --border-radius: var(--radius);
-      --border-radius-sm: var(--radius-sm);
-      --border-radius-lg: var(--radius-lg);
+      --border-radius: var(--radius, 12px);
+      --border-radius-sm: var(--radius-sm, 8px);
+      --border-radius-lg: var(--radius-lg, 16px);
 
       /* ========== SHADOWS & EFFECTS (from Skin) ========== */
       --shadow-card: ${skin['--shadow-card'] || '0 4px 20px rgba(0,0,0,0.08)'};
       --backdrop: ${skin['--backdrop'] || 'none'};
-      --bg-surface: ${skin['--bg-surface'] || 'var(--background)'};
+      --bg-surface: ${skin['--bg-surface'] || 'var(--background, #ffffff)'};
 
       /* Legacy support */
-      --box-shadow: var(--shadow-card);
+      --box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
 
       /* ========== BORDERS (from Skin) ========== */
       --border-width: ${skin['--border-width'] || '0'};
@@ -241,19 +242,19 @@ export function generateDNAStyles(dna: DNACode, palette: ColorPalette): DNAStyle
 
     /* ========== BASE TYPOGRAPHY ========== */
     body {
-      font-family: var(--font-body);
+      font-family: var(--font-body, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif);
       font-size: var(--text-body, 16px);
       line-height: 1.6;
-      color: var(--text);
-      background: var(--background);
+      color: var(--text, #111827);
+      background: var(--background, #ffffff);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
     h1, h2, h3, h4, h5, h6 {
-      font-family: var(--font-heading);
-      font-weight: var(--heading-weight);
-      letter-spacing: var(--letter-spacing);
+      font-family: var(--font-heading, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif);
+      font-weight: var(--heading-weight, 800);
+      letter-spacing: var(--letter-spacing, -0.02em);
       line-height: 1.2;
     }
 
@@ -270,7 +271,7 @@ export function generateDNAStyles(dna: DNACode, palette: ColorPalette): DNAStyle
       justify-content: center;
       gap: var(--gap-xs, 8px);
       padding: var(--btn-padding, 16px 32px);
-      font-family: var(--font-body);
+      font-family: var(--font-body, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif);
       font-size: var(--text-body, 16px);
       font-weight: 600;
       text-transform: var(--btn-text-transform, none);
@@ -287,8 +288,8 @@ export function generateDNAStyles(dna: DNACode, palette: ColorPalette): DNAStyle
     }
 
     .btn-primary {
-      background: var(--primary);
-      color: var(--white);
+      background: var(--primary, #1e5a8a);
+      color: var(--white, #ffffff);
       box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
@@ -300,36 +301,38 @@ export function generateDNAStyles(dna: DNACode, palette: ColorPalette): DNAStyle
 
     .btn-secondary {
       background: transparent;
-      color: var(--primary);
-      border: 2px solid var(--primary);
+      color: var(--primary, #1e5a8a);
+      border: 2px solid var(--primary, #1e5a8a);
     }
 
     .btn-secondary:hover {
-      background: var(--primary);
-      color: var(--white);
+      background: var(--primary, #1e5a8a);
+      color: var(--white, #ffffff);
       transform: var(--hover-transform, translateY(-2px));
     }
 
     .btn-ghost {
       background: transparent;
-      color: var(--text);
+      color: var(--text, #111827);
       border: none;
     }
 
     .btn-ghost:hover {
-      background: var(--gray-100);
+      background: var(--gray-100, #f3f4f6);
     }
 
     /* ========== DNA-AWARE CARD STYLES ========== */
-    .dna-card {
-      background: var(--bg-surface, var(--white));
+    .dna-card,
+    .card {
+      background: var(--bg-surface, var(--white, #ffffff));
       border-radius: var(--radius, 12px);
       box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
       border: var(--border-width, 0) solid var(--border-color, transparent);
       transition: transform var(--transition-duration, 0.2s) ease, box-shadow var(--transition-duration, 0.2s) ease;
     }
 
-    .dna-card:hover {
+    .dna-card:hover,
+    .card:hover {
       transform: var(--hover-transform, translateY(-2px));
       box-shadow: var(--hover-shadow, 0 8px 30px rgba(0,0,0,0.12));
     }
@@ -562,7 +565,7 @@ function getDesignOverrides(style: string): string {
   switch (style) {
     case 'brutalist':
       return `
-        .dna-card { border: 3px solid var(--text); }
+        .dna-card { border: 3px solid var(--text, #111827); }
         .dna-btn { border: 2px solid currentColor; text-transform: uppercase; }
         h1, h2, h3 { text-transform: uppercase; }
       `;
@@ -577,11 +580,11 @@ function getDesignOverrides(style: string): string {
     case 'neumorphic':
       return `
         .dna-card {
-          background: var(--gray-50);
+          background: var(--gray-50, #f9fafb);
           border: none;
         }
         .dna-btn {
-          background: var(--gray-50);
+          background: var(--gray-50, #f9fafb);
           box-shadow: 4px 4px 8px #d1d1d1, -4px -4px 8px #ffffff;
         }
       `;
@@ -589,18 +592,18 @@ function getDesignOverrides(style: string): string {
       return `
         .dna-card {
           background: transparent;
-          border: 2px solid var(--gray-200);
+          border: 2px solid var(--gray-200, #e5e7eb);
           box-shadow: none;
         }
         .dna-card:hover {
-          border-color: var(--primary);
+          border-color: var(--primary, #1e5a8a);
         }
       `;
     case 'gradient-border':
       return `
         .dna-card {
           position: relative;
-          background: var(--white);
+          background: var(--white, #ffffff);
         }
         .dna-card::before {
           content: '';
@@ -608,7 +611,7 @@ function getDesignOverrides(style: string): string {
           inset: 0;
           padding: 2px;
           border-radius: inherit;
-          background: linear-gradient(135deg, var(--primary), var(--accent));
+          background: linear-gradient(135deg, var(--primary, #1e5a8a), var(--accent, #14b8a6));
           -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
           -webkit-mask-composite: xor;
           mask-composite: exclude;
@@ -616,7 +619,7 @@ function getDesignOverrides(style: string): string {
       `;
     case 'retro':
       return `
-        .dna-card { border: 2px solid var(--text); }
+        .dna-card { border: 2px solid var(--text, #111827); }
         .dna-btn { border: 2px solid currentColor; }
         body { image-rendering: pixelated; }
       `;
@@ -657,12 +660,12 @@ export function generateTextureCSS(texture: string): string {
       return `
         .dna-texture {
           background-image:
-            radial-gradient(at 40% 20%, var(--primary) 0px, transparent 50%),
-            radial-gradient(at 80% 0%, var(--secondary) 0px, transparent 50%),
-            radial-gradient(at 0% 50%, var(--accent) 0px, transparent 50%),
-            radial-gradient(at 80% 50%, var(--primary) 0px, transparent 50%),
-            radial-gradient(at 0% 100%, var(--secondary) 0px, transparent 50%),
-            radial-gradient(at 80% 100%, var(--accent) 0px, transparent 50%);
+            radial-gradient(at 40% 20%, var(--primary, #1e5a8a) 0px, transparent 50%),
+            radial-gradient(at 80% 0%, var(--secondary, #1e40af) 0px, transparent 50%),
+            radial-gradient(at 0% 50%, var(--accent, #14b8a6) 0px, transparent 50%),
+            radial-gradient(at 80% 50%, var(--primary, #1e5a8a) 0px, transparent 50%),
+            radial-gradient(at 0% 100%, var(--secondary, #1e40af) 0px, transparent 50%),
+            radial-gradient(at 80% 100%, var(--accent, #14b8a6) 0px, transparent 50%);
           background-size: 100% 100%;
         }
       `;
@@ -670,7 +673,7 @@ export function generateTextureCSS(texture: string): string {
     case 'dots':
       return `
         .dna-texture {
-          background-image: radial-gradient(var(--gray-300) 1px, transparent 1px);
+          background-image: radial-gradient(var(--gray-300, #d1d5db) 1px, transparent 1px);
           background-size: 20px 20px;
         }
       `;
@@ -691,24 +694,24 @@ export function generateBorderCSS(border: string): string {
     case 'solid':
       return `
         .dna-bordered {
-          border: ${borderData.width} solid var(--gray-200);
+          border: ${borderData.width} solid var(--gray-200, #e5e7eb);
         }
         .dna-bordered:hover {
-          border-color: var(--primary);
+          border-color: var(--primary, #1e5a8a);
         }
       `;
 
     case 'double-offset':
       return `
         .dna-bordered {
-          border: ${borderData.width} solid var(--text);
+          border: ${borderData.width} solid var(--text, #111827);
           position: relative;
         }
         .dna-bordered::after {
           content: '';
           position: absolute;
           inset: -6px;
-          border: ${borderData.width} solid var(--primary);
+          border: ${borderData.width} solid var(--primary, #1e5a8a);
           pointer-events: none;
         }
       `;
@@ -821,15 +824,15 @@ export function generateRadiusCSS(radius: string): string {
     }
 
     .dna-card {
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-md, var(--radius, 12px));
     }
 
     .dna-btn {
-      border-radius: var(--radius-sm);
+      border-radius: var(--radius-sm, 8px);
     }
 
     .dna-section {
-      border-radius: var(--radius-lg);
+      border-radius: var(--radius-lg, 16px);
     }
   `;
 }
@@ -929,11 +932,11 @@ export function generateCompleteDNAStyles(dna: DNACode, palette: ColorPalette): 
     .section-header h2 {
       font-size: 36px;
       margin-bottom: 12px;
-      color: var(--text);
+      color: var(--text, #111827);
     }
 
     .section-header p {
-      color: var(--muted);
+      color: var(--muted, #6b7280);
       font-size: 18px;
       max-width: 600px;
       margin: 0 auto;

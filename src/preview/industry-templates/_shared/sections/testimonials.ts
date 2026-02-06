@@ -25,11 +25,11 @@ export function generateTestimonialsCSS(): string {
   return `
     .testimonials {
       padding: var(--section-spacing, 80px) 0;
-      background: var(--gray-50);
+      background: var(--gray-50, #f9fafb);
     }
 
     .testimonials-white {
-      background: var(--white);
+      background: var(--white, #ffffff);
     }
 
     .testimonials-grid {
@@ -39,23 +39,23 @@ export function generateTestimonialsCSS(): string {
     }
 
     .testimonial-card {
-      background: var(--bg-surface, var(--white));
+      background: var(--bg-surface, var(--white, #ffffff));
       border-radius: var(--radius, 12px);
       padding: var(--card-padding, 32px);
-      border: var(--border-width, 1px) solid var(--border-color, var(--gray-200));
+      border: var(--border-width, 1px) solid var(--border-color, var(--gray-200, #e5e7eb));
       box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
     .testimonial-stars {
-      color: #fbbf24;
+      color: var(--accent, #fbbf24);
       font-size: var(--text-lg, 20px);
       margin-bottom: var(--gap-sm, 16px);
-      letter-spacing: 2px;
+      letter-spacing: calc(var(--gap-xs, 8px) / 4);
     }
 
     .testimonial-text {
       font-size: var(--text-sm, 15px);
-      color: var(--muted);
+      color: var(--muted, #6b7280);
       margin-bottom: var(--gap-sm, 20px);
       font-style: italic;
       line-height: 1.7;
@@ -64,7 +64,7 @@ export function generateTestimonialsCSS(): string {
     .testimonial-text::before {
       content: '"';
       font-size: var(--text-h3, 24px);
-      color: var(--primary);
+      color: var(--primary, #1e5a8a);
       opacity: 0.3;
     }
 
@@ -77,12 +77,12 @@ export function generateTestimonialsCSS(): string {
     .testimonial-avatar {
       width: var(--avatar-size, 48px);
       height: var(--avatar-size, 48px);
-      background: var(--primary);
+      background: var(--primary, #1e5a8a);
       border-radius: var(--radius-pill, 50%);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--white);
+      color: var(--white, #ffffff);
       font-weight: 600;
       font-size: var(--text-body, 18px);
     }
@@ -94,12 +94,82 @@ export function generateTestimonialsCSS(): string {
     .testimonial-author-name {
       font-weight: 600;
       font-size: var(--text-sm, 15px);
-      color: var(--text);
+      color: var(--text, #111827);
     }
 
     .testimonial-author-location {
       font-size: var(--text-sm, 13px);
-      color: var(--muted);
+      color: var(--muted, #6b7280);
+    }
+
+    .testimonials-featured {
+      padding: calc(var(--section-spacing, 80px) * 0.75) 0;
+    }
+
+    .testimonials-featured .container-sm {
+      text-align: center;
+    }
+
+    .testimonials-featured .testimonial-stars {
+      font-size: calc(var(--text-h3, 24px) * 1.1667);
+      margin-bottom: var(--gap-md, 24px);
+    }
+
+    .testimonials-featured blockquote {
+      font-size: var(--text-h3, 24px);
+      font-style: italic;
+      color: var(--text, #111827);
+      margin-bottom: var(--gap-md, 24px);
+      line-height: 1.6;
+    }
+
+    .testimonial-featured-author {
+      font-weight: 600;
+      color: var(--primary, #1e5a8a);
+    }
+
+    .testimonial-featured-location {
+      font-size: var(--text-sm, 14px);
+      color: var(--muted, #6b7280);
+      margin-top: calc(var(--gap-xs, 8px) * 0.5);
+    }
+
+    .testimonials-slider {
+      padding: calc(var(--section-spacing, 80px) * 0.75) 0;
+    }
+
+    .testimonials-slider .container-sm {
+      text-align: center;
+    }
+
+    .testimonials-slider .testimonial-stars {
+      font-size: var(--text-h3, 24px);
+      margin-bottom: calc(var(--gap-md, 24px) * 0.8333);
+    }
+
+    .testimonials-slider .testimonial-quote {
+      font-size: var(--text-body, 18px);
+      font-style: italic;
+      color: var(--muted, #6b7280);
+      margin-bottom: calc(var(--gap-md, 24px) * 0.8333);
+    }
+
+    .testimonial-dots {
+      display: flex;
+      justify-content: center;
+      gap: var(--gap-xs, 8px);
+      margin-top: var(--gap-md, 24px);
+    }
+
+    .testimonial-dot {
+      width: calc(var(--gap-xs, 8px) * 1.25);
+      height: calc(var(--gap-xs, 8px) * 1.25);
+      border-radius: var(--radius-pill, 9999px);
+      background: var(--gray-300, #d1d5db);
+    }
+
+    .testimonial-dot.active {
+      background: var(--primary, #1e5a8a);
     }
 
     @media (max-width: 900px) {
@@ -165,7 +235,7 @@ export function generateTestimonialsGrid(config: TestimonialsConfig): string {
         </div>
         <div class="testimonials-grid">
           ${displayTestimonials.slice(0, 3).map(testimonial => `
-            <div class="testimonial-card">
+            <div class="testimonial-card card">
               ${showRating ? `<div class="testimonial-stars">${generateStars(testimonial.rating || 5)}</div>` : ''}
               <p class="testimonial-text">${escapeHtml(testimonial.text)}</p>
               <div class="testimonial-author">
@@ -188,16 +258,16 @@ export function generateTestimonialsGrid(config: TestimonialsConfig): string {
  */
 export function generateFeaturedTestimonial(testimonial: Testimonial): string {
   return `
-    <section class="testimonials testimonials-white" style="padding: 60px 0;">
-      <div class="container-sm" style="text-align: center;">
-        <div class="testimonial-stars" style="font-size: 28px; margin-bottom: 24px;">
+    <section class="testimonials testimonials-white testimonials-featured">
+      <div class="container-sm">
+        <div class="testimonial-stars">
           ${generateStars(testimonial.rating || 5)}
         </div>
-        <blockquote style="font-size: 24px; font-style: italic; color: var(--text); margin-bottom: 24px; line-height: 1.6;">
+        <blockquote>
           "${escapeHtml(testimonial.text)}"
         </blockquote>
-        <div style="font-weight: 600; color: var(--primary);">— ${escapeHtml(testimonial.author)}</div>
-        ${testimonial.location ? `<div style="font-size: 14px; color: var(--muted); margin-top: 4px;">${escapeHtml(testimonial.location)}</div>` : ''}
+        <div class="testimonial-featured-author">— ${escapeHtml(testimonial.author)}</div>
+        ${testimonial.location ? `<div class="testimonial-featured-location">${escapeHtml(testimonial.location)}</div>` : ''}
       </div>
     </section>
   `;
@@ -211,18 +281,18 @@ export function generateTestimonialSlider(testimonials: Testimonial[]): string {
   const first = testimonials[0] || { text: 'Great service!', author: 'Customer', rating: 5 };
 
   return `
-    <section class="testimonials" style="padding: 60px 0;">
-      <div class="container-sm" style="text-align: center;">
-        <div class="testimonial-stars" style="font-size: 24px; margin-bottom: 20px;">
+    <section class="testimonials testimonials-slider">
+      <div class="container-sm">
+        <div class="testimonial-stars">
           ${generateStars(first.rating || 5)}
         </div>
-        <p style="font-size: 18px; font-style: italic; color: var(--muted); margin-bottom: 20px;">
+        <p class="testimonial-quote">
           "${escapeHtml(first.text)}"
         </p>
-        <div style="font-weight: 600;">— ${escapeHtml(first.author)}</div>
-        <div style="display: flex; justify-content: center; gap: 8px; margin-top: 24px;">
+        <div class="testimonial-featured-author">— ${escapeHtml(first.author)}</div>
+        <div class="testimonial-dots">
           ${testimonials.slice(0, 5).map((_, i) => `
-            <div style="width: 10px; height: 10px; border-radius: 50%; background: ${i === 0 ? 'var(--primary)' : 'var(--gray-300)'};"></div>
+            <div class="testimonial-dot ${i === 0 ? 'active' : ''}"></div>
           `).join('')}
         </div>
       </div>

@@ -40,7 +40,7 @@ function renderStats(stats: StatItem[], variant: 'grid' | 'cards'): string {
   const items = stats.map((stat) => {
     const description = stat.description ? `<p>${escapeHtml(stat.description)}</p>` : '';
     return `
-      <div class="stat-item ${variant === 'cards' ? 'stat-card' : ''}">
+      <div class="stat-item ${variant === 'cards' ? 'stat-card card' : ''}">
         <div class="stat-value">${escapeHtml(stat.value)}</div>
         <div class="stat-label">${escapeHtml(stat.label)}</div>
         ${description}
@@ -59,16 +59,16 @@ export function generateStatsCSS(): string {
   return `
     .stats {
       padding: var(--section-spacing, 80px) 0;
-      background: var(--gray-50);
+      background: var(--gray-50, #f9fafb);
     }
 
     .stats-white {
-      background: var(--white);
+      background: var(--white, #ffffff);
     }
 
     .stats-primary {
-      background: var(--primary);
-      color: var(--white);
+      background: var(--primary, #1e5a8a);
+      color: var(--white, #ffffff);
     }
 
     .stats-primary .section-header h2,
@@ -76,18 +76,18 @@ export function generateStatsCSS(): string {
     .stats-primary .stat-value,
     .stats-primary .stat-label,
     .stats-primary .stat-item p {
-      color: var(--white);
+      color: var(--white, #ffffff);
     }
 
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(calc(var(--section-spacing, 80px) * 2), 1fr));
       gap: var(--gap-md, 24px);
     }
 
     .stats-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(calc(var(--section-spacing, 80px) * 2.75), 1fr));
       gap: var(--gap-sm, 20px);
     }
 
@@ -96,8 +96,8 @@ export function generateStatsCSS(): string {
     }
 
     .stat-card {
-      background: var(--bg-surface, var(--white));
-      border: var(--border-width, 1px) solid var(--border-color, var(--gray-200));
+      background: var(--bg-surface, var(--white, #ffffff));
+      border: var(--border-width, 1px) solid var(--border-color, var(--gray-200, #e5e7eb));
       border-radius: var(--radius-lg, 16px);
       padding: var(--gap-md, 24px);
       box-shadow: var(--shadow-card, 0 10px 24px rgba(0,0,0,0.06));
@@ -106,20 +106,20 @@ export function generateStatsCSS(): string {
     .stat-value {
       font-size: var(--text-h2, 32px);
       font-weight: 800;
-      color: var(--primary);
+      color: var(--primary, #1e5a8a);
       margin-bottom: var(--gap-xs, 6px);
     }
 
     .stat-label {
       font-size: var(--text-sm, 15px);
       font-weight: 600;
-      color: var(--text);
+      color: var(--text, #111827);
     }
 
     .stat-item p {
       margin-top: var(--gap-xs, 10px);
       font-size: var(--text-sm, 13px);
-      color: var(--muted);
+      color: var(--muted, #6b7280);
     }
   `;
 }
