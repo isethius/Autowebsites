@@ -81,7 +81,7 @@ export function generateHeroCSS(): string {
 
     /* Hero-specific button overrides for white-on-gradient look */
     .hero .btn-primary {
-      background: var(--white, #ffffff);
+      background: var(--bg-surface, var(--white, #ffffff));
       color: var(--primary, #1e5a8a);
       box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
@@ -414,7 +414,7 @@ function generateHeroH1FullWidth(config: DNAHeroConfig): SectionOutput {
 
     /* Hero-specific button overrides for white-on-gradient look */
     .hero-h1 .btn-primary {
-      background: var(--white, #ffffff);
+      background: var(--bg-surface, var(--white, #ffffff));
       color: var(--primary, #1e5a8a);
       box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
@@ -427,7 +427,7 @@ function generateHeroH1FullWidth(config: DNAHeroConfig): SectionOutput {
     .hero-h1 .btn-secondary {
       background: transparent;
       color: var(--white, #ffffff);
-      border: 2px solid var(--white, #ffffff);
+      border: var(--border-width, 2px) solid var(--white, #ffffff);
     }
 
     .hero-h1 .btn-secondary:hover {
@@ -843,7 +843,7 @@ function generateHeroH9TextOnly(config: DNAHeroConfig): SectionOutput {
 
     /* Hero-specific button overrides for white-on-dark look */
     .hero-h9 .btn-primary {
-      background: var(--white, #ffffff);
+      background: var(--bg-surface, var(--white, #ffffff));
       color: var(--text, #111827);
       box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
@@ -856,7 +856,7 @@ function generateHeroH9TextOnly(config: DNAHeroConfig): SectionOutput {
     .hero-h9 .btn-secondary {
       background: transparent;
       color: var(--white, #ffffff);
-      border: 2px solid var(--white, #ffffff);
+      border: var(--border-width, 2px) solid var(--white, #ffffff);
     }
 
     .hero-h9 .btn-secondary:hover {
@@ -1087,13 +1087,13 @@ function generateHeroH4Video(config: DNAHeroConfig): SectionOutput {
       justify-content: center;
     }
     .hero-h4 .btn-primary {
-      background: var(--white, #ffffff);
+      background: var(--bg-surface, var(--white, #ffffff));
       color: var(--primary, #1e5a8a);
     }
     .hero-h4 .btn-secondary {
       background: transparent;
       color: var(--white, #ffffff);
-      border: 2px solid var(--white, #ffffff);
+      border: var(--border-width, 2px) solid var(--white, #ffffff);
     }
     @media (max-width: 768px) {
       .hero-h4 h1 { font-size: var(--text-h2, 40px); }
@@ -1167,12 +1167,12 @@ function generateHeroH5GradientOverlay(config: DNAHeroConfig): SectionOutput {
       gap: var(--gap-sm, 16px);
     }
     .hero-h5 .btn-primary {
-      background: var(--white, #ffffff);
+      background: var(--bg-surface, var(--white, #ffffff));
       color: var(--primary, #1e5a8a);
     }
     .hero-h5 .btn-secondary {
       color: var(--white, #ffffff);
-      border: 2px solid var(--white, #ffffff);
+      border: var(--border-width, 2px) solid var(--white, #ffffff);
     }
     .hero-h5-visual {
       aspect-ratio: 4/3;
@@ -1288,7 +1288,7 @@ function generateHeroH6Animated(config: DNAHeroConfig): SectionOutput {
     }
     .hero-h6 .btn-secondary {
       color: var(--white, #ffffff);
-      border: 2px solid var(--white, #ffffff);
+      border: var(--border-width, 2px) solid var(--white, #ffffff);
     }
     @media (max-width: 768px) {
       .hero-h6 h1 { font-size: var(--text-h2, 40px); }
@@ -1373,15 +1373,15 @@ function generateHeroH7Carousel(config: DNAHeroConfig): SectionOutput {
       background: rgba(255,255,255,0.4);
     }
     .hero-h7-dot.active {
-      background: var(--white, #ffffff);
+      background: var(--bg-surface, var(--white, #ffffff));
     }
     .hero-h7 .btn-primary {
-      background: var(--white, #ffffff);
+      background: var(--bg-surface, var(--white, #ffffff));
       color: var(--primary, #1e5a8a);
     }
     .hero-h7 .btn-secondary {
       color: var(--white, #ffffff);
-      border: 2px solid var(--white, #ffffff);
+      border: var(--border-width, 2px) solid var(--white, #ffffff);
     }
     @media (max-width: 768px) {
       .hero-h7 h1 { font-size: var(--text-h2, 40px); }

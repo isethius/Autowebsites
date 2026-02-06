@@ -60,7 +60,7 @@ function generateNavN1Fixed(config: NavConfig): SectionOutput {
 
   const css = `
     .nav-n1 {
-      background: var(--white, #ffffff);
+      background: var(--bg-surface, var(--white, #ffffff));
       padding: var(--nav-padding, 24px 0);
       border-bottom: var(--border-width, 1px) solid var(--border-color, var(--gray-200, #e5e7eb));
       position: sticky;
@@ -172,7 +172,7 @@ function generateNavN2Transparent(config: NavConfig): SectionOutput {
 
     /* Nav CTA uses global .btn styles with white variant */
     .nav-n2 .btn {
-      background: var(--white, #ffffff);
+      background: var(--bg-surface, var(--white, #ffffff));
       color: var(--primary, #1e5a8a);
       text-decoration: none;
     }
@@ -216,7 +216,7 @@ function generateNavN4Sidebar(config: NavConfig): SectionOutput {
       top: 0;
       bottom: 0;
       width: calc(var(--section-spacing, 80px) * 3.5);
-      background: var(--white, #ffffff);
+      background: var(--bg-surface, var(--white, #ffffff));
       border-right: var(--border-width, 1px) solid var(--border-color, var(--gray-200, #e5e7eb));
       padding: var(--card-padding, 40px) var(--gap-md, 30px);
       display: flex;
@@ -250,7 +250,7 @@ function generateNavN4Sidebar(config: NavConfig): SectionOutput {
     }
 
     .nav-n4-links a:hover {
-      background: var(--gray-50, #f9fafb);
+      background: var(--bg-surface, var(--gray-50, #f9fafb));
       color: var(--primary, #1e5a8a);
     }
 
