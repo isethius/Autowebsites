@@ -3,8 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sterling & Associates</title>
-  <meta name="description" content="Sterling & Associates delivers expert lawyer services with transparent pricing and fast response times.">
+  <title>Sterling &amp; Associates | Legal Services - Phoenix, AZ</title>
+<meta name="description" content="Sterling &amp; Associates delivers expert lawyer services with transparent pricing and fast response times.">
+<meta property="og:title" content="Sterling &amp; Associates | Legal Services - Phoenix, AZ">
+<meta property="og:description" content="Sterling &amp; Associates delivers expert lawyer services with transparent pricing and fast response times.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Sterling &amp; Associates">
+<meta property="og:locale" content="en_US">
+<meta property="og:image:alt" content="Sterling &amp; Associates">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Sterling &amp; Associates | Legal Services - Phoenix, AZ">
+<meta name="twitter:description" content="Sterling &amp; Associates delivers expert lawyer services with transparent pricing and fast response times.">
+<meta name="twitter:image:alt" content="Sterling &amp; Associates">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "LegalService",
+  "name": "Sterling & Associates",
+  "description": "Sterling & Associates delivers expert lawyer services with transparent pricing and fast response times.",
+  "telephone": "(555) 219-4021",
+  "email": "hello@lawyer.example.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Phoenix",
+    "addressRegion": "AZ"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "(555) 219-4021",
+    "email": "hello@lawyer.example.com",
+    "contactType": "customer service"
+  }
+}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
@@ -17,9 +46,9 @@
     }
 
     :root {
-      --primary: #1f3b61;
-      --secondary: #2b2857;
-      --accent: #25575b;
+      --primary: #314968;
+      --secondary: #3f3c5d;
+      --accent: #395e60;
       --background: #fafafa;
       --text: #252628;
       --muted: #6f7276;
@@ -137,11 +166,114 @@
     }
   
     
+    /* Skin Variables for D4 */
+    :root {
+  --radius: 24px;
+  --radius-sm: 16px;
+  --radius-lg: 32px;
+  --radius-pill: 9999px;
+  --shadow-card: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+  --backdrop: none;
+  --bg-surface: var(--background);
+  --border-width: 0;
+  --border-color: transparent;
+  --section-spacing: 140px;
+  --card-padding: 40px;
+  --btn-padding: 16px 32px;
+  --btn-padding-sm: 12px 24px;
+  --nav-padding: 24px 0;
+  --footer-spacing: 100px 0 40px;
+  --gap-xs: 8px;
+  --gap-sm: 16px;
+  --gap-md: 24px;
+  --gap-lg: 40px;
+  --gap-xl: 60px;
+  --text-h1: 48px;
+  --text-h2: 36px;
+  --text-h3: 28px;
+  --text-h4: 24px;
+  --text-body: 16px;
+  --text-lg: 20px;
+  --text-sm: 14px;
+  --icon-size: 56px;
+  --avatar-size: 52px;
+  --btn-text-transform: none;
+}
+
+    /* Skin Overrides */
+    
+    /* Soft Card Effect */
+    .dna-card,
+    .service-card,
+    .testimonial-card {
+      background: var(--white);
+      border: none;
+      box-shadow: var(--shadow-card, 0 20px 40px -10px rgba(0, 0, 0, 0.1));
+    }
+
+    .dna-card:hover,
+    .service-card:hover,
+    .testimonial-card:hover {
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.15);
+      transform: translateY(-6px);
+    }
+
+    /* Soft Buttons */
+    .btn-primary {
+      box-shadow: 0 8px 20px -4px var(--primary);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 12px 28px -4px var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: var(--gray-100);
+      color: var(--text);
+      border: none;
+    }
+
+    .btn-secondary:hover {
+      background: var(--gray-200);
+    }
+
+    /* Soft Icons */
+    .card-icon,
+    .service-icon {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: 0 8px 20px -4px var(--primary);
+    }
+
+    /* Soft Form Inputs */
+    input,
+    textarea,
+    select {
+      background: var(--gray-50);
+      border: 2px solid transparent;
+      border-radius: var(--radius-sm, 16px);
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      background: var(--white);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(var(--primary-rgb, 59, 130, 246), 0.1);
+    }
+
+    /* Soft Images */
+    img {
+      border-radius: var(--radius, 24px);
+    }
+  
+  
+    
     :root {
       /* ========== COLOR PALETTE ========== */
-      --primary: #1f3b61;
-      --secondary: #2b2857;
-      --accent: #25575b;
+      --primary: #314968;
+      --secondary: #3f3c5d;
+      --accent: #395e60;
       --background: #fafafa;
       --text: #252628;
       --muted: #6f7276;
@@ -182,12 +314,12 @@
       --letter-spacing: 0;
 
       /* ========== SPACING SCALE ========== */
-      --section-spacing: 80px;
-      --card-padding: 32px;
+      --section-spacing: 140px;
+      --card-padding: 40px;
       --btn-padding: 16px 32px;
       --btn-padding-sm: 12px 24px;
-      --nav-padding: 16px 0;
-      --footer-spacing: 60px 0 30px;
+      --nav-padding: 24px 0;
+      --footer-spacing: 100px 0 40px;
 
       /* Gap Scale */
       --gap-xs: 8px;
@@ -199,13 +331,14 @@
       /* ========== RADIUS SCALE (from Skin) ========== */
       --radius: 24px;
       --radius-sm: 16px;
+      --radius-md: 24px;
       --radius-lg: 32px;
       --radius-pill: 9999px;
 
       /* Legacy support */
-      --border-radius: var(--radius);
-      --border-radius-sm: var(--radius-sm);
-      --border-radius-lg: var(--radius-lg);
+      --border-radius: var(--radius, 12px);
+      --border-radius-sm: var(--radius-sm, 8px);
+      --border-radius-lg: var(--radius-lg, 16px);
 
       /* ========== SHADOWS & EFFECTS (from Skin) ========== */
       --shadow-card: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
@@ -213,7 +346,7 @@
       --bg-surface: var(--background);
 
       /* Legacy support */
-      --box-shadow: var(--shadow-card);
+      --box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
 
       /* ========== BORDERS (from Skin) ========== */
       --border-width: 0;
@@ -229,27 +362,27 @@
       /* ========== MOTION DNA (M1-M3) ========== */
       --transition-duration: 0.2s;
       --hover-transform: translateY(-4px);
-      --hover-shadow: 0 16px 48px rgba(0,0,0,0.15);
+      --hover-shadow: none;
 
       /* Design Style Tag (for debugging) */
-      --design-style: 'soft';
+      --design-style: 'flat';
     }
 
     /* ========== BASE TYPOGRAPHY ========== */
     body {
-      font-family: var(--font-body);
+      font-family: var(--font-body, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif);
       font-size: var(--text-body, 16px);
       line-height: 1.6;
-      color: var(--text);
-      background: var(--background);
+      color: var(--text, #111827);
+      background: var(--background, #ffffff);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
     h1, h2, h3, h4, h5, h6 {
-      font-family: var(--font-heading);
-      font-weight: var(--heading-weight);
-      letter-spacing: var(--letter-spacing);
+      font-family: var(--font-heading, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif);
+      font-weight: var(--heading-weight, 800);
+      letter-spacing: var(--letter-spacing, -0.02em);
       line-height: 1.2;
     }
 
@@ -266,7 +399,7 @@
       justify-content: center;
       gap: var(--gap-xs, 8px);
       padding: var(--btn-padding, 16px 32px);
-      font-family: var(--font-body);
+      font-family: var(--font-body, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif);
       font-size: var(--text-body, 16px);
       font-weight: 600;
       text-transform: var(--btn-text-transform, none);
@@ -283,8 +416,8 @@
     }
 
     .btn-primary {
-      background: var(--primary);
-      color: var(--white);
+      background: var(--primary, #1e5a8a);
+      color: var(--white, #ffffff);
       box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
@@ -296,36 +429,38 @@
 
     .btn-secondary {
       background: transparent;
-      color: var(--primary);
-      border: 2px solid var(--primary);
+      color: var(--primary, #1e5a8a);
+      border: 2px solid var(--primary, #1e5a8a);
     }
 
     .btn-secondary:hover {
-      background: var(--primary);
-      color: var(--white);
+      background: var(--primary, #1e5a8a);
+      color: var(--white, #ffffff);
       transform: var(--hover-transform, translateY(-2px));
     }
 
     .btn-ghost {
       background: transparent;
-      color: var(--text);
+      color: var(--text, #111827);
       border: none;
     }
 
     .btn-ghost:hover {
-      background: var(--gray-100);
+      background: var(--gray-100, #f3f4f6);
     }
 
     /* ========== DNA-AWARE CARD STYLES ========== */
-    .dna-card {
-      background: var(--bg-surface, var(--white));
+    .dna-card,
+    .card {
+      background: var(--bg-surface, var(--white, #ffffff));
       border-radius: var(--radius, 12px);
       box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
       border: var(--border-width, 0) solid var(--border-color, transparent);
       transition: transform var(--transition-duration, 0.2s) ease, box-shadow var(--transition-duration, 0.2s) ease;
     }
 
-    .dna-card:hover {
+    .dna-card:hover,
+    .card:hover {
       transform: var(--hover-transform, translateY(-2px));
       box-shadow: var(--hover-shadow, 0 8px 30px rgba(0,0,0,0.12));
     }
@@ -421,10 +556,32 @@
     
   
     
+    
+    
+    .page-texture {
+      position: relative;
+    }
+
+    .page-texture::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'240'%20height%3D'240'%20viewBox%3D'0%200%20240%20240'%3E%20%3Cfilter%20id%3D'paper'%3E%20%3CfeTurbulence%20type%3D'fractalNoise'%20baseFrequency%3D'0.35'%20numOctaves%3D'2'%20seed%3D'3'%20result%3D'noise'%2F%3E%20%3CfeColorMatrix%20type%3D'saturate'%20values%3D'0'%2F%3E%20%3CfeComponentTransfer%3E%20%3CfeFuncA%20type%3D'table'%20tableValues%3D'0%200.6'%2F%3E%20%3C%2FfeComponentTransfer%3E%20%3C%2Ffilter%3E%20%3Crect%20width%3D'100%25'%20height%3D'100%25'%20filter%3D'url(%23paper)'%20opacity%3D'0.85'%2F%3E%20%3C%2Fsvg%3E");
+      background-repeat: repeat;
+      background-size: 260px 260px;
+      opacity: 0.055999999999999994;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+      z-index: 9999;
+    }
+  
+    
     .nav-n1 {
-      background: var(--white);
-      padding: var(--nav-padding, 16px) 0;
-      border-bottom: var(--border-width, 1px) solid var(--border-color, var(--gray-200));
+      background: var(--bg-surface, var(--white, #ffffff));
+      padding: var(--nav-padding, 24px 0);
+      border-bottom: var(--border-width, 1px) solid var(--border-color, var(--gray-200, #e5e7eb));
+      backdrop-filter: var(--backdrop, none);
+      -webkit-backdrop-filter: var(--backdrop, none);
       position: sticky;
       top: 0;
       z-index: 100;
@@ -439,7 +596,7 @@
     .nav-n1-logo {
       font-size: var(--text-h4, 24px);
       font-weight: 800;
-      color: var(--primary);
+      color: var(--primary, #1e5a8a);
       text-decoration: none;
     }
 
@@ -449,7 +606,7 @@
     }
 
     .nav-n1-links a {
-      color: var(--text);
+      color: var(--text, #111827);
       text-decoration: none;
       font-weight: 500;
       font-size: var(--text-sm, 15px);
@@ -457,7 +614,7 @@
     }
 
     .nav-n1-links a:hover {
-      color: var(--primary);
+      color: var(--primary, #1e5a8a);
     }
 
     /* Nav CTA uses global .btn styles */
@@ -471,8 +628,8 @@
   
 
     .hero-h1 {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: var(--white);
+      background: linear-gradient(135deg, var(--primary, #1e5a8a) 0%, var(--secondary, #1e40af) 100%);
+      color: var(--white, #ffffff);
       padding: var(--section-spacing, 100px) 0;
       min-height: 70vh;
       display: flex;
@@ -507,20 +664,20 @@
 
     /* Hero-specific button overrides for white-on-gradient look */
     .hero-h1 .btn-primary {
-      background: var(--white);
-      color: var(--primary);
+      background: var(--bg-surface, var(--white, #ffffff));
+      color: var(--primary, #1e5a8a);
       box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
     .hero-h1 .btn-primary:hover {
       transform: var(--hover-transform, translateY(-3px));
-      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      box-shadow: var(--hover-shadow, 0 12px 30px rgba(0,0,0,0.2));
     }
 
     .hero-h1 .btn-secondary {
       background: transparent;
-      color: var(--white);
-      border: 2px solid var(--white);
+      color: var(--white, #ffffff);
+      border: var(--border-width, 2px) solid var(--white, #ffffff);
     }
 
     .hero-h1 .btn-secondary:hover {
@@ -543,8 +700,8 @@
     }
 
     .hero-h1 .trust-icon {
-      width: 36px;
-      height: 36px;
+      width: calc(var(--icon-size, 56px) * 0.6429);
+      height: calc(var(--icon-size, 56px) * 0.6429);
       background: rgba(255,255,255,0.2);
       border-radius: var(--radius-pill, 50%);
       display: flex;
@@ -555,11 +712,11 @@
     .hero-h1-image {
       background: rgba(255,255,255,0.1);
       border-radius: var(--radius, 12px);
-      height: 450px;
+      height: calc(var(--section-spacing, 80px) * 5.625);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 64px;
+      font-size: calc(var(--text-h1, 48px) * 1.3333);
     }
 
     @media (max-width: 900px) {
@@ -570,41 +727,35 @@
     }
   
 
+      .section-placeholder {
+        padding: 60px 0;
+        background: var(--gray-50);
+        text-align: center;
+      }
+    
+
     .services-l3 {
       padding: var(--section-spacing, 80px) 0;
     }
 
-    .services-bg-gray { background: var(--gray-50); }
-    .services-bg-white { background: var(--white); }
-    .services-bg-primary { background: var(--primary); color: var(--white); }
+    .services-bg-gray { background: var(--gray-50, #f9fafb); }
+    .services-bg-white { background: var(--white, #ffffff); }
+    .services-bg-primary { background: var(--primary, #1e5a8a); color: var(--white, #ffffff); }
 
     .services-l3-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(calc(var(--section-spacing, 80px) * 3.5), 1fr));
       gap: var(--gap-md, 24px);
     }
 
     .services-l3-card {
-      background: var(--bg-surface, var(--white));
-      border-radius: var(--radius, 12px);
       padding: var(--card-padding, 32px);
-      transition: all var(--transition-duration, 0.2s) ease;
-      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
-    }
-
-    .services-bg-gray .services-l3-card {
-      border: var(--border-width, 1px) solid var(--border-color, var(--gray-200));
-    }
-
-    .services-l3-card:hover {
-      transform: var(--hover-transform, translateY(-4px));
-      box-shadow: var(--hover-shadow, 0 12px 40px rgba(0,0,0,0.1));
     }
 
     .services-l3-icon {
       width: var(--icon-size, 56px);
       height: var(--icon-size, 56px);
-      background: var(--primary);
+      background: var(--primary, #1e5a8a);
       border-radius: var(--radius, 12px);
       display: flex;
       align-items: center;
@@ -616,30 +767,23 @@
     .services-l3-card h3 {
       font-size: var(--text-lg, 20px);
       margin-bottom: var(--gap-xs, 12px);
-      color: var(--text);
+      color: var(--text, #111827);
     }
 
     .services-l3-card p {
-      color: var(--muted);
+      color: var(--muted, #6b7280);
       font-size: var(--text-sm, 15px);
       line-height: 1.6;
     }
   
 
-      .section-placeholder {
-        padding: 60px 0;
-        background: var(--gray-50);
-        text-align: center;
-      }
-    
-
     .testimonials {
       padding: var(--section-spacing, 80px) 0;
-      background: var(--gray-50);
+      background: var(--gray-50, #f9fafb);
     }
 
     .testimonials-white {
-      background: var(--white);
+      background: var(--white, #ffffff);
     }
 
     .testimonials-grid {
@@ -649,23 +793,19 @@
     }
 
     .testimonial-card {
-      background: var(--bg-surface, var(--white));
-      border-radius: var(--radius, 12px);
       padding: var(--card-padding, 32px);
-      border: var(--border-width, 1px) solid var(--border-color, var(--gray-200));
-      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
     .testimonial-stars {
-      color: #fbbf24;
+      color: var(--accent, #fbbf24);
       font-size: var(--text-lg, 20px);
       margin-bottom: var(--gap-sm, 16px);
-      letter-spacing: 2px;
+      letter-spacing: calc(var(--gap-xs, 8px) / 4);
     }
 
     .testimonial-text {
       font-size: var(--text-sm, 15px);
-      color: var(--muted);
+      color: var(--muted, #6b7280);
       margin-bottom: var(--gap-sm, 20px);
       font-style: italic;
       line-height: 1.7;
@@ -674,7 +814,7 @@
     .testimonial-text::before {
       content: '"';
       font-size: var(--text-h3, 24px);
-      color: var(--primary);
+      color: var(--primary, #1e5a8a);
       opacity: 0.3;
     }
 
@@ -687,12 +827,12 @@
     .testimonial-avatar {
       width: var(--avatar-size, 48px);
       height: var(--avatar-size, 48px);
-      background: var(--primary);
+      background: var(--primary, #1e5a8a);
       border-radius: var(--radius-pill, 50%);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--white);
+      color: var(--white, #ffffff);
       font-weight: 600;
       font-size: var(--text-body, 18px);
     }
@@ -704,12 +844,82 @@
     .testimonial-author-name {
       font-weight: 600;
       font-size: var(--text-sm, 15px);
-      color: var(--text);
+      color: var(--text, #111827);
     }
 
     .testimonial-author-location {
       font-size: var(--text-sm, 13px);
-      color: var(--muted);
+      color: var(--muted, #6b7280);
+    }
+
+    .testimonials-featured {
+      padding: calc(var(--section-spacing, 80px) * 0.75) 0;
+    }
+
+    .testimonials-featured .container-sm {
+      text-align: center;
+    }
+
+    .testimonials-featured .testimonial-stars {
+      font-size: calc(var(--text-h3, 24px) * 1.1667);
+      margin-bottom: var(--gap-md, 24px);
+    }
+
+    .testimonials-featured blockquote {
+      font-size: var(--text-h3, 24px);
+      font-style: italic;
+      color: var(--text, #111827);
+      margin-bottom: var(--gap-md, 24px);
+      line-height: 1.6;
+    }
+
+    .testimonial-featured-author {
+      font-weight: 600;
+      color: var(--primary, #1e5a8a);
+    }
+
+    .testimonial-featured-location {
+      font-size: var(--text-sm, 14px);
+      color: var(--muted, #6b7280);
+      margin-top: calc(var(--gap-xs, 8px) * 0.5);
+    }
+
+    .testimonials-slider {
+      padding: calc(var(--section-spacing, 80px) * 0.75) 0;
+    }
+
+    .testimonials-slider .container-sm {
+      text-align: center;
+    }
+
+    .testimonials-slider .testimonial-stars {
+      font-size: var(--text-h3, 24px);
+      margin-bottom: calc(var(--gap-md, 24px) * 0.8333);
+    }
+
+    .testimonials-slider .testimonial-quote {
+      font-size: var(--text-body, 18px);
+      font-style: italic;
+      color: var(--muted, #6b7280);
+      margin-bottom: calc(var(--gap-md, 24px) * 0.8333);
+    }
+
+    .testimonial-dots {
+      display: flex;
+      justify-content: center;
+      gap: var(--gap-xs, 8px);
+      margin-top: var(--gap-md, 24px);
+    }
+
+    .testimonial-dot {
+      width: calc(var(--gap-xs, 8px) * 1.25);
+      height: calc(var(--gap-xs, 8px) * 1.25);
+      border-radius: var(--radius-pill, 9999px);
+      background: var(--gray-300, #d1d5db);
+    }
+
+    .testimonial-dot.active {
+      background: var(--primary, #1e5a8a);
     }
 
     @media (max-width: 900px) {
@@ -726,122 +936,11 @@
       }
     
 
-    .contact {
-      padding: var(--section-spacing, 80px) 0;
-      background: var(--white);
-    }
-
-    .contact-content {
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: var(--gap-xl, 60px);
-    }
-
-    .contact-info h2 {
-      font-size: var(--text-h2, 36px);
-      font-weight: 800;
-      margin-bottom: var(--gap-sm, 20px);
-    }
-
-    .contact-info > p {
-      color: var(--muted);
-      margin-bottom: var(--gap-md, 32px);
-      font-size: var(--text-body, 16px);
-      line-height: 1.6;
-    }
-
-    .contact-details {
-      display: flex;
-      flex-direction: column;
-      gap: var(--gap-sm, 20px);
-    }
-
-    .contact-item {
-      display: flex;
-      align-items: flex-start;
-      gap: var(--gap-sm, 16px);
-    }
-
-    .contact-item-icon {
-      width: var(--avatar-size, 48px);
-      height: var(--avatar-size, 48px);
-      background: var(--gray-100);
-      border-radius: var(--radius-sm, 10px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: var(--text-lg, 20px);
-      flex-shrink: 0;
-    }
-
-    .contact-item-content {
-      flex: 1;
-    }
-
-    .contact-item-content strong {
-      display: block;
-      margin-bottom: var(--gap-xs, 4px);
-      font-size: var(--text-sm, 14px);
-    }
-
-    .contact-item-content a,
-    .contact-item-content span {
-      color: var(--muted);
-      font-size: var(--text-sm, 15px);
-    }
-
-    .contact-item-content a:hover {
-      color: var(--primary);
-    }
-
-    .contact-form-wrapper {
-      background: var(--gray-50);
-      border-radius: var(--radius, 12px);
-      padding: var(--card-padding, 40px);
-    }
-
-    .contact-form-wrapper h3 {
-      font-size: var(--text-lg, 20px);
-      font-weight: 700;
-      margin-bottom: var(--gap-md, 24px);
-    }
-
-    /* Form inputs */
-    .contact-form-wrapper input,
-    .contact-form-wrapper textarea,
-    .contact-form-wrapper select {
-      width: 100%;
-      padding: var(--btn-padding-sm, 12px 16px);
-      border: var(--border-width, 1px) solid var(--border-color, var(--gray-300));
-      border-radius: var(--radius-sm, 8px);
-      font-size: var(--text-body, 16px);
-      margin-bottom: var(--gap-sm, 16px);
-      transition: border-color 0.2s ease;
-    }
-
-    .contact-form-wrapper input:focus,
-    .contact-form-wrapper textarea:focus,
-    .contact-form-wrapper select:focus {
-      outline: none;
-      border-color: var(--primary);
-    }
-
-    /* Use global .btn instead of custom .submit-btn */
-    .contact-form-wrapper .btn {
-      width: 100%;
-    }
-
-    @media (max-width: 900px) {
-      .contact-content {
-        grid-template-columns: 1fr;
-      }
-    }
-  
 
     footer {
-      background: var(--gray-800);
-      color: var(--white);
-      padding: var(--footer-spacing, 60px) 0 var(--gap-md, 30px);
+      background: var(--gray-800, #1f2937);
+      color: var(--white, #ffffff);
+      padding: var(--footer-spacing, 100px 0 40px);
     }
 
     .footer-content {
@@ -853,7 +952,7 @@
     }
 
     .footer-brand {
-      max-width: 350px;
+      max-width: calc(var(--section-spacing, 140px) * 4.375);
     }
 
     .footer-brand h3 {
@@ -863,7 +962,7 @@
     }
 
     .footer-brand p {
-      color: var(--gray-400);
+      color: var(--gray-400, #9ca3af);
       font-size: var(--text-sm, 14px);
       line-height: 1.6;
     }
@@ -871,7 +970,7 @@
     .footer-license {
       margin-top: var(--gap-sm, 16px);
       font-size: var(--text-sm, 13px);
-      color: var(--gray-400);
+      color: var(--gray-400, #9ca3af);
     }
 
     .footer-links {
@@ -880,13 +979,13 @@
     }
 
     .footer-links a {
-      color: var(--gray-400);
+      color: var(--gray-400, #9ca3af);
       font-size: var(--text-sm, 14px);
       transition: color 0.2s;
     }
 
     .footer-links a:hover {
-      color: var(--white);
+      color: var(--white, #ffffff);
     }
 
     .footer-contact {
@@ -896,7 +995,7 @@
     }
 
     .footer-contact a {
-      color: var(--gray-400);
+      color: var(--gray-400, #9ca3af);
       font-size: var(--text-sm, 14px);
       display: flex;
       align-items: center;
@@ -905,7 +1004,12 @@
     }
 
     .footer-contact a:hover {
-      color: var(--white);
+      color: var(--white, #ffffff);
+    }
+
+    .footer-location {
+      color: var(--gray-400, #9ca3af);
+      font-size: var(--text-sm, 14px);
     }
 
     .footer-social {
@@ -917,7 +1021,7 @@
     .footer-social a {
       width: var(--avatar-size, 40px);
       height: var(--avatar-size, 40px);
-      background: var(--gray-700);
+      background: var(--gray-700, #374151);
       border-radius: var(--radius-sm, 8px);
       display: flex;
       align-items: center;
@@ -927,26 +1031,58 @@
     }
 
     .footer-social a:hover {
-      background: var(--primary);
+      background: var(--primary, #1e5a8a);
     }
 
     .footer-bottom {
       padding-top: var(--gap-md, 30px);
-      border-top: var(--border-width, 1px) solid var(--gray-700);
+      border-top: var(--border-width, 1px) solid var(--gray-700, #374151);
       display: flex;
       justify-content: space-between;
-      color: var(--gray-400);
+      color: var(--gray-400, #9ca3af);
       font-size: var(--text-sm, 13px);
       flex-wrap: wrap;
       gap: var(--gap-sm, 16px);
     }
 
     .footer-bottom a {
-      color: var(--accent);
+      color: var(--accent, #14b8a6);
     }
 
     .footer-bottom a:hover {
-      color: var(--white);
+      color: var(--white, #ffffff);
+    }
+
+    .footer-minimal {
+      padding: calc(var(--section-spacing, 140px) * 0.5) 0;
+      text-align: center;
+    }
+
+    .footer-minimal-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: var(--gap-sm, 16px);
+      margin-bottom: calc(var(--gap-md, 24px) * 0.8333);
+    }
+
+    .footer-minimal-bottom {
+      justify-content: center;
+      border: none;
+      padding-top: 0;
+      text-align: center;
+    }
+
+    .footer-compact {
+      background: var(--gray-800, #1f2937);
+      color: var(--gray-400, #9ca3af);
+      padding: var(--gap-md, 24px) 0;
+      text-align: center;
+      font-size: var(--text-sm, 13px);
+    }
+
+    .footer-compact a {
+      color: var(--accent, #14b8a6);
     }
 
     @media (max-width: 768px) {
@@ -967,7 +1103,7 @@
   
   </style>
 </head>
-<body>
+<body class="page-texture">
   
     <header class="nav-n1">
       <div class="container nav-n1-content">
@@ -1018,6 +1154,14 @@
     </section>
   
 
+      <section id="about" class="section-placeholder">
+        <div class="container">
+          <h2>About</h2>
+          <p>Section: about</p>
+        </div>
+      </section>
+    
+
     <section class="dna-fade-in" id="services" class="services-l3 services-bg-gray dna-animate">
       <div class="container">
         <div class="section-header">
@@ -1026,7 +1170,7 @@
         </div>
         <div class="services-l3-grid">
           
-            <div class="services-l3-card dna-card">
+            <div class="services-l3-card dna-card card">
               <div class="services-l3-icon">
                 ⭐
               </div>
@@ -1034,7 +1178,7 @@
               <p>Our signature offering built for results and reliability.</p>
             </div>
           
-            <div class="services-l3-card dna-card">
+            <div class="services-l3-card dna-card card">
               <div class="services-l3-icon">
                 📋
               </div>
@@ -1042,7 +1186,7 @@
               <p>Clear guidance and planning tailored to your needs.</p>
             </div>
           
-            <div class="services-l3-card dna-card">
+            <div class="services-l3-card dna-card card">
               <div class="services-l3-icon">
                 ⭐
               </div>
@@ -1055,14 +1199,6 @@
     </section>
   
 
-      <section id="about" class="section-placeholder">
-        <div class="container">
-          <h2>About</h2>
-          <p>Section: about</p>
-        </div>
-      </section>
-    
-
     <section class="dna-fade-in" id="testimonials" class="testimonials ">
       <div class="container">
         <div class="section-header">
@@ -1071,7 +1207,7 @@
         </div>
         <div class="testimonials-grid">
           
-            <div class="testimonial-card">
+            <div class="testimonial-card card">
               <div class="testimonial-stars">★★★★★</div>
               <p class="testimonial-text">Outstanding experience from start to finish.</p>
               <div class="testimonial-author">
@@ -1083,7 +1219,7 @@
               </div>
             </div>
           
-            <div class="testimonial-card">
+            <div class="testimonial-card card">
               <div class="testimonial-stars">★★★★★</div>
               <p class="testimonial-text">Professional, responsive, and easy to work with.</p>
               <div class="testimonial-author">
@@ -1095,7 +1231,7 @@
               </div>
             </div>
           
-            <div class="testimonial-card">
+            <div class="testimonial-card card">
               <div class="testimonial-stars">★★★★★</div>
               <p class="testimonial-text">The quality and attention to detail were exceptional.</p>
               <div class="testimonial-author">
@@ -1120,101 +1256,27 @@
       </section>
     
 
-    <section id="contact" class="contact">
-      <div class="container contact-content">
-        <div class="contact-info">
-          <h2>Schedule a Consultation</h2>
-          <p>We&#039;d love to hear from you. Reach out today!</p>
-          <div class="contact-details">
-            
-              <div class="contact-item">
-                <div class="contact-item-icon">📞</div>
-                <div class="contact-item-content">
-                  <strong>Call Us</strong>
-                  <a href="tel:(555) 219-4021">(555) 219-4021</a>
-                </div>
-              </div>
-            
-            
-              <div class="contact-item">
-                <div class="contact-item-icon">✉️</div>
-                <div class="contact-item-content">
-                  <strong>Email Us</strong>
-                  <a href="mailto:hello@lawyer.example.com">hello@lawyer.example.com</a>
-                </div>
-              </div>
-            
-            
-              <div class="contact-item">
-                <div class="contact-item-icon">📍</div>
-                <div class="contact-item-content">
-                  <strong>Location</strong>
-                  <span>123 Main Street, Phoenix, AZ</span>
-                </div>
-              </div>
-            
-            
-          </div>
-        </div>
-        <div class="contact-form-wrapper">
-          <h3>Send Us a Message</h3>
-          <form action="#" method="POST">
-            
-    <div class="form-row">
-      <div class="form-group">
-        <label for="name">Your Name</label>
-        <input type="text" id="name" name="name" required placeholder="John Smith">
-      </div>
-      <div class="form-group">
-        <label for="phone">Phone Number</label>
-        <input type="tel" id="phone" name="phone" required placeholder="(555) 123-4567">
-      </div>
+    <div style="display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; padding: 20px; background: var(--gray-100); font-size: 14px;">
+      <a href="tel:(555) 219-4021" style="display: flex; align-items: center; gap: 8px;">📞 (555) 219-4021</a>
+      <a href="mailto:hello@lawyer.example.com" style="display: flex; align-items: center; gap: 8px;">✉️ hello@lawyer.example.com</a>
+      <span style="display: flex; align-items: center; gap: 8px;">📍 Phoenix, AZ</span>
     </div>
-  
-    <div class="form-group">
-      <label for="email">Email Address</label>
-      <input type="email" id="email" name="email" placeholder="john@example.com">
-    </div>
-  
-    <div class="form-group">
-      <label for="message">Message</label>
-      <textarea id="message" name="message" placeholder="How can we help you?"></textarea>
-    </div>
-  
-            <button type="submit" class="submit-btn">Send Message</button>
-          </form>
-        </div>
-      </div>
-    </section>
   
 
-    <footer>
+    <footer class="footer-minimal">
       <div class="container">
-        <div class="footer-content">
-          <div class="footer-brand">
-            <h3>Sterling &amp; Associates</h3>
-            <p>Your trusted local experts. Contact us today for professional service.</p>
-            
-            
-          </div>
-
-          <div class="footer-links">
-            <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
-          </div>
-
-          <div class="footer-contact">
-            <a href="tel:(555) 219-4021">📞 (555) 219-4021</a>
-            <a href="mailto:hello@lawyer.example.com">✉️ hello@lawyer.example.com</a>
-            <span style="color: var(--gray-400); font-size: 14px;">📍 Phoenix, AZ</span>
-          </div>
+        <div class="footer-minimal-links">
+          <a href="tel:(555) 219-4021">📞 (555) 219-4021</a>
+          <a href="mailto:hello@lawyer.example.com">✉️ hello@lawyer.example.com</a>
         </div>
-
-        <div class="footer-bottom">
-          <span>&copy; 2026 Sterling &amp; Associates. All rights reserved.</span>
+        <div class="footer-bottom footer-minimal-bottom">
+          <span>&copy; 2026 Sterling &amp; Associates</span>
           <span>Website by <a href="https://showcasedesigns.com">Showcase Designs</a></span>
         </div>
       </div>
     </footer>
+  
+  
   
   
 </body>

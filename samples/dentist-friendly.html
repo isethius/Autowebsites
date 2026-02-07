@@ -3,11 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Smiles Dental</title>
-  <meta name="description" content="Happy Smiles Dental delivers expert dentist services with transparent pricing and fast response times.">
+  <title>Happy Smiles Dental | Dental Practice - Phoenix, AZ</title>
+<meta name="description" content="Happy Smiles Dental delivers expert dentist services with transparent pricing and fast response times.">
+<meta property="og:title" content="Happy Smiles Dental | Dental Practice - Phoenix, AZ">
+<meta property="og:description" content="Happy Smiles Dental delivers expert dentist services with transparent pricing and fast response times.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Happy Smiles Dental">
+<meta property="og:locale" content="en_US">
+<meta property="og:image:alt" content="Happy Smiles Dental">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Happy Smiles Dental | Dental Practice - Phoenix, AZ">
+<meta name="twitter:description" content="Happy Smiles Dental delivers expert dentist services with transparent pricing and fast response times.">
+<meta name="twitter:image:alt" content="Happy Smiles Dental">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Dentist",
+  "name": "Happy Smiles Dental",
+  "description": "Happy Smiles Dental delivers expert dentist services with transparent pricing and fast response times.",
+  "telephone": "(555) 219-4021",
+  "email": "hello@dentist.example.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Phoenix",
+    "addressRegion": "AZ"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "(555) 219-4021",
+    "email": "hello@dentist.example.com",
+    "contactType": "customer service"
+  }
+}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     
     * {
@@ -17,12 +46,12 @@
     }
 
     :root {
-      --primary: #088eaf;
-      --secondary: #1640a2;
-      --accent: #11a67a;
+      --primary: #0962c8;
+      --secondary: #1e19b8;
+      --accent: #14b8bd;
       --background: #fafafa;
-      --text: #252728;
-      --muted: #6f7576;
+      --text: #252628;
+      --muted: #6f7376;
       --white: #ffffff;
       --black: #000000;
       --gray-50: #f9fafb;
@@ -137,14 +166,117 @@
     }
   
     
+    /* Skin Variables for D1 */
+    :root {
+  --radius: 24px;
+  --radius-sm: 16px;
+  --radius-lg: 32px;
+  --radius-pill: 9999px;
+  --shadow-card: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+  --backdrop: none;
+  --bg-surface: var(--background);
+  --border-width: 0;
+  --border-color: transparent;
+  --section-spacing: 140px;
+  --card-padding: 40px;
+  --btn-padding: 16px 32px;
+  --btn-padding-sm: 12px 24px;
+  --nav-padding: 24px 0;
+  --footer-spacing: 100px 0 40px;
+  --gap-xs: 8px;
+  --gap-sm: 16px;
+  --gap-md: 24px;
+  --gap-lg: 40px;
+  --gap-xl: 60px;
+  --text-h1: 48px;
+  --text-h2: 36px;
+  --text-h3: 28px;
+  --text-h4: 24px;
+  --text-body: 16px;
+  --text-lg: 20px;
+  --text-sm: 14px;
+  --icon-size: 56px;
+  --avatar-size: 52px;
+  --btn-text-transform: none;
+}
+
+    /* Skin Overrides */
+    
+    /* Soft Card Effect */
+    .dna-card,
+    .service-card,
+    .testimonial-card {
+      background: var(--white);
+      border: none;
+      box-shadow: var(--shadow-card, 0 20px 40px -10px rgba(0, 0, 0, 0.1));
+    }
+
+    .dna-card:hover,
+    .service-card:hover,
+    .testimonial-card:hover {
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.15);
+      transform: translateY(-6px);
+    }
+
+    /* Soft Buttons */
+    .btn-primary {
+      box-shadow: 0 8px 20px -4px var(--primary);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 12px 28px -4px var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: var(--gray-100);
+      color: var(--text);
+      border: none;
+    }
+
+    .btn-secondary:hover {
+      background: var(--gray-200);
+    }
+
+    /* Soft Icons */
+    .card-icon,
+    .service-icon {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: 0 8px 20px -4px var(--primary);
+    }
+
+    /* Soft Form Inputs */
+    input,
+    textarea,
+    select {
+      background: var(--gray-50);
+      border: 2px solid transparent;
+      border-radius: var(--radius-sm, 16px);
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      background: var(--white);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(var(--primary-rgb, 59, 130, 246), 0.1);
+    }
+
+    /* Soft Images */
+    img {
+      border-radius: var(--radius, 24px);
+    }
+  
+  
+    
     :root {
       /* ========== COLOR PALETTE ========== */
-      --primary: #088eaf;
-      --secondary: #1640a2;
-      --accent: #11a67a;
+      --primary: #0962c8;
+      --secondary: #1e19b8;
+      --accent: #14b8bd;
       --background: #fafafa;
-      --text: #252728;
-      --muted: #6f7576;
+      --text: #252628;
+      --muted: #6f7376;
 
       /* Standard Colors */
       --white: #ffffff;
@@ -176,18 +308,18 @@
       --text-sm: 14px;
 
       /* Font Families */
-      --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-heading: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
       --heading-weight: 800;
-      --letter-spacing: -0.02em;
+      --letter-spacing: 0;
 
       /* ========== SPACING SCALE ========== */
-      --section-spacing: 80px;
-      --card-padding: 32px;
+      --section-spacing: 140px;
+      --card-padding: 40px;
       --btn-padding: 16px 32px;
       --btn-padding-sm: 12px 24px;
-      --nav-padding: 16px 0;
-      --footer-spacing: 60px 0 30px;
+      --nav-padding: 24px 0;
+      --footer-spacing: 100px 0 40px;
 
       /* Gap Scale */
       --gap-xs: 8px;
@@ -199,13 +331,14 @@
       /* ========== RADIUS SCALE (from Skin) ========== */
       --radius: 24px;
       --radius-sm: 16px;
+      --radius-md: 24px;
       --radius-lg: 32px;
       --radius-pill: 9999px;
 
       /* Legacy support */
-      --border-radius: var(--radius);
-      --border-radius-sm: var(--radius-sm);
-      --border-radius-lg: var(--radius-lg);
+      --border-radius: var(--radius, 12px);
+      --border-radius-sm: var(--radius-sm, 8px);
+      --border-radius-lg: var(--radius-lg, 16px);
 
       /* ========== SHADOWS & EFFECTS (from Skin) ========== */
       --shadow-card: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
@@ -213,7 +346,7 @@
       --bg-surface: var(--background);
 
       /* Legacy support */
-      --box-shadow: var(--shadow-card);
+      --box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
 
       /* ========== BORDERS (from Skin) ========== */
       --border-width: 0;
@@ -227,7 +360,7 @@
       --btn-text-transform: none;
 
       /* ========== MOTION DNA (M1-M3) ========== */
-      --transition-duration: 0.2s;
+      --transition-duration: 0.3s;
       --hover-transform: translateY(-4px);
       --hover-shadow: 0 16px 48px rgba(0,0,0,0.15);
 
@@ -237,19 +370,19 @@
 
     /* ========== BASE TYPOGRAPHY ========== */
     body {
-      font-family: var(--font-body);
+      font-family: var(--font-body, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif);
       font-size: var(--text-body, 16px);
       line-height: 1.6;
-      color: var(--text);
-      background: var(--background);
+      color: var(--text, #111827);
+      background: var(--background, #ffffff);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
     h1, h2, h3, h4, h5, h6 {
-      font-family: var(--font-heading);
-      font-weight: var(--heading-weight);
-      letter-spacing: var(--letter-spacing);
+      font-family: var(--font-heading, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif);
+      font-weight: var(--heading-weight, 800);
+      letter-spacing: var(--letter-spacing, -0.02em);
       line-height: 1.2;
     }
 
@@ -266,7 +399,7 @@
       justify-content: center;
       gap: var(--gap-xs, 8px);
       padding: var(--btn-padding, 16px 32px);
-      font-family: var(--font-body);
+      font-family: var(--font-body, 'Inter', -apple-system, BlinkMacSystemFont, sans-serif);
       font-size: var(--text-body, 16px);
       font-weight: 600;
       text-transform: var(--btn-text-transform, none);
@@ -283,8 +416,8 @@
     }
 
     .btn-primary {
-      background: var(--primary);
-      color: var(--white);
+      background: var(--primary, #1e5a8a);
+      color: var(--white, #ffffff);
       box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
@@ -296,36 +429,38 @@
 
     .btn-secondary {
       background: transparent;
-      color: var(--primary);
-      border: 2px solid var(--primary);
+      color: var(--primary, #1e5a8a);
+      border: 2px solid var(--primary, #1e5a8a);
     }
 
     .btn-secondary:hover {
-      background: var(--primary);
-      color: var(--white);
+      background: var(--primary, #1e5a8a);
+      color: var(--white, #ffffff);
       transform: var(--hover-transform, translateY(-2px));
     }
 
     .btn-ghost {
       background: transparent;
-      color: var(--text);
+      color: var(--text, #111827);
       border: none;
     }
 
     .btn-ghost:hover {
-      background: var(--gray-100);
+      background: var(--gray-100, #f3f4f6);
     }
 
     /* ========== DNA-AWARE CARD STYLES ========== */
-    .dna-card {
-      background: var(--bg-surface, var(--white));
+    .dna-card,
+    .card {
+      background: var(--bg-surface, var(--white, #ffffff));
       border-radius: var(--radius, 12px);
       box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
       border: var(--border-width, 0) solid var(--border-color, transparent);
       transition: transform var(--transition-duration, 0.2s) ease, box-shadow var(--transition-duration, 0.2s) ease;
     }
 
-    .dna-card:hover {
+    .dna-card:hover,
+    .card:hover {
       transform: var(--hover-transform, translateY(-2px));
       box-shadow: var(--hover-shadow, 0 8px 30px rgba(0,0,0,0.12));
     }
@@ -342,11 +477,11 @@
 
     /* ========== ENTRANCE ANIMATIONS ========== */
     
-        @keyframes dna-fade-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
+        @keyframes dna-slide-in {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-        .dna-animate { animation: dna-fade-in 0.3s ease-out forwards; }
+        .dna-animate { animation: dna-slide-in 0.4s ease-out forwards; }
       
 
     /* ========== SKIN OVERRIDES ========== */
@@ -421,6 +556,63 @@
     
   
     
+    .scroll-reveal {
+      opacity: 0;
+      transform: none;
+      transition-property: opacity, transform;
+      transition-duration: 600ms;
+      transition-timing-function: cubic-bezier(0.2, 0.6, 0.2, 1);
+      will-change: opacity, transform;
+    }
+
+    .scroll-reveal--fade {
+      transform: none;
+    }
+
+    .scroll-reveal--slide {
+      transform: translateY(24px);
+    }
+
+    .scroll-reveal--scale {
+      transform: scale(0.96);
+    }
+
+    .scroll-reveal--visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-reveal,
+      .scroll-reveal--visible {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+    
+  
+    
+    
+    .page-texture {
+      position: relative;
+    }
+
+    .page-texture::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'200'%20height%3D'200'%20viewBox%3D'0%200%20200%20200'%3E%20%3Cpattern%20id%3D'weave'%20width%3D'40'%20height%3D'40'%20patternUnits%3D'userSpaceOnUse'%3E%20%3Cpath%20d%3D'M0%200L40%2040M-20%2020L20%20-20M20%2060L60%2020'%20stroke%3D'%23000'%20stroke-opacity%3D'0.12'%20stroke-width%3D'1'%2F%3E%20%3Cpath%20d%3D'M40%200L0%2040M60%2020L20%20-20M20%2060L-20%2020'%20stroke%3D'%23000'%20stroke-opacity%3D'0.08'%20stroke-width%3D'1'%2F%3E%20%3C%2Fpattern%3E%20%3Crect%20width%3D'100%25'%20height%3D'100%25'%20fill%3D'url(%23weave)'%2F%3E%20%3C%2Fsvg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+      opacity: 0.102;
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+      z-index: 9999;
+    }
+  
+    
     .nav-n7-wrapper {
       position: fixed;
       top: var(--gap-sm, 20px);
@@ -428,7 +620,7 @@
       transform: translateX(-50%);
       z-index: 100;
       width: 100%;
-      max-width: 900px;
+      max-width: calc(var(--section-spacing, 80px) * 11.25);
       padding: 0 var(--gap-sm, 20px);
     }
 
@@ -446,7 +638,7 @@
     .nav-n7-logo {
       font-size: var(--text-lg, 20px);
       font-weight: 800;
-      color: var(--primary);
+      color: var(--primary, #1e5a8a);
       text-decoration: none;
     }
 
@@ -456,7 +648,7 @@
     }
 
     .nav-n7-links a {
-      color: var(--text);
+      color: var(--text, #111827);
       text-decoration: none;
       font-weight: 500;
       font-size: var(--text-sm, 14px);
@@ -464,7 +656,7 @@
     }
 
     .nav-n7-links a:hover {
-      color: var(--primary);
+      color: var(--primary, #1e5a8a);
     }
 
     /* Nav CTA uses global .btn with pill variant */
@@ -480,8 +672,8 @@
   
 
     .hero-h1 {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: var(--white);
+      background: linear-gradient(135deg, var(--primary, #1e5a8a) 0%, var(--secondary, #1e40af) 100%);
+      color: var(--white, #ffffff);
       padding: var(--section-spacing, 100px) 0;
       min-height: 70vh;
       display: flex;
@@ -516,20 +708,20 @@
 
     /* Hero-specific button overrides for white-on-gradient look */
     .hero-h1 .btn-primary {
-      background: var(--white);
-      color: var(--primary);
+      background: var(--bg-surface, var(--white, #ffffff));
+      color: var(--primary, #1e5a8a);
       box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
     .hero-h1 .btn-primary:hover {
       transform: var(--hover-transform, translateY(-3px));
-      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      box-shadow: var(--hover-shadow, 0 12px 30px rgba(0,0,0,0.2));
     }
 
     .hero-h1 .btn-secondary {
       background: transparent;
-      color: var(--white);
-      border: 2px solid var(--white);
+      color: var(--white, #ffffff);
+      border: var(--border-width, 2px) solid var(--white, #ffffff);
     }
 
     .hero-h1 .btn-secondary:hover {
@@ -552,8 +744,8 @@
     }
 
     .hero-h1 .trust-icon {
-      width: 36px;
-      height: 36px;
+      width: calc(var(--icon-size, 56px) * 0.6429);
+      height: calc(var(--icon-size, 56px) * 0.6429);
       background: rgba(255,255,255,0.2);
       border-radius: var(--radius-pill, 50%);
       display: flex;
@@ -564,11 +756,11 @@
     .hero-h1-image {
       background: rgba(255,255,255,0.1);
       border-radius: var(--radius, 12px);
-      height: 450px;
+      height: calc(var(--section-spacing, 80px) * 5.625);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 64px;
+      font-size: calc(var(--text-h1, 48px) * 1.3333);
     }
 
     @media (max-width: 900px) {
@@ -581,11 +773,11 @@
 
     .services-l5 {
       padding: var(--section-spacing, 80px) 0;
-      background: var(--white);
+      background: var(--white, #ffffff);
     }
 
     .services-l5-list {
-      max-width: 800px;
+      max-width: calc(var(--section-spacing, 80px) * 10);
       margin: 0 auto;
       display: flex;
       flex-direction: column;
@@ -596,20 +788,12 @@
       display: flex;
       gap: var(--gap-md, 24px);
       padding: var(--card-padding, 32px);
-      background: var(--gray-50);
-      border-radius: var(--radius, 12px);
-      transition: all var(--transition-duration, 0.2s) ease;
-    }
-
-    .services-l5-item:hover {
-      background: var(--white);
-      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
     .services-l5-icon {
-      width: calc(var(--icon-size, 56px) + 8px);
-      height: calc(var(--icon-size, 56px) + 8px);
-      background: var(--primary);
+      width: calc(var(--icon-size, 56px) + var(--gap-xs, 8px));
+      height: calc(var(--icon-size, 56px) + var(--gap-xs, 8px));
+      background: var(--primary, #1e5a8a);
       border-radius: var(--radius, 12px);
       display: flex;
       align-items: center;
@@ -625,11 +809,11 @@
     .services-l5-item h3 {
       font-size: var(--text-h3, 22px);
       margin-bottom: var(--gap-xs, 8px);
-      color: var(--text);
+      color: var(--text, #111827);
     }
 
     .services-l5-item p {
-      color: var(--muted);
+      color: var(--muted, #6b7280);
       font-size: var(--text-body, 16px);
       line-height: 1.6;
     }
@@ -659,11 +843,11 @@
 
     .testimonials {
       padding: var(--section-spacing, 80px) 0;
-      background: var(--gray-50);
+      background: var(--gray-50, #f9fafb);
     }
 
     .testimonials-white {
-      background: var(--white);
+      background: var(--white, #ffffff);
     }
 
     .testimonials-grid {
@@ -673,23 +857,19 @@
     }
 
     .testimonial-card {
-      background: var(--bg-surface, var(--white));
-      border-radius: var(--radius, 12px);
       padding: var(--card-padding, 32px);
-      border: var(--border-width, 1px) solid var(--border-color, var(--gray-200));
-      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
     }
 
     .testimonial-stars {
-      color: #fbbf24;
+      color: var(--accent, #fbbf24);
       font-size: var(--text-lg, 20px);
       margin-bottom: var(--gap-sm, 16px);
-      letter-spacing: 2px;
+      letter-spacing: calc(var(--gap-xs, 8px) / 4);
     }
 
     .testimonial-text {
       font-size: var(--text-sm, 15px);
-      color: var(--muted);
+      color: var(--muted, #6b7280);
       margin-bottom: var(--gap-sm, 20px);
       font-style: italic;
       line-height: 1.7;
@@ -698,7 +878,7 @@
     .testimonial-text::before {
       content: '"';
       font-size: var(--text-h3, 24px);
-      color: var(--primary);
+      color: var(--primary, #1e5a8a);
       opacity: 0.3;
     }
 
@@ -711,12 +891,12 @@
     .testimonial-avatar {
       width: var(--avatar-size, 48px);
       height: var(--avatar-size, 48px);
-      background: var(--primary);
+      background: var(--primary, #1e5a8a);
       border-radius: var(--radius-pill, 50%);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--white);
+      color: var(--white, #ffffff);
       font-weight: 600;
       font-size: var(--text-body, 18px);
     }
@@ -728,12 +908,82 @@
     .testimonial-author-name {
       font-weight: 600;
       font-size: var(--text-sm, 15px);
-      color: var(--text);
+      color: var(--text, #111827);
     }
 
     .testimonial-author-location {
       font-size: var(--text-sm, 13px);
-      color: var(--muted);
+      color: var(--muted, #6b7280);
+    }
+
+    .testimonials-featured {
+      padding: calc(var(--section-spacing, 80px) * 0.75) 0;
+    }
+
+    .testimonials-featured .container-sm {
+      text-align: center;
+    }
+
+    .testimonials-featured .testimonial-stars {
+      font-size: calc(var(--text-h3, 24px) * 1.1667);
+      margin-bottom: var(--gap-md, 24px);
+    }
+
+    .testimonials-featured blockquote {
+      font-size: var(--text-h3, 24px);
+      font-style: italic;
+      color: var(--text, #111827);
+      margin-bottom: var(--gap-md, 24px);
+      line-height: 1.6;
+    }
+
+    .testimonial-featured-author {
+      font-weight: 600;
+      color: var(--primary, #1e5a8a);
+    }
+
+    .testimonial-featured-location {
+      font-size: var(--text-sm, 14px);
+      color: var(--muted, #6b7280);
+      margin-top: calc(var(--gap-xs, 8px) * 0.5);
+    }
+
+    .testimonials-slider {
+      padding: calc(var(--section-spacing, 80px) * 0.75) 0;
+    }
+
+    .testimonials-slider .container-sm {
+      text-align: center;
+    }
+
+    .testimonials-slider .testimonial-stars {
+      font-size: var(--text-h3, 24px);
+      margin-bottom: calc(var(--gap-md, 24px) * 0.8333);
+    }
+
+    .testimonials-slider .testimonial-quote {
+      font-size: var(--text-body, 18px);
+      font-style: italic;
+      color: var(--muted, #6b7280);
+      margin-bottom: calc(var(--gap-md, 24px) * 0.8333);
+    }
+
+    .testimonial-dots {
+      display: flex;
+      justify-content: center;
+      gap: var(--gap-xs, 8px);
+      margin-top: var(--gap-md, 24px);
+    }
+
+    .testimonial-dot {
+      width: calc(var(--gap-xs, 8px) * 1.25);
+      height: calc(var(--gap-xs, 8px) * 1.25);
+      border-radius: var(--radius-pill, 9999px);
+      background: var(--gray-300, #d1d5db);
+    }
+
+    .testimonial-dot.active {
+      background: var(--primary, #1e5a8a);
     }
 
     @media (max-width: 900px) {
@@ -745,7 +995,7 @@
 
     .contact {
       padding: var(--section-spacing, 80px) 0;
-      background: var(--white);
+      background: var(--background, #ffffff);
     }
 
     .contact-content {
@@ -782,7 +1032,7 @@
     .contact-item-icon {
       width: var(--avatar-size, 48px);
       height: var(--avatar-size, 48px);
-      background: var(--gray-100);
+      background: var(--bg-surface, var(--gray-100, #f3f4f6));
       border-radius: var(--radius-sm, 10px);
       display: flex;
       align-items: center;
@@ -812,9 +1062,11 @@
     }
 
     .contact-form-wrapper {
-      background: var(--gray-50);
+      background: var(--bg-surface, var(--gray-50, #f9fafb));
       border-radius: var(--radius, 12px);
       padding: var(--card-padding, 40px);
+      box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
+      border: var(--border-width, 0) solid var(--border-color, transparent);
     }
 
     .contact-form-wrapper h3 {
@@ -857,7 +1109,7 @@
 
   </style>
 </head>
-<body>
+<body class="page-texture">
   
     <div class="nav-n7-wrapper">
       <header class="nav-n7">
@@ -870,7 +1122,7 @@
     </div>
   
 
-    <section class="dna-fade-in hero-h1 dna-animate">
+    <section class="dna-slide-in hero-h1 dna-animate">
       <div class="container hero-h1-content">
         <div class="hero-text">
           <h1>Happy Smiles Dental</h1>
@@ -908,7 +1160,7 @@
     </section>
   
 
-    <section class="dna-fade-in" id="services" class="services-l5 dna-animate">
+    <section class="dna-slide-in" id="services" class="services-l5 dna-animate">
       <div class="container">
         <div class="section-header">
           <h2>Our Services</h2>
@@ -916,7 +1168,7 @@
         </div>
         <div class="services-l5-list">
           
-            <div class="services-l5-item">
+            <div class="services-l5-item dna-card card">
               <div class="services-l5-icon">
                 ⭐
               </div>
@@ -926,7 +1178,7 @@
               </div>
             </div>
           
-            <div class="services-l5-item">
+            <div class="services-l5-item dna-card card">
               <div class="services-l5-icon">
                 📋
               </div>
@@ -936,7 +1188,7 @@
               </div>
             </div>
           
-            <div class="services-l5-item">
+            <div class="services-l5-item dna-card card">
               <div class="services-l5-icon">
                 ⭐
               </div>
@@ -951,14 +1203,6 @@
     </section>
   
 
-      <section id="about" class="section-placeholder">
-        <div class="container">
-          <h2>About Our Practice</h2>
-          <p>Section: about</p>
-        </div>
-      </section>
-    
-
       <section id="features" class="section-placeholder">
         <div class="container">
           <h2>Why Choose Us</h2>
@@ -967,15 +1211,23 @@
       </section>
     
 
-    <section class="dna-fade-in testimonials testimonials-white" style="padding: 60px 0;">
-      <div class="container-sm" style="text-align: center;">
-        <div class="testimonial-stars" style="font-size: 28px; margin-bottom: 24px;">
+      <section id="about" class="section-placeholder">
+        <div class="container">
+          <h2>About Our Practice</h2>
+          <p>Section: about</p>
+        </div>
+      </section>
+    
+
+    <section class="dna-slide-in testimonials testimonials-white testimonials-featured">
+      <div class="container-sm">
+        <div class="testimonial-stars">
           ★★★★★
         </div>
-        <blockquote style="font-size: 24px; font-style: italic; color: var(--text); margin-bottom: 24px; line-height: 1.6;">
+        <blockquote>
           "Outstanding experience from start to finish."
         </blockquote>
-        <div style="font-weight: 600; color: var(--primary);">— Jordan P.</div>
+        <div class="testimonial-featured-author">— Jordan P.</div>
         
       </div>
     </section>
@@ -1049,13 +1301,93 @@
     </section>
   
 
-    <footer style="background: var(--gray-800); color: var(--gray-400); padding: 24px 0; text-align: center; font-size: 13px;">
+    <footer class="footer-compact">
       <div class="container">
         <span>&copy; 2026 Happy Smiles Dental. All rights reserved.</span>
-         · <a href="https://showcasedesigns.com" style="color: var(--accent);">Website by Showcase Designs</a>
+         · <a href="https://showcasedesigns.com">Website by Showcase Designs</a>
       </div>
     </footer>
   
+  
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script>
+    // Lenis Smooth Scroll - Smooth Feel
+    const lenis = new Lenis({
+      duration: 1.0,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      smoothWheel: true,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+  </script>
+  <script>(function() {
+    const selector = ".scroll-reveal";
+    const baseClass = "scroll-reveal";
+    const visibleClass = "scroll-reveal--visible";
+    const dataAttr = "data-scroll-reveal";
+    const defaultEffect = "slide";
+    const effectPrefix = "scroll-reveal--";
+    const once = true;
+    const threshold = 0.15;
+    const rootMargin = "0px";
+    const preferReducedMotion = true;
+    const effects = ['fade', 'slide', 'scale'];
+
+    const init = () => {
+      const elements = Array.from(document.querySelectorAll(selector));
+      if (!elements.length) return;
+
+      const applyEffectClass = (element) => {
+        element.classList.add(baseClass);
+        const attr = (element.getAttribute(dataAttr) || '').toLowerCase();
+        const effect = effects.includes(attr) ? attr : defaultEffect;
+        element.classList.add(effectPrefix + effect);
+      };
+
+      const reveal = (element) => {
+        element.classList.add(visibleClass);
+      };
+
+      elements.forEach(applyEffectClass);
+
+      if (preferReducedMotion && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        elements.forEach(reveal);
+        return;
+      }
+
+      if (!('IntersectionObserver' in window)) {
+        elements.forEach(reveal);
+        return;
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting || entry.intersectionRatio > 0) {
+            reveal(entry.target);
+            if (once) {
+              observer.unobserve(entry.target);
+            }
+          } else if (!once) {
+            entry.target.classList.remove(visibleClass);
+          }
+        });
+      }, { threshold, rootMargin });
+
+      elements.forEach((element) => observer.observe(element));
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();</script>
   
 </body>
 </html>

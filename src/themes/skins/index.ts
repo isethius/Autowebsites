@@ -14,6 +14,7 @@
  */
 
 import { CSS_VARIABLE_DEFAULTS, CSSVariable, CSS_VARIABLES, generateContractCSS } from './contract';
+import { agencySkin, getAgencyOverrides } from './agency';
 import { brutalistSkin, getBrutalistOverrides, type SkinVariables } from './brutalist';
 import { glassSkin, getGlassOverrides } from './glass';
 import { softSkin, getSoftOverrides } from './soft';
@@ -22,6 +23,7 @@ import { swissSkin, getSwissOverrides } from './swiss';
 // Re-export types
 export type { SkinVariables } from './brutalist';
 export { CSS_VARIABLES, CSS_VARIABLE_DEFAULTS, generateContractCSS } from './contract';
+export { agencySkin, getAgencyOverrides } from './agency';
 
 /**
  * Default skin - used when no specific skin matches
@@ -72,7 +74,7 @@ const defaultSkin: SkinVariables = {
  * D8: Outlined → default (with borders)
  * D9: Gradient Borders → default
  * D10: Swiss Grid → swiss
- * D11: Dark Mode → default
+ * D11: Agency / Awwwards → agency
  * D12: Retro Pixel → brutalist
  */
 const skinMap: Record<string, SkinVariables> = {
@@ -94,7 +96,7 @@ const skinMap: Record<string, SkinVariables> = {
   },
   D9: defaultSkin,
   D10: swissSkin,
-  D11: defaultSkin,
+  D11: agencySkin,
   D12: brutalistSkin,
 };
 
@@ -107,6 +109,7 @@ const overrideMap: Record<string, () => string> = {
   D6: getGlassOverrides,
   D7: getBrutalistOverrides,
   D10: getSwissOverrides,
+  D11: getAgencyOverrides,
   D12: getBrutalistOverrides,
 };
 
