@@ -119,6 +119,7 @@ const heroVariants: SectionVariant[] = [
         palette: config.palette as ColorPalette,
         dna: config.dna,
         businessName: config.content.businessName as string,
+        logoUrl: config.content.logoUrl as string | undefined,
       };
       return withAnimation(generateDNAHero(heroConfig), config.dna.motion || 'M1');
     },
@@ -141,6 +142,7 @@ const heroVariants: SectionVariant[] = [
         palette: config.palette as ColorPalette,
         dna: { ...config.dna, hero: 'H2' },
         businessName: config.content.businessName as string,
+        logoUrl: config.content.logoUrl as string | undefined,
       };
       return withAnimation(generateDNAHero(heroConfig), config.dna.motion || 'M1');
     },
@@ -162,6 +164,7 @@ const heroVariants: SectionVariant[] = [
         palette: config.palette as ColorPalette,
         dna: { ...config.dna, hero: 'H3' },
         businessName: config.content.businessName as string,
+        logoUrl: config.content.logoUrl as string | undefined,
       };
       return withAnimation(generateDNAHero(heroConfig), config.dna.motion || 'M1');
     },
@@ -184,6 +187,7 @@ const heroVariants: SectionVariant[] = [
         palette: config.palette as ColorPalette,
         dna: { ...config.dna, hero: 'H8' },
         businessName: config.content.businessName as string,
+        logoUrl: config.content.logoUrl as string | undefined,
       };
       return withAnimation(generateDNAHero(heroConfig), config.dna.motion || 'M1');
     },
@@ -205,6 +209,7 @@ const heroVariants: SectionVariant[] = [
         palette: config.palette as ColorPalette,
         dna: { ...config.dna, hero: 'H9' },
         businessName: config.content.businessName as string,
+        logoUrl: config.content.logoUrl as string | undefined,
       };
       return withAnimation(generateDNAHero(heroConfig), config.dna.motion || 'M1');
     },
@@ -227,6 +232,7 @@ const heroVariants: SectionVariant[] = [
         palette: config.palette as ColorPalette,
         dna: { ...config.dna, hero: 'H12' },
         businessName: config.content.businessName as string,
+        logoUrl: config.content.logoUrl as string | undefined,
       };
       return withAnimation(generateDNAHero(heroConfig), config.dna.motion || 'M1');
     },
@@ -249,6 +255,7 @@ const heroVariants: SectionVariant[] = [
         palette: config.palette as ColorPalette,
         dna: { ...config.dna, hero: 'H4' },
         businessName: config.content.businessName as string,
+        logoUrl: config.content.logoUrl as string | undefined,
       };
       return withAnimation(generateDNAHero(heroConfig), config.dna.motion || 'M1');
     },
@@ -271,6 +278,7 @@ const heroVariants: SectionVariant[] = [
         palette: config.palette as ColorPalette,
         dna: { ...config.dna, hero: 'H5' },
         businessName: config.content.businessName as string,
+        logoUrl: config.content.logoUrl as string | undefined,
       };
       return withAnimation(generateDNAHero(heroConfig), config.dna.motion || 'M1');
     },
@@ -293,6 +301,7 @@ const heroVariants: SectionVariant[] = [
         palette: config.palette as ColorPalette,
         dna: { ...config.dna, hero: 'H6' },
         businessName: config.content.businessName as string,
+        logoUrl: config.content.logoUrl as string | undefined,
       };
       return withAnimation(generateDNAHero(heroConfig), config.dna.motion || 'M1');
     },
@@ -315,6 +324,7 @@ const heroVariants: SectionVariant[] = [
         palette: config.palette as ColorPalette,
         dna: { ...config.dna, hero: 'H7' },
         businessName: config.content.businessName as string,
+        logoUrl: config.content.logoUrl as string | undefined,
       };
       return withAnimation(generateDNAHero(heroConfig), config.dna.motion || 'M1');
     },

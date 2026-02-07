@@ -61,6 +61,20 @@ export const VIBES: Record<string, Vibe> = {
     chaos: 0.8,
   },
 
+  agency: {
+    id: 'agency',
+    name: 'Agency',
+    description: 'Premium, Awwwards-level, high-impact. Perfect for agencies, studios, high-end services.',
+    typography: ['T1', 'T2'],        // Sans or Serif
+    colors: ['C1', 'C2', 'C8'],      // Light, Dark, Monochrome
+    layout: ['L7', 'L10'],           // Asymmetric, Bento
+    design: ['D5', 'D6', 'D11'],     // Neumorphic, Glass, Layered
+    hero: ['H2', 'H8', 'H12'],       // Split, Asymmetric, Geometric
+    nav: ['N2', 'N7'],               // Transparent, Floating
+    motion: ['M2', 'M3'],            // Dynamic, Dramatic - enables scroll reveals and Lenis
+    chaos: 0.6,                      // High enough to enable parallax (> 0.5)
+  },
+
   elegant: {
     id: 'elegant',
     name: 'Elegant',
@@ -128,7 +142,7 @@ export const VIBES: Record<string, Vibe> = {
     hero: ['H2', 'H5', 'H7', 'H8', 'H12'], // Split, Gradient Overlay, Carousel, Asymmetric, Geometric
     nav: ['N2', 'N7'],               // Transparent, Floating
     motion: ['M2', 'M3'],            // Dynamic, Dramatic
-    chaos: 0.6,
+    chaos: 0.65,                     // Boosted to ensure parallax effects
   },
 
   trustworthy: {
@@ -171,8 +185,8 @@ export const VIBES: Record<string, Vibe> = {
     design: ['D1', 'D6', 'D11'],     // Soft, Glass, Layered
     hero: ['H2', 'H8', 'H12'],       // Split, Asymmetric, Geometric
     nav: ['N2', 'N7'],               // Transparent, Floating
-    motion: ['M1', 'M2'],            // Subtle, Dynamic
-    chaos: 0.4,
+    motion: ['M2', 'M3'],            // Dynamic, Dramatic - enables scroll reveals and parallax
+    chaos: 0.55,                     // High enough to enable parallax (> 0.5)
   },
 
   modern: {
@@ -265,6 +279,19 @@ function pickRandom<T>(items: T[]): T {
 }
 
 /**
+ * Map premium vibes to their ideal texture codes for Awwwards-level effects
+ * X1 = Noise grain, X2 = Paper texture, X3 = Halftone dots, X4 = Clean
+ */
+export const VIBE_TO_TEXTURE: Record<string, string> = {
+  agency: 'X2',     // Paper texture - premium, tactile feel
+  artisan: 'X1',    // Noise grain - handcrafted, organic
+  creative: 'X1',   // Noise grain - artistic, unique
+  maverick: 'X3',   // Halftone dots - bold, edgy
+  executive: 'X4',  // Clean - professional, polished
+  elegant: 'X4',    // Clean - refined, sophisticated
+};
+
+/**
  * Map design variants to appropriate radius values
  * This ensures visual consistency (e.g., brutalist = sharp, pill = rounded)
  */
@@ -319,7 +346,8 @@ export function generateConstrainedDNA(vibe: Vibe): DNACode {
     // Derive radius and hover from design for visual consistency
     radius: DESIGN_TO_RADIUS[design] || 'R2',
     hover: DESIGN_TO_HOVER[design] || 'V1',
-    texture: 'X4', // Clean by default
+    // Use vibe-specific texture for premium feel, or clean by default
+    texture: VIBE_TO_TEXTURE[vibe.id] || 'X4',
     chaos: vibe.chaos,
   };
 }

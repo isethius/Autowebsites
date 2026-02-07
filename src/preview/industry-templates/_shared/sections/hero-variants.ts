@@ -24,6 +24,7 @@ export interface HeroConfig {
 export interface DNAHeroConfig extends HeroConfig {
   dna: DNACode;
   businessName?: string;
+  logoUrl?: string;
 }
 
 export { SectionOutput };

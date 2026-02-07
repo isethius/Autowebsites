@@ -104,6 +104,9 @@ export interface SiteContent {
   };
   hours?: Record<string, string>;
   trustBadges?: string[];
+  logoUrl?: string;
+  primaryCTA?: { text: string; href: string };
+  secondaryCTA?: { text: string; href: string };
 }
 
 /**
@@ -722,6 +725,7 @@ function getContentForSection(content: SiteContent, category: string): Record<st
       return {
         businessName: content.businessName,
         phone: content.contact.phone,
+        logoUrl: content.logoUrl,
       };
     case 'hero':
       return {
@@ -729,6 +733,9 @@ function getContentForSection(content: SiteContent, category: string): Record<st
         tagline: content.tagline || content.description,
         phone: content.contact.phone,
         trustBadges: content.trustBadges,
+        primaryCTA: content.primaryCTA,
+        secondaryCTA: content.secondaryCTA,
+        logoUrl: content.logoUrl,
       };
     case 'services':
       return { services: content.services };
