@@ -166,28 +166,28 @@
     }
   
     
-    /* Skin Variables for D1 */
+    /* Skin Variables for D11 */
     :root {
-  --radius: 24px;
-  --radius-sm: 16px;
-  --radius-lg: 32px;
-  --radius-pill: 9999px;
-  --shadow-card: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+  --radius: 0.75rem;
+  --radius-sm: 0.5rem;
+  --radius-lg: 1.5rem;
+  --radius-pill: 625rem;
+  --shadow-card: 0 40px 120px -40px rgba(15, 23, 42, 0.5), 0 16px 40px -26px rgba(15, 23, 42, 0.25);
   --backdrop: none;
   --bg-surface: var(--background);
-  --border-width: 0;
-  --border-color: transparent;
-  --section-spacing: 140px;
-  --card-padding: 40px;
-  --btn-padding: 16px 32px;
-  --btn-padding-sm: 12px 24px;
-  --nav-padding: 24px 0;
-  --footer-spacing: 100px 0 40px;
-  --gap-xs: 8px;
-  --gap-sm: 16px;
-  --gap-md: 24px;
-  --gap-lg: 40px;
-  --gap-xl: 60px;
+  --border-width: 1px;
+  --border-color: rgba(15, 23, 42, 0.08);
+  --section-spacing: 8.75rem;
+  --card-padding: 3.5rem;
+  --btn-padding: 1.125rem 2.75rem;
+  --btn-padding-sm: 0.875rem 2rem;
+  --nav-padding: 2rem 0;
+  --footer-spacing: 8.75rem 0 3.75rem;
+  --gap-xs: 0.625rem;
+  --gap-sm: 1.25rem;
+  --gap-md: 2rem;
+  --gap-lg: 3.5rem;
+  --gap-xl: 5.5rem;
   --text-h1: 48px;
   --text-h2: 36px;
   --text-h3: 28px;
@@ -195,76 +195,42 @@
   --text-body: 16px;
   --text-lg: 20px;
   --text-sm: 14px;
-  --icon-size: 56px;
-  --avatar-size: 52px;
+  --icon-size: 3.75rem;
+  --avatar-size: 3.5rem;
   --btn-text-transform: none;
+  --hover-transform: translateY(-0.375rem);
 }
 
     /* Skin Overrides */
     
-    /* Soft Card Effect */
+    :root {
+      --hover-shadow: 0 60px 150px -60px rgba(15, 23, 42, 0.6), 0 24px 60px -40px rgba(15, 23, 42, 0.28);
+    }
+
     .dna-card,
+    .card,
     .service-card,
     .testimonial-card {
-      background: var(--white);
-      border: none;
-      box-shadow: var(--shadow-card, 0 20px 40px -10px rgba(0, 0, 0, 0.1));
+      background: var(--bg-surface, var(--white, #ffffff));
+      box-shadow: var(--shadow-card);
+      border: var(--border-width, 1px) solid var(--border-color, rgba(15, 23, 42, 0.08));
     }
 
     .dna-card:hover,
+    .card:hover,
     .service-card:hover,
     .testimonial-card:hover {
-      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.15);
-      transform: translateY(-6px);
+      box-shadow: var(--shadow-card);
+      transform: var(--hover-transform, translateY(-0.375rem));
     }
 
-    /* Soft Buttons */
-    .btn-primary {
-      box-shadow: 0 8px 20px -4px var(--primary);
-    }
-
-    .btn-primary:hover {
-      box-shadow: 0 12px 28px -4px var(--primary);
-      transform: translateY(-2px);
+    .btn-primary:hover,
+    .btn-white:hover {
+      box-shadow: var(--shadow-card);
     }
 
     .btn-secondary {
-      background: var(--gray-100);
-      color: var(--text);
-      border: none;
-    }
-
-    .btn-secondary:hover {
-      background: var(--gray-200);
-    }
-
-    /* Soft Icons */
-    .card-icon,
-    .service-icon {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      box-shadow: 0 8px 20px -4px var(--primary);
-    }
-
-    /* Soft Form Inputs */
-    input,
-    textarea,
-    select {
-      background: var(--gray-50);
-      border: 2px solid transparent;
-      border-radius: var(--radius-sm, 16px);
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      background: var(--white);
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(var(--primary-rgb, 59, 130, 246), 0.1);
-    }
-
-    /* Soft Images */
-    img {
-      border-radius: var(--radius, 24px);
+      border-width: var(--border-width, 1px);
     }
   
   
@@ -314,26 +280,26 @@
       --letter-spacing: -0.02em;
 
       /* ========== SPACING SCALE ========== */
-      --section-spacing: 140px;
-      --card-padding: 40px;
-      --btn-padding: 16px 32px;
-      --btn-padding-sm: 12px 24px;
-      --nav-padding: 24px 0;
-      --footer-spacing: 100px 0 40px;
+      --section-spacing: 8.75rem;
+      --card-padding: 3.5rem;
+      --btn-padding: 1.125rem 2.75rem;
+      --btn-padding-sm: 0.875rem 2rem;
+      --nav-padding: 2rem 0;
+      --footer-spacing: 8.75rem 0 3.75rem;
 
       /* Gap Scale */
-      --gap-xs: 8px;
-      --gap-sm: 16px;
-      --gap-md: 24px;
-      --gap-lg: 40px;
-      --gap-xl: 60px;
+      --gap-xs: 0.625rem;
+      --gap-sm: 1.25rem;
+      --gap-md: 2rem;
+      --gap-lg: 3.5rem;
+      --gap-xl: 5.5rem;
 
       /* ========== RADIUS SCALE (from Skin) ========== */
-      --radius: 24px;
-      --radius-sm: 16px;
-      --radius-md: 24px;
-      --radius-lg: 32px;
-      --radius-pill: 9999px;
+      --radius: 0.75rem;
+      --radius-sm: 0.5rem;
+      --radius-md: 0.75rem;
+      --radius-lg: 1.5rem;
+      --radius-pill: 625rem;
 
       /* Legacy support */
       --border-radius: var(--radius, 12px);
@@ -341,7 +307,7 @@
       --border-radius-lg: var(--radius-lg, 16px);
 
       /* ========== SHADOWS & EFFECTS (from Skin) ========== */
-      --shadow-card: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+      --shadow-card: 0 40px 120px -40px rgba(15, 23, 42, 0.5), 0 16px 40px -26px rgba(15, 23, 42, 0.25);
       --backdrop: none;
       --bg-surface: var(--background);
 
@@ -349,12 +315,12 @@
       --box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
 
       /* ========== BORDERS (from Skin) ========== */
-      --border-width: 0;
-      --border-color: transparent;
+      --border-width: 1px;
+      --border-color: rgba(15, 23, 42, 0.08);
 
       /* ========== SIZES ========== */
-      --icon-size: 56px;
-      --avatar-size: 52px;
+      --icon-size: 3.75rem;
+      --avatar-size: 3.5rem;
 
       /* ========== TRANSFORMS (from Skin) ========== */
       --btn-text-transform: none;
@@ -365,7 +331,7 @@
       --hover-shadow: 0 16px 48px rgba(0,0,0,0.15);
 
       /* Design Style Tag (for debugging) */
-      --design-style: 'soft';
+      --design-style: 'layered';
     }
 
     /* ========== BASE TYPOGRAPHY ========== */
@@ -486,69 +452,34 @@
 
     /* ========== SKIN OVERRIDES ========== */
     
-    /* Soft Card Effect */
+    :root {
+      --hover-shadow: 0 60px 150px -60px rgba(15, 23, 42, 0.6), 0 24px 60px -40px rgba(15, 23, 42, 0.28);
+    }
+
     .dna-card,
+    .card,
     .service-card,
     .testimonial-card {
-      background: var(--white);
-      border: none;
-      box-shadow: var(--shadow-card, 0 20px 40px -10px rgba(0, 0, 0, 0.1));
+      background: var(--bg-surface, var(--white, #ffffff));
+      box-shadow: var(--shadow-card);
+      border: var(--border-width, 1px) solid var(--border-color, rgba(15, 23, 42, 0.08));
     }
 
     .dna-card:hover,
+    .card:hover,
     .service-card:hover,
     .testimonial-card:hover {
-      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.15);
-      transform: translateY(-6px);
+      box-shadow: var(--shadow-card);
+      transform: var(--hover-transform, translateY(-0.375rem));
     }
 
-    /* Soft Buttons */
-    .btn-primary {
-      box-shadow: 0 8px 20px -4px var(--primary);
-    }
-
-    .btn-primary:hover {
-      box-shadow: 0 12px 28px -4px var(--primary);
-      transform: translateY(-2px);
+    .btn-primary:hover,
+    .btn-white:hover {
+      box-shadow: var(--shadow-card);
     }
 
     .btn-secondary {
-      background: var(--gray-100);
-      color: var(--text);
-      border: none;
-    }
-
-    .btn-secondary:hover {
-      background: var(--gray-200);
-    }
-
-    /* Soft Icons */
-    .card-icon,
-    .service-icon {
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      box-shadow: 0 8px 20px -4px var(--primary);
-    }
-
-    /* Soft Form Inputs */
-    input,
-    textarea,
-    select {
-      background: var(--gray-50);
-      border: 2px solid transparent;
-      border-radius: var(--radius-sm, 16px);
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      background: var(--white);
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(var(--primary-rgb, 59, 130, 246), 0.1);
-    }
-
-    /* Soft Images */
-    img {
-      border-radius: var(--radius, 24px);
+      border-width: var(--border-width, 1px);
     }
   
 
@@ -1235,7 +1166,7 @@
           <div class="hero-h1-buttons">
             <a href="tel:(555) 219-4021" class="btn btn-primary">Call Now: (555) 219-4021</a>
             
-            
+            <a href="#services" class="btn btn-secondary">Our Services</a>
           </div>
           
           <div class="trust-badges">

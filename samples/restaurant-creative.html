@@ -166,28 +166,28 @@
     }
   
     
-    /* Skin Variables for D6 */
+    /* Skin Variables for D11 */
     :root {
-  --radius: 16px;
-  --radius-sm: 10px;
-  --radius-lg: 24px;
-  --radius-pill: 9999px;
-  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.1);
-  --backdrop: blur(12px);
-  --bg-surface: rgba(255, 255, 255, 0.25);
+  --radius: 0.75rem;
+  --radius-sm: 0.5rem;
+  --radius-lg: 1.5rem;
+  --radius-pill: 625rem;
+  --shadow-card: 0 40px 120px -40px rgba(15, 23, 42, 0.5), 0 16px 40px -26px rgba(15, 23, 42, 0.25);
+  --backdrop: none;
+  --bg-surface: var(--background);
   --border-width: 1px;
-  --border-color: rgba(255, 255, 255, 0.3);
-  --section-spacing: 140px;
-  --card-padding: 40px;
-  --btn-padding: 14px 28px;
-  --btn-padding-sm: 10px 20px;
-  --nav-padding: 24px 0;
-  --footer-spacing: 100px 0 40px;
-  --gap-xs: 8px;
-  --gap-sm: 16px;
-  --gap-md: 24px;
-  --gap-lg: 40px;
-  --gap-xl: 60px;
+  --border-color: rgba(15, 23, 42, 0.08);
+  --section-spacing: 8.75rem;
+  --card-padding: 3.5rem;
+  --btn-padding: 1.125rem 2.75rem;
+  --btn-padding-sm: 0.875rem 2rem;
+  --nav-padding: 2rem 0;
+  --footer-spacing: 8.75rem 0 3.75rem;
+  --gap-xs: 0.625rem;
+  --gap-sm: 1.25rem;
+  --gap-md: 2rem;
+  --gap-lg: 3.5rem;
+  --gap-xl: 5.5rem;
   --text-h1: 48px;
   --text-h2: 36px;
   --text-h3: 28px;
@@ -195,67 +195,42 @@
   --text-body: 16px;
   --text-lg: 20px;
   --text-sm: 14px;
-  --icon-size: 52px;
-  --avatar-size: 48px;
+  --icon-size: 3.75rem;
+  --avatar-size: 3.5rem;
   --btn-text-transform: none;
+  --hover-transform: translateY(-0.375rem);
 }
 
     /* Skin Overrides */
     
-    /* Glass Card Effect */
+    :root {
+      --hover-shadow: 0 60px 150px -60px rgba(15, 23, 42, 0.6), 0 24px 60px -40px rgba(15, 23, 42, 0.28);
+    }
+
     .dna-card,
+    .card,
     .service-card,
     .testimonial-card {
-      background: var(--bg-surface, rgba(255, 255, 255, 0.25));
-      backdrop-filter: var(--backdrop, blur(12px));
-      -webkit-backdrop-filter: var(--backdrop, blur(12px));
-      border: var(--border-width, 1px) solid var(--border-color, rgba(255, 255, 255, 0.3));
+      background: var(--bg-surface, var(--white, #ffffff));
+      box-shadow: var(--shadow-card);
+      border: var(--border-width, 1px) solid var(--border-color, rgba(15, 23, 42, 0.08));
     }
 
     .dna-card:hover,
+    .card:hover,
     .service-card:hover,
     .testimonial-card:hover {
-      background: rgba(255, 255, 255, 0.35);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-      transform: translateY(-4px);
+      box-shadow: var(--shadow-card);
+      transform: var(--hover-transform, translateY(-0.375rem));
     }
 
-    /* Glass Navigation */
-    nav,
-    .nav,
-    .dna-nav {
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+    .btn-primary:hover,
+    .btn-white:hover {
+      box-shadow: var(--shadow-card);
     }
 
-    /* Glass Buttons */
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.3);
-    }
-
-    /* Glass Form Inputs */
-    input,
-    textarea,
-    select {
-      background: rgba(255, 255, 255, 0.6);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      background: rgba(255, 255, 255, 0.8);
-      border-color: var(--primary);
+      border-width: var(--border-width, 1px);
     }
   
   
@@ -305,26 +280,26 @@
       --letter-spacing: 0.05em;
 
       /* ========== SPACING SCALE ========== */
-      --section-spacing: 140px;
-      --card-padding: 40px;
-      --btn-padding: 14px 28px;
-      --btn-padding-sm: 10px 20px;
-      --nav-padding: 24px 0;
-      --footer-spacing: 100px 0 40px;
+      --section-spacing: 8.75rem;
+      --card-padding: 3.5rem;
+      --btn-padding: 1.125rem 2.75rem;
+      --btn-padding-sm: 0.875rem 2rem;
+      --nav-padding: 2rem 0;
+      --footer-spacing: 8.75rem 0 3.75rem;
 
       /* Gap Scale */
-      --gap-xs: 8px;
-      --gap-sm: 16px;
-      --gap-md: 24px;
-      --gap-lg: 40px;
-      --gap-xl: 60px;
+      --gap-xs: 0.625rem;
+      --gap-sm: 1.25rem;
+      --gap-md: 2rem;
+      --gap-lg: 3.5rem;
+      --gap-xl: 5.5rem;
 
       /* ========== RADIUS SCALE (from Skin) ========== */
-      --radius: 16px;
-      --radius-sm: 10px;
-      --radius-md: 16px;
-      --radius-lg: 24px;
-      --radius-pill: 9999px;
+      --radius: 0.75rem;
+      --radius-sm: 0.5rem;
+      --radius-md: 0.75rem;
+      --radius-lg: 1.5rem;
+      --radius-pill: 625rem;
 
       /* Legacy support */
       --border-radius: var(--radius, 12px);
@@ -332,31 +307,31 @@
       --border-radius-lg: var(--radius-lg, 16px);
 
       /* ========== SHADOWS & EFFECTS (from Skin) ========== */
-      --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.1);
-      --backdrop: blur(12px);
-      --bg-surface: rgba(255, 255, 255, 0.25);
+      --shadow-card: 0 40px 120px -40px rgba(15, 23, 42, 0.5), 0 16px 40px -26px rgba(15, 23, 42, 0.25);
+      --backdrop: none;
+      --bg-surface: var(--background);
 
       /* Legacy support */
       --box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
 
       /* ========== BORDERS (from Skin) ========== */
       --border-width: 1px;
-      --border-color: rgba(255, 255, 255, 0.3);
+      --border-color: rgba(15, 23, 42, 0.08);
 
       /* ========== SIZES ========== */
-      --icon-size: 52px;
-      --avatar-size: 48px;
+      --icon-size: 3.75rem;
+      --avatar-size: 3.5rem;
 
       /* ========== TRANSFORMS (from Skin) ========== */
       --btn-text-transform: none;
 
       /* ========== MOTION DNA (M1-M3) ========== */
-      --transition-duration: 0.4s;
-      --hover-transform: translateY(-2px);
-      --hover-shadow: 0 0 30px rgba(var(--primary-rgb, 59, 130, 246), 0.4);
+      --transition-duration: 0.3s;
+      --hover-transform: translateY(-4px);
+      --hover-shadow: 0 16px 48px rgba(0,0,0,0.15);
 
       /* Design Style Tag (for debugging) */
-      --design-style: 'glass';
+      --design-style: 'layered';
     }
 
     /* ========== BASE TYPOGRAPHY ========== */
@@ -468,87 +443,55 @@
 
     /* ========== ENTRANCE ANIMATIONS ========== */
     
-        @keyframes dna-scale-in {
-          from { opacity: 0; transform: scale(0.9); }
-          to { opacity: 1; transform: scale(1); }
+        @keyframes dna-slide-in {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-        .dna-animate { animation: dna-scale-in 0.6s ease-out forwards; }
+        .dna-animate { animation: dna-slide-in 0.4s ease-out forwards; }
       
 
     /* ========== SKIN OVERRIDES ========== */
     
-    /* Glass Card Effect */
+    :root {
+      --hover-shadow: 0 60px 150px -60px rgba(15, 23, 42, 0.6), 0 24px 60px -40px rgba(15, 23, 42, 0.28);
+    }
+
     .dna-card,
+    .card,
     .service-card,
     .testimonial-card {
-      background: var(--bg-surface, rgba(255, 255, 255, 0.25));
-      backdrop-filter: var(--backdrop, blur(12px));
-      -webkit-backdrop-filter: var(--backdrop, blur(12px));
-      border: var(--border-width, 1px) solid var(--border-color, rgba(255, 255, 255, 0.3));
+      background: var(--bg-surface, var(--white, #ffffff));
+      box-shadow: var(--shadow-card);
+      border: var(--border-width, 1px) solid var(--border-color, rgba(15, 23, 42, 0.08));
     }
 
     .dna-card:hover,
+    .card:hover,
     .service-card:hover,
     .testimonial-card:hover {
-      background: rgba(255, 255, 255, 0.35);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-      transform: translateY(-4px);
+      box-shadow: var(--shadow-card);
+      transform: var(--hover-transform, translateY(-0.375rem));
     }
 
-    /* Glass Navigation */
-    nav,
-    .nav,
-    .dna-nav {
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+    .btn-primary:hover,
+    .btn-white:hover {
+      box-shadow: var(--shadow-card);
     }
 
-    /* Glass Buttons */
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.3);
-    }
-
-    /* Glass Form Inputs */
-    input,
-    textarea,
-    select {
-      background: rgba(255, 255, 255, 0.6);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      background: rgba(255, 255, 255, 0.8);
-      border-color: var(--primary);
+      border-width: var(--border-width, 1px);
     }
   
 
     /* ========== DESIGN-SPECIFIC OVERRIDES ========== */
     
-        .dna-card {
-          background: rgba(255, 255, 255, 0.8);
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-      
   
     
     .scroll-reveal {
       opacity: 0;
       transform: none;
       transition-property: opacity, transform;
-      transition-duration: 800ms;
+      transition-duration: 600ms;
       transition-timing-function: cubic-bezier(0.2, 0.6, 0.2, 1);
       will-change: opacity, transform;
     }
@@ -616,61 +559,59 @@
     }
   
     
-    .nav-n7-wrapper {
-      position: fixed;
-      top: var(--gap-sm, 20px);
-      left: 50%;
-      transform: translateX(-50%);
+    .nav-n2 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: var(--nav-padding, 24px 0);
       z-index: 100;
-      width: 100%;
-      max-width: calc(var(--section-spacing, 80px) * 11.25);
-      padding: 0 var(--gap-sm, 20px);
     }
 
-    .nav-n7 {
-      background: var(--bg-surface, rgba(255,255,255,0.95));
-      backdrop-filter: var(--backdrop, blur(10px));
-      border-radius: var(--radius-pill, 9999px);
-      padding: var(--gap-xs, 12px) var(--gap-xs, 12px) var(--gap-xs, 12px) var(--gap-md, 24px);
-      box-shadow: var(--shadow-card, 0 4px 24px rgba(0,0,0,0.1));
+    .nav-n2-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .nav-n7-logo {
-      font-size: var(--text-lg, 20px);
+    .nav-n2-logo {
+      font-size: var(--text-h4, 24px);
       font-weight: 800;
-      color: var(--primary, #1e5a8a);
+      color: var(--white, #ffffff);
       text-decoration: none;
     }
 
-    .nav-n7-links {
+    .nav-n2-links {
       display: flex;
-      gap: var(--gap-md, 24px);
+      gap: var(--gap-lg, 32px);
     }
 
-    .nav-n7-links a {
-      color: var(--text, #111827);
+    .nav-n2-links a {
+      color: rgba(255,255,255,0.9);
       text-decoration: none;
       font-weight: 500;
-      font-size: var(--text-sm, 14px);
+      font-size: var(--text-sm, 15px);
       transition: color var(--transition-duration, 0.2s) ease;
     }
 
-    .nav-n7-links a:hover {
-      color: var(--primary, #1e5a8a);
+    .nav-n2-links a:hover {
+      color: var(--white, #ffffff);
     }
 
-    /* Nav CTA uses global .btn with pill variant */
-    .nav-n7 .btn {
-      border-radius: var(--radius-pill, 9999px);
+    /* Nav CTA uses global .btn styles with white variant */
+    .nav-n2 .btn {
+      background: var(--bg-surface, var(--white, #ffffff));
+      color: var(--primary, #1e5a8a);
       text-decoration: none;
     }
 
-    @media (max-width: 768px) {
-      .nav-n7-links { display: none; }
-      .nav-n7 { padding: var(--gap-xs, 10px) var(--gap-xs, 10px) var(--gap-xs, 10px) var(--gap-sm, 20px); }
+    .nav-n2 .btn:hover {
+      transform: var(--hover-transform, translateY(-2px));
+      box-shadow: var(--shadow-card, 0 4px 12px rgba(0,0,0,0.15));
+    }
+
+    @media (max-width: 900px) {
+      .nav-n2-links { display: none; }
     }
   
 
@@ -687,15 +628,6 @@
       justify-content: center;
       font-size: calc(var(--text-h1, 48px) * 1.6667);
       color: var(--white, #ffffff);
-      overflow: hidden;
-      position: relative;
-    }
-
-    .hero-h2-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
     }
 
     .hero-h2-content {
@@ -915,74 +847,85 @@
       }
     
 
-    .services-l9 {
+    .services-l10 {
       padding: var(--section-spacing, 80px) 0;
-      background: var(--gray-50, #f9fafb);
+      background: var(--white, #ffffff);
     }
 
-    .services-l9-timeline {
-      max-width: calc(var(--section-spacing, 80px) * 10);
-      margin: 0 auto;
-      position: relative;
+    .services-l10-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: calc(var(--section-spacing, 80px) * 2.5);
+      gap: var(--gap-sm, 16px);
     }
 
-    .services-l9-timeline::before {
-      content: '';
-      position: absolute;
-      left: calc(var(--gap-sm, 16px) * 2);
-      top: 0;
-      bottom: 0;
-      width: calc(var(--gap-xs, 8px) / 4);
-      background: var(--primary, #1e5a8a);
-      opacity: 0.3;
-    }
-
-    .services-l9-item {
+    .services-l10-card {
+      padding: var(--gap-md, 28px);
       display: flex;
-      gap: var(--gap-md, 32px);
-      padding: var(--gap-md, 24px) 0;
-      position: relative;
+      flex-direction: column;
     }
 
-    .services-l9-marker {
-      width: calc(var(--icon-size, 56px) + var(--gap-xs, 8px));
-      height: calc(var(--icon-size, 56px) + var(--gap-xs, 8px));
-      background: var(--primary, #1e5a8a);
-      border-radius: var(--radius-pill, 50%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: var(--text-h4, 24px);
-      flex-shrink: 0;
-      position: relative;
-      z-index: 2;
+    /* First card is large */
+    .services-l10-card:nth-child(1) {
+      grid-column: span 2;
+      grid-row: span 2;
     }
 
-    .services-l9-content {
-      flex: 1;
-      padding: var(--gap-md, 24px);
+    /* Third card spans 2 columns */
+    .services-l10-card:nth-child(3) {
+      grid-column: span 2;
     }
 
-    .services-l9-item h3 {
-      font-size: var(--text-lg, 20px);
+    .services-l10-icon {
+      font-size: var(--text-h2, 32px);
+      margin-bottom: auto;
+    }
+
+    .services-l10-card h3 {
+      font-size: var(--text-body, 18px);
       margin-bottom: var(--gap-xs, 8px);
       color: var(--text, #111827);
+      margin-top: var(--gap-sm, 16px);
     }
 
-    .services-l9-item p {
+    .services-l10-card p {
       color: var(--muted, #6b7280);
-      font-size: var(--text-sm, 15px);
-      line-height: 1.6;
+      font-size: var(--text-sm, 14px);
+      line-height: 1.5;
+    }
+
+    /* Large card gets bigger typography */
+    .services-l10-card:nth-child(1) h3 {
+      font-size: var(--text-h3, 24px);
+    }
+
+    .services-l10-card:nth-child(1) p {
+      font-size: var(--text-body, 16px);
+    }
+
+    @media (max-width: 900px) {
+      .services-l10-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: calc(var(--section-spacing, 80px) * 2.25);
+      }
+      .services-l10-card:nth-child(1) {
+        grid-column: span 2;
+        grid-row: span 1;
+      }
+      .services-l10-card:nth-child(3) {
+        grid-column: span 1;
+      }
     }
 
     @media (max-width: 640px) {
-      .services-l9-timeline::before { left: calc(var(--gap-sm, 16px) * 1.25); }
-      .services-l9-marker {
-        width: calc(var(--icon-size, 56px) - var(--gap-sm, 16px));
-        height: calc(var(--icon-size, 56px) - var(--gap-sm, 16px));
-        font-size: var(--text-body, 16px);
+      .services-l10-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
       }
-      .services-l9-item { gap: var(--gap-sm, 16px); }
+      .services-l10-card:nth-child(1),
+      .services-l10-card:nth-child(3) {
+        grid-column: span 1;
+      }
     }
   
 
@@ -1275,18 +1218,18 @@
 </head>
 <body class="page-texture">
   
-    <div class="nav-n7-wrapper">
-      <header class="nav-n7">
-        <a href="#" class="nav-n7-logo">Sunny Side Bistro</a>
-        <nav class="nav-n7-links">
+    <header class="nav-n2">
+      <div class="container nav-n2-content">
+        <a href="#" class="nav-n2-logo">Sunny Side Bistro</a>
+        <nav class="nav-n2-links">
           <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
         </nav>
         
-      </header>
-    </div>
+      </div>
+    </header>
   
 
-    <section class="dna-scale-in hero-h2 dna-animate">
+    <section class="dna-slide-in hero-h2 dna-animate">
       <div class="hero-h2-image">
         📸
       </div>
@@ -1294,8 +1237,8 @@
         <h1>Sunny Side Bistro</h1>
         <p class="tagline">Bright flavors, fresh ingredients, and joyful dining.</p>
         <div class="hero-h2-buttons">
-          
-          
+          <a href="#contact" class="btn btn-primary">Book a Consultation</a>
+          <a href="#services" class="btn btn-secondary">Our Services</a>
         </div>
         
         <div class="trust-badges">
@@ -1329,7 +1272,7 @@
       </section>
     
 
-    <section class="dna-scale-in testimonials testimonials-slider">
+    <section class="dna-slide-in testimonials testimonials-slider">
       <div class="container-sm">
         <div class="testimonial-stars">
           ★★★★★
@@ -1359,42 +1302,36 @@
       </section>
     
 
-    <section class="dna-scale-in" id="services" class="services-l9 dna-animate">
+    <section class="dna-slide-in" id="services" class="services-l10 dna-animate">
       <div class="container">
         <div class="section-header">
           <h2>Services</h2>
           <p>What we offer</p>
         </div>
-        <div class="services-l9-timeline">
+        <div class="services-l10-grid">
           
-            <div class="services-l9-item">
-              <div class="services-l9-marker">
+            <div class="services-l10-card dna-card card">
+              <div class="services-l10-icon">
                 ⭐
               </div>
-              <div class="services-l9-content dna-card card">
-                <h3>Primary Service</h3>
-                <p>Our signature offering built for results and reliability.</p>
-              </div>
+              <h3>Primary Service</h3>
+              <p>Our signature offering built for results and reliability.</p>
             </div>
           
-            <div class="services-l9-item">
-              <div class="services-l9-marker">
+            <div class="services-l10-card dna-card card">
+              <div class="services-l10-icon">
                 📋
               </div>
-              <div class="services-l9-content dna-card card">
-                <h3>Consultation</h3>
-                <p>Clear guidance and planning tailored to your needs.</p>
-              </div>
+              <h3>Consultation</h3>
+              <p>Clear guidance and planning tailored to your needs.</p>
             </div>
           
-            <div class="services-l9-item">
-              <div class="services-l9-marker">
+            <div class="services-l10-card dna-card card">
+              <div class="services-l10-icon">
                 ⭐
               </div>
-              <div class="services-l9-content dna-card card">
-                <h3>Ongoing Support</h3>
-                <p>Proactive care, maintenance, and rapid response.</p>
-              </div>
+              <h3>Ongoing Support</h3>
+              <p>Proactive care, maintenance, and rapid response.</p>
             </div>
           
         </div>
@@ -1453,9 +1390,9 @@
   
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
   <script>
-    // Lenis Smooth Scroll - Luxurious Feel
+    // Lenis Smooth Scroll - Smooth Feel
     const lenis = new Lenis({
-      duration: 1.4,
+      duration: 1.0,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       smoothWheel: true,

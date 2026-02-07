@@ -166,17 +166,17 @@
     }
   
     
-    /* Skin Variables for D7 */
+    /* Skin Variables for D3 */
     :root {
-  --radius: 0px;
-  --radius-sm: 0px;
-  --radius-lg: 0px;
-  --radius-pill: 0px;
-  --shadow-card: 6px 6px 0px #000;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 16px;
+  --radius-pill: 9999px;
+  --shadow-card: 0 16px 48px rgba(0,0,0,0.15);
   --backdrop: none;
   --bg-surface: var(--background);
-  --border-width: 3px;
-  --border-color: #000;
+  --border-width: 1px;
+  --border-color: var(--gray-200);
   --section-spacing: 140px;
   --card-padding: 40px;
   --btn-padding: 16px 32px;
@@ -186,8 +186,8 @@
   --gap-xs: 8px;
   --gap-sm: 16px;
   --gap-md: 24px;
-  --gap-lg: 48px;
-  --gap-xl: 64px;
+  --gap-lg: 40px;
+  --gap-xl: 60px;
   --text-h1: 48px;
   --text-h2: 36px;
   --text-h3: 28px;
@@ -197,57 +197,11 @@
   --text-sm: 14px;
   --icon-size: 56px;
   --avatar-size: 48px;
-  --btn-text-transform: uppercase;
+  --btn-text-transform: none;
 }
 
     /* Skin Overrides */
     
-    /* Brutalist Typography Overrides */
-    h1, h2, h3, h4, h5, h6 {
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    /* Brutalist Card Style */
-    .dna-card,
-    .service-card,
-    .testimonial-card {
-      border: var(--border-width, 3px) solid var(--border-color, #000);
-      box-shadow: var(--shadow-card, 6px 6px 0px #000);
-    }
-
-    .dna-card:hover,
-    .service-card:hover,
-    .testimonial-card:hover {
-      box-shadow: 10px 10px 0px #000;
-      transform: translate(-4px, -4px);
-    }
-
-    /* Brutalist Buttons */
-    .btn,
-    .btn-primary,
-    .btn-secondary {
-      border: 2px solid currentColor;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      font-weight: 700;
-    }
-
-    /* Brutalist Form Inputs */
-    input,
-    textarea,
-    select {
-      border: 2px solid var(--text);
-      border-radius: 0;
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      box-shadow: 4px 4px 0px var(--primary);
-      outline: none;
-    }
-  
   
     
     :root {
@@ -306,15 +260,15 @@
       --gap-xs: 8px;
       --gap-sm: 16px;
       --gap-md: 24px;
-      --gap-lg: 48px;
-      --gap-xl: 64px;
+      --gap-lg: 40px;
+      --gap-xl: 60px;
 
       /* ========== RADIUS SCALE (from Skin) ========== */
-      --radius: 0px;
-      --radius-sm: 0px;
-      --radius-md: 0px;
-      --radius-lg: 0px;
-      --radius-pill: 0px;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-pill: 9999px;
 
       /* Legacy support */
       --border-radius: var(--radius, 12px);
@@ -322,7 +276,7 @@
       --border-radius-lg: var(--radius-lg, 16px);
 
       /* ========== SHADOWS & EFFECTS (from Skin) ========== */
-      --shadow-card: 6px 6px 0px #000;
+      --shadow-card: 0 16px 48px rgba(0,0,0,0.15);
       --backdrop: none;
       --bg-surface: var(--background);
 
@@ -330,23 +284,23 @@
       --box-shadow: var(--shadow-card, 0 4px 20px rgba(0,0,0,0.08));
 
       /* ========== BORDERS (from Skin) ========== */
-      --border-width: 3px;
-      --border-color: #000;
+      --border-width: 1px;
+      --border-color: var(--gray-200);
 
       /* ========== SIZES ========== */
       --icon-size: 56px;
       --avatar-size: 48px;
 
       /* ========== TRANSFORMS (from Skin) ========== */
-      --btn-text-transform: uppercase;
+      --btn-text-transform: none;
 
       /* ========== MOTION DNA (M1-M3) ========== */
       --transition-duration: 0.3s;
       --hover-transform: translateY(-4px);
-      --hover-shadow: 12px 12px 0 #000;
+      --hover-shadow: 0 30px 60px rgba(0,0,0,0.3);
 
       /* Design Style Tag (for debugging) */
-      --design-style: 'brutalist';
+      --design-style: 'elevated';
     }
 
     /* ========== BASE TYPOGRAPHY ========== */
@@ -467,59 +421,9 @@
 
     /* ========== SKIN OVERRIDES ========== */
     
-    /* Brutalist Typography Overrides */
-    h1, h2, h3, h4, h5, h6 {
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    /* Brutalist Card Style */
-    .dna-card,
-    .service-card,
-    .testimonial-card {
-      border: var(--border-width, 3px) solid var(--border-color, #000);
-      box-shadow: var(--shadow-card, 6px 6px 0px #000);
-    }
-
-    .dna-card:hover,
-    .service-card:hover,
-    .testimonial-card:hover {
-      box-shadow: 10px 10px 0px #000;
-      transform: translate(-4px, -4px);
-    }
-
-    /* Brutalist Buttons */
-    .btn,
-    .btn-primary,
-    .btn-secondary {
-      border: 2px solid currentColor;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      font-weight: 700;
-    }
-
-    /* Brutalist Form Inputs */
-    input,
-    textarea,
-    select {
-      border: 2px solid var(--text);
-      border-radius: 0;
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      box-shadow: 4px 4px 0px var(--primary);
-      outline: none;
-    }
-  
 
     /* ========== DESIGN-SPECIFIC OVERRIDES ========== */
     
-        .dna-card { border: 3px solid var(--text, #111827); }
-        .dna-btn { border: 2px solid currentColor; text-transform: uppercase; }
-        h1, h2, h3 { text-transform: uppercase; }
-      
   
     
     .scroll-reveal {
@@ -579,54 +483,61 @@
     }
   
     
-    .nav-n1 {
-      background: var(--bg-surface, var(--white, #ffffff));
-      padding: var(--nav-padding, 24px 0);
-      border-bottom: var(--border-width, 1px) solid var(--border-color, var(--gray-200, #e5e7eb));
-      backdrop-filter: var(--backdrop, none);
-      -webkit-backdrop-filter: var(--backdrop, none);
-      position: sticky;
-      top: 0;
+    .nav-n7-wrapper {
+      position: fixed;
+      top: var(--gap-sm, 20px);
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 100;
+      width: 100%;
+      max-width: calc(var(--section-spacing, 80px) * 11.25);
+      padding: 0 var(--gap-sm, 20px);
     }
 
-    .nav-n1-content {
+    .nav-n7 {
+      background: var(--bg-surface, rgba(255,255,255,0.95));
+      backdrop-filter: var(--backdrop, blur(10px));
+      border-radius: var(--radius-pill, 9999px);
+      padding: var(--gap-xs, 12px) var(--gap-xs, 12px) var(--gap-xs, 12px) var(--gap-md, 24px);
+      box-shadow: var(--shadow-card, 0 4px 24px rgba(0,0,0,0.1));
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .nav-n1-logo {
-      font-size: var(--text-h4, 24px);
+    .nav-n7-logo {
+      font-size: var(--text-lg, 20px);
       font-weight: 800;
       color: var(--primary, #1e5a8a);
       text-decoration: none;
     }
 
-    .nav-n1-links {
+    .nav-n7-links {
       display: flex;
-      gap: var(--gap-lg, 32px);
+      gap: var(--gap-md, 24px);
     }
 
-    .nav-n1-links a {
+    .nav-n7-links a {
       color: var(--text, #111827);
       text-decoration: none;
       font-weight: 500;
-      font-size: var(--text-sm, 15px);
+      font-size: var(--text-sm, 14px);
       transition: color var(--transition-duration, 0.2s) ease;
     }
 
-    .nav-n1-links a:hover {
+    .nav-n7-links a:hover {
       color: var(--primary, #1e5a8a);
     }
 
-    /* Nav CTA uses global .btn styles */
-    .nav-n1 .btn {
+    /* Nav CTA uses global .btn with pill variant */
+    .nav-n7 .btn {
+      border-radius: var(--radius-pill, 9999px);
       text-decoration: none;
     }
 
-    @media (max-width: 900px) {
-      .nav-n1-links { display: none; }
+    @media (max-width: 768px) {
+      .nav-n7-links { display: none; }
+      .nav-n7 { padding: var(--gap-xs, 10px) var(--gap-xs, 10px) var(--gap-xs, 10px) var(--gap-sm, 20px); }
     }
   
 
@@ -730,46 +641,85 @@
     }
   
 
-    .services-l3 {
+    .services-l10 {
       padding: var(--section-spacing, 80px) 0;
+      background: var(--white, #ffffff);
     }
 
-    .services-bg-gray { background: var(--gray-50, #f9fafb); }
-    .services-bg-white { background: var(--white, #ffffff); }
-    .services-bg-primary { background: var(--primary, #1e5a8a); color: var(--white, #ffffff); }
-
-    .services-l3-grid {
+    .services-l10-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(calc(var(--section-spacing, 80px) * 3.5), 1fr));
-      gap: var(--gap-md, 24px);
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: calc(var(--section-spacing, 80px) * 2.5);
+      gap: var(--gap-sm, 16px);
     }
 
-    .services-l3-card {
-      padding: var(--card-padding, 32px);
-    }
-
-    .services-l3-icon {
-      width: var(--icon-size, 56px);
-      height: var(--icon-size, 56px);
-      background: var(--primary, #1e5a8a);
-      border-radius: var(--radius, 12px);
+    .services-l10-card {
+      padding: var(--gap-md, 28px);
       display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: var(--gap-sm, 20px);
-      font-size: var(--text-h4, 24px);
+      flex-direction: column;
     }
 
-    .services-l3-card h3 {
-      font-size: var(--text-lg, 20px);
-      margin-bottom: var(--gap-xs, 12px);
+    /* First card is large */
+    .services-l10-card:nth-child(1) {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    /* Third card spans 2 columns */
+    .services-l10-card:nth-child(3) {
+      grid-column: span 2;
+    }
+
+    .services-l10-icon {
+      font-size: var(--text-h2, 32px);
+      margin-bottom: auto;
+    }
+
+    .services-l10-card h3 {
+      font-size: var(--text-body, 18px);
+      margin-bottom: var(--gap-xs, 8px);
       color: var(--text, #111827);
+      margin-top: var(--gap-sm, 16px);
     }
 
-    .services-l3-card p {
+    .services-l10-card p {
       color: var(--muted, #6b7280);
-      font-size: var(--text-sm, 15px);
-      line-height: 1.6;
+      font-size: var(--text-sm, 14px);
+      line-height: 1.5;
+    }
+
+    /* Large card gets bigger typography */
+    .services-l10-card:nth-child(1) h3 {
+      font-size: var(--text-h3, 24px);
+    }
+
+    .services-l10-card:nth-child(1) p {
+      font-size: var(--text-body, 16px);
+    }
+
+    @media (max-width: 900px) {
+      .services-l10-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: calc(var(--section-spacing, 80px) * 2.25);
+      }
+      .services-l10-card:nth-child(1) {
+        grid-column: span 2;
+        grid-row: span 1;
+      }
+      .services-l10-card:nth-child(3) {
+        grid-column: span 1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .services-l10-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+      }
+      .services-l10-card:nth-child(1),
+      .services-l10-card:nth-child(3) {
+        grid-column: span 1;
+      }
     }
   
 
@@ -1214,15 +1164,15 @@
 </head>
 <body class="page-texture">
   
-    <header class="nav-n1">
-      <div class="container nav-n1-content">
-        <a href="#" class="nav-n1-logo">Titan Plumbing Co</a>
-        <nav class="nav-n1-links">
+    <div class="nav-n7-wrapper">
+      <header class="nav-n7">
+        <a href="#" class="nav-n7-logo">Titan Plumbing Co</a>
+        <nav class="nav-n7-links">
           <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
         </nav>
         
-      </div>
-    </header>
+      </header>
+    </div>
   
 
     <section class="dna-slide-in hero-h1 dna-animate">
@@ -1233,7 +1183,7 @@
           <div class="hero-h1-buttons">
             <a href="tel:(555) 219-4021" class="btn btn-primary">Call Now: (555) 219-4021</a>
             
-            
+            <a href="#services" class="btn btn-secondary">Our Services</a>
           </div>
           
           <div class="trust-badges">
@@ -1263,32 +1213,32 @@
     </section>
   
 
-    <section class="dna-slide-in" id="services" class="services-l3 services-bg-gray dna-animate">
+    <section class="dna-slide-in" id="services" class="services-l10 dna-animate">
       <div class="container">
         <div class="section-header">
           <h2>Our Services</h2>
           <p>Professional solutions for your home</p>
         </div>
-        <div class="services-l3-grid">
+        <div class="services-l10-grid">
           
-            <div class="services-l3-card dna-card card">
-              <div class="services-l3-icon">
+            <div class="services-l10-card dna-card card">
+              <div class="services-l10-icon">
                 ⭐
               </div>
               <h3>Primary Service</h3>
               <p>Our signature offering built for results and reliability.</p>
             </div>
           
-            <div class="services-l3-card dna-card card">
-              <div class="services-l3-icon">
+            <div class="services-l10-card dna-card card">
+              <div class="services-l10-icon">
                 📋
               </div>
               <h3>Consultation</h3>
               <p>Clear guidance and planning tailored to your needs.</p>
             </div>
           
-            <div class="services-l3-card dna-card card">
-              <div class="services-l3-icon">
+            <div class="services-l10-card dna-card card">
+              <div class="services-l10-icon">
                 ⭐
               </div>
               <h3>Ongoing Support</h3>

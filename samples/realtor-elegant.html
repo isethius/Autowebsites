@@ -351,7 +351,7 @@
       --btn-text-transform: none;
 
       /* ========== MOTION DNA (M1-M3) ========== */
-      --transition-duration: 0.2s;
+      --transition-duration: 0.3s;
       --hover-transform: translateY(-4px);
       --hover-shadow: 0 16px 48px rgba(0,0,0,0.15);
 
@@ -468,11 +468,11 @@
 
     /* ========== ENTRANCE ANIMATIONS ========== */
     
-        @keyframes dna-fade-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
+        @keyframes dna-slide-in {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-        .dna-animate { animation: dna-fade-in 0.3s ease-out forwards; }
+        .dna-animate { animation: dna-slide-in 0.4s ease-out forwards; }
       
 
     /* ========== SKIN OVERRIDES ========== */
@@ -544,6 +544,43 @@
       
   
     
+    .scroll-reveal {
+      opacity: 0;
+      transform: none;
+      transition-property: opacity, transform;
+      transition-duration: 600ms;
+      transition-timing-function: cubic-bezier(0.2, 0.6, 0.2, 1);
+      will-change: opacity, transform;
+    }
+
+    .scroll-reveal--fade {
+      transform: none;
+    }
+
+    .scroll-reveal--slide {
+      transform: translateY(24px);
+    }
+
+    .scroll-reveal--scale {
+      transform: scale(0.96);
+    }
+
+    .scroll-reveal--visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-reveal,
+      .scroll-reveal--visible {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+    
+  
     
     
     .page-texture {
@@ -564,54 +601,64 @@
     }
   
     
-    .nav-n1 {
-      background: var(--bg-surface, var(--white, #ffffff));
-      padding: var(--nav-padding, 24px 0);
-      border-bottom: var(--border-width, 1px) solid var(--border-color, var(--gray-200, #e5e7eb));
-      backdrop-filter: var(--backdrop, none);
-      -webkit-backdrop-filter: var(--backdrop, none);
-      position: sticky;
+    .nav-n9 {
+      position: absolute;
       top: 0;
+      left: 0;
+      right: 0;
+      padding: var(--gap-md, 24px) 0;
       z-index: 100;
     }
 
-    .nav-n1-content {
+    .nav-n9-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .nav-n1-logo {
-      font-size: var(--text-h4, 24px);
+    .nav-n9-logo {
+      font-size: var(--text-h4, 22px);
       font-weight: 800;
-      color: var(--primary, #1e5a8a);
+      color: var(--text, #111827);
       text-decoration: none;
     }
 
-    .nav-n1-links {
+    .nav-n9-right {
       display: flex;
+      align-items: center;
       gap: var(--gap-lg, 32px);
     }
 
-    .nav-n1-links a {
-      color: var(--text, #111827);
+    .nav-n9-links {
+      display: flex;
+      gap: var(--gap-md, 24px);
+    }
+
+    .nav-n9-links a {
+      color: var(--muted, #6b7280);
       text-decoration: none;
       font-weight: 500;
-      font-size: var(--text-sm, 15px);
+      font-size: var(--text-sm, 14px);
       transition: color var(--transition-duration, 0.2s) ease;
     }
 
-    .nav-n1-links a:hover {
-      color: var(--primary, #1e5a8a);
+    .nav-n9-links a:hover {
+      color: var(--text, #111827);
     }
 
-    /* Nav CTA uses global .btn styles */
-    .nav-n1 .btn {
+    /* Nav CTA uses global .btn with dark variant */
+    .nav-n9 .btn {
+      background: var(--text, #111827);
+      color: var(--white, #ffffff);
       text-decoration: none;
     }
 
-    @media (max-width: 900px) {
-      .nav-n1-links { display: none; }
+    .nav-n9 .btn:hover {
+      opacity: 0.9;
+    }
+
+    @media (max-width: 768px) {
+      .nav-n9-links { display: none; }
     }
   
 
@@ -628,15 +675,6 @@
       justify-content: center;
       font-size: calc(var(--text-h1, 48px) * 1.6667);
       color: var(--white, #ffffff);
-      overflow: hidden;
-      position: relative;
-    }
-
-    .hero-h2-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
     }
 
     .hero-h2-content {
@@ -697,59 +735,46 @@
       }
     
 
-    .services-l5 {
+    .services-l3 {
       padding: var(--section-spacing, 80px) 0;
-      background: var(--white, #ffffff);
     }
 
-    .services-l5-list {
-      max-width: calc(var(--section-spacing, 80px) * 10);
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
+    .services-bg-gray { background: var(--gray-50, #f9fafb); }
+    .services-bg-white { background: var(--white, #ffffff); }
+    .services-bg-primary { background: var(--primary, #1e5a8a); color: var(--white, #ffffff); }
+
+    .services-l3-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(calc(var(--section-spacing, 80px) * 3.5), 1fr));
       gap: var(--gap-md, 24px);
     }
 
-    .services-l5-item {
-      display: flex;
-      gap: var(--gap-md, 24px);
+    .services-l3-card {
       padding: var(--card-padding, 32px);
     }
 
-    .services-l5-icon {
-      width: calc(var(--icon-size, 56px) + var(--gap-xs, 8px));
-      height: calc(var(--icon-size, 56px) + var(--gap-xs, 8px));
+    .services-l3-icon {
+      width: var(--icon-size, 56px);
+      height: var(--icon-size, 56px);
       background: var(--primary, #1e5a8a);
       border-radius: var(--radius, 12px);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: var(--text-h3, 28px);
-      flex-shrink: 0;
+      margin-bottom: var(--gap-sm, 20px);
+      font-size: var(--text-h4, 24px);
     }
 
-    .services-l5-content {
-      flex: 1;
-    }
-
-    .services-l5-item h3 {
-      font-size: var(--text-h3, 22px);
-      margin-bottom: var(--gap-xs, 8px);
+    .services-l3-card h3 {
+      font-size: var(--text-lg, 20px);
+      margin-bottom: var(--gap-xs, 12px);
       color: var(--text, #111827);
     }
 
-    .services-l5-item p {
+    .services-l3-card p {
       color: var(--muted, #6b7280);
-      font-size: var(--text-body, 16px);
+      font-size: var(--text-sm, 15px);
       line-height: 1.6;
-    }
-
-    @media (max-width: 640px) {
-      .services-l5-item {
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
-      }
     }
   
 
@@ -1026,22 +1051,188 @@
     }
   
 
+    footer {
+      background: var(--gray-800, #1f2937);
+      color: var(--white, #ffffff);
+      padding: var(--footer-spacing, 100px 0 40px);
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: var(--gap-lg, 40px);
+      flex-wrap: wrap;
+      gap: var(--gap-lg, 40px);
+    }
+
+    .footer-brand {
+      max-width: calc(var(--section-spacing, 140px) * 4.375);
+    }
+
+    .footer-brand h3 {
+      font-size: var(--text-h4, 24px);
+      font-weight: 800;
+      margin-bottom: var(--gap-xs, 12px);
+    }
+
+    .footer-brand p {
+      color: var(--gray-400, #9ca3af);
+      font-size: var(--text-sm, 14px);
+      line-height: 1.6;
+    }
+
+    .footer-license {
+      margin-top: var(--gap-sm, 16px);
+      font-size: var(--text-sm, 13px);
+      color: var(--gray-400, #9ca3af);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: var(--gap-lg, 40px);
+    }
+
+    .footer-links a {
+      color: var(--gray-400, #9ca3af);
+      font-size: var(--text-sm, 14px);
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--white, #ffffff);
+    }
+
+    .footer-contact {
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap-xs, 12px);
+    }
+
+    .footer-contact a {
+      color: var(--gray-400, #9ca3af);
+      font-size: var(--text-sm, 14px);
+      display: flex;
+      align-items: center;
+      gap: var(--gap-xs, 8px);
+      transition: color 0.2s;
+    }
+
+    .footer-contact a:hover {
+      color: var(--white, #ffffff);
+    }
+
+    .footer-location {
+      color: var(--gray-400, #9ca3af);
+      font-size: var(--text-sm, 14px);
+    }
+
+    .footer-social {
+      display: flex;
+      gap: var(--gap-sm, 16px);
+      margin-top: var(--gap-sm, 20px);
+    }
+
+    .footer-social a {
+      width: var(--avatar-size, 40px);
+      height: var(--avatar-size, 40px);
+      background: var(--gray-700, #374151);
+      border-radius: var(--radius-sm, 8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-lg, 18px);
+      transition: background 0.2s;
+    }
+
+    .footer-social a:hover {
+      background: var(--primary, #1e5a8a);
+    }
+
+    .footer-bottom {
+      padding-top: var(--gap-md, 30px);
+      border-top: var(--border-width, 1px) solid var(--gray-700, #374151);
+      display: flex;
+      justify-content: space-between;
+      color: var(--gray-400, #9ca3af);
+      font-size: var(--text-sm, 13px);
+      flex-wrap: wrap;
+      gap: var(--gap-sm, 16px);
+    }
+
+    .footer-bottom a {
+      color: var(--accent, #14b8a6);
+    }
+
+    .footer-bottom a:hover {
+      color: var(--white, #ffffff);
+    }
+
+    .footer-minimal {
+      padding: calc(var(--section-spacing, 140px) * 0.5) 0;
+      text-align: center;
+    }
+
+    .footer-minimal-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: var(--gap-sm, 16px);
+      margin-bottom: calc(var(--gap-md, 24px) * 0.8333);
+    }
+
+    .footer-minimal-bottom {
+      justify-content: center;
+      border: none;
+      padding-top: 0;
+      text-align: center;
+    }
+
+    .footer-compact {
+      background: var(--gray-800, #1f2937);
+      color: var(--gray-400, #9ca3af);
+      padding: var(--gap-md, 24px) 0;
+      text-align: center;
+      font-size: var(--text-sm, 13px);
+    }
+
+    .footer-compact a {
+      color: var(--accent, #14b8a6);
+    }
+
+    @media (max-width: 768px) {
+      .footer-content {
+        flex-direction: column;
+      }
+
+      .footer-links {
+        flex-wrap: wrap;
+        gap: var(--gap-sm, 20px);
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  
   </style>
 </head>
 <body class="page-texture">
   
-    <header class="nav-n1">
-      <div class="container nav-n1-content">
-        <a href="#" class="nav-n1-logo">Luxe Realty Group</a>
-        <nav class="nav-n1-links">
-          <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
-        </nav>
-        
+    <header class="nav-n9">
+      <div class="container nav-n9-content">
+        <a href="#" class="nav-n9-logo">Luxe Realty Group</a>
+        <div class="nav-n9-right">
+          <nav class="nav-n9-links">
+            <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
+          </nav>
+          
+        </div>
       </div>
     </header>
   
 
-    <section class="dna-fade-in hero-h2 dna-animate">
+    <section class="dna-slide-in hero-h2 dna-animate">
       <div class="hero-h2-image">
         📸
       </div>
@@ -1049,8 +1240,8 @@
         <h1>Luxe Realty Group</h1>
         <p class="tagline">Curated listings and white-glove service for premium buyers.</p>
         <div class="hero-h2-buttons">
-          
-          
+          <a href="#contact" class="btn btn-primary">Book a Consultation</a>
+          <a href="#services" class="btn btn-secondary">Our Services</a>
         </div>
         
         <div class="trust-badges">
@@ -1084,42 +1275,36 @@
       </section>
     
 
-    <section class="dna-fade-in" id="services" class="services-l5 dna-animate">
+    <section class="dna-slide-in" id="services" class="services-l3 services-bg-gray dna-animate">
       <div class="container">
         <div class="section-header">
           <h2>Practice Areas</h2>
           <p>How we can help you</p>
         </div>
-        <div class="services-l5-list">
+        <div class="services-l3-grid">
           
-            <div class="services-l5-item dna-card card">
-              <div class="services-l5-icon">
+            <div class="services-l3-card dna-card card">
+              <div class="services-l3-icon">
                 ⭐
               </div>
-              <div class="services-l5-content">
-                <h3>Primary Service</h3>
-                <p>Our signature offering built for results and reliability.</p>
-              </div>
+              <h3>Primary Service</h3>
+              <p>Our signature offering built for results and reliability.</p>
             </div>
           
-            <div class="services-l5-item dna-card card">
-              <div class="services-l5-icon">
+            <div class="services-l3-card dna-card card">
+              <div class="services-l3-icon">
                 📋
               </div>
-              <div class="services-l5-content">
-                <h3>Consultation</h3>
-                <p>Clear guidance and planning tailored to your needs.</p>
-              </div>
+              <h3>Consultation</h3>
+              <p>Clear guidance and planning tailored to your needs.</p>
             </div>
           
-            <div class="services-l5-item dna-card card">
-              <div class="services-l5-icon">
+            <div class="services-l3-card dna-card card">
+              <div class="services-l3-icon">
                 ⭐
               </div>
-              <div class="services-l5-content">
-                <h3>Ongoing Support</h3>
-                <p>Proactive care, maintenance, and rapid response.</p>
-              </div>
+              <h3>Ongoing Support</h3>
+              <p>Proactive care, maintenance, and rapid response.</p>
             </div>
           
         </div>
@@ -1127,16 +1312,51 @@
     </section>
   
 
-    <section class="dna-fade-in testimonials testimonials-white testimonials-featured">
-      <div class="container-sm">
-        <div class="testimonial-stars">
-          ★★★★★
+    <section class="dna-slide-in" id="testimonials" class="testimonials ">
+      <div class="container">
+        <div class="section-header">
+          <h2>Client Testimonials</h2>
+          <p>Real reviews from satisfied customers</p>
         </div>
-        <blockquote>
-          "Outstanding experience from start to finish."
-        </blockquote>
-        <div class="testimonial-featured-author">— Jordan P.</div>
-        
+        <div class="testimonials-grid">
+          
+            <div class="testimonial-card card">
+              <div class="testimonial-stars">★★★★★</div>
+              <p class="testimonial-text">Outstanding experience from start to finish.</p>
+              <div class="testimonial-author">
+                <div class="testimonial-avatar">JP</div>
+                <div class="testimonial-author-info">
+                  <div class="testimonial-author-name">Jordan P.</div>
+                  
+                </div>
+              </div>
+            </div>
+          
+            <div class="testimonial-card card">
+              <div class="testimonial-stars">★★★★★</div>
+              <p class="testimonial-text">Professional, responsive, and easy to work with.</p>
+              <div class="testimonial-author">
+                <div class="testimonial-avatar">CL</div>
+                <div class="testimonial-author-info">
+                  <div class="testimonial-author-name">Casey L.</div>
+                  
+                </div>
+              </div>
+            </div>
+          
+            <div class="testimonial-card card">
+              <div class="testimonial-stars">★★★★★</div>
+              <p class="testimonial-text">The quality and attention to detail were exceptional.</p>
+              <div class="testimonial-author">
+                <div class="testimonial-avatar">RS</div>
+                <div class="testimonial-author-info">
+                  <div class="testimonial-author-name">Riley S.</div>
+                  
+                </div>
+              </div>
+            </div>
+          
+        </div>
       </div>
     </section>
   
@@ -1217,15 +1437,114 @@
     </section>
   
 
-    <footer class="footer-compact">
+    <footer>
       <div class="container">
-        <span>&copy; 2026 Luxe Realty Group. All rights reserved.</span>
-         · <a href="https://showcasedesigns.com">Website by Showcase Designs</a>
+        <div class="footer-content">
+          <div class="footer-brand">
+            <h3>Luxe Realty Group</h3>
+            <p>Your trusted local experts. Contact us today for professional service.</p>
+            
+            
+          </div>
+
+          <div class="footer-links">
+            <a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
+          </div>
+
+          <div class="footer-contact">
+            <a href="tel:(555) 219-4021">📞 (555) 219-4021</a>
+            <a href="mailto:hello@realtor.example.com">✉️ hello@realtor.example.com</a>
+            <span class="footer-location">📍 Phoenix, AZ</span>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>&copy; 2026 Luxe Realty Group. All rights reserved.</span>
+          <span>Website by <a href="https://showcasedesigns.com">Showcase Designs</a></span>
+        </div>
       </div>
     </footer>
   
   
-  
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script>
+    // Lenis Smooth Scroll - Smooth Feel
+    const lenis = new Lenis({
+      duration: 1.0,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      smoothWheel: true,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+  </script>
+  <script>(function() {
+    const selector = ".scroll-reveal";
+    const baseClass = "scroll-reveal";
+    const visibleClass = "scroll-reveal--visible";
+    const dataAttr = "data-scroll-reveal";
+    const defaultEffect = "slide";
+    const effectPrefix = "scroll-reveal--";
+    const once = true;
+    const threshold = 0.15;
+    const rootMargin = "0px";
+    const preferReducedMotion = true;
+    const effects = ['fade', 'slide', 'scale'];
+
+    const init = () => {
+      const elements = Array.from(document.querySelectorAll(selector));
+      if (!elements.length) return;
+
+      const applyEffectClass = (element) => {
+        element.classList.add(baseClass);
+        const attr = (element.getAttribute(dataAttr) || '').toLowerCase();
+        const effect = effects.includes(attr) ? attr : defaultEffect;
+        element.classList.add(effectPrefix + effect);
+      };
+
+      const reveal = (element) => {
+        element.classList.add(visibleClass);
+      };
+
+      elements.forEach(applyEffectClass);
+
+      if (preferReducedMotion && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        elements.forEach(reveal);
+        return;
+      }
+
+      if (!('IntersectionObserver' in window)) {
+        elements.forEach(reveal);
+        return;
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting || entry.intersectionRatio > 0) {
+            reveal(entry.target);
+            if (once) {
+              observer.unobserve(entry.target);
+            }
+          } else if (!once) {
+            entry.target.classList.remove(visibleClass);
+          }
+        });
+      }, { threshold, rootMargin });
+
+      elements.forEach((element) => observer.observe(element));
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();</script>
   
 </body>
 </html>

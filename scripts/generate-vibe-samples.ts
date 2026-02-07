@@ -163,9 +163,9 @@ async function main() {
         ...CONTACT_BASE,
         email: `hello@${site.industry}.example.com`,
       },
-      ctaText: 'Book a Consultation',
+      primaryCTA: { text: 'Book a Consultation', href: '#contact' },
+      secondaryCTA: { text: 'Our Services', href: '#services' },
       trustBadges: ['Licensed & Insured', 'Same-Day Service', '5-Star Rated'],
-      heroVideoUrl: site.heroVideoUrl,
     };
 
     const html = buildWebsite(content, { dna, vibe: site.vibe });
