@@ -1,10 +1,14 @@
 /**
  * Content Generator
  *
- * Uses Claude to generate personalized website content for leads.
+ * Uses AI to generate personalized website content for leads.
+ * Supports multiple backends (Anthropic Claude, OpenRouter).
  */
 
 import { getClaudeClient, ClaudeClient } from '../ai/claude-client';
+import { AIClient, AIBackend, CompletionOptions } from '../ai/ai-client';
+import { createAIClient, getDefaultAIClient } from '../ai/ai-client-factory';
+import { ContentTaskType, selectModel, MODELS, ModelId } from '../ai/model-router';
 import { IndustryType, getIndustryTemplate } from '../ai/industry-templates';
 import { PreviewContent } from '../overnight/types';
 import { logger } from '../utils/logger';
@@ -20,26 +24,87 @@ export interface ContentGenerationInput {
   address?: string;
 }
 
-export class ContentGenerator {
-  private claude: ClaudeClient;
+/**
+ * Configuration for ContentGenerator
+ */
+export interface ContentGeneratorConfig {
+  /** Backend to use: 'anthropic' (default) or 'openrouter' */
+  backend?: AIBackend;
+  /** Task type for model selection (used with OpenRouter) */
+  taskType?: ContentTaskType;
+  /** Force a specific model (overrides task-based selection) */
+  modelOverride?: string;
+  /** Track which model was used for each generation */
+  trackModelUsage?: boolean;
+}
 
-  constructor() {
-    this.claude = getClaudeClient();
+/**
+ * Result of content generation with model tracking
+ */
+export interface ContentGenerationResult {
+  content: PreviewContent;
+  modelUsed?: string;
+  taskType?: ContentTaskType;
+}
+
+export class ContentGenerator {
+  private client: AIClient;
+  private config: ContentGeneratorConfig;
+  private lastModelUsed?: string;
+
+  constructor(config: ContentGeneratorConfig = {}) {
+    this.config = config;
+
+    // Default to Anthropic for backwards compatibility
+    if (config.backend === 'openrouter') {
+      const defaultModel = config.modelOverride || this.getModelForTask(config.taskType);
+      this.client = createAIClient({
+        backend: 'openrouter',
+        defaultModel,
+      });
+    } else {
+      this.client = getDefaultAIClient();
+    }
+  }
+
+  /**
+   * Get the model to use based on task type
+   */
+  private getModelForTask(taskType?: ContentTaskType): string | undefined {
+    if (!taskType) return undefined;
+    const selection = selectModel({ type: taskType });
+    return selection.model;
   }
 
   /**
    * Generate website content for a lead
    */
   async generate(input: ContentGenerationInput): Promise<PreviewContent> {
+    const result = await this.generateWithTracking(input);
+    return result.content;
+  }
+
+  /**
+   * Generate website content with model tracking
+   */
+  async generateWithTracking(input: ContentGenerationInput): Promise<ContentGenerationResult> {
     const industryTemplate = getIndustryTemplate(input.industry);
     const location = [input.city, input.state].filter(Boolean).join(', ') || 'the local area';
 
     const prompt = this.buildPrompt(input, industryTemplate, location);
 
-    logger.debug('Generating content', { businessName: input.businessName, industry: input.industry });
+    logger.debug('Generating content', {
+      businessName: input.businessName,
+      industry: input.industry,
+      backend: this.config.backend || 'anthropic',
+      taskType: this.config.taskType,
+    });
+
+    // Determine model to use
+    const model = this.config.modelOverride || this.getModelForTask(this.config.taskType);
 
     try {
-      const result = await this.claude.analyzeJSON<PreviewContent>(prompt, {
+      const completionOptions: CompletionOptions = {
         systemPrompt: `You are a professional copywriter specializing in websites for local businesses.
 Generate compelling, professional website content that is:
 - Trustworthy and credible
@@ -49,14 +114,42 @@ Generate compelling, professional website content that is:
 
 Respond ONLY with valid JSON matching the requested schema.`,
         maxTokens: 2000,
-      });
+        model,
+      };
 
-      return this.validateAndCleanContent(result, input);
+      const result = await this.client.analyzeJSON<PreviewContent>(prompt, completionOptions);
+      this.lastModelUsed = model;
+
+      const content = this.validateAndCleanContent(result, input);
+
+      return {
+        content,
+        modelUsed: model,
+        taskType: this.config.taskType,
+      };
     } catch (error: any) {
       logger.error('Content generation failed', { error: error.message });
       // Return fallback content
-      return this.generateFallbackContent(input, industryTemplate, location);
+      return {
+        content: this.generateFallbackContent(input, industryTemplate, location),
+        modelUsed: model,
+        taskType: this.config.taskType,
+      };
     }
+  }
+
+  /**
+   * Get the last model used for generation
+   */
+  getLastModelUsed(): string | undefined {
+    return this.lastModelUsed;
+  }
+
+  /**
+   * Get cumulative token usage
+   */
+  getUsage() {
+    return this.client.getUsage();
   }
 
   /**
@@ -181,7 +274,21 @@ Our team brings years of experience and a commitment to customer satisfaction th
 /**
  * Generate content for a lead (convenience function)
  */
-export async function generateContentForLead(input: ContentGenerationInput): Promise<PreviewContent> {
-  const generator = new ContentGenerator();
+export async function generateContentForLead(
+  input: ContentGenerationInput,
+  config?: ContentGeneratorConfig
+): Promise<PreviewContent> {
+  const generator = new ContentGenerator(config);
   return generator.generate(input);
+}
+
+/**
+ * Generate content with model tracking (convenience function)
+ */
+export async function generateContentWithTracking(
+  input: ContentGenerationInput,
+  config?: ContentGeneratorConfig
+): Promise<ContentGenerationResult> {
+  const generator = new ContentGenerator(config);
+  return generator.generateWithTracking(input);
 }

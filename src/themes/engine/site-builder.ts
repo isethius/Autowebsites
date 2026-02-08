@@ -27,6 +27,10 @@ import {
   type SectionConfig,
   type SectionOutput,
 } from './section-registry';
+import { registerExistingSections } from './section-adapters';
+
+// Register all section adapters on module load
+registerExistingSections();
 import { resolveServiceLayout, generateLayoutCSS } from './layout-resolver';
 import { getContentTone, generateTonePrompt } from './content-tone';
 import {
@@ -36,9 +40,11 @@ import {
   getGoogleFontsPreconnect,
 } from '../../preview/industry-templates/_shared/styles/dna-styles';
 import { getSkin, getSkinOverrides, generateSkinCSS, getCompleteSkinCSS } from '../skins';
-import { generateScrollRevealCSS, generateScrollRevealScript } from '../../effects/scroll-reveal';
+import { generateScrollRevealCSS, generateScrollRevealScript, generateUnifiedRevealScript } from '../../effects/scroll-reveal';
 import { generateParallaxCSS, generateParallaxScript } from '../../effects/parallax';
 import { generateTextureOverlayCSS, getTextureOverlayForVibe } from '../../effects/texture-overlays';
+import { generateMagneticScript } from '../../effects/magnetic';
+import { generateCounterScript } from '../../effects/counter';
 import { generateSeoTags, type SeoConfig } from '../../seo/seo-generator';
 import { generateVibeCopy, type VibeCopyContext } from '../../copy/vibe-copy-engine';
 
@@ -907,6 +913,15 @@ function assembleDocument(params: {
     : '';
   const parallaxScript = chaos > 0.5 ? generateParallaxScript() : '';
 
+  // Interaction layer scripts - based on motion DNA
+  // M1: fade reveals only, M2: + magnetic, M3: + split text + counters
+  const needsMagnetic = motion === 'M2' || motion === 'M3';
+  const needsAdvanced = motion === 'M3';
+
+  const counterScript = generateCounterScript();
+  const unifiedRevealScript = generateUnifiedRevealScript();
+  const magneticScript = needsMagnetic ? generateMagneticScript() : '';
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -928,6 +943,9 @@ function assembleDocument(params: {
 <body class="page-texture">
   ${allHTML}
   ${lenisScript}
+  ${counterScript}
+  ${unifiedRevealScript}
+  ${magneticScript}
   ${scrollRevealScript}
   ${parallaxScript}
 </body>

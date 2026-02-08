@@ -59,6 +59,12 @@ import {
   type StatsConfig,
 } from '../../preview/industry-templates/_shared/sections/stats';
 
+import {
+  generateAboutSection,
+  generateAboutCSS,
+  type AboutConfig,
+} from '../../preview/industry-templates/_shared/sections/about';
+
 import { ColorPalette } from '../../overnight/types';
 import { Testimonial } from '../../preview/industry-templates/_shared/types';
 import { getAnimationClass } from '../../preview/industry-templates/_shared/styles/dna-styles';
@@ -791,6 +797,33 @@ const statsVariants: SectionVariant[] = [
 ];
 
 // =============================================================================
+// ABOUT SECTION ADAPTERS
+// =============================================================================
+
+const aboutVariants: SectionVariant[] = [
+  {
+    id: 'about-split',
+    name: 'Split About',
+    category: 'about',
+    description: 'Two-column layout with text and image',
+    dnaMatch: { layout: 'L3' },
+    chaosRange: [0, 0.6],
+    priority: 1,
+    render: (config: SectionConfig): SectionOutput => {
+      const output = {
+        html: generateAboutSection({
+          businessName: config.content.businessName as string || 'Our Company',
+          description: config.content.description as string,
+          tagline: config.content.tagline as string,
+        }),
+        css: generateAboutCSS(),
+      };
+      return withAnimation(output, config.dna.motion || 'M1');
+    },
+  },
+];
+
+// =============================================================================
 // REGISTRATION
 // =============================================================================
 
@@ -807,6 +840,7 @@ export function registerExistingSections(): void {
     ...contactVariants,
     ...footerVariants,
     ...statsVariants,
+    ...aboutVariants,
   ]);
 }
 
@@ -821,6 +855,7 @@ export function getAdapterCount(): number {
     testimonialsVariants.length +
     contactVariants.length +
     footerVariants.length +
-    statsVariants.length
+    statsVariants.length +
+    aboutVariants.length
   );
 }

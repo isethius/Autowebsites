@@ -166,28 +166,28 @@
     }
   
     
-    /* Skin Variables for D11 */
+    /* Skin Variables for D10 */
     :root {
-  --radius: 0.75rem;
-  --radius-sm: 0.5rem;
-  --radius-lg: 1.5rem;
-  --radius-pill: 625rem;
-  --shadow-card: 0 40px 120px -40px rgba(15, 23, 42, 0.5), 0 16px 40px -26px rgba(15, 23, 42, 0.25);
+  --radius: 0px;
+  --radius-sm: 0px;
+  --radius-lg: 0px;
+  --radius-pill: 0px;
+  --shadow-card: none;
   --backdrop: none;
   --bg-surface: var(--background);
   --border-width: 1px;
-  --border-color: rgba(15, 23, 42, 0.08);
-  --section-spacing: 8.75rem;
-  --card-padding: 3.5rem;
-  --btn-padding: 1.125rem 2.75rem;
-  --btn-padding-sm: 0.875rem 2rem;
-  --nav-padding: 2rem 0;
-  --footer-spacing: 8.75rem 0 3.75rem;
-  --gap-xs: 0.625rem;
-  --gap-sm: 1.25rem;
-  --gap-md: 2rem;
-  --gap-lg: 3.5rem;
-  --gap-xl: 5.5rem;
+  --border-color: #000;
+  --section-spacing: 140px;
+  --card-padding: 40px;
+  --btn-padding: 16px 40px;
+  --btn-padding-sm: 12px 28px;
+  --nav-padding: 24px 0;
+  --footer-spacing: 100px 0 40px;
+  --gap-xs: 8px;
+  --gap-sm: 16px;
+  --gap-md: 32px;
+  --gap-lg: 48px;
+  --gap-xl: 80px;
   --text-h1: 48px;
   --text-h2: 36px;
   --text-h3: 28px;
@@ -195,42 +195,96 @@
   --text-body: 16px;
   --text-lg: 20px;
   --text-sm: 14px;
-  --icon-size: 3.75rem;
-  --avatar-size: 3.5rem;
-  --btn-text-transform: none;
-  --hover-transform: translateY(-0.375rem);
+  --icon-size: 48px;
+  --avatar-size: 48px;
+  --btn-text-transform: uppercase;
 }
 
     /* Skin Overrides */
     
-    :root {
-      --hover-shadow: 0 60px 150px -60px rgba(15, 23, 42, 0.6), 0 24px 60px -40px rgba(15, 23, 42, 0.28);
+    /* Swiss Typography - Clean and Rational */
+    h1, h2, h3, h4, h5, h6 {
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      font-weight: 700;
     }
 
+    /* Swiss Cards - Border only, no shadow */
     .dna-card,
-    .card,
     .service-card,
     .testimonial-card {
-      background: var(--bg-surface, var(--white, #ffffff));
-      box-shadow: var(--shadow-card);
-      border: var(--border-width, 1px) solid var(--border-color, rgba(15, 23, 42, 0.08));
+      background: var(--white);
+      border: var(--border-width, 1px) solid var(--border-color, #000);
+      box-shadow: none;
     }
 
     .dna-card:hover,
-    .card:hover,
     .service-card:hover,
     .testimonial-card:hover {
-      box-shadow: var(--shadow-card);
-      transform: var(--hover-transform, translateY(-0.375rem));
+      background: var(--gray-50);
+      transform: none;
     }
 
-    .btn-primary:hover,
-    .btn-white:hover {
-      box-shadow: var(--shadow-card);
+    /* Swiss Buttons - Outlined, precise */
+    .btn,
+    .btn-primary,
+    .btn-secondary {
+      border: 1px solid currentColor;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+    }
+
+    .btn-primary {
+      background: var(--text);
+      color: var(--background);
+      border-color: var(--text);
+    }
+
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--text);
     }
 
     .btn-secondary {
-      border-width: var(--border-width, 1px);
+      background: transparent;
+      color: var(--text);
+      border-color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: var(--text);
+      color: var(--background);
+    }
+
+    /* Swiss Grid Lines */
+    section {
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    section:last-of-type {
+      border-bottom: none;
+    }
+
+    /* Swiss Form Inputs */
+    input,
+    textarea,
+    select {
+      border: 1px solid var(--text);
+      border-radius: 0;
+      background: transparent;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-width: 2px;
+      outline: none;
+    }
+
+    /* Swiss Images - No curves */
+    img {
+      border-radius: 0;
     }
   
   
@@ -280,26 +334,26 @@
       --letter-spacing: 0.05em;
 
       /* ========== SPACING SCALE ========== */
-      --section-spacing: 8.75rem;
-      --card-padding: 3.5rem;
-      --btn-padding: 1.125rem 2.75rem;
-      --btn-padding-sm: 0.875rem 2rem;
-      --nav-padding: 2rem 0;
-      --footer-spacing: 8.75rem 0 3.75rem;
+      --section-spacing: 140px;
+      --card-padding: 40px;
+      --btn-padding: 16px 40px;
+      --btn-padding-sm: 12px 28px;
+      --nav-padding: 24px 0;
+      --footer-spacing: 100px 0 40px;
 
       /* Gap Scale */
-      --gap-xs: 0.625rem;
-      --gap-sm: 1.25rem;
-      --gap-md: 2rem;
-      --gap-lg: 3.5rem;
-      --gap-xl: 5.5rem;
+      --gap-xs: 8px;
+      --gap-sm: 16px;
+      --gap-md: 32px;
+      --gap-lg: 48px;
+      --gap-xl: 80px;
 
       /* ========== RADIUS SCALE (from Skin) ========== */
-      --radius: 0.75rem;
-      --radius-sm: 0.5rem;
-      --radius-md: 0.75rem;
-      --radius-lg: 1.5rem;
-      --radius-pill: 625rem;
+      --radius: 0px;
+      --radius-sm: 0px;
+      --radius-md: 0px;
+      --radius-lg: 0px;
+      --radius-pill: 0px;
 
       /* Legacy support */
       --border-radius: var(--radius, 12px);
@@ -307,7 +361,7 @@
       --border-radius-lg: var(--radius-lg, 16px);
 
       /* ========== SHADOWS & EFFECTS (from Skin) ========== */
-      --shadow-card: 0 40px 120px -40px rgba(15, 23, 42, 0.5), 0 16px 40px -26px rgba(15, 23, 42, 0.25);
+      --shadow-card: none;
       --backdrop: none;
       --bg-surface: var(--background);
 
@@ -316,22 +370,22 @@
 
       /* ========== BORDERS (from Skin) ========== */
       --border-width: 1px;
-      --border-color: rgba(15, 23, 42, 0.08);
+      --border-color: #000;
 
       /* ========== SIZES ========== */
-      --icon-size: 3.75rem;
-      --avatar-size: 3.5rem;
+      --icon-size: 48px;
+      --avatar-size: 48px;
 
       /* ========== TRANSFORMS (from Skin) ========== */
-      --btn-text-transform: none;
+      --btn-text-transform: uppercase;
 
       /* ========== MOTION DNA (M1-M3) ========== */
-      --transition-duration: 0.3s;
-      --hover-transform: translateY(-4px);
-      --hover-shadow: 0 16px 48px rgba(0,0,0,0.15);
+      --transition-duration: 0.4s;
+      --hover-transform: translateY(-2px);
+      --hover-shadow: 0 0 30px rgba(var(--primary-rgb, 59, 130, 246), 0.4);
 
       /* Design Style Tag (for debugging) */
-      --design-style: 'layered';
+      --design-style: 'gradient-border';
     }
 
     /* ========== BASE TYPOGRAPHY ========== */
@@ -443,55 +497,224 @@
 
     /* ========== ENTRANCE ANIMATIONS ========== */
     
-        @keyframes dna-slide-in {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
+        @keyframes dna-scale-in {
+          from { opacity: 0; transform: scale(0.9); }
+          to { opacity: 1; transform: scale(1); }
         }
-        .dna-animate { animation: dna-slide-in 0.4s ease-out forwards; }
+        .dna-animate { animation: dna-scale-in 0.6s ease-out forwards; }
       
 
     /* ========== SKIN OVERRIDES ========== */
     
-    :root {
-      --hover-shadow: 0 60px 150px -60px rgba(15, 23, 42, 0.6), 0 24px 60px -40px rgba(15, 23, 42, 0.28);
+    /* Swiss Typography - Clean and Rational */
+    h1, h2, h3, h4, h5, h6 {
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      font-weight: 700;
     }
 
+    /* Swiss Cards - Border only, no shadow */
     .dna-card,
-    .card,
     .service-card,
     .testimonial-card {
-      background: var(--bg-surface, var(--white, #ffffff));
-      box-shadow: var(--shadow-card);
-      border: var(--border-width, 1px) solid var(--border-color, rgba(15, 23, 42, 0.08));
+      background: var(--white);
+      border: var(--border-width, 1px) solid var(--border-color, #000);
+      box-shadow: none;
     }
 
     .dna-card:hover,
-    .card:hover,
     .service-card:hover,
     .testimonial-card:hover {
-      box-shadow: var(--shadow-card);
-      transform: var(--hover-transform, translateY(-0.375rem));
+      background: var(--gray-50);
+      transform: none;
     }
 
-    .btn-primary:hover,
-    .btn-white:hover {
-      box-shadow: var(--shadow-card);
+    /* Swiss Buttons - Outlined, precise */
+    .btn,
+    .btn-primary,
+    .btn-secondary {
+      border: 1px solid currentColor;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+    }
+
+    .btn-primary {
+      background: var(--text);
+      color: var(--background);
+      border-color: var(--text);
+    }
+
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--text);
     }
 
     .btn-secondary {
-      border-width: var(--border-width, 1px);
+      background: transparent;
+      color: var(--text);
+      border-color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: var(--text);
+      color: var(--background);
+    }
+
+    /* Swiss Grid Lines */
+    section {
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    section:last-of-type {
+      border-bottom: none;
+    }
+
+    /* Swiss Form Inputs */
+    input,
+    textarea,
+    select {
+      border: 1px solid var(--text);
+      border-radius: 0;
+      background: transparent;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-width: 2px;
+      outline: none;
+    }
+
+    /* Swiss Images - No curves */
+    img {
+      border-radius: 0;
     }
   
 
     /* ========== DESIGN-SPECIFIC OVERRIDES ========== */
     
+        .dna-card {
+          position: relative;
+          background: var(--white, #ffffff);
+        }
+        .dna-card::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          padding: 2px;
+          border-radius: inherit;
+          background: linear-gradient(135deg, var(--primary, #1e5a8a), var(--accent, #14b8a6));
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+        }
+      
+
+    /* ========== INTERACTION LAYER ========== */
+    
+    /* === COMPOSITION OPT-IN === */
+    :root {
+      --mx: 0px; --my: 0px;           /* Magnetic offset */
+      --h-scale: 1; --h-skew: 0deg;   /* Hover transform */
+      --r-y: 0px; --r-scale: 1; --r-opacity: 1;  /* Reveal state */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --dur: 0.6s;
+      --stagger: 0.08s;
+    }
+
+    /* Opt-in GPU composition */
+    .fx {
+      transform:
+        translate3d(var(--mx), var(--my), 0)
+        translateY(var(--r-y))
+        scale(var(--r-scale))
+        skewX(var(--h-skew))
+        scale(var(--h-scale));
+      opacity: var(--r-opacity);
+      transition: transform var(--dur) var(--ease-out), opacity var(--dur) ease;
+      transform-origin: center;
+      will-change: transform, opacity;
+    }
+
+    /* Reveal initial states (data-reveal implies .fx) */
+    [data-reveal="up"] { --r-y: 60px; --r-opacity: 0; }
+    [data-reveal="scale"] { --r-scale: 0.9; --r-opacity: 0; }
+    [data-reveal="fade"] { --r-opacity: 0; }
+    .is-visible[data-reveal] { --r-y: 0px; --r-scale: 1; --r-opacity: 1; }
+
+    /* Split-text */
+    .reveal-text { display: inline-block; overflow: hidden; }
+    .reveal-text .word {
+      display: inline-block;
+      transform: translateY(110%);
+      opacity: 0;
+      transition: transform var(--dur) var(--ease-out), opacity var(--dur) ease;
+      transition-delay: calc(var(--i, 0) * var(--stagger));
+    }
+    .is-visible .word { transform: translateY(0); opacity: 1; }
+
+    /* Reduced motion: show final states */
+    @media (prefers-reduced-motion: reduce) {
+      .fx { transition: none !important; }
+      [data-reveal] { --r-y: 0px !important; --r-scale: 1 !important; --r-opacity: 1 !important; }
+      .reveal-text .word { transform: none !important; opacity: 1 !important; transition: none !important; }
+    }
+  
+
+    /* ========== HOVER VARIANTS ========== */
+    
+    /* Hover genes - capability gated */
+    @media (hover: hover) and (pointer: fine) {
+      /* V1: Lift (existing, enhanced) */
+      .dna-hover-v1:hover { --h-scale: 1.02; transform: translateY(-4px); }
+
+      /* V2: Glow */
+      .dna-hover-v2:hover {
+        box-shadow: 0 0 20px var(--primary), 0 0 40px rgba(var(--primary-rgb, 59, 130, 246), 0.3);
+        --h-scale: 1.02;
+      }
+
+      /* V3: Skew */
+      .dna-hover-v3:hover { --h-skew: -6deg; --h-scale: 1.03; }
+
+      /* V4: Scale */
+      .dna-hover-v4:hover { --h-scale: 1.08; }
+
+      /* Magnetic button marker */
+      .btn-magnetic { cursor: none; }
+      .btn-magnetic.is-hovering { --h-scale: 1.05; }
+    }
+
+    /* Link underline animation */
+    @media (hover: hover) and (pointer: fine) {
+      .link-animated {
+        position: relative;
+        text-decoration: none;
+      }
+      .link-animated::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0;
+        width: 100%; height: 2px;
+        background: currentColor;
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.3s var(--ease-out);
+      }
+      .link-animated:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
+    }
+  
   
     
     .scroll-reveal {
       opacity: 0;
       transform: none;
       transition-property: opacity, transform;
-      transition-duration: 600ms;
+      transition-duration: 800ms;
       transition-timing-function: cubic-bezier(0.2, 0.6, 0.2, 1);
       will-change: opacity, transform;
     }
@@ -1229,7 +1452,7 @@
     </header>
   
 
-    <section class="dna-slide-in hero-h2 dna-animate">
+    <section class="dna-scale-in hero-h2 dna-animate">
       <div class="hero-h2-image">
         📸
       </div>
@@ -1272,7 +1495,7 @@
       </section>
     
 
-    <section class="dna-slide-in testimonials testimonials-slider">
+    <section class="dna-scale-in testimonials testimonials-slider">
       <div class="container-sm">
         <div class="testimonial-stars">
           ★★★★★
@@ -1302,7 +1525,7 @@
       </section>
     
 
-    <section class="dna-slide-in" id="services" class="services-l10 dna-animate">
+    <section class="dna-scale-in" id="services" class="services-l10 dna-animate">
       <div class="container">
         <div class="section-header">
           <h2>Services</h2>
@@ -1390,9 +1613,9 @@
   
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
   <script>
-    // Lenis Smooth Scroll - Smooth Feel
+    // Lenis Smooth Scroll - Luxurious Feel
     const lenis = new Lenis({
-      duration: 1.0,
+      duration: 1.4,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       smoothWheel: true,
@@ -1405,6 +1628,167 @@
 
     requestAnimationFrame(raf);
   </script>
+  <script>
+(function() {
+  var formatters = {
+    comma: function(n, d) {
+      return n.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+    },
+    compact: function(n) {
+      return Intl.NumberFormat('en', { notation: 'compact' }).format(n);
+    },
+    percent: function(n, d) {
+      return n.toFixed(d) + '%';
+    },
+    plain: function(n, d) {
+      return n.toFixed(d);
+    }
+  };
+
+  var animate = function(el) {
+    if (el.dataset.counted) return;
+    el.dataset.counted = '1';
+    var target = parseFloat(el.dataset.target || el.textContent || '0');
+    var format = el.dataset.format || 'comma';
+    var decimals = parseInt(el.dataset.decimals || '0', 10);
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.textContent = formatters[format](target, decimals);
+      return;
+    }
+
+    var duration = 2000;
+    var start = performance.now();
+    var ease = function(t) { return 1 - Math.pow(1 - t, 3); };
+
+    var tick = function(now) {
+      var progress = Math.min((now - start) / duration, 1);
+      el.textContent = formatters[format](target * ease(progress), decimals);
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        el.textContent = formatters[format](target, decimals);
+      }
+    };
+    requestAnimationFrame(tick);
+  };
+
+  window.__animateCounter = animate;
+})();
+</script>
+  <script>
+(function() {
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var handleElement = function(el) {
+    // Add .fx if data-reveal
+    if (el.dataset.reveal) el.classList.add('fx');
+
+    // Split text
+    if (el.dataset.reveal === 'split' && !el.dataset.split) {
+      el.dataset.split = '1';
+      var text = el.textContent || '';
+      el.setAttribute('aria-label', text);
+      el.innerHTML = text.split(/\s+/).map(function(w, i) {
+        return '<span class="word" style="--i:' + i + '" aria-hidden="true">' + w + '</span>';
+      }).join(' ');
+      el.classList.add('reveal-text');
+    }
+  };
+
+  var reveal = function(el) {
+    el.classList.add('is-visible');
+
+    // Trigger counter if applicable
+    if (el.dataset.counter !== undefined && window.__animateCounter) {
+      window.__animateCounter(el);
+    }
+  };
+
+  var elements = document.querySelectorAll('[data-reveal], [data-counter]');
+  elements.forEach(handleElement);
+
+  if (prefersReducedMotion) {
+    elements.forEach(reveal);
+    return;
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    elements.forEach(reveal);
+    return;
+  }
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        reveal(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+  elements.forEach(function(el) { observer.observe(el); });
+})();
+</script>
+  <script>
+(function() {
+  var strength = 0.3;
+  var smoothing = 0.15;
+
+  // Capability check
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+
+  var elements = document.querySelectorAll('.btn-magnetic');
+
+  elements.forEach(function(el) {
+    var rect;
+    var targetX = 0, targetY = 0;
+    var currentX = 0, currentY = 0;
+    var rafId = null;
+
+    function lerp(start, end, factor) {
+      return start + (end - start) * factor;
+    }
+
+    function animate() {
+      currentX = lerp(currentX, targetX, smoothing);
+      currentY = lerp(currentY, targetY, smoothing);
+
+      el.style.setProperty('--mx', currentX + 'px');
+      el.style.setProperty('--my', currentY + 'px');
+
+      if (Math.abs(targetX - currentX) < 0.1 && Math.abs(targetY - currentY) < 0.1) {
+        if (targetX === 0 && targetY === 0) {
+          rafId = null;
+          return;
+        }
+      }
+      rafId = requestAnimationFrame(animate);
+    }
+
+    el.addEventListener('pointerenter', function() {
+      rect = el.getBoundingClientRect();
+      el.classList.add('is-hovering', 'fx');
+      if (!rafId) rafId = requestAnimationFrame(animate);
+    });
+
+    el.addEventListener('pointermove', function(e) {
+      if (!rect) return;
+      var centerX = rect.left + rect.width / 2;
+      var centerY = rect.top + rect.height / 2;
+      targetX = (e.clientX - centerX) * strength;
+      targetY = (e.clientY - centerY) * strength;
+    });
+
+    el.addEventListener('pointerleave', function() {
+      targetX = 0;
+      targetY = 0;
+      el.classList.remove('is-hovering');
+    });
+  });
+})();
+</script>
   <script>(function() {
     const selector = ".scroll-reveal";
     const baseClass = "scroll-reveal";

@@ -240,3 +240,76 @@ export {
   DEFAULT_VISIBLE_CLASSNAME as SCROLL_REVEAL_VISIBLE_CLASSNAME,
   DEFAULT_DATA_ATTRIBUTE as SCROLL_REVEAL_DATA_ATTRIBUTE,
 };
+
+// =============================================================================
+// UNIFIED REVEAL OBSERVER
+// =============================================================================
+
+/**
+ * Generate the unified reveal script
+ *
+ * This single observer handles:
+ * 1. data-reveal elements (up, scale, fade, split)
+ * 2. data-counter elements (triggers window.__animateCounter)
+ * 3. Split text initialization
+ *
+ * Uses CSS-driven state - just adds .is-visible class and lets CSS handle animation.
+ *
+ * @returns HTML script tag with unified reveal initialization
+ */
+export function generateUnifiedRevealScript(): string {
+  return `<script>
+(function() {
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var handleElement = function(el) {
+    // Add .fx if data-reveal
+    if (el.dataset.reveal) el.classList.add('fx');
+
+    // Split text
+    if (el.dataset.reveal === 'split' && !el.dataset.split) {
+      el.dataset.split = '1';
+      var text = el.textContent || '';
+      el.setAttribute('aria-label', text);
+      el.innerHTML = text.split(/\\s+/).map(function(w, i) {
+        return '<span class="word" style="--i:' + i + '" aria-hidden="true">' + w + '</span>';
+      }).join(' ');
+      el.classList.add('reveal-text');
+    }
+  };
+
+  var reveal = function(el) {
+    el.classList.add('is-visible');
+
+    // Trigger counter if applicable
+    if (el.dataset.counter !== undefined && window.__animateCounter) {
+      window.__animateCounter(el);
+    }
+  };
+
+  var elements = document.querySelectorAll('[data-reveal], [data-counter]');
+  elements.forEach(handleElement);
+
+  if (prefersReducedMotion) {
+    elements.forEach(reveal);
+    return;
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    elements.forEach(reveal);
+    return;
+  }
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        reveal(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+  elements.forEach(function(el) { observer.observe(el); });
+})();
+</script>`;
+}
