@@ -9,6 +9,7 @@ import { ColorPalette } from '../../../../overnight/types';
 import { DNACode, DESIGN_VARIANTS } from '../../../../themes/variance-planner';
 import { escapeHtml } from '../utils';
 import { SectionOutput } from '../types';
+import { icons, getImagePlaceholder } from '../icons';
 
 export interface HeroConfig {
   headline: string;
@@ -125,6 +126,35 @@ export function generateHeroCSS(): string {
       display: flex;
       align-items: center;
       justify-content: center;
+      color: var(--white, #ffffff);
+    }
+
+    .trust-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .trust-check {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 4px;
+    }
+
+    .trust-check svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .trust-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .trust-item svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
     }
 
     .hero-image {
@@ -134,7 +164,12 @@ export function generateHeroCSS(): string {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: var(--text-h1, 48px);
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .hero-image svg {
+      width: 48px;
+      height: 48px;
     }
 
     .hero-centered .container {
@@ -228,7 +263,7 @@ export function generateHeroGradient(config: HeroConfig): string {
           <div class="trust-badges">
             ${trustBadges.map(badge => `
               <div class="trust-badge">
-                <div class="trust-icon">✓</div>
+                <div class="trust-icon">${icons.check({ size: 16 })}</div>
                 <span>${escapeHtml(badge)}</span>
               </div>
             `).join('')}
@@ -236,7 +271,7 @@ export function generateHeroGradient(config: HeroConfig): string {
           ` : ''}
         </div>
         <div class="hero-image">
-          📸
+          ${getImagePlaceholder({ size: 48 })}
         </div>
       </div>
     </section>
@@ -254,7 +289,7 @@ export function generateHeroSplit(config: HeroConfig): string {
     <section class="hero hero-split">
       <div class="container hero-content">
         <div class="hero-image">
-          📸
+          ${getImagePlaceholder({ size: 48 })}
         </div>
         <div class="hero-text">
           <h1>${escapeHtml(headline)}</h1>
@@ -267,7 +302,7 @@ export function generateHeroSplit(config: HeroConfig): string {
           <div class="trust-badges">
             ${trustBadges.map(badge => `
               <div class="trust-badge">
-                <div class="trust-icon">✓</div>
+                <div class="trust-icon">${icons.check({ size: 16 })}</div>
                 <span>${escapeHtml(badge)}</span>
               </div>
             `).join('')}
@@ -300,7 +335,7 @@ export function generateHeroCentered(config: HeroConfig): string {
           <div class="trust-badges">
             ${trustBadges.map(badge => `
               <div class="trust-badge">
-                <div class="trust-icon">✓</div>
+                <div class="trust-icon">${icons.check({ size: 16 })}</div>
                 <span>${escapeHtml(badge)}</span>
               </div>
             `).join('')}
@@ -493,7 +528,7 @@ function generateHeroH1FullWidth(config: DNAHeroConfig): SectionOutput {
           <div class="trust-badges">
             ${trustBadges.map(badge => `
               <div class="trust-badge">
-                <div class="trust-icon">✓</div>
+                <div class="trust-icon">${icons.check({ size: 16 })}</div>
                 <span>${escapeHtml(badge)}</span>
               </div>
             `).join('')}
@@ -501,7 +536,7 @@ function generateHeroH1FullWidth(config: DNAHeroConfig): SectionOutput {
           ` : ''}
         </div>
         <div class="hero-h1-image">
-          📸
+          ${getImagePlaceholder({ size: 48 })}
         </div>
       </div>
     </section>
@@ -587,7 +622,7 @@ function generateHeroH2Split(config: DNAHeroConfig): SectionOutput {
   const html = `
     <section class="hero-h2 dna-animate">
       <div class="hero-h2-image">
-        📸
+        ${getImagePlaceholder({ size: 48 })}
       </div>
       <div class="hero-h2-content">
         <h1>${escapeHtml(headline)}</h1>
@@ -600,7 +635,7 @@ function generateHeroH2Split(config: DNAHeroConfig): SectionOutput {
         <div class="trust-badges">
           ${trustBadges.map(badge => `
             <div class="trust-badge">
-              <span>✓</span>
+              <span class="trust-check">${icons.check({ size: 14 })}</span>
               <span>${escapeHtml(badge)}</span>
             </div>
           `).join('')}
@@ -783,7 +818,7 @@ function generateHeroH8Asymmetric(config: DNAHeroConfig): SectionOutput {
           <div class="trust-badges">
             ${trustBadges.map(badge => `
               <div class="trust-badge">
-                <span>✓</span>
+                <span class="trust-check">${icons.check({ size: 14 })}</span>
                 <span>${escapeHtml(badge)}</span>
               </div>
             `).join('')}
@@ -791,7 +826,7 @@ function generateHeroH8Asymmetric(config: DNAHeroConfig): SectionOutput {
           ` : ''}
         </div>
         <div class="hero-h8-visual">
-          📸
+          ${getImagePlaceholder({ size: 48 })}
         </div>
       </div>
     </section>
@@ -1013,7 +1048,7 @@ function generateHeroH12Geometric(config: DNAHeroConfig): SectionOutput {
         <div class="trust-badges">
           ${trustBadges.map(badge => `
             <div class="trust-badge">
-              <span>✓</span>
+              <span class="trust-check">${icons.check({ size: 14 })}</span>
               <span>${escapeHtml(badge)}</span>
             </div>
           `).join('')}
@@ -1211,11 +1246,11 @@ function generateHeroH5GradientOverlay(config: DNAHeroConfig): SectionOutput {
           </div>
           ${trustBadges?.length ? `
           <div class="trust-badges">
-            ${trustBadges.map(badge => `<span>✓ ${escapeHtml(badge)}</span>`).join('')}
+            ${trustBadges.map(badge => `<span class="trust-item">${icons.check({ size: 14 })} ${escapeHtml(badge)}</span>`).join('')}
           </div>
           ` : ''}
         </div>
-        <div class="hero-h5-visual">📸</div>
+        <div class="hero-h5-visual">${getImagePlaceholder({ size: 48 })}</div>
       </div>
     </section>
   `;

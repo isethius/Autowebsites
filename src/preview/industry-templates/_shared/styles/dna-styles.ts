@@ -171,13 +171,19 @@ export function generateDNAStyles(dna: DNACode, palette: ColorPalette): DNAStyle
       --emergency: #dc2626;
 
       /* ========== TYPOGRAPHY (clamp() ONLY here, not in components!) ========== */
+      --text-display: clamp(48px, 6vw, 72px);  /* Hero headlines */
       --text-h1: clamp(36px, 5vw, 56px);
       --text-h2: clamp(28px, 4vw, 40px);
       --text-h3: clamp(22px, 3vw, 28px);
       --text-h4: clamp(18px, 2.5vw, 24px);
-      --text-body: clamp(16px, 1.5vw, 18px);
+      --text-body: clamp(16px, 1.2vw, 18px);
       --text-lg: 20px;
       --text-sm: 14px;
+      --text-xs: 12px;
+
+      /* Line Heights */
+      --leading-tight: 1.15;
+      --leading-normal: 1.6;
 
       /* Font Families */
       --font-heading: ${headingFontStack};
@@ -355,6 +361,12 @@ export function generateDNAStyles(dna: DNACode, palette: ColorPalette): DNAStyle
 
     /* ========== DESIGN-SPECIFIC OVERRIDES ========== */
     ${getDesignOverrides(design.style)}
+
+    /* ========== INTERACTION LAYER ========== */
+    ${generateInteractionLayerCSS()}
+
+    /* ========== HOVER VARIANTS ========== */
+    ${generateHoverVariantsCSS()}
   `;
 
   return { css, fontImports, fontsUrl, fontPreconnect };
@@ -866,6 +878,141 @@ export function generateAwwwardsDNAStyles(dna: DNACode, palette: ColorPalette): 
   `;
 }
 
+// =============================================================================
+// AWWWARDS-LEVEL INTERACTION LAYER
+// =============================================================================
+
+/**
+ * Generate CSS for the unified interaction layer
+ *
+ * Features:
+ * - Opt-in GPU composition via .fx class
+ * - CSS variable-driven transforms for reveals, hovers, and magnetic effects
+ * - Accessible split-text animations
+ * - prefers-reduced-motion support
+ */
+export function generateInteractionLayerCSS(): string {
+  return `
+    /* === COMPOSITION OPT-IN === */
+    :root {
+      --mx: 0px; --my: 0px;           /* Magnetic offset */
+      --h-scale: 1; --h-skew: 0deg;   /* Hover transform */
+      --r-y: 0px; --r-scale: 1; --r-opacity: 1;  /* Reveal state */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --dur: 0.6s;
+      --stagger: 0.08s;
+    }
+
+    /* Opt-in GPU composition */
+    .fx {
+      transform:
+        translate3d(var(--mx), var(--my), 0)
+        translateY(var(--r-y))
+        scale(var(--r-scale))
+        skewX(var(--h-skew))
+        scale(var(--h-scale));
+      opacity: var(--r-opacity);
+      transition: transform var(--dur) var(--ease-out), opacity var(--dur) ease;
+      transform-origin: center;
+      will-change: transform, opacity;
+    }
+
+    /* Reveal initial states (data-reveal implies .fx) */
+    [data-reveal="up"] { --r-y: 60px; --r-opacity: 0; }
+    [data-reveal="scale"] { --r-scale: 0.9; --r-opacity: 0; }
+    [data-reveal="fade"] { --r-opacity: 0; }
+    .is-visible[data-reveal] { --r-y: 0px; --r-scale: 1; --r-opacity: 1; }
+
+    /* Split-text */
+    .reveal-text { display: inline-block; overflow: hidden; }
+    .reveal-text .word {
+      display: inline-block;
+      transform: translateY(110%);
+      opacity: 0;
+      transition: transform var(--dur) var(--ease-out), opacity var(--dur) ease;
+      transition-delay: calc(var(--i, 0) * var(--stagger));
+    }
+    .is-visible .word { transform: translateY(0); opacity: 1; }
+
+    /* Reduced motion: show final states */
+    @media (prefers-reduced-motion: reduce) {
+      .fx { transition: none !important; }
+      [data-reveal] { --r-y: 0px !important; --r-scale: 1 !important; --r-opacity: 1 !important; }
+      .reveal-text .word { transform: none !important; opacity: 1 !important; transition: none !important; }
+    }
+  `;
+}
+
+/**
+ * Generate capability-gated hover variant CSS
+ *
+ * Variants:
+ * - V1: Lift (translateY + subtle scale)
+ * - V2: Glow (box-shadow glow effect)
+ * - V3: Skew (playful skew transform)
+ * - V4: Scale (prominent scale-up)
+ */
+export function generateHoverVariantsCSS(): string {
+  return `
+    /* Hover genes - capability gated */
+    @media (hover: hover) and (pointer: fine) {
+      /* V1: Lift (existing, enhanced) */
+      .dna-hover-v1:hover { --h-scale: 1.02; transform: translateY(-4px); }
+
+      /* V2: Glow */
+      .dna-hover-v2:hover {
+        box-shadow: 0 0 20px var(--primary), 0 0 40px rgba(var(--primary-rgb, 59, 130, 246), 0.3);
+        --h-scale: 1.02;
+      }
+
+      /* V3: Skew */
+      .dna-hover-v3:hover { --h-skew: -6deg; --h-scale: 1.03; }
+
+      /* V4: Scale */
+      .dna-hover-v4:hover { --h-scale: 1.08; }
+
+      /* Magnetic button marker */
+      .btn-magnetic { cursor: none; }
+      .btn-magnetic.is-hovering { --h-scale: 1.05; }
+    }
+
+    /* Link underline animation */
+    @media (hover: hover) and (pointer: fine) {
+      .link-animated {
+        position: relative;
+        text-decoration: none;
+      }
+      .link-animated::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0;
+        width: 100%; height: 2px;
+        background: currentColor;
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.3s var(--ease-out);
+      }
+      .link-animated:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
+    }
+  `;
+}
+
+/**
+ * Get hover class for a given hover variant code
+ */
+export function getHoverClass(hover: string): string {
+  const hoverClasses: Record<string, string> = {
+    V1: 'dna-hover-v1',
+    V2: 'dna-hover-v2',
+    V3: 'dna-hover-v3',
+    V4: 'dna-hover-v4',
+  };
+  return hoverClasses[hover] || 'dna-hover-v1';
+}
+
 /**
  * Generate complete base styles with DNA integration
  */
@@ -944,6 +1091,12 @@ export function generateCompleteDNAStyles(dna: DNACode, palette: ColorPalette): 
 
     /* Entrance Animations */
     ${entranceAnimations}
+
+    /* Interaction Layer */
+    ${generateInteractionLayerCSS()}
+
+    /* Hover Variants */
+    ${generateHoverVariantsCSS()}
 
     /* Responsive */
     @media (max-width: 1024px) {

@@ -5,6 +5,7 @@
  */
 
 import { escapeHtml } from '../utils';
+import { icons } from '../icons';
 
 export interface FooterConfig {
   businessName: string;
@@ -99,6 +100,15 @@ export function generateFooterCSS(): string {
     .footer-location {
       color: var(--gray-400, #9ca3af);
       font-size: var(--text-sm, 14px);
+      display: flex;
+      align-items: center;
+      gap: var(--gap-xs, 8px);
+    }
+
+    .footer-location svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
     }
 
     .footer-social {
@@ -115,8 +125,19 @@ export function generateFooterCSS(): string {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: var(--text-lg, 18px);
       transition: background 0.2s;
+      color: var(--gray-400, #9ca3af);
+    }
+
+    .footer-social a svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .footer-contact svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
     }
 
     .footer-social a:hover {
@@ -193,20 +214,26 @@ export function generateFooterCSS(): string {
 }
 
 /**
- * Get social media icon
+ * Get social media icon as SVG
  */
 function getSocialIcon(platform: string): string {
-  const icons: Record<string, string> = {
-    facebook: '📘',
-    twitter: '🐦',
-    instagram: '📷',
-    linkedin: '💼',
-    youtube: '🎬',
-    tiktok: '🎵',
-    yelp: '⭐',
-    google: '🔍',
-  };
-  return icons[platform.toLowerCase()] || '🔗';
+  const platformLower = platform.toLowerCase();
+  // Use generic icons for social platforms since we don't have brand-specific ones
+  switch (platformLower) {
+    case 'facebook':
+    case 'twitter':
+    case 'instagram':
+    case 'linkedin':
+    case 'tiktok':
+      return icons.users({ size: 18 });
+    case 'youtube':
+      return icons.camera({ size: 18 });
+    case 'yelp':
+    case 'google':
+      return icons.star({ size: 18 });
+    default:
+      return icons.arrowRight({ size: 18 });
+  }
 }
 
 /**
@@ -259,9 +286,9 @@ export function generateFooter(config: FooterConfig): string {
           </div>
 
           <div class="footer-contact">
-            ${phone ? `<a href="tel:${phone}">📞 ${phone}</a>` : ''}
-            ${email ? `<a href="mailto:${email}">✉️ ${email}</a>` : ''}
-            ${location ? `<span class="footer-location">📍 ${escapeHtml(location)}</span>` : ''}
+            ${phone ? `<a href="tel:${phone}">${icons.phone({ size: 14 })} ${phone}</a>` : ''}
+            ${email ? `<a href="mailto:${email}">${icons.email({ size: 14 })} ${email}</a>` : ''}
+            ${location ? `<span class="footer-location">${icons.location({ size: 14 })} ${escapeHtml(location)}</span>` : ''}
           </div>
         </div>
 
@@ -284,8 +311,8 @@ export function generateMinimalFooter(config: FooterConfig): string {
     <footer class="footer-minimal">
       <div class="container">
         <div class="footer-minimal-links">
-          ${phone ? `<a href="tel:${phone}">📞 ${phone}</a>` : ''}
-          ${email ? `<a href="mailto:${email}">✉️ ${email}</a>` : ''}
+          ${phone ? `<a href="tel:${phone}">${icons.phone({ size: 14 })} ${phone}</a>` : ''}
+          ${email ? `<a href="mailto:${email}">${icons.email({ size: 14 })} ${email}</a>` : ''}
         </div>
         <div class="footer-bottom footer-minimal-bottom">
           <span>&copy; ${new Date().getFullYear()} ${escapeHtml(businessName)}</span>

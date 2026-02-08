@@ -1,21 +1,27 @@
 /**
  * Lead Website Generator
  *
- * Generates custom website previews for leads using industry templates
- * and Claude-generated content.
+ * Generates custom website previews for leads using the DNA-powered site-builder
+ * with full interaction layer (magnetic buttons, scroll reveals, counters, etc.)
  */
 
 import * as fs from 'fs';
 import * as path from 'path';
 import { IndustryType } from '../ai/industry-templates';
 import { PreviewContent, ColorPalette, PreviewGenerationResult } from '../overnight/types';
-import { ContentGenerator, ContentGenerationInput } from './content-generator';
+import { ContentGenerator, ContentGeneratorConfig, ContentGenerationResult } from './content-generator';
 import { logger } from '../utils/logger';
+import { buildWebsite, SiteContent, BuildOptions } from '../themes/engine/site-builder';
+import { DNACode } from '../themes/variance-planner';
 
 export interface LeadWebsiteGeneratorOptions {
   outputDir?: string;
   generateVariations?: number;
   includeContactForm?: boolean;
+  /** Tier of designs: 'premium', 'basic', or 'both' */
+  tier?: 'premium' | 'basic' | 'both';
+  /** Content generator configuration for multi-model support */
+  contentGeneratorConfig?: ContentGeneratorConfig;
 }
 
 export interface GeneratePreviewInput {
@@ -29,47 +35,107 @@ export interface GeneratePreviewInput {
   phone?: string;
   email?: string;
   address?: string;
+  /** Optional logo URL */
+  logoUrl?: string;
+  /** Nextdoor business page URL for data fetching */
+  nextdoorUrl?: string;
+  /** Whether to fetch real data from external sources */
+  fetchRealData?: boolean;
 }
 
 /**
- * Color palettes for different styles
+ * Vibe configurations for different variation styles
+ * Each vibe produces a distinct look via DNA codes
  */
-const COLOR_PALETTES: ColorPalette[] = [
+const VIBE_CONFIGS: Array<{
+  id: string;
+  name: string;
+  description: string;
+  palette: ColorPalette;
+}> = [
   {
-    name: 'Professional Blue',
-    primary: '#2563eb',
-    secondary: '#1e40af',
-    accent: '#3b82f6',
-    background: '#ffffff',
-    text: '#1f2937',
-    muted: '#6b7280',
+    id: 'trustworthy',
+    name: 'Professional Trust',
+    description: 'Clean, trustworthy design with blue tones',
+    palette: {
+      name: 'Professional Blue',
+      primary: '#2563eb',
+      secondary: '#1e40af',
+      accent: '#3b82f6',
+      background: '#ffffff',
+      text: '#1f2937',
+      muted: '#6b7280',
+    },
   },
   {
-    name: 'Trust Green',
-    primary: '#059669',
-    secondary: '#047857',
-    accent: '#10b981',
-    background: '#ffffff',
-    text: '#1f2937',
-    muted: '#6b7280',
+    id: 'friendly',
+    name: 'Warm & Friendly',
+    description: 'Approachable design with warm green tones',
+    palette: {
+      name: 'Trust Green',
+      primary: '#059669',
+      secondary: '#047857',
+      accent: '#10b981',
+      background: '#ffffff',
+      text: '#1f2937',
+      muted: '#6b7280',
+    },
   },
   {
-    name: 'Warm Orange',
-    primary: '#ea580c',
-    secondary: '#c2410c',
-    accent: '#f97316',
-    background: '#fffbeb',
-    text: '#1f2937',
-    muted: '#6b7280',
+    id: 'bold',
+    name: 'Bold & Energetic',
+    description: 'Dynamic design with vibrant orange',
+    palette: {
+      name: 'Warm Orange',
+      primary: '#ea580c',
+      secondary: '#c2410c',
+      accent: '#f97316',
+      background: '#fffbeb',
+      text: '#1f2937',
+      muted: '#6b7280',
+    },
   },
   {
-    name: 'Modern Purple',
-    primary: '#7c3aed',
-    secondary: '#6d28d9',
-    accent: '#8b5cf6',
-    background: '#faf5ff',
-    text: '#1f2937',
-    muted: '#6b7280',
+    id: 'creative',
+    name: 'Modern Creative',
+    description: 'Contemporary design with purple accents',
+    palette: {
+      name: 'Modern Purple',
+      primary: '#7c3aed',
+      secondary: '#6d28d9',
+      accent: '#8b5cf6',
+      background: '#faf5ff',
+      text: '#1f2937',
+      muted: '#6b7280',
+    },
+  },
+  {
+    id: 'elegant',
+    name: 'Elegant & Refined',
+    description: 'Sophisticated design with dark tones',
+    palette: {
+      name: 'Elegant Dark',
+      primary: '#1f2937',
+      secondary: '#111827',
+      accent: '#6b7280',
+      background: '#f9fafb',
+      text: '#1f2937',
+      muted: '#6b7280',
+    },
+  },
+  {
+    id: 'artisan',
+    name: 'Artisan Craft',
+    description: 'Handcrafted feel with earthy tones',
+    palette: {
+      name: 'Earthy Brown',
+      primary: '#92400e',
+      secondary: '#78350f',
+      accent: '#b45309',
+      background: '#fffbeb',
+      text: '#1f2937',
+      muted: '#6b7280',
+    },
   },
 ];
 
@@ -78,12 +144,22 @@ export class LeadWebsiteGenerator {
   private outputDir: string;
   private generateVariations: number;
   private includeContactForm: boolean;
+  private tier: 'premium' | 'basic' | 'both';
+  private lastContentResult?: ContentGenerationResult;
 
   constructor(options: LeadWebsiteGeneratorOptions = {}) {
-    this.contentGenerator = new ContentGenerator();
+    this.contentGenerator = new ContentGenerator(options.contentGeneratorConfig);
     this.outputDir = options.outputDir || 'tmp/autowebsites/previews';
     this.generateVariations = options.generateVariations ?? 4;
     this.includeContactForm = options.includeContactForm ?? true;
+    this.tier = options.tier || 'basic';
+  }
+
+  /**
+   * Get the last content generation result (for model tracking)
+   */
+  getLastContentResult(): ContentGenerationResult | undefined {
+    return this.lastContentResult;
   }
 
   /**
@@ -115,8 +191,8 @@ export class LeadWebsiteGenerator {
       fs.mkdirSync(previewDir, { recursive: true });
       result.local_path = previewDir;
 
-      // Generate content using Claude
-      const content = await this.contentGenerator.generate({
+      // Generate content using AI
+      const contentResult = await this.contentGenerator.generateWithTracking({
         businessName: input.businessName,
         industry: input.industry,
         city: input.city,
@@ -126,18 +202,31 @@ export class LeadWebsiteGenerator {
         phone: input.phone,
         address: input.address,
       });
+      this.lastContentResult = contentResult;
+      const content = contentResult.content;
 
-      // Generate variations with different color palettes
-      const palettes = COLOR_PALETTES.slice(0, this.generateVariations);
+      // Log model usage if tracked
+      if (contentResult.modelUsed) {
+        logger.info('Content generated', {
+          model: contentResult.modelUsed,
+          taskType: contentResult.taskType,
+        });
+      }
+
+      // Convert PreviewContent to SiteContent for site-builder
+      const siteContent = this.convertToSiteContent(input, content);
+
+      // Generate variations with different vibes
+      const vibes = VIBE_CONFIGS.slice(0, this.generateVariations);
       const variationPaths: string[] = [];
 
-      for (let i = 0; i < palettes.length; i++) {
-        const palette = palettes[i];
+      for (let i = 0; i < vibes.length; i++) {
+        const vibe = vibes[i];
         const variationDir = path.join(previewDir, `variation-${i + 1}`);
         fs.mkdirSync(variationDir, { recursive: true });
 
-        // Generate HTML
-        const html = this.generateHTML(input, content, palette, i + 1);
+        // Generate HTML using site-builder with DNA system
+        const html = this.generateWithSiteBuilder(siteContent, vibe, i + 1);
         const htmlPath = path.join(variationDir, 'index.html');
         fs.writeFileSync(htmlPath, html);
 
@@ -146,7 +235,7 @@ export class LeadWebsiteGenerator {
       }
 
       // Generate main index with variation selector
-      const indexHtml = this.generateIndexWithSelector(input, content, palettes);
+      const indexHtml = this.generateIndexWithSelector(input, content, vibes);
       const indexPath = path.join(previewDir, 'index.html');
       fs.writeFileSync(indexPath, indexHtml);
       result.files_created.push(indexPath);
@@ -162,12 +251,12 @@ export class LeadWebsiteGenerator {
       result.files_created.push(vercelPath);
 
       result.success = true;
-      result.design_variations = palettes.length;
+      result.design_variations = vibes.length;
 
       logger.info('Preview generated', {
         leadId: input.leadId,
         path: previewDir,
-        variations: palettes.length,
+        variations: vibes.length,
       });
 
     } catch (error: any) {
@@ -179,597 +268,83 @@ export class LeadWebsiteGenerator {
   }
 
   /**
-   * Generate HTML for a single variation
+   * Convert PreviewContent to SiteContent format for site-builder
    */
-  private generateHTML(
-    input: GeneratePreviewInput,
-    content: PreviewContent,
-    palette: ColorPalette,
+  private convertToSiteContent(input: GeneratePreviewInput, content: PreviewContent): SiteContent {
+    return {
+      businessName: input.businessName,
+      industry: input.industry,
+      tagline: content.tagline,
+      headline: content.headline,
+      description: content.meta_description,
+      services: content.services.map(s => ({
+        name: s.name,
+        description: s.description,
+        icon: s.icon,
+      })),
+      testimonials: content.testimonials?.map(t => ({
+        text: t.text,
+        author: t.author,
+        rating: t.rating,
+      })),
+      faqs: content.faqs?.map(f => ({
+        question: f.question,
+        answer: f.answer,
+      })),
+      stats: [
+        { value: '500+', label: 'Projects Completed' },
+        { value: '10+', label: 'Years Experience' },
+        { value: '100%', label: 'Satisfaction Rate' },
+        { value: '24/7', label: 'Support Available' },
+      ],
+      contact: {
+        phone: input.phone,
+        email: input.email,
+        address: input.address,
+        city: input.city,
+        state: input.state,
+      },
+      logoUrl: input.logoUrl,
+      primaryCTA: {
+        text: content.cta_text || 'Get Started',
+        href: '#contact',
+      },
+      secondaryCTA: {
+        text: 'Learn More',
+        href: '#services',
+      },
+    };
+  }
+
+  /**
+   * Generate HTML using the DNA-powered site-builder
+   */
+  private generateWithSiteBuilder(
+    siteContent: SiteContent,
+    vibe: typeof VIBE_CONFIGS[0],
     variationNum: number
   ): string {
-    const location = [input.city, input.state].filter(Boolean).join(', ');
-
-    return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="${this.escapeHtml(content.meta_description)}">
-  <title>${this.escapeHtml(input.businessName)} | ${location || 'Professional Services'}</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary: ${palette.primary};
-      --secondary: ${palette.secondary};
-      --accent: ${palette.accent};
-      --background: ${palette.background};
-      --text: ${palette.text};
-      --muted: ${palette.muted};
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      line-height: 1.6;
-      color: var(--text);
-      background: var(--background);
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* Header */
-    header {
-      background: white;
-      border-bottom: 1px solid #e5e7eb;
-      padding: 16px 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .header-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--primary);
-      text-decoration: none;
-    }
-
-    nav {
-      display: flex;
-      gap: 32px;
-    }
-
-    nav a {
-      color: var(--text);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    nav a:hover {
-      color: var(--primary);
-    }
-
-    .header-cta {
-      background: var(--primary);
-      color: white;
-      padding: 10px 24px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: background 0.2s;
-    }
-
-    .header-cta:hover {
-      background: var(--secondary);
-    }
-
-    /* Hero */
-    .hero {
-      padding: 80px 0;
-      background: linear-gradient(135deg, ${palette.primary}10 0%, ${palette.accent}10 100%);
-    }
-
-    .hero-content {
-      max-width: 800px;
-    }
-
-    .hero h1 {
-      font-size: 48px;
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 24px;
-      color: var(--text);
-    }
-
-    .hero p {
-      font-size: 20px;
-      color: var(--muted);
-      margin-bottom: 32px;
-    }
-
-    .hero-cta {
-      display: inline-block;
-      background: var(--primary);
-      color: white;
-      padding: 16px 32px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 18px;
-      transition: background 0.2s, transform 0.2s;
-    }
-
-    .hero-cta:hover {
-      background: var(--secondary);
-      transform: translateY(-2px);
-    }
-
-    /* Services */
-    .services {
-      padding: 80px 0;
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: 36px;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-
-    .section-subtitle {
-      text-align: center;
-      color: var(--muted);
-      font-size: 18px;
-      margin-bottom: 48px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 32px;
-    }
-
-    .service-card {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 32px;
-      transition: box-shadow 0.2s, transform 0.2s;
-    }
-
-    .service-card:hover {
-      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-      transform: translateY(-4px);
-    }
-
-    .service-icon {
-      width: 48px;
-      height: 48px;
-      background: var(--primary);
-      border-radius: 12px;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .service-icon svg {
-      width: 24px;
-      height: 24px;
-      fill: white;
-    }
-
-    .service-card h3 {
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
-
-    .service-card p {
-      color: var(--muted);
-    }
-
-    /* About */
-    .about {
-      padding: 80px 0;
-      background: #f9fafb;
-    }
-
-    .about-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: center;
-    }
-
-    .about-text h2 {
-      font-size: 36px;
-      font-weight: 700;
-      margin-bottom: 24px;
-    }
-
-    .about-text p {
-      color: var(--muted);
-      margin-bottom: 16px;
-    }
-
-    .about-image {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-      border-radius: 16px;
-      height: 400px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 18px;
-      font-weight: 500;
-    }
-
-    /* Contact */
-    .contact {
-      padding: 80px 0;
-    }
-
-    .contact-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-    }
-
-    .contact-info h2 {
-      font-size: 36px;
-      font-weight: 700;
-      margin-bottom: 24px;
-    }
-
-    .contact-info p {
-      color: var(--muted);
-      margin-bottom: 32px;
-    }
-
-    .contact-details {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .contact-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .contact-item-icon {
-      width: 40px;
-      height: 40px;
-      background: ${palette.primary}15;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .contact-form {
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      padding: 32px;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      font-weight: 500;
-      margin-bottom: 8px;
-    }
-
-    .form-group input,
-    .form-group textarea {
-      width: 100%;
-      padding: 12px 16px;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      font-size: 16px;
-      font-family: inherit;
-      transition: border-color 0.2s;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-    }
-
-    .form-group textarea {
-      height: 120px;
-      resize: vertical;
-    }
-
-    .submit-btn {
-      width: 100%;
-      background: var(--primary);
-      color: white;
-      padding: 14px 24px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .submit-btn:hover {
-      background: var(--secondary);
-    }
-
-    /* Footer */
-    footer {
-      background: #1f2937;
-      color: white;
-      padding: 48px 0 24px;
-    }
-
-    .footer-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: start;
-      margin-bottom: 32px;
-    }
-
-    .footer-brand {
-      max-width: 300px;
-    }
-
-    .footer-brand h3 {
-      font-size: 24px;
-      margin-bottom: 12px;
-    }
-
-    .footer-brand p {
-      color: #9ca3af;
-      font-size: 14px;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 48px;
-    }
-
-    .footer-links a {
-      color: #9ca3af;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .footer-links a:hover {
-      color: white;
-    }
-
-    .footer-bottom {
-      padding-top: 24px;
-      border-top: 1px solid #374151;
-      display: flex;
-      justify-content: space-between;
-      color: #9ca3af;
-      font-size: 14px;
-    }
-
-    .footer-bottom a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    /* Preview Banner */
-    .preview-banner {
-      background: var(--primary);
-      color: white;
-      text-align: center;
-      padding: 12px;
-      font-size: 14px;
-    }
-
-    .preview-banner a {
-      color: white;
-      font-weight: 600;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .header-content {
-        flex-direction: column;
-        gap: 16px;
-      }
-
-      nav {
-        display: none;
-      }
-
-      .hero h1 {
-        font-size: 32px;
-      }
-
-      .about-content,
-      .contact-content {
-        grid-template-columns: 1fr;
-      }
-
-      .about-image {
-        height: 250px;
-      }
-
-      .footer-content {
-        flex-direction: column;
-        gap: 32px;
-      }
-
-      .footer-bottom {
-        flex-direction: column;
-        gap: 8px;
-        text-align: center;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="preview-banner">
-    ✨ This is a preview of your new website! <a href="../index.html">View other designs →</a>
-  </div>
-
-  <header>
-    <div class="container header-content">
-      <a href="#" class="logo">${this.escapeHtml(input.businessName)}</a>
-      <nav>
-        <a href="#services">Services</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </nav>
-      <a href="#contact" class="header-cta">${this.escapeHtml(content.cta_text)}</a>
-    </div>
-  </header>
-
-  <section class="hero">
-    <div class="container hero-content">
-      <h1>${this.escapeHtml(content.headline)}</h1>
-      <p>${this.escapeHtml(content.tagline)}</p>
-      <a href="#contact" class="hero-cta">${this.escapeHtml(content.cta_text)}</a>
-    </div>
-  </section>
-
-  <section id="services" class="services">
-    <div class="container">
-      <h2 class="section-title">Our Services</h2>
-      <p class="section-subtitle">Professional solutions tailored to your needs</p>
-      <div class="services-grid">
-        ${content.services.map(service => `
-        <div class="service-card">
-          <div class="service-icon">
-            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-          </div>
-          <h3>${this.escapeHtml(service.name)}</h3>
-          <p>${this.escapeHtml(service.description)}</p>
-        </div>
-        `).join('')}
-      </div>
-    </div>
-  </section>
-
-  <section id="about" class="about">
-    <div class="container about-content">
-      <div class="about-text">
-        <h2>About ${this.escapeHtml(input.businessName)}</h2>
-        ${content.about.split('\n\n').map(p => `<p>${this.escapeHtml(p)}</p>`).join('')}
-      </div>
-      <div class="about-image">
-        📸 Your Business Photo Here
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" class="contact">
-    <div class="container contact-content">
-      <div class="contact-info">
-        <h2>Get In Touch</h2>
-        <p>${this.escapeHtml(content.contact_text)}</p>
-        <div class="contact-details">
-          ${input.phone ? `
-          <div class="contact-item">
-            <div class="contact-item-icon">📞</div>
-            <div>
-              <strong>Phone</strong><br>
-              <a href="tel:${input.phone}">${input.phone}</a>
-            </div>
-          </div>
-          ` : ''}
-          ${input.email ? `
-          <div class="contact-item">
-            <div class="contact-item-icon">✉️</div>
-            <div>
-              <strong>Email</strong><br>
-              <a href="mailto:${input.email}">${input.email}</a>
-            </div>
-          </div>
-          ` : ''}
-          ${location ? `
-          <div class="contact-item">
-            <div class="contact-item-icon">📍</div>
-            <div>
-              <strong>Location</strong><br>
-              ${this.escapeHtml(location)}
-            </div>
-          </div>
-          ` : ''}
-        </div>
-      </div>
-      ${this.includeContactForm ? `
-      <div class="contact-form">
-        <form action="#" method="POST">
-          <div class="form-group">
-            <label for="name">Your Name</label>
-            <input type="text" id="name" name="name" required>
-          </div>
-          <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" required>
-          </div>
-          <div class="form-group">
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone">
-          </div>
-          <div class="form-group">
-            <label for="message">How Can We Help?</label>
-            <textarea id="message" name="message" required></textarea>
-          </div>
-          <button type="submit" class="submit-btn">Send Message</button>
-        </form>
-      </div>
-      ` : ''}
-    </div>
-  </section>
-
-  <footer>
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-brand">
-          <h3>${this.escapeHtml(input.businessName)}</h3>
-          <p>${this.escapeHtml(content.tagline)}</p>
-        </div>
-        <div class="footer-links">
-          <a href="#services">Services</a>
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>&copy; ${new Date().getFullYear()} ${this.escapeHtml(input.businessName)}. All rights reserved.</span>
-        <span>Website by <a href="https://showcasedesigns.com">Showcase Designs</a></span>
-      </div>
-    </div>
-  </footer>
-</body>
-</html>`;
+    const buildOptions: BuildOptions = {
+      palette: vibe.palette,
+      vibe: vibe.id,
+      inlineStyles: true,
+      includeFonts: true,
+    };
+
+    // Build the website using site-builder (includes interaction layer)
+    let html = buildWebsite(siteContent, buildOptions);
+
+    // Add preview banner at the top of body
+    const previewBanner = `
+  <div style="background: ${vibe.palette.primary}; color: white; text-align: center; padding: 12px; font-size: 14px; font-family: -apple-system, BlinkMacSystemFont, sans-serif;">
+    Preview - Variation ${variationNum}: ${vibe.name}
+    <a href="../index.html" style="color: white; font-weight: 600; margin-left: 8px;">View other designs →</a>
+  </div>`;
+
+    // Insert preview banner after <body>
+    html = html.replace('<body', '<body').replace(/<body[^>]*>/, match => match + previewBanner);
+
+    return html;
   }
 
   /**
@@ -778,7 +353,7 @@ export class LeadWebsiteGenerator {
   private generateIndexWithSelector(
     input: GeneratePreviewInput,
     content: PreviewContent,
-    palettes: ColorPalette[]
+    vibes: typeof VIBE_CONFIGS
   ): string {
     return `<!DOCTYPE html>
 <html lang="en">
@@ -786,6 +361,7 @@ export class LeadWebsiteGenerator {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Website Preview for ${this.escapeHtml(input.businessName)}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -797,98 +373,149 @@ export class LeadWebsiteGenerator {
     .header {
       background: white;
       border-bottom: 1px solid #e5e7eb;
-      padding: 20px;
+      padding: 32px 20px;
       text-align: center;
     }
     .header h1 {
-      font-size: 24px;
-      margin-bottom: 8px;
+      font-size: 28px;
+      margin-bottom: 12px;
+      color: #1f2937;
     }
     .header p {
       color: #6b7280;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 16px;
     }
     .options {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      padding: 32px 20px;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
     .option {
       background: white;
       border: 2px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 20px;
-      width: 250px;
+      border-radius: 16px;
+      padding: 24px;
       text-decoration: none;
       color: inherit;
-      transition: all 0.2s;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .option:hover {
-      border-color: #2563eb;
-      transform: translateY(-4px);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      border-color: #3b82f6;
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
     }
     .color-preview {
-      height: 80px;
-      border-radius: 8px;
-      margin-bottom: 16px;
+      height: 120px;
+      border-radius: 12px;
+      margin-bottom: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
       font-weight: 600;
+      font-size: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+    .color-preview::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.1) 100%);
     }
     .option h3 {
-      font-size: 18px;
+      font-size: 20px;
       margin-bottom: 8px;
+      color: #1f2937;
     }
     .option p {
       color: #6b7280;
       font-size: 14px;
+      margin-bottom: 16px;
     }
     .option .btn {
       display: block;
-      background: #2563eb;
+      background: #1f2937;
       color: white;
       text-align: center;
-      padding: 12px;
-      border-radius: 8px;
-      margin-top: 16px;
-      font-weight: 500;
+      padding: 14px;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .option:hover .btn {
+      background: #3b82f6;
+    }
+    .features {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .feature {
+      background: #f3f4f6;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #4b5563;
     }
     .footer {
       text-align: center;
-      padding: 32px;
+      padding: 40px 20px;
       color: #6b7280;
       font-size: 14px;
+      background: white;
+      border-top: 1px solid #e5e7eb;
     }
     .footer a {
-      color: #2563eb;
+      color: #3b82f6;
+    }
+    .footer p {
+      margin-bottom: 8px;
     }
   </style>
 </head>
 <body>
   <div class="header">
+    <span class="badge">Premium Previews</span>
     <h1>Website Preview for ${this.escapeHtml(input.businessName)}</h1>
-    <p>I've created ${palettes.length} design options for you. Click to preview each one!</p>
+    <p>I've created ${vibes.length} unique design variations for you. Each one includes scroll animations, hover effects, and mobile-responsive layouts. Click to preview!</p>
   </div>
 
   <div class="options">
-    ${palettes.map((palette, i) => `
+    ${vibes.map((vibe, i) => `
     <a href="variation-${i + 1}/index.html" class="option">
-      <div class="color-preview" style="background: linear-gradient(135deg, ${palette.primary} 0%, ${palette.accent} 100%);">
-        Option ${i + 1}
+      <div class="color-preview" style="background: linear-gradient(135deg, ${vibe.palette.primary} 0%, ${vibe.palette.accent} 100%);">
+        ${vibe.name}
       </div>
-      <h3>${palette.name}</h3>
-      <p>Click to view this design option</p>
+      <h3>Variation ${i + 1}</h3>
+      <p>${vibe.description}</p>
+      <div class="features">
+        <span class="feature">Scroll Animations</span>
+        <span class="feature">Hover Effects</span>
+        <span class="feature">Mobile Ready</span>
+      </div>
       <span class="btn">View Design →</span>
     </a>
     `).join('')}
   </div>
 
   <div class="footer">
-    <p>Like what you see? Reply to let me know your favorite, or if you'd like something different!</p>
+    <p>Like what you see? Reply to let me know your favorite, or if you'd like any changes!</p>
     <p>Created by <a href="https://showcasedesigns.com">Showcase Designs</a></p>
   </div>
 </body>

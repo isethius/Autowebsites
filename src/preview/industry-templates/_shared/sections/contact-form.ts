@@ -5,6 +5,7 @@
  */
 
 import { escapeHtml } from '../utils';
+import { icons } from '../icons';
 
 export interface ContactConfig {
   title?: string;
@@ -71,8 +72,13 @@ export function generateContactCSS(): string {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: var(--text-lg, 20px);
       flex-shrink: 0;
+      color: var(--primary, #1e5a8a);
+    }
+
+    .contact-item-icon svg {
+      width: 20px;
+      height: 20px;
     }
 
     .contact-item-content {
@@ -247,7 +253,7 @@ export function generateContactSection(config: ContactConfig): string {
           <div class="contact-details">
             ${phone ? `
               <div class="contact-item">
-                <div class="contact-item-icon">📞</div>
+                <div class="contact-item-icon">${icons.phone({ size: 20 })}</div>
                 <div class="contact-item-content">
                   <strong>Call Us</strong>
                   <a href="tel:${phone}">${phone}</a>
@@ -256,7 +262,7 @@ export function generateContactSection(config: ContactConfig): string {
             ` : ''}
             ${email ? `
               <div class="contact-item">
-                <div class="contact-item-icon">✉️</div>
+                <div class="contact-item-icon">${icons.email({ size: 20 })}</div>
                 <div class="contact-item-content">
                   <strong>Email Us</strong>
                   <a href="mailto:${email}">${email}</a>
@@ -265,7 +271,7 @@ export function generateContactSection(config: ContactConfig): string {
             ` : ''}
             ${fullAddress ? `
               <div class="contact-item">
-                <div class="contact-item-icon">📍</div>
+                <div class="contact-item-icon">${icons.location({ size: 20 })}</div>
                 <div class="contact-item-content">
                   <strong>Location</strong>
                   <span>${escapeHtml(fullAddress)}</span>
@@ -274,7 +280,7 @@ export function generateContactSection(config: ContactConfig): string {
             ` : ''}
             ${hours ? `
               <div class="contact-item">
-                <div class="contact-item-icon">🕒</div>
+                <div class="contact-item-icon">${icons.clock({ size: 20 })}</div>
                 <div class="contact-item-content">
                   <strong>Hours</strong>
                   <span>${escapeHtml(hours)}</span>
@@ -307,7 +313,7 @@ export function generateContactCTA(config: ContactConfig): string {
         <h2 style="color: var(--white); margin-bottom: 16px;">${escapeHtml(title)}</h2>
         <p style="opacity: 0.9; margin-bottom: 32px; font-size: 18px;">Contact us today for a free consultation</p>
         <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-          ${phone ? `<a href="tel:${phone}" class="btn btn-white btn-lg">📞 Call ${phone}</a>` : ''}
+          ${phone ? `<a href="tel:${phone}" class="btn btn-white btn-lg">${icons.phone({ size: 18 })} Call ${phone}</a>` : ''}
           <a href="#contact" class="btn btn-secondary btn-lg" style="color: var(--white); border-color: var(--white);">Send Message</a>
         </div>
       </div>
@@ -324,9 +330,9 @@ export function generateContactFooter(config: ContactConfig): string {
 
   return `
     <div style="display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; padding: 20px; background: var(--gray-100); font-size: 14px;">
-      ${phone ? `<a href="tel:${phone}" style="display: flex; align-items: center; gap: 8px;">📞 ${phone}</a>` : ''}
-      ${email ? `<a href="mailto:${email}" style="display: flex; align-items: center; gap: 8px;">✉️ ${email}</a>` : ''}
-      ${location ? `<span style="display: flex; align-items: center; gap: 8px;">📍 ${escapeHtml(location)}</span>` : ''}
+      ${phone ? `<a href="tel:${phone}" style="display: flex; align-items: center; gap: 8px;">${icons.phone({ size: 16 })} ${phone}</a>` : ''}
+      ${email ? `<a href="mailto:${email}" style="display: flex; align-items: center; gap: 8px;">${icons.email({ size: 16 })} ${email}</a>` : ''}
+      ${location ? `<span style="display: flex; align-items: center; gap: 8px;">${icons.location({ size: 16 })} ${escapeHtml(location)}</span>` : ''}
     </div>
   `;
 }

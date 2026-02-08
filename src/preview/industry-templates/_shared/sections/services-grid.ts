@@ -7,6 +7,7 @@
 import { ServiceItem, SectionOutput } from '../types';
 import { DNACode, DESIGN_VARIANTS } from '../../../../themes/variance-planner';
 import { escapeHtml } from '../utils';
+import { getServiceIcon } from '../icons';
 
 export interface ServicesConfig {
   title?: string;
@@ -57,6 +58,15 @@ export function generateServicesCSS(): string {
 
     .service-card {
       padding: var(--card-padding, 32px);
+      background: var(--bg-surface, #fff);
+      border: 1px solid var(--border-color, rgba(0,0,0,0.06));
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.08);
     }
 
     .service-icon {
@@ -68,7 +78,12 @@ export function generateServicesCSS(): string {
       align-items: center;
       justify-content: center;
       margin-bottom: var(--gap-sm, 20px);
-      font-size: var(--text-h4, 24px);
+      color: var(--white, #ffffff);
+    }
+
+    .service-icon svg {
+      width: 24px;
+      height: 24px;
     }
 
     .service-card h3 {
@@ -158,77 +173,10 @@ export function generateServicesCSS(): string {
 }
 
 /**
- * Service icon mapping by keyword
+ * Get SVG icon for a service - wrapper around the shared icon utility
  */
-const SERVICE_ICONS: Record<string, string> = {
-  // Plumbing
-  drain: '🚿',
-  pipe: '🔧',
-  leak: '💧',
-  water: '💧',
-  heater: '🔥',
-  emergency: '🚨',
-
-  // HVAC
-  heating: '🔥',
-  cooling: '❄️',
-  air: '💨',
-  maintenance: '🔧',
-  install: '⚙️',
-
-  // Electrical
-  electrical: '⚡',
-  wiring: '🔌',
-  panel: '📋',
-  lighting: '💡',
-  outlet: '🔌',
-
-  // Dental
-  teeth: '🦷',
-  cleaning: '✨',
-  whitening: '✨',
-  implant: '🦷',
-  orthodontics: '😁',
-
-  // Medical
-  exam: '🩺',
-  treatment: '💊',
-  therapy: '🧘',
-  wellness: '❤️',
-
-  // Legal
-  consultation: '📋',
-  litigation: '⚖️',
-  contract: '📝',
-  estate: '🏠',
-
-  // Restaurant
-  menu: '🍽️',
-  catering: '🎉',
-  delivery: '🚗',
-  reservation: '📅',
-
-  // Fitness
-  training: '💪',
-  class: '🧘',
-  cardio: '🏃',
-  strength: '🏋️',
-
-  // Default
-  default: '⭐',
-};
-
-/**
- * Get icon for a service based on its name
- */
-function getServiceIcon(serviceName: string): string {
-  const nameLower = serviceName.toLowerCase();
-  for (const [keyword, icon] of Object.entries(SERVICE_ICONS)) {
-    if (nameLower.includes(keyword)) {
-      return icon;
-    }
-  }
-  return SERVICE_ICONS.default;
+function getServiceSvgIcon(serviceName: string): string {
+  return getServiceIcon(serviceName, { size: 24 });
 }
 
 /**
@@ -259,7 +207,7 @@ export function generateServicesGrid(config: ServicesConfig): string {
             <div class="service-card card">
               ${showIcons ? `
                 <div class="service-icon">
-                  ${service.icon || getServiceIcon(service.name)}
+                  ${getServiceSvgIcon(service.name)}
                 </div>
               ` : ''}
               <h3>${escapeHtml(service.name)}</h3>
@@ -287,7 +235,7 @@ export function generateServicesList(config: ServicesConfig): string {
         <div class="services-list-items">
           ${services.map(service => `
             <div class="services-list-item">
-              <div class="services-list-icon">${service.icon || getServiceIcon(service.name)}</div>
+              <div class="services-list-icon">${getServiceSvgIcon(service.name)}</div>
               <div class="services-list-content">
                 <h4>${escapeHtml(service.name)}</h4>
                 <p>${escapeHtml(service.description)}</p>
@@ -308,7 +256,7 @@ export function generateServicesBar(services: ServiceItem[]): string {
     <div class="services-bar">
       ${services.slice(0, 6).map(service => `
         <div class="services-bar-item">
-          <div class="services-bar-icon">${service.icon || getServiceIcon(service.name)}</div>
+          <div class="services-bar-icon">${getServiceSvgIcon(service.name)}</div>
           <div class="services-bar-label">${escapeHtml(service.name)}</div>
         </div>
       `).join('')}
@@ -387,7 +335,12 @@ function generateServicesL3Cards(config: DNAServicesConfig): SectionOutput {
       align-items: center;
       justify-content: center;
       margin-bottom: var(--gap-sm, 20px);
-      font-size: var(--text-h4, 24px);
+      color: var(--white, #ffffff);
+    }
+
+    .services-l3-icon svg {
+      width: 24px;
+      height: 24px;
     }
 
     .services-l3-card h3 {
@@ -414,7 +367,7 @@ function generateServicesL3Cards(config: DNAServicesConfig): SectionOutput {
           ${services.map(service => `
             <div class="services-l3-card dna-card card">
               <div class="services-l3-icon">
-                ${service.icon || getServiceIcon(service.name)}
+                ${getServiceSvgIcon(service.name)}
               </div>
               <h3>${escapeHtml(service.name)}</h3>
               <p>${escapeHtml(service.description)}</p>
@@ -469,8 +422,13 @@ function generateServicesL5SingleColumn(config: DNAServicesConfig): SectionOutpu
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: var(--text-h3, 28px);
       flex-shrink: 0;
+      color: var(--white, #ffffff);
+    }
+
+    .services-l5-icon svg {
+      width: 28px;
+      height: 28px;
     }
 
     .services-l5-content {
@@ -509,7 +467,7 @@ function generateServicesL5SingleColumn(config: DNAServicesConfig): SectionOutpu
           ${services.map(service => `
             <div class="services-l5-item dna-card card">
               <div class="services-l5-icon">
-                ${service.icon || getServiceIcon(service.name)}
+                ${getServiceSvgIcon(service.name)}
               </div>
               <div class="services-l5-content">
                 <h3>${escapeHtml(service.name)}</h3>
@@ -576,10 +534,15 @@ function generateServicesL9Timeline(config: DNAServicesConfig): SectionOutput {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: var(--text-h4, 24px);
       flex-shrink: 0;
       position: relative;
       z-index: 2;
+      color: var(--white, #ffffff);
+    }
+
+    .services-l9-marker svg {
+      width: 24px;
+      height: 24px;
     }
 
     .services-l9-content {
@@ -621,7 +584,7 @@ function generateServicesL9Timeline(config: DNAServicesConfig): SectionOutput {
           ${services.map(service => `
             <div class="services-l9-item">
               <div class="services-l9-marker">
-                ${service.icon || getServiceIcon(service.name)}
+                ${getServiceSvgIcon(service.name)}
               </div>
               <div class="services-l9-content dna-card card">
                 <h3>${escapeHtml(service.name)}</h3>
@@ -681,8 +644,13 @@ function generateServicesL10Bento(config: DNAServicesConfig): SectionOutput {
     }
 
     .services-l10-icon {
-      font-size: var(--text-h2, 32px);
       margin-bottom: auto;
+      color: var(--primary, #1e5a8a);
+    }
+
+    .services-l10-icon svg {
+      width: 32px;
+      height: 32px;
     }
 
     .services-l10-card h3 {
@@ -744,7 +712,7 @@ function generateServicesL10Bento(config: DNAServicesConfig): SectionOutput {
           ${services.map(service => `
             <div class="services-l10-card dna-card card">
               <div class="services-l10-icon">
-                ${service.icon || getServiceIcon(service.name)}
+                ${getServiceSvgIcon(service.name)}
               </div>
               <h3>${escapeHtml(service.name)}</h3>
               <p>${escapeHtml(service.description)}</p>
